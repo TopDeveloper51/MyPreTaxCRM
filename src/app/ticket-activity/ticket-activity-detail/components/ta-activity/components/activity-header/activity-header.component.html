@@ -1,0 +1,299 @@
+<div class="clearfix" *ngIf="activityAvailable">
+    <div class="row">
+        <div class="float-left col-23 ">
+            <div class="row">
+                <h4 class="card-title col-auto">Activity</h4>
+                <form [formGroup]="activityHeaderForm" class="col-22">
+                    <div class="ml-2">
+                        <div class="row">
+                            <div class="col-4">
+                                <!-- <div class="form-field-control mt-2"> -->
+                                <div class="pull-left activity_ddl">
+                                    <div class="dropdown" *ngIf="activityData && activityData.type">
+                                        <button type="button" class="btn btn-outline-secondary dropdown-toggle w-100"
+                                            data-toggle="dropdown" [disabled]="isEmailIn"
+                                            [ngClass]="{'isdisabled': isEmailIn}">
+                                            <span class="text-truncate float-left w-75 text-left"
+                                                title="{{activityData.type}}-{{activityData.direction}}">{{activityData.type}}-{{activityData.direction}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu" *ngIf="lookup && lookup.activityTypeList">
+                                            <li role="menuitem" *ngFor="let key of lookup.activityTypeList | keys">
+
+                                                <div class="ddl_wrap col-24"
+                                                    [ngClass]="{'active_wrap':key==activityData.type}">
+                                                    <div class="row">
+                                                        <div class="col-12 d-flex align-items-center">
+                                                            <div class="left_wrap">
+                                                                {{key}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 text-right">
+                                                            <button
+                                                                class="my-1 ml-2 btn btn-sm d-inline-flex align-items-end"
+                                                                *ngFor="let objOption of lookup.activityTypeList[key].option"
+                                                                (click)="selectActivityType(lookup.activityTypeList[key].type,key,objOption)"
+                                                                [ngClass]="{'btn-success':(key==activityData.type && objOption==activityData.direction),'btn-primary': !(key==activityData.type && objOption==activityData.direction)}">{{objOption}}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-3">
+                                <div class="form-field required">
+                                    <div class="form-field-control" *ngIf="lookup && lookup.yearsList"
+                                        [ngClass]="{ 'cross-validation-error': activityHeaderForm.controls.taxSeason.errors  &&  activityHeaderForm.controls.taxSeason.errors.required}">
+                                        <ng-select #taxSeason [items]="lookup.yearsList" bindLabel="name" bindValue="id"
+                                            [multiple]="false" placeholder="Tax Season" clearAllText="Clear"
+                                            [clearable]="false" [selectableGroup]="true" appendTo="body"
+                                            formControlName="taxSeason" [closeOnSelect]="true" [searchable]="false">
+                                            <ng-template ng-option-tmp let-item="item" let-item$="item$"
+                                                let-index="index">
+                                                <div class="d-inline-block ln-normal">
+                                                    <label>{{item.name}}</label>
+                                                </div>
+                                            </ng-template>
+
+                                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                                <app-select-multi-label class="w-100" [items]="items">
+                                                </app-select-multi-label>
+                                            </ng-template>
+                                            <ng-template ng-header-tmp>
+                                                <input type="text" class="in-set form-field-input" [appAutofocus]
+                                                    placeholder="Search"
+                                                    (input)="taxSeason.filter($event.target.value)" />
+                                            </ng-template>
+
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-3">
+                                <div class="form-field required">
+                                    <div class="form-field-control" *ngIf="lookup && lookup.activityDepartmentList"
+                                        [ngClass]="{ 'cross-validation-error': activityHeaderForm.controls.department.errors  &&  activityHeaderForm.controls.department.errors.required}">
+                                        <ng-select #department [items]="lookup.activityDepartmentList" bindLabel="name"
+                                            bindValue="id" [multiple]="false" placeholder="Department"
+                                            clearAllText="Clear" [clearable]="false" [selectableGroup]="true"
+                                            appendTo="body" formControlName="department" [closeOnSelect]="true"
+                                            [searchable]="false">
+                                            <ng-template ng-option-tmp let-item="item" let-item$="item$"
+                                                let-index="index">
+                                                <div class="d-inline-block ln-normal">
+                                                    <label>{{item.name}}</label>
+                                                </div>
+                                            </ng-template>
+
+                                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                                <app-select-multi-label class="w-100" [items]="items">
+                                                </app-select-multi-label>
+                                            </ng-template>
+                                            <ng-template ng-header-tmp>
+                                                <input type="text" class="in-set form-field-input" [appAutofocus]
+                                                    placeholder="Search"
+                                                    (input)="department.filter($event.target.value)" />
+                                            </ng-template>
+
+
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-4">
+                                <div class="crm-date-picker">
+                                    <div class="form-field"
+                                        [ngClass]="{'required':  activityHeaderForm.controls.plannedDateTime.errors  &&  activityHeaderForm.controls.plannedDateTime.errors.required }">
+                                        <div class="form-field-control"
+                                            [ngClass]="{'cross-validation-error': activityHeaderForm.controls.plannedDateTime.errors  &&  activityHeaderForm.controls.plannedDateTime.errors.required }">
+                                            <md2-datepicker type="datetime" format="MM/dd/yy HH:mm"
+                                                placeholder="Planned" name="plannedDate" id="plannedDate"
+                                                openOnFocus="false" mode="landscape" formControlName="plannedDateTime"
+                                                (change)="onDateChange('planned')" title="{{ETPlannedDate}}">
+                                            </md2-datepicker>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <span *ngIf="ETPlannedDate" style="position:relative;">
+                                        ET:{{ETPlannedDate| date: 'MM/dd/yy hh:mm a' }}</span> -->
+                            </div>
+
+                            <div class="col-4">
+                                <div class="crm-date-picker">
+                                    <div class="form-field-control">
+                                        <md2-datepicker type="datetime" format="MM/dd/y HH:mm" placeholder="Actual"
+                                            name="actualDate" id="actualDate" openOnFocus="false" mode="landscape"
+                                            formControlName="datetime" (change)="onDateChange('actual')"
+                                            title="{{ETActualDate}}">
+                                        </md2-datepicker>
+                                    </div>
+                                </div>
+                                <!-- <span *ngIf="ETActualDate" style="position:relative; top:5px;">
+                                        ET:{{ETActualDate| date: 'MM/dd/yy hh:mm a' }}</span> -->
+                            </div>
+
+
+
+                            <div class="col-3">
+                                <div class="form-field required">
+                                    <div class="form-field-control" *ngIf="lookup && lookup.activityPriorityList"
+                                        [ngClass]="{ 'cross-validation-error': activityHeaderForm.controls.priority.errors  &&  activityHeaderForm.controls.priority.errors.required}">
+                                        <ng-select #prio [items]="lookup.activityPriorityList" bindLabel="name"
+                                            bindValue="id" [multiple]="false" placeholder="Prio" clearAllText="Clear"
+                                            [clearable]="false" [selectableGroup]="true" appendTo="body"
+                                            formControlName="priority" [closeOnSelect]="true" [searchable]="false">
+                                            <ng-template ng-option-tmp let-item="item" let-item$="item$"
+                                                let-index="index">
+                                                <div class="d-inline-block ln-normal">
+                                                    <label>{{item.name}}</label>
+                                                </div>
+                                            </ng-template>
+
+                                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                                <app-select-multi-label class="w-100" [items]="items">
+                                                </app-select-multi-label>
+                                            </ng-template>
+
+                                            <ng-template ng-header-tmp>
+                                                <input type="text" class="in-set form-field-input" [appAutofocus]
+                                                    placeholder="Search" (input)="prio.filter($event.target.value)" />
+                                            </ng-template>
+
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-3">
+                                <div class="form-field required">
+                                    <div class="form-field-control" *ngIf="lookup && lookup.activityStatusList"
+                                        [ngClass]="{ 'cross-validation-error': activityHeaderForm.controls.status_value.errors  &&  activityHeaderForm.controls.status_value.errors.required}">
+                                        <ng-select #status [items]="lookup.activityStatusList" bindLabel="name"
+                                            bindValue="id"  placeholder="Status" clearAllText="Clear"
+                                            [clearable]="false" [selectableGroup]="true" appendTo="body"
+                                            formControlName="status_value" [closeOnSelect]="true" [searchable]="false">
+                                            <ng-template ng-option-tmp let-item="item" let-item$="item$"
+                                                let-index="index">
+                                                <div class="d-inline-block ln-normal">
+                                                    <label>{{item.name}}</label>
+                                                </div>
+                                            </ng-template>
+
+                                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                                <app-select-multi-label class="w-100" [items]="items">
+                                                </app-select-multi-label>
+                                            </ng-template>
+                                            <ng-template ng-header-tmp>
+                                                <input type="text" class="in-set form-field-input" [appAutofocus]
+                                                    placeholder="Search" (input)="status.filter($event.target.value)" />
+                                            </ng-template>
+
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+
+                <!-- <div class="col-3">
+                        <div class="form-field">
+                            <div class="form-field-control" *ngIf="lookup && lookup.responsiblePersonList">
+                                <ng-select #responsiblePerson [items]="lookup.responsiblePersonList" bindLabel="name" bindValue="id" [multiple]="true" placeholder="Responsible Person"
+                                    clearAllText="Clear" [clearable]="false" groupBy="group" [selectableGroup]="true" appendTo="body" formControlName="responsiblePerson"
+                                    [closeOnSelect]="true" [searchable]="true">
+                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                        <div class="d-inline-block ln-normal">
+                                            <label>{{item.name}}</label>
+                                        </div>
+                                    </ng-template>
+
+                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                        <app-select-multi-label class="w-100" [groupItems]="items" [lookup]="lookup.responsiblePersonList">
+                                        </app-select-multi-label>
+                                    </ng-template>
+
+                                    <ng-template ng-header-tmp>
+                                        <input  type="text" class="in-set form-field-input" placeholder="Search" (input)="responsiblePerson.filter($event.target.value)"
+                                        />
+                                    </ng-template>
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div> -->
+
+            </div>
+        </div>
+        <div class="col-1">
+            <div class="dropdown mt-2 float-right cursor-pointer">
+                <button class="btn btn-sm  px-2" data-toggle="dropdown" type="button" aria-expanded="false"
+                    style="padding: 5px 0 ;">
+                    <i class="fa fa-ellipsis-v font-15"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <ng-template #popContent>
+                        <div>
+                            <span *ngIf="activityData.createdByName">
+                                <b> Created By:</b>
+                                {{activityData.createdByName}}, {{createdUpdatedDate.createdDate}}
+                            </span>
+                        </div>
+                        <div>
+                            <span *ngIf="activityData.updatedByName">
+                                <b>Updated By:</b>
+                                {{activityData.updatedByName}}, {{createdUpdatedDate.updatedDate}}
+                            </span>
+                        </div>
+                    </ng-template>
+                    <button class="dropdown-item" (click)="getActivityHistory()" *ngIf="activityMode!=='New'">
+                        <span> History </span>
+                    </button>
+                    <button class="dropdown-item" [ngbPopover]="popContent" placement="left" [autoClose]="true"
+                        triggers="manual" #p="ngbPopover"
+                        (click)="$event.preventDefault(); $event.stopPropagation();p.open()">
+                        <span>Activity Info </span>
+                    </button>
+                    <button class="dropdown-item" (click)="openPhoneDetails()" *ngIf="activityData?.PBXCallDetails">
+                        <span> Phone Details </span>
+                    </button>
+                    <button class="dropdown-item" (click)="setupTicketForFirstYear()" [disabled]="isViewMode">
+                        <span
+                            title="Create Setup Ticket (Dept. - Setup, Year - 2018, Type - Setup, Sub Type - First Year)">
+                            Create Setup Ticket </span>
+                    </button>
+                    <button (click)="changeCustomerDetails()" class="dropdown-item" [disabled]="isViewMode"
+                        *ngIf="activityMode!=='New'">
+                        <span> Change Customer </span>
+                    </button>
+                    <button class="dropdown-item" (click)="checkChanges('FollowUp')" *ngIf="activityMode!=='New'">
+                        <span> Followup </span>
+                    </button>
+                    <button class="dropdown-item" (click)="checkChanges('CallToEmail')"
+                        *ngIf="(activityData?.screen && activityData.screen!= 'email')  && activityMode!='New'">
+                        <span> New Email Activity </span>
+                    </button>
+                    <button class="dropdown-item" (click)="checkChanges('EmailToCall')"
+                        *ngIf="(activityData?.screen && activityData.screen == 'email') && activityMode!=='New'">
+                        <span> New Call Activity</span>
+                    </button>
+                    <button class="dropdown-item" (click)="goToActivity()" *ngIf="activityMode !== 'New'">
+                        <span> Open Activity in New Tab </span>
+                    </button>
+                    <button class="dropdown-item" (click)="copyToClipboard(activityData.id)"
+                        *ngIf="activityMode !== 'New'">
+                        <span> Copy Activity Path </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>

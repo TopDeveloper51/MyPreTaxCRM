@@ -1,0 +1,46 @@
+<div class="modal-header">
+    <!-- <div class="d-flex align-items-center w-100 float-left">
+        <div class="modal-title w-100">
+            <div class="clearfix">
+                <h4 class="modal-title color-white">Action Required</h4>
+                <div class="float-right">
+                    <div class="cus-hov">
+                        <i class="fa fa-times color-white cursor-pointer"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <h5 class="modal-title">Action Required</h5>
+    <div class="float-right">
+        <div class="cus-hov" (click)="close()">
+            <i class="fa fa-times cursor-pointer"></i>
+        </div>
+    </div>
+</div>
+
+<div class="modal-body edit_user_main_wrpper">
+    <div class="row">
+        <div class="col-24">
+            <span>Your Result Set Contains {{resultLength | number}} Records. </span>
+        </div>
+        <br>
+        <div class="col-24">
+            <span>If you want to fetch all the data, please click on "Fetch All Records".</span>
+        </div>
+        <div class="col-24">
+            <span>If you want to just fetch only first {{counter | number}} records, please click on "Fetch First {{counter | number}}
+                Records".
+            </span>
+        </div>
+        <div class="col-24">
+            <span>If you want to just change search result, please click on "Cancel".</span>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-outline-primary" id="yes" name="yes" (click)="fetchAllRecord()">Fetch All Records
+    </button>
+    <button class="btn btn-outline-primary" id="no" name="no" (click)="fetchFirstRecord()">Fetch First {{counter | number}} Records</button>
+    <button class="btn btn-outline-primary" id="cancel" name="cancel" (click)="close()">Cancel</button>
+</div>

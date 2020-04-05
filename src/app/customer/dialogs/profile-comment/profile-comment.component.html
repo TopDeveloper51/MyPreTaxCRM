@@ -1,0 +1,40 @@
+<!--Dialog Header-->
+<div class="modal-header">
+    <h5 class="modal-title">
+        Profile Comment
+    </h5>
+    <div class="float-right">
+        <div (click)="close()" class="cus-hov">
+            <i class="fa fa-times"></i>
+        </div>
+    </div>
+</div>
+<!--Dialog Header End-->
+<div class="modal-body">
+    <div class="col-xl-24" *ngIf="!rowData || rowData.length === 0">
+        <span class="font-weight-bold">
+            No data found
+        </span>
+    </div>
+    <div class="col-xl-24" *ngIf="rowData && rowData.length > 0 && rowData[0] !== 'autoHeight'">
+        <ag-grid-angular #agGrid style="width: 100%;max-height:calc(100vh - 300px);overflow: auto;" class="ag-theme-balham" [rowData]="rowData"
+            [enableCellTextSelection]="true" [columnDefs]="columnDefs" [domLayout]="domLayout" (gridReady)="onGridReady($event)">
+        </ag-grid-angular>
+    </div>
+    <div class="col-xl-24">
+        <div class="form-field set-desc">
+            <div class="form-field-control">
+                <textarea type="text" name="comment" id="comment" [(ngModel)]="commentObj.comment" placeholder="Type your message here..."
+                    rows="4" class="form-field-input" style="resize:none;"></textarea>
+                <label for="freeText" class="form-field-label"></label>
+                <div class="form-field-bar"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-outline-primary" id="save" name="save" (click)="addComment()" [disabled]="commentObj.comment == undefined || commentObj.comment == '' || commentObj.comment == null">Save</button>
+    <button class="btn btn-outline-primary" id="cancel" name="cancel" (click)="close()">Cancel
+    </button>
+</div>

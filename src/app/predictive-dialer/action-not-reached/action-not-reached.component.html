@@ -1,0 +1,82 @@
+<div class="row mb-2">
+    <div class="col bg-light p-3">
+        <div class="d-block">
+            <button [disabled]="!showFurtherAction" class="btn btn-default btn-lg w-100 m-0 font-15 height-38"
+                [disabled]="rule === 'pd wrong number'" type="submit" id="PDWrongNumberRule" name="PDWrongNumberRule"
+                value="PDWrongNumberRule" (click)="ruleNameChangeEvent('pd wrong number')">
+                <div class="float-left">
+                    <img src="assets/images/wrong-number.png" width="18px" />
+                </div>
+                Wrong Number
+            </button>
+            <div class="progress" *ngIf="rule === 'pd wrong number'">
+                <div class="indeterminate"></div>
+            </div>
+        </div>
+        <p class="text-center font-weight-bold mt-3">Left Message</p>
+
+        <div class="row">
+            <div class="col">
+                <button [disabled]="!showFurtherAction" class="btn btn-default btn-lg w-100 m-0 font-15 height-38"
+                    [disabled]="rule === 'pd am left message'" title="Answering Machine - Left Message" type="submit"
+                    id="PDAMLeftMessageRule" name="PDAMLeftMessageRule" value="PDAMLeftMessageRule"
+                    (click)="ruleNameChangeEvent('pd am left message')">
+                    <div class="float-left">
+                        <img src="assets/images/message-left.png" />
+                    </div>
+                    AM
+                </button>
+                <div class="progress" *ngIf="rule === 'pd am left message'">
+                    <div class="indeterminate"></div>
+                </div>
+            </div>
+            <div class="col">
+                <button [disabled]="!showFurtherAction" class="btn btn-default btn-lg w-100 m-0 font-15 height-38"
+                    [disabled]="rule === 'pd secretary left message'" title="Secretary - Left Message" type="submit"
+                    id="PDAMLeftMessageRule" name="PDAMLeftMessageRule" value="PDAMLeftMessageRule"
+                    (click)="ruleNameChangeEvent('pd secretary left message')">
+                    <div class="float-left">
+                        <img src="assets/images/secretary-left-msg.png" />
+                    </div>
+                    Secretary
+                </button>
+                <div class="progress" *ngIf="rule === 'pd secretary left message'">
+                    <div class="indeterminate"></div>
+                </div>
+            </div>
+        </div>
+
+        <p class="text-center font-weight-bold mt-3">Didn't Leave Message</p>
+
+        <div class="row">
+            <div class="col">
+                <button [disabled]="!showFurtherAction" class="btn btn-default btn-lg w-100 m-0 font-15 height-38"
+                    [disabled]="rule === 'pd am did not left message'" title="Answering Machine - Did Not Leave Message"
+                    type="submit" id="PDAMDidNotLeftMessageRule" name="PDAMDidNotLeftMessageRule"
+                    value="PDAMDidNotLeftMessageRule" (click)="ruleNameChangeEvent('pd am did not left message')">
+                    <div class="float-left">
+                        <img src="assets/images/message-not-left.png"/>
+                    </div>
+                    AM
+                </button>
+                <div class="progress" *ngIf="rule === 'pd am did not left message'">
+                    <div class="indeterminate"></div>
+                </div>
+            </div>
+            <div class="col">
+                <button [disabled]="!showFurtherAction" class="btn btn-default btn-lg w-100 m-0 font-15 height-38"
+                    [disabled]="rule === 'pd secretary did not leave message'" title="Secretary - Did Not Leave Message"
+                    type="submit" id="PDAMLeftMessageRule" name="PDAMLeftMessageRule" value="PDAMLeftMessageRule"
+                    (click)="ruleNameChangeEvent('pd secretary did not leave message')">
+                    <div class="float-left">
+                        <img src="assets/images/secretary-didnot-left-msg.png" />
+                    </div>
+                    Secretary
+                </button>
+                <div class="progress" *ngIf="rule === 'pd secretary did not leave message'">
+                    <div class="indeterminate"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

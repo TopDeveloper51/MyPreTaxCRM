@@ -1,0 +1,83 @@
+<!--Dialog header-->
+<div class="modal-header">
+    <div class="float-left">
+        <div class="modal-title font_size_18" *ngIf="mode=='add'">
+            Add Review
+        </div>
+        <div class="modal-title font_size_18" *ngIf="mode=='edit'">
+            Edit Review
+        </div>
+    </div>
+    <div class="float-right">
+        <div (click)="modal.close(true)" class="cursor-pointer cus-hov">
+            <i class="fa fa-times"></i>
+        </div>
+    </div>
+</div>
+<!--Dialog header End -->
+
+<div class="modal-body">
+    <form [formGroup]="customerReviewDetail ">
+        <div class="row">
+            <div class="col-8">
+                <div class="form-field">
+                    <div class="form-field-control">
+                        <md2-datepicker type="datetime" format="MM/dd/y HH:mm" placeholder="Date*" name="Date" id="Date" mode="landscape" formControlName="date"
+                            openOnFocus="false" class="pt-1">
+                        </md2-datepicker>
+                    </div>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="form-field">
+                    <div class="form-field-control">
+                        <div [ngClass]="{'cross-validation-error': customerReviewDetail.controls.platform.errors  &&  customerReviewDetail.controls.platform.errors.required }">
+                            <ng-select #plateform bindLabel="name" groupBy="group" [selectableGroup]="true" bindValue="id" appendTo="body" [closeOnSelect]="true"
+                                [searchable]="false" [clearable]="false" placeholder="Plateform*" clearAllText="Clear" formControlName="platform"
+                                [items]="platformList" (open)="platformList = platformList" required>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="form-field">
+                    <div class="form-field-control">
+                        <div [ngClass]="{'cross-validation-error': customerReviewDetail.controls.rating.errors  &&  customerReviewDetail.controls.rating.errors.required }">
+                            <ng-select #rating bindLabel="name" groupBy="group" [selectableGroup]="true" bindValue="id" appendTo="body" [closeOnSelect]="true"
+                                [searchable]="false" [clearable]="false" placeholder="Ratings*" clearAllText="Clear" formControlName="rating"
+                                [items]="ratingList" (open)="ratingList=ratingList">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-24">
+                <div class="form-field set-desc">
+                    <div class="form-field-control">
+                        <textarea type="text" name="comment" id="comment" placeholder="Comment*" rows="3" formControlName="feedback" class="form-field-input text-resize"></textarea>
+                        <label for="freeText" class="form-field-label"></label>
+                        <div class="form-field-bar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <div class="mr-auto" *ngIf="mode!='add'">
+        <div class="font-weight-bold">Created By:
+            <span class="font-weight-normal">{{data.data.createdByName}},{{createdDate}}</span>
+        </div>
+        <div class="font-weight-bold">Updated By:
+            <span class="font-weight-normal">
+                {{data.data.updatedByName}},{{updatedDate}}</span>
+        </div>
+    </div>
+    <button class="btn btn-outline-primary" id="save" name="save" (click)="save()" [disabled]="!customerReviewDetail.valid">Save</button>
+    <button class="btn btn-outline-primary" id="cancel" name="cancel" (click)="modal.close('NO')">Cancel
+    </button>
+</div>

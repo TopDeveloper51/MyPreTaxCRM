@@ -1,0 +1,28 @@
+<!--Dialog Header-->
+<div class="modal-header">
+    <h5 class="modal-title">
+        Dialer lists
+    </h5>
+    <div class="float-right">
+        <div (click)="close()" class="cus-hov">
+            <i class="fa fa-times"></i>
+        </div>
+    </div>
+</div>
+<!--Dialog Header End-->
+<div class="modal-body">
+    <div class="col-xl-24" *ngIf="rowData && rowData.length > 0 && rowData[0] !== 'autoHeight'">
+        <span class="font-weight-bold pt-3">Dialer List for test ({{rowData.length}}) as of {{currentDate}}</span>
+        <div class="pt-3">
+            <ag-grid-angular #agGrid style="width: 100%;overflow: auto;" class="ag-theme-balham" [rowData]="rowData" [defaultColDef]="defaultColDef"
+                [enableCellTextSelection]="true" [floatingFilter]="true" [animateRows]='true' [columnDefs]="columnDefs" [domLayout]="domLayout"
+                (gridReady)="onGridReady($event)">
+            </ag-grid-angular>
+        </div>
+    </div>
+    <div class="col-xl-24" *ngIf="!rowData || rowData.length === 0">
+        <span class="font-weight-bold">
+            No Data Available
+        </span>
+    </div>
+</div>

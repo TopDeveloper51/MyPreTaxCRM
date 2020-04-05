@@ -1,0 +1,16 @@
+<div class="no-found mt-2"
+  *ngIf="gridOptions.rowData && gridOptions.rowData.length == 1 && gridOptions.rowData[0] == 'autoHeight'">
+  <p class="mb-0">No Data Available</p>
+</div>
+<div class="col-24 mt-2 deta-aggrid"
+  *ngIf="gridOptions.rowData && gridOptions.rowData.length>0  && gridOptions.rowData[0] !== 'autoHeight'">
+  <p class="font-weight-bold">Sub Type Field List
+    <span>({{gridOptions.rowData.length | number}})</span>
+  </p>
+  <ag-grid-angular #grid style="width: 45%;" class="ag-theme-balham" [rowData]="gridOptions.rowData"
+    [columnDefs]="gridOptions.columnDefs" (rowClicked)="onRowClicked($event)"
+    (cellEditingStopped)="onCellEditingStopped()" (gridReady)="onGridReady($event)"
+    [frameworkComponents]="gridOptions.frameworkComponents" [enableCellTextSelection]="true" [stopEditingWhenGridLosesFocus]="true"
+    [domLayout]="domLayout">
+  </ag-grid-angular>
+</div>

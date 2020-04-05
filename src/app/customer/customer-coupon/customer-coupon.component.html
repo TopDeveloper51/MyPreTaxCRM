@@ -1,0 +1,31 @@
+<div class="clearfix">
+    <div class="row">
+        <div class="col-18" *ngIf="rowData && rowData.length > 0">
+            <span class="font-weight-bold">
+                Coupon ({{rowData.length | number}})</span>
+        </div>
+        <div class="col-18" *ngIf="!rowData || rowData.length === 0">
+            <span class="font-weight-bold"> Coupon</span>
+        </div>
+        <div class="col-auto ml-auto" *ngIf="!unidentifiedCustomer">
+            <div class="float-right">
+                <button class="btn btn-outline-primary" (click)="addNewCoupon()">New</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row pt-2">
+        <div class="col-24" *ngIf="rowData && rowData.length > 0">
+                <!-- height: 400px; -->
+            <ag-grid-angular #agGrid style="width: 100%;" class="ag-theme-balham" [rowData]="rowData" [columnDefs]="columnDefs" [defaultColDef]="defaultColDef"
+                (gridReady)="onGridReady($event)" [enableCellTextSelection]="true" [domLayout]="domLayout" (rowClicked)="onRowClicked($event)">
+            </ag-grid-angular>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-24 padding_15" *ngIf="(!rowData || rowData.length===0)">
+            No Data Available
+        </div>
+    </div>
+</div>

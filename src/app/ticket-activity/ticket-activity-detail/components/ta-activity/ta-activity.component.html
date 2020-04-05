@@ -1,0 +1,30 @@
+<div class="row" [style.height.px]="count">
+    <div class="col-lg-24">
+        <mtpo-activity-header [modelData]="modelData" (customerTicketChange)="emitCustomerTicketChange($event)"
+            (activityTypeChange)="setActivityType($event)">
+
+        </mtpo-activity-header>
+    </div>
+    <div class="col-lg-24">
+        <mtpo-activity-details [modelData]="modelData"></mtpo-activity-details>
+    </div>
+    <div class="col-lg-24">
+        <mtpo-activity-action [windowId]="windowId" [modelData]="modelData"></mtpo-activity-action>
+    </div>
+    <!-- in activity-body two loadingbar displayed ,to prevent this ,comment this lines -->
+    <!-- <div *ngIf="showLoading">
+        <div class="loading_background"></div>
+        <div class="preloader">
+            <div class="preloader-container">
+                <span class="animated-preloader"></span>
+            </div>
+        </div>
+    </div> -->
+</div>
+
+
+<div class="clearfix panel panel-default padding_l_r_0" style="height: 758px;" *ngIf="!activityAvailable">
+    <span class="panel_header_n">
+        <b>No Activity Detail available </b>
+    </span>
+</div>

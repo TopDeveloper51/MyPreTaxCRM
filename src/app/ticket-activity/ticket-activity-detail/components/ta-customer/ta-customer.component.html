@@ -1,0 +1,210 @@
+<form [formGroup]="customerDetailsForm" class="widow_form_wrapper">
+  <div class="card bg-gray">
+    <div class="card-body">
+      <div class="row">
+        <div class="col">
+          <div class="float-left">
+            <h4 class="card-title">Customer</h4>
+          </div>
+          <div class="float-right">
+            <div class="row">
+              <div *ngIf="showLoading">
+                <div class="loading_background"></div>
+                <div class="preloader">
+                  <div class="preloader-container">
+                    <span class="animated-preloader"></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-auto" style="width: 140px;">
+                <div class="form-field required">
+                  <div class="form-field-control" [ngClass]="{ 'cross-validation-error': customerDetailsForm.controls.salesProcessStatus.errors  &&  customerDetailsForm.controls.salesProcessStatus.errors.required}">
+                    <ng-select #salesProcessStatus [items]="lookup.salesProcessStatusList" bindLabel="name" bindValue="id" [multiple]="false"
+                      placeholder="Sales Process Status" clearAllText="Clear" class="salesprocessstatus" [clearable]="false"
+                      [selectableGroup]="true" appendTo="body" formControlName="salesProcessStatus" [closeOnSelect]="true"
+                      [searchable]="false">
+                      <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                        <div class="d-inline-block ln-normal">
+                          <label>{{item.name}}</label>
+                        </div>
+                      </ng-template>
+                      <ng-template ng-header-tmp>
+                        <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="salesProcessStatus.filter($event.target.value)"
+                        />
+                      </ng-template>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-auto" style="width: 140px;" [hidden]="activityData.id && ((activityData.type=='phonecall' && activityData.direction === 'out') ||(activityData.type=='1on1setup' && activityData.direction === 'out') || (activityData.type=='demo' && activityData.direction === 'out'))
+                && plivoSettings.isPlivoUser==true && plivoSettings.hasMediaPermision==true">
+                <div class="form-field-control">
+                  <input id="telephone" type="text" class="form-field-input" placeholder="" [appTextMask]="{mask:'(999) 999-9999'}" formControlName="userPhoneNumber"
+                    readOnly="true">
+                  <label for="telephone" class="form-field-label">Telephone No.</label>
+                  <div class="form-field-bar"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-24">
+          <div class="form-field">
+            <div class="form-field-control">
+              <ng-select #contactPerson [items]="lookup.contactPersonData" placeholder="Person" clearAllText="Clear" [clearable]="false"
+                [closeOnSelect]="false" [selectableGroup]="true" appendTo="body" formControlName="contactPerson" bindLabel="name"
+                bindValue="id" [multiple]="true" [searchable]="false" (change)="onContactSelected($event)">
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                  <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                    <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}" />
+
+                    <label class="custom-control-label">
+                      <i class="far fa-copy cursor-pointer font-15 mx-2" title="Copy" (click)="$event.stopPropagation();; copyClipboard(item.name)"></i> {{item.name}}</label>
+                  </div>
+                </ng-template>
+                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                  <app-select-multi-label class="w-100 ng-multi-select-label" [items]="items" [ngClass]="{'invalidNumber' : isInValidNumber}">
+                  </app-select-multi-label>
+                </ng-template>
+                <ng-template ng-header-tmp>
+                  <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="contactPerson.filter($event.target.value)"
+                  />
+                  <button (click)="onSelectAll('contactPerson')" class="btn btn-sm btn-secondary">All</button>
+                  <button (click)="onClearAll('contactPerson')" class="btn btn-sm btn-secondary ml-2">None</button>
+                </ng-template>
+              </ng-select>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-24">
+        <div class="row" *ngIf="activityData.id && ((activityData.type=='phonecall' && activityData.direction === 'out') ||(activityData.type=='1on1setup' && activityData.direction === 'out') || (activityData.type=='demo' && activityData.direction === 'out'))
+          && plivoSettings.isPlivoUser==true && plivoSettings.hasMediaPermision==true">
+          <div class="col-7">
+            <div class="form-field-control">
+              <ng-select #countryCodeList [items]="lookup.countryDetails" bindLabel="label" bindValue="value" [multiple]="false" placeholder="Country"
+                clearAllText="Clear" [clearable]="false" [selectableGroup]="true" appendTo="body" formControlName="countryCodeList"
+                [closeOnSelect]="true" [searchable]="false">
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                  <div class="d-inline-block mr-4 ln-normal">
+                    <label>{{item.label}}</label>
+                  </div>
+                </ng-template>
+                <ng-template ng-header-tmp>
+                  <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="countryCodeList.filter($event.target.value)"
+                  />
+                </ng-template>
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-7">
+            <div class="form-field-control">
+              <input id="telephone" type="text" class="form-field-input" placeholder="" [appTextMask]="{mask:'(999) 999-9999'}" formControlName="userPhoneNumber"
+                readOnly="true">
+
+              <label for="telephone" class="form-field-label">Telephone No.</label>
+              <div class="form-field-bar"></div>
+            </div>
+          </div>
+          <div class="col-4 pt-2">
+            <div class="phone-button">
+              <div class="pull-right" (click)="dial($event)" data-toggle="modal" data-target="#myModal" *ngIf="dialerData.makeCall === true && plivoSettings.isOnHold == false"
+                [ngClass]="{'no-clicking':!activityData.userPhoneNumber  || !plivoSettings.currentUserStatusAllowedCalling}">
+                <div class="icons-wrapper telephone-button">
+                  <div>
+                    <i class="fas fa-phone-alt" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="dialerData.makeCall==false">
+                <div class="row">
+                  <div class="col col-auto pr-0">
+                    <div class="header-toggle-wrap  position_relative cursor-pointer microphone_head rounded">
+                      <i class="fa fa-microphone" aria-hidden="true" *ngIf="dialerData.isMute===false" (click)="muteUnMuteTheMic(true)"></i>
+                      <i class="fa fa-microphone-slash" aria-hidden="true" *ngIf="dialerData.isMute===true" (click)="muteUnMuteTheMic(false)"></i>
+                    </div>
+                  </div>
+                  <div class="col col-auto pr-0">
+                    <div class="pull-right" (click)="endCall($event)">
+                      <div class="red-cal-icon">
+                        <i class="fas fa-phone-alt" aria-hidden="true"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row pl-1" style="position: absolute;width: 80%;left: 5%;">
+          <div id="dialer" class="new-dialer bg-white" *ngIf="dialerData.makeCall === false">
+            <div class="key">
+
+              <div class="key-row">
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('1')">1</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('2')">2</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('3')">3</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('4')">4</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('5')">5</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('6')">6</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('7')">7</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('8')">8</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('9')">9</button>
+              </div>
+
+              <div class="key-row last-row">
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('*')">*</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('0')">0</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('#')">#</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('A')">A</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('B')">B</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('C')">C</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('D')">D</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('E')">E</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('F')">F</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('G')">G</button>
+              </div>
+
+              <div class="key-row">
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('H')">H</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('I')">I</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('J')">J</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('K')">K</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('L')">L</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('M')">M</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('N')">N</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('O')">O</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('P')">P</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('Q')">Q</button>
+              </div>
+              <div class="key-row">
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('R')">R</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('S')">S</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('T')"> T</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('U')"> U</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('V')"> V</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('W')"> W</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('X')"> X</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('Y')"> Y</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('Z')"> Z</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+</form>

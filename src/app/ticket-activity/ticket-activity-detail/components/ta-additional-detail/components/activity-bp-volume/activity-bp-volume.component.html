@@ -1,0 +1,109 @@
+<div class="bg-gray" *ngIf="isShowBankDetails && activityAvailable">
+    <form [formGroup]="bankProductForm">
+        <div class="row">
+            <div class="col-24 mt-2">
+                <div>
+                    <h4 class="text-black">
+                        <b>Bank Product Details</b>
+                    </h4>
+                </div>
+            </div>
+            <div class="col-24 padding_l_r_0 padding_top_15">
+                <div class="row" *ngIf="isShowAllElements">
+                    <div class="col-12">
+                        <div class="form-field" [ngClass]="{ 'required': bankProductForm.controls.year.errors  &&  bankProductForm.controls.year.errors.required}">
+                            <div class="form-field-control" *ngIf="lookup && lookup.yearsList" [ngClass]="{ 'cross-validation-error': bankProductForm.controls.year.errors  &&  bankProductForm.controls.year.errors.required}">
+                                <ng-select #year1 [items]="lookup.yearsList" bindLabel="name" bindValue="id" [multiple]="false" placeholder="Year" clearAllText="Clear"
+                                    [clearable]="false" [selectableGroup]="true" appendTo="body" formControlName="year" [closeOnSelect]="true"
+                                    [searchable]="false">
+                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                        <div class="d-inline-block ln-normal">
+                                            <label>{{item.name}}</label>
+                                        </div>
+                                    </ng-template>
+
+                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                        <app-select-multi-label class="w-100" [items]="items">
+                                        </app-select-multi-label>
+                                    </ng-template>
+
+                                    <ng-template ng-header-tmp>
+                                        <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="year1.filter($event.target.value)"
+                                        />
+                                    </ng-template>
+
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-field" [ngClass]="{ 'required': bankProductForm.controls.volume.errors  &&  bankProductForm.controls.volume.errors.required}">
+                            <div class="form-field-control" [ngClass]="{ 'cross-validation-error': bankProductForm.controls.volume.errors  &&  bankProductForm.controls.volume.errors.required}">
+                                <input id="volume" type="number" class="form-field-input" placeholder=" " formControlName="volume" required="true" [ngClass]="{'text-muted': bankProductForm.get('unknown').value === 'true'}">
+                                <label for="volume" class="form-field-label">Volume</label>
+                                <div class="form-field-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row" *ngIf="isShowAllElements">
+                    <div class="col-24">
+                        <div class="form-field">
+                            <div class="form-field-control" *ngIf="lookup && lookup.bankList">
+                                <ng-select #bank [items]="lookup.bankList" bindLabel="name" bindValue="id" [multiple]="true" placeholder="Bank" clearAllText="Clear"
+                                    [clearable]="false" [selectableGroup]="true" appendTo="body" formControlName="bank" [closeOnSelect]="true"
+                                    [searchable]="false">
+                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                        <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                            <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                                            <label class="custom-control-label">{{item.name}}</label>
+                                        </div>
+                                    </ng-template>
+
+                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                        <app-select-multi-label class="w-100" [items]="items">
+                                        </app-select-multi-label>
+                                    </ng-template>
+                                    <ng-template ng-header-tmp>
+                                        <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="bank.filter($event.target.value)"
+                                        />
+                                        <button (click)="onSelectAll()" class="btn btn-sm btn-secondary">All</button>
+                                        <button (click)="onClearAll('bank')" class="btn btn-sm btn-secondary ml-2">None</button>
+                                    </ng-template>
+
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-10 mt-15" *ngIf="isShowAllElements">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <div class="custom-control custom-checkbox  d-inline-block mt-16 mb-09 mr-5">
+                                    <input type="checkbox" name="unknown" value="true" formControlName="unknown" id="unknown" class="custom-control-input ng-pristine ng-touched"
+                                        (change)="blankVolume()">
+                                    <label class="custom-control-label cursor-pointer" for="unknown">Unknown</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-14 mt-15">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <div class="custom-control custom-checkbox  d-inline-block mt-16 mb-09">
+                                    <input type="checkbox" name="NoBP" value="true" formControlName="NoBP" id="NoBP" class="custom-control-input" (change)="noBPCustomer()">
+                                    <label class="custom-control-label cursor-pointer" for="NoBP">Not BP Customer
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

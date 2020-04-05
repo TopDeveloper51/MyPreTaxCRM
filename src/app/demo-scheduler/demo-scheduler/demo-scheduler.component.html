@@ -1,0 +1,546 @@
+<div class="cont-us col">
+
+    <div class="row">
+        <div class="col">
+            <div class="crm-heading   crm-grid__item" id="crm_heading">
+                <div class="crm-container">
+                    <div class="crm-heading__main">
+                        <h3 class="crm-heading__title">Demo Scheduler - Daily View</h3>
+                        <span class="crm-heading__separator crm-hidden"></span>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="text-right mt-3">
+                <div class="cursor-pointer d-inline-block">
+                    <i class="fa fa-info-circle set-ic imp-pos-set" data-placement="left"
+                        ngbTooltip="Slot Color Information" container="body" tooltipClass="default" aria-hidden="true"
+                        (click)="showInfo=!showInfo"></i>
+                </div>
+                <div *ngIf="templateData" class="ml-2 cursor-pointer d-inline-block" data-placement="left"
+                    ngbTooltip="View Training Planner Template" container="body" tooltipClass="default">
+                    <img src="assets/images/time-planning.png" class="cursor-pointer set-img-pos"
+                        (click)="openTemplateDialog()" />
+                </div>
+                <div class="col-auto slot-info" *ngIf="showInfo">
+                    <table class="graph_info">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span>
+                                        <img src="assets/images/light-blue.png" class="black-bod"> Not Used/Available
+                                        Slots
+                                    </span>
+                                </td>
+                                <td>
+                                    <span>
+                                        <img src="assets/images/light-yellow.png" class="black-bod"> Booked Slots</span>
+                                </td>
+                                <td>
+                                    <span>
+                                        <img src="assets/images/light-green.png" class="black-bod"> Assigned Slots
+                                    </span>
+                                </td>
+                                <td>
+                                    <span>
+                                        <img class="img-slots" /> Completed Slots</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <span>
+                                        <img src="assets/images/light-grey.png"> Cancelled, Rescheduled or Cust. didn't
+                                        show up Slots</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div *ngIf="showClose" (click)="close()" class="ml-2 pt-2 d-inline-block cus-hov">
+                    <i class="fa fa-times"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="col-24 trainy-plan">
+    <div class="crm-mainbox crm-portlet--height-fluid-half">
+        <div class="container-fluid p-3">
+            <form [formGroup]="demoSchedulerForm" class="pb-2">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-field">
+                            <div class="form-field-control datepicker-wrapper">
+                                <div class="col-xs-24">
+                                    <md2-datepicker type="date" class="full-width-datepicker" format="MM/dd/y"
+                                        placeholder="Date" name="startDate" id="startDate" openOnFocus="true"
+                                        mode="landscape" formControlName="startDate"
+                                        (change)="dateChange($event, 'search')">
+                                    </md2-datepicker>
+                                    <span class="datepicker-wrapper pos-set">({{weekDayName}})</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-8 col-lg-2 col-sm-12">
+
+                        <!-- <button ngbTooltip="Previous day" data-placement="bottom" container="body" tooltipClass="default" class="btn btn-outline-secondary pull-left ml-0 mr-2 mt-3"
+                                    type="button" (click)="dateChange($event,'previous')">
+                                    <span>
+                                        <<</span>
+                                </button>
+                                <button ngbTooltip="Next day" data-placement="bottom" container="body" tooltipClass="default" class="btn btn-outline-secondary pull-left ml-0 mr-2 mt-3"
+                                    type="button" (click)="dateChange($event,'next')">
+                                    <span>>></span>
+                                </button> -->
+
+
+                        <div class="float-left">
+                            <button ngbTooltip="Previous day" data-placement="bottom" container="body"
+                                tooltipClass="default" class="btn btn-outline-secondary pull-left ml-0 mr-2 mt-3"
+                                type="button" (click)="dateChange($event,'previous')">
+                                <i class="fas fa-angle-double-left font-15" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="float-left ml-2">
+                            <button ngbTooltip="Next day" data-placement="bottom" container="body"
+                                tooltipClass="default" class="btn btn-outline-secondary pull-left ml-0 mr-2 mt-3"
+                                type="button" (click)="dateChange($event,'next')">
+                                <i class="fas fa-angle-double-right font-15" aria-hidden="true"></i>
+                            </button>
+                        </div>
+
+
+                    </div>
+
+
+                    <div
+                        [class]="userDetails.isSupportManager ? ' col text-right d-flex align-items-center justify-content-end font-size-14' : ' col text-right d-flex align-items-center justify-content-end font-size-14'">
+                        <span class="mr-2 d-inline-block" *ngIf="isFuture">
+                            <span>Available</span>
+                            <b> ({{statisticsData.nonbooked | number}})</b>
+                        </span>
+                        <span class="mr-2 d-inline-block">Booked
+                            <b> ({{statisticsData.booked | number}})</b>
+                        </span>
+                        <span class="mr-2 d-inline-block">Assigned
+                            <b> ({{statisticsData.assigned.Total | number}})</b>
+                        </span>
+                        <span class="mr-2 d-inline-block">Completed
+                            <b> ({{statisticsData.assigned.Completed | number}})</b>
+                        </span>
+                        <span class="mr-2 d-inline-block">Cancelled
+                            <b> ({{statisticsData.assigned.Cancelled | number}})</b>
+                        </span>
+                        <span class="mr-2 d-inline-block">Rescheduled
+                            <b> ({{statisticsData.assigned.Rescheduled | number}})</b>
+                        </span>
+                        <span class="mr-2 d-inline-block">No Show
+                            <b> ({{statisticsData.assigned['NoShow'] | number}})</b>
+                        </span>
+                        <span class="mr-2 d-inline-block" *ngIf="!isFuture">
+                            <span>Not Used</span>
+                            <b> ({{statisticsData.nonbooked | number}})</b>
+                        </span>
+                        <span (click)="getTrainingPlan();startRefresh=true" class="mr-2 d-inline-block cursor-pointer">
+                            <i class="fas fa-sync ml-5 font-size-22" ngbTooltip="Refresh" data-placement="bottom"
+                                container="body" tooltipClass="default" aria-hidden="true"
+                                [ngClass]="{'fa-spin':startRefresh==true}"></i>
+                        </span>
+
+
+                        <div class="float-right">
+                            <button class="btn btn-outline-primary ml-2"
+                                (click)="openTimeSlotDialog('createSlot', undefined,'010:00 AM')">
+                                Create Slot
+                            </button>
+                            <button class="btn btn-outline-primary ml-2" (click)="weeklyPlan()">Create Weekly Planner
+                                from Template
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+            <div class="row">
+                <div class=" col-lg-24 col-md-24 col-sm-24 col-xs-24"
+                    *ngIf="preservePlanDetails && preservePlanDetails.length > 0">
+
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th style="width:5%"></th>
+                                <th [style.width.%]="95/agentNames.length" *ngFor="let agent of agentNames">
+                                    <span *ngIf="agent.indexOf('Unnamed') === -1">{{agent}}</span>
+                                    <span *ngIf="agent.indexOf('Unnamed') > -1">Not Assigned</span>
+                                </th>
+                            </tr>
+                            <tr *ngFor="let time of detailsData | keys">
+                                <td>
+                                    {{time}}
+                                </td>
+
+
+
+                                <td *ngFor="let resp of detailsData[time] | keys">
+                                    <!-- FOR SUPPORT MANAGER -->
+                                    <div *ngIf="userDetails.isSupportManager === true">
+                                        <div *ngFor="let details of detailsData[time][resp] let i=index">
+                                            <div class="event-empty" *ngIf="!details.id"></div>
+                                            <!-- Unallocated End -->
+
+                                            <!-- Non Booked Start -->
+                                            <div class="event-non-booked"
+                                                *ngIf="details.id && !(details.customerId || details.activityId || details.trainerId)">
+                                                <div class="event-time button-text-container">
+                                                    <div
+                                                        [ngClass]="{'button-text-inner': !details.purpose, 'button-text-inner-with-purpose':details.purpose}">
+                                                        {{ details.time}}
+                                                        <span *ngIf="isFuture"> (Available)</span>
+                                                        <span *ngIf="!isFuture"> (Not Used)</span>
+                                                    </div>
+                                                    <div class="ml-auto float-right">
+                                                        <!-- <span
+                                                            class="action-btn cursor-pointer d-flex justify-content-center align-items-center">
+                                                            <i class="fa fa-history text-white span-opacity font-20"
+                                                                (click)="openHistoryDialog()"></i>
+                                                        </span> -->
+                                                        <span class="action-btn cursor-pointer"
+                                                            *ngIf="!details.activityId" title="Book Demo">
+                                                            <img src="assets/images/calendar-icon.png"
+                                                                (click)="assignTrainer(details, details.time)"
+                                                                *ngIf="!details.activityId">
+                                                        </span>
+                                                        <span class="action-btn cursor-pointer"
+                                                            title="Change Slot Time/Purpose"
+                                                            (click)="openTimeSlotDialog('changeTime',details, time)">
+                                                            <img src="assets/images/clock-icon.png">
+                                                        </span>
+                                                        <span class="action-btn cursor-pointer"
+                                                            (click)="deleteData(details)" *ngIf="!details.activityId"
+                                                            title="Delete Slot">
+                                                            <img src="assets/images/delete-icon.png">
+                                                        </span>
+                                                        <span class="action-btn cursor-pointer">
+                                                            <div class="dropdown float-right cursor-pointer">
+                                                                <button class="btn btn-outline-primary" data-toggle="dropdown"
+                                                                    type="button" aria-expanded="false">
+                                                                    <i class="fa fa-ellipsis-v"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu dropdown-menu-right">
+                                                                    <button class="dropdown-item"
+                                                                        (click)="openHistoryDialog()">
+                                                                        <span> History </span>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Non Booked End -->
+
+                                            <!-- Booked Start -->
+                                            <div class="event-booked"
+                                                *ngIf="details.id && details.customerId && details.activityId && !details.trainerId">
+                                                <div class="button-text-container">
+                                                    <div class="two-button-text-inner">
+                                                        <div class="event-time">
+                                                            {{details.desiredTime}}
+                                                            <span *ngIf="details.trainerName">- {{details.trainerName}}
+                                                            </span>
+                                                            <span *ngIf="details.status"> ({{details.status}})</span>
+                                                            <span *ngIf="!details.status"> (Booked)</span>
+                                                        </div>
+                                                        <div class="event-desc" *ngIf="details.customerName">
+                                                            {{details.customerName}}
+                                                        </div>
+                                                        <div class="event-desc">
+                                                            {{details.contactPersonName}}
+                                                            <span *ngIf="details.phoneNumber">-
+                                                                {{details.phoneNumber | phone}}</span>
+                                                        </div>
+                                                        <div class="event-desc">
+                                                            {{details.comment}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="two-button-text-action">
+                                                        <span class="yellow-action-btn cursor-pointer"
+                                                            (click)="openActivity(details.activityId)"
+                                                            *ngIf="details.activityId" title="View Activity">
+                                                            <img src="assets/images/view-icon.png">
+                                                        </span>
+                                                        <span class="yellow-action-btn cursor-pointer"
+                                                            (click)="assignTrainer(details, details.desiredTime)"
+                                                            *ngIf="details.activityId" title="Assign Trainer">
+                                                            <img src="assets/images/add-trainer-icon.png">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Booked End -->
+
+                                            <!-- Assigned Start -->
+                                            <div class="event-assigned"
+                                                [style.margin-bottom]="(i+1 < detailsData[time][resp].length)  ? '5px' : '0px'"
+                                                *ngIf="details.id && details.customerId && details.activityId && details.trainerId"
+                                                [ngClass]="{'lightwhite' : (details.status === 'Completed'), 'lightgray' : (details.status && details.status !== 'Assigned' && details.status !== 'Completed') }">
+                                                <div class="button-text-container">
+                                                    <div class="two-button-text-inner">
+                                                        <div class="event-time">
+                                                            {{details.desiredTime}}
+                                                            <span *ngIf="details.trainerName">- {{details.trainerName}}
+                                                            </span>
+                                                            <span *ngIf="details.status"> ({{details.status}})</span>
+                                                            <span *ngIf="!details.status"> (Assigned)</span>
+                                                        </div>
+                                                        <div class="event-desc" *ngIf="details.customerName">
+                                                            {{details.customerName}}
+                                                        </div>
+                                                        <div class="event-desc">
+                                                            {{details.contactPersonName}}
+                                                            <span *ngIf="details.phoneNumber">-
+                                                                {{details.phoneNumber | phone}}</span>
+                                                        </div>
+                                                        <div class="event-desc">
+                                                            {{details.comment}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="green-button-text-action"
+                                                        *ngIf="(details.status && details.status !== 'Assigned')">
+                                                        <span class="green-action-btn cursor-pointer"
+                                                            (click)="openActivity(details.activityId)"
+                                                            title="View Activity"
+                                                            [ngClass]="{'white-action-btn' : (details.status === 'Completed'), 'gray-action-btn' : (details.status && details.status !== 'Assigned' && details.status !== 'Completed') }">
+                                                            <img src="assets/images/view-icon.png">
+                                                        </span>
+                                                    </div>
+                                                    <div class="green-button-text-action w-99"
+                                                        *ngIf="!(details.status && details.status !== 'Assigned') || !details.status">
+                                                        <span class="green-action-btn cursor-pointer"
+                                                            (click)="openActivity(details.activityId)"
+                                                            title="View Activity"
+                                                            [ngClass]="{'white-action-btn' : (details.status === 'Completed'), 'gray-action-btn' : (details.status && details.status !== 'Assigned' && details.status !== 'Completed') }">
+                                                            <img src="assets/images/view-icon.png">
+                                                        </span>
+                                                        <span class="green-action-btn cursor-pointer"
+                                                            (click)="assignTrainer(details, details.desiredTime)"
+                                                            *ngIf="details.activityId" title="Change Trainer">
+                                                            <img src="assets/images/exchange.png">
+                                                        </span>
+                                                        <span class="green-action-btn cursor-pointer"
+                                                            *ngIf="details.activityId"
+                                                            (click)="unAssignTrainer(details)"
+                                                            title="Unassigned Trainer">
+                                                            <img src="assets/images/remove-user.png">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <!-- SALES PERSON & SUPPORT US -->
+                                    <div
+                                        *ngIf="((userDetails.role === 'Sales - Atlanta' || userDetails.role === 'Sales - Rome' || userDetails.role === 'Customer Relation' || userDetails.role === 'Support - US') && !userDetails.isSupportManager)">
+                                        <div *ngFor="let details of detailsData[time][resp] let i=index">
+                                            <div class="event-empty" *ngIf="!details.id"></div>
+                                            <!-- Unallocated End -->
+
+                                            <!-- Non Booked Start -->
+                                            <div class="event-non-booked"
+                                                *ngIf="details.id && !(details.customerId || details.activityId || details.trainerId)">
+                                                <div class="event-time button-text-container">
+                                                    <div class="button-text-inner">
+                                                        {{ details.time}}
+                                                        <span *ngIf="isFuture"> (Available)</span>
+                                                        <span *ngIf="!isFuture"> (Not Used)</span>
+                                                    </div>
+                                                    <div class="button-text-action w-28">
+                                                        <span class="action-btn cursor-pointer"
+                                                            (click)="assignTrainer(details, details.time)"
+                                                            *ngIf="!details.activityId" title="Book Demo">
+                                                            <img src="assets/images/calendar-icon.png">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Non Booked End -->
+
+                                            <!-- Booked Start -->
+                                            <div class="event-booked"
+                                                *ngIf="details.id && details.customerId && details.activityId && !details.trainerId">
+                                                <div class="button-text-container">
+                                                    <div class="two-button-text-inner">
+                                                        <div class="event-time">
+                                                            {{details.desiredTime}}
+                                                            <span *ngIf="details.trainerName">- {{details.trainerName}}
+                                                            </span>
+                                                            <span *ngIf="details.status"> ({{details.status}})</span>
+                                                            <span *ngIf="!details.status"> (Booked)</span>
+                                                        </div>
+                                                        <div class="event-desc" *ngIf="details.customerName">
+                                                            {{details.customerName}}
+                                                        </div>
+                                                        <div class="event-desc">
+                                                            {{details.contactPersonName}}
+                                                            <span *ngIf="details.phoneNumber">-
+                                                                {{details.phoneNumber | phone}}</span>
+                                                        </div>
+                                                        <div class="event-desc">
+                                                            {{details.comment}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="two-button-text-action w-28">
+                                                        <span class="yellow-action-btn cursor-pointer"
+                                                            (click)="openActivity(details.activityId)"
+                                                            *ngIf="details.activityId" title="View Activity">
+                                                            <img src="assets/images/view-icon.png">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Booked End -->
+
+                                            <!-- Assigned Start -->
+                                            <div class="event-assigned"
+                                                [style.margin-bottom]="(i+1 < detailsData[time][resp].length)  ? '5px' : '0px'"
+                                                *ngIf="details.id && details.customerId && details.activityId && details.trainerId"
+                                                [ngClass]="{'lightwhite' : (details.status === 'Completed'), 'lightgray' : (details.status && details.status !== 'Assigned' && details.status !== 'Completed') }">
+                                                <div class="button-text-container">
+                                                    <div class="two-button-text-inner">
+                                                        <div class="event-time">
+                                                            {{details.desiredTime}}
+                                                            <span *ngIf="details.trainerName">- {{details.trainerName}}
+                                                            </span>
+                                                            <span *ngIf="details.status"> ({{details.status}})</span>
+                                                            <span *ngIf="!details.status"> (Assigned)</span>
+                                                        </div>
+                                                        <div class="event-desc" *ngIf="details.customerName">
+                                                            {{details.customerName}}
+                                                        </div>
+                                                        <div class="event-desc">
+                                                            {{details.contactPersonName}}
+                                                            <span *ngIf="details.phoneNumber">-
+                                                                {{details.phoneNumber | phone}}</span>
+                                                        </div>
+                                                        <div class="event-desc">
+                                                            {{details.comment}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="green-button-text-action w-28">
+                                                        <span class="green-action-btn cursor-pointer"
+                                                            (click)="openActivity(details.activityId)"
+                                                            title="View Activity"
+                                                            [ngClass]="{'white-action-btn' : (details.status === 'Completed'), 'gray-action-btn' : (details.status && details.status !== 'Assigned' && details.status !== 'Completed') }">
+                                                            <img src="assets/images/view-icon.png">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Excluding SALES PERSON SUPPORT US & SUPPORT MANAGER -->
+                                    <div
+                                        *ngIf="!userDetails.isSupportManager && userDetails.role !== 'Sales - Atlanta' && userDetails.role !== 'Sales - Rome' && userDetails.role !== 'Customer Relation' && userDetails.role !== 'Support - US'">
+                                        <div *ngFor="let details of detailsData[time][resp] let i=index">
+                                            <div class="event-empty" *ngIf="!details.id"></div>
+                                            <!-- Unallocated End -->
+
+                                            <!-- Non Booked Start -->
+                                            <div class="event-non-booked"
+                                                *ngIf="details.id && !(details.customerId || details.activityId || details.trainerId)">
+                                                <div class="event-time button-text-container">
+                                                    <div class="button-text-inner">
+                                                        {{ details.time}}
+                                                        <span *ngIf="isFuture"> (Available)</span>
+                                                        <span *ngIf="!isFuture"> (Not Used)</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Non Booked End -->
+
+                                            <!-- Booked Start -->
+                                            <div class="event-booked"
+                                                *ngIf="details.id && details.customerId && details.activityId && !details.trainerId">
+                                                <div class="button-text-container">
+                                                    <div class="two-button-text-inner">
+                                                        <div class="event-time">
+                                                            {{details.desiredTime}}
+                                                            <span *ngIf="details.trainerName">- {{details.trainerName}}
+                                                            </span>
+                                                            <span *ngIf="details.status"> ({{details.status}})</span>
+                                                            <span *ngIf="!details.status"> (Booked)</span>
+                                                        </div>
+                                                        <div class="event-desc" *ngIf="details.customerName">
+                                                            {{details.customerName}}
+                                                        </div>
+                                                        <div class="event-desc">
+                                                            {{details.contactPersonName}}
+                                                            <span *ngIf="details.phoneNumber">-
+                                                                {{details.phoneNumber | phone}}</span>
+                                                        </div>
+                                                        <div class="event-desc">
+                                                            {{details.comment}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Booked End -->
+
+
+                                            <!-- Assigned Start -->
+                                            <div class="event-assigned"
+                                                [style.margin-bottom]="(i+1 < detailsData[time][resp].length)  ? '5px' : '0px'"
+                                                *ngIf="details.id && details.customerId && details.activityId && details.trainerId"
+                                                [ngClass]="{'lightwhite' : (details.status === 'Completed'), 'lightgray' : (details.status && details.status !== 'Assigned' && details.status !== 'Completed') }">
+                                                <div class="button-text-container">
+                                                    <div class="two-button-text-inner">
+                                                        <div class="event-time">
+                                                            {{details.desiredTime}}
+                                                            <span *ngIf="details.trainerName">- {{details.trainerName}}
+                                                            </span>
+                                                            <span *ngIf="details.status"> ({{details.status}})</span>
+                                                            <span *ngIf="!details.status"> (Assigned)</span>
+                                                        </div>
+                                                        <div class="event-desc" *ngIf="details.customerName">
+                                                            {{details.customerName}}
+                                                        </div>
+                                                        <div class="event-desc">
+                                                            {{details.contactPersonName}}
+                                                            <span *ngIf="details.phoneNumber">-
+                                                                {{details.phoneNumber | phone}}</span>
+                                                        </div>
+                                                        <div class="event-desc">
+                                                            {{details.comment}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class=" col-24 pt-2" *ngIf="!(preservePlanDetails && preservePlanDetails.length > 0)">
+                    No Demo Slot available
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

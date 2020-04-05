@@ -1,0 +1,35 @@
+$primary:#005074;
+$primary-light:#ecf9ff;
+$body-bg:#ffffff;
+$silver-light: #508da9;
+$body: #f4f4f4;
+$white:#ffffff;
+$black: #000000;
+$gray: #f5f5f5;
+
+
+// BOOTSTRAP
+@import "./vendors/bootstrap";
+
+
+
+// FONT AWESOME
+@import "./vendors/fontawesome";
+
+
+// // MTPO ICON FONT
+// @import "./base/_mtpo-fonts-icon.css";
+
+// CUSTOM STYLESHEET
+@import "./crmngx-style.scss";
+@import "./form-material.scss";
+
+//@ng-select
+@import "~@ng-select/ng-select/themes/material.theme.css";
+
+//Ag-Grid
+// @import "~ag-grid-community/dist/styles/ag-grid.css";
+// @import "~ag-grid-community/dist/styles/ag-theme-balham.css";
+// @import "~ag-grid-community/dist/styles/ag-theme-balham-dark.css";
+// @import "~ag-grid-community/dist/styles/ag-theme-material.css";
+@import "./vendors/ag-grid-community.scss";

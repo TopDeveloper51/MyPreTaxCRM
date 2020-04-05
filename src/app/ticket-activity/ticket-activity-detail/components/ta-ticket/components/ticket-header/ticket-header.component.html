@@ -1,0 +1,100 @@
+<div class="row mb-1">
+    <div class="col-10">
+        <span class="float-left">
+            <h4 class="card-title">Ticket
+                <span *ngIf="ticketList && ticketList[currentTicketIndex] && ticketList[currentTicketIndex].ticketNumber">({{ticketList[currentTicketIndex].ticketNumber}})</span>
+            </h4>
+        </span>
+    </div>
+    <div class="col-14 ml-auto">
+        <div class="float-right d-flex align-items-center mt--4">
+            <span *ngIf="arrOfTicketIds && arrOfTicketIds.length > 0">
+                <div class="float-left ">
+                    <span class="float-left">
+                        {{currentTicketIndex + 1}} of {{arrOfTicketIds.length}}
+                    </span>
+                </div>
+                <div class="float-left">
+                    <button id="previous" name="previous" class="btn common_btn_action" (click)="prevNext('Prev')" [disabled]="currentTicketIndex === 0">
+                        <i class="fas fa-angle-double-left font-15 cursor-pointer" ngbTooltip="Previous" container="body" data-placement="bottom"
+                            tooltipClass="default" aria-hidden="true" [ngClass]="{'isdisabled': ticketList && ticketList.length == 1}"></i>
+                    </button>
+                </div>
+                <div class="float-left">
+                    <button [disabled]="" id="next" name="next" class="btn common_btn_action" (click)="prevNext('Next')" [disabled]="currentTicketIndex  === arrOfTicketIds.length - 1">
+                        <i class="fas fa-angle-double-right font-15 cursor-pointer" ngbTooltip="Next" container="body" data-placement="bottom" tooltipClass="default"
+                            aria-hidden="true" [ngClass]="{'isdisabled': ticketList && ticketList.length == 1}"></i>
+                    </button>
+                </div>
+            </span>
+            <div class="float-left" *ngIf="(!(isDefaultReseller && ticketList && currentTicketIndex > -1 && ticketList.length > 0 && ticketList[currentTicketIndex].id) && (!isTicketNotLinked))">
+                <button id="info" name="info" class="btn common_btn_action btn-link" title="Newly assigned Ticket but not yet associated">
+                    <i class="font-14 position-relative fa fa-info-circle set-ic text-red" data-placement="bottom" container="body" tooltipClass="default"
+                        aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="float-left" *ngIf="!isTicketNotLinked">
+                <button id="save" name="save" class="btn common_btn_action btn-link px-1" [disabled]="(!(ticketList && currentTicketIndex > -1 && ticketList.length > 0 && ticketList[currentTicketIndex].ticketNumber) || isViewMode)">
+                    <i class="far fa-save font-20 cursor-pointer" [ngClass]="{'isdisabled':  isViewMode}" title="Save Ticket" container="body"
+                        data-placement="left" tooltipClass="default" container="body" tooltipClass="default" (click)="saveTicketDetails()"></i>
+                </button>
+            </div>
+            <!-- <div class="float-left">
+                    <button id="createTicket" name="createTicket" class="btn common_btn_action btn-link "
+                        title="Create/Assign Ticket">
+                        <img src="assets/images/ticket-list-final.png" alt="" style="width: 13px;" (click)="getActivityTicket()">
+                    </button>
+                </div> -->
+
+
+            <div class="float-left" *ngIf="!isTicketNotLinked">
+                <div class="dropdown text-right">
+                    <button class="btn btn-sm dropdown-toggle btn-link" data-toggle="dropdown" type="button" aria-expanded="false">
+                        <!-- style="padding: 5px 0 ;" -->
+                        <i class="fa fa-ellipsis-v font-20"></i>
+                    </button>
+
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <ng-template #popContent>
+                            <div>
+                                <span *ngIf="ticketList[currentTicketIndex].createdByName">
+                                    <b> Created By:</b>
+                                    {{ticketList[currentTicketIndex].createdByName}}, {{ticketList[currentTicketIndex].createdDateWithFormate}}
+                                </span>
+                            </div>
+                            <div>
+                                <span *ngIf="ticketList[currentTicketIndex].updatedByName">
+                                    <b>Updated By:</b>
+                                    {{ticketList[currentTicketIndex].updatedByName}}, {{ticketList[currentTicketIndex].updatedDateWithFormate}}
+                                </span>
+                            </div>
+                        </ng-template>
+                        <a class="dropdown-item cursor-pointer" (click)="getActivityTicket()" [ngClass]="{'disabled': isViewMode || (!activityData || !activityData.id)}">
+                            Create/Assign Ticket
+                        </a>
+
+                        <a class="dropdown-item cursor-pointer" [ngClass]="{'disabled': (!(ticketList && currentTicketIndex > -1 && ticketList.length > 0 && ticketList[currentTicketIndex].ticketNumber) || isViewMode || (!activityData || !activityData.id))}"
+                            (click)="removeTicket(ticketList[currentTicketIndex],currentTicketIndex)">
+                            Remove ticket reference from activity</a>
+
+                        <a class="dropdown-item cursor-pointer" [ngClass]="{'disabled':  newTicketStatus[currentTicketIndex]}" [ngbPopover]="popContent"
+                            placement="left" [autoClose]="true" triggers="manual" #p="ngbPopover" (click)="$event.preventDefault(); $event.stopPropagation();p.open()"
+                            *ngIf="ticketList && currentTicketIndex > -1 && ticketList.length > 0 && ticketList[currentTicketIndex].createdByName">
+                            Ticket Info
+                        </a>
+                        <!-- <a class="dropdown-item cursor-pointer"
+                                [ngClass]="{'disabled': !( ticketList && currentTicketIndex > -1 && ticketList.length > 0 && ticketList[currentTicketIndex].ticketNumber  && ticketList[currentTicketIndex].id)}"
+                                (click)="deleteTicket(ticketList[currentTicketIndex], currentTicketIndex)">Delete
+                                ticket</a> -->
+                        <a class="dropdown-item cursor-pointer" (click)="getTicketHistory(ticketList[currentTicketIndex].id)" [ngClass]="{'disabled': !(isDefaultReseller && ticketList && currentTicketIndex > -1 && ticketList.length > 0 && ticketList[currentTicketIndex].id)}">Ticket History
+                        </a>
+                        <a class="dropdown-item cursor-pointer" (click)="copyTicketLinkToClipboard(ticketList[currentTicketIndex].ticketId)" [ngClass]="{'disabled': !(isDefaultReseller && ticketID !== undefined && ticketID.length > 0)}">
+                            Copy Ticket Path</a>
+                        <a class="dropdown-item cursor-pointer" (click)="goToTicket(ticketList[currentTicketIndex].ticketId)" [ngClass]="{'disabled': !(isDefaultReseller && ticketID !== undefined && ticketID.length > 0)}">Open Ticket in New Tab</a>
+                        <a class="dropdown-item cursor-pointer" (click)="updateSeasonReadinessFlagsOnRefresh()" *ngIf="isSeasonReadiness">Refresh Season Readiness Flags</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

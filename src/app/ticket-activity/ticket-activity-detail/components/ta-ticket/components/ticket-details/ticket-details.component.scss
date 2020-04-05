@@ -1,0 +1,15 @@
+.link_icon{position:absolute; right:0px; top:5px; cursor:pointer;}
+
+.cross-validation-error{
+  border: 1px  red;
+}
+
+.ticket-link{
+  cursor: pointer;
+  color: red;
+
+  &:hover{
+      text-decoration: underline;
+      color:red;
+  }
+} 

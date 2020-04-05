@@ -1,0 +1,180 @@
+<div class="cont-us col">
+    <div class="row">
+        <div class="col">
+            <div class="w-100 float-left d-flex align-items-center crm-heading crm-grid__item">
+                <div class="float-left">
+                    <h3 class="heading-title d-inline-block mr-3">Customer Card</h3>
+
+                    <div class="d-inline-block mr-4">
+                        <div class="card-function-list">
+                            <div class="d-inline-block mr-3" *ngIf="mode=='edit'">
+                                <a class="cursor-pointer" (click)="toClipboard()" *ngIf="mode=='edit'" id="copyCustomerId" ngbTooltip="Copy Customer ID to Clipboard"
+                                    data-placement="bottom" container="body" tooltipClass="default">
+                                    <i class="far fa-clipboard d-block card-icons"></i>
+                                </a>
+                            </div>
+                            <div class="d-inline-block mr-3" *ngIf="mode=='edit'">
+                                <a class="cursor-pointer" (click)="openHistory()" *ngIf="mode=='edit'" id="History" ngbTooltip="History" data-placement="bottom"
+                                    container="body" tooltipClass="default">
+                                    <i class="fas fa-history card-icons d-block"></i>
+                                </a>
+                            </div>
+                            <div class="d-inline-block mr-3" *ngIf="mode=='edit'">
+                                <a class="cursor-pointer" (click)="openAddInformation()" *ngIf="mode=='edit'" id="Address" ngbTooltip="Customer Address Information"
+                                    data-placement="bottom" container="body" tooltipClass="default">
+                                    <i class="far fa-address-book d-block card-icons"></i>
+                                </a>
+                            </div>
+                            <div class="d-inline-block mr-3" *ngIf="customerProfileDetail.isCustomerProfile">
+                                <a class="cursor-pointer" (click)="openCustomerProfile()" id="customerProfile" ngbTooltip="Customer Profile" data-placement="bottom"
+                                    container="body" tooltipClass="default">
+                                    <i class="far fa-user-circle d-block card-icons"></i>
+                                </a>
+                            </div>
+                            <div class="d-inline-block mr-3" *ngIf="!customerProfileDetail.isCustomerProfile">
+                                <a class="cursor-pointer" style="cursor: not-allowed;" id="customerProfileNotAllowed" ngbTooltip="Customer Profile" data-placement="bottom"
+                                    container="body" tooltipClass="default">
+                                    <i class="far fa-user-circle d-block card-icons"></i>
+                                </a>
+                            </div>
+                            <div class="d-inline-block mr-3">
+                                <a class="cursor-pointer" (click)="openPlanner()" *ngIf="customerID" ngbTooltip="Book Setup Training" data-placement="bottom"
+                                    container="body" tooltipClass="default">
+                                    <i class="far fa-calendar-alt d-block card-icons"></i>
+                                </a>
+                            </div>
+                            <div class="d-inline-block">
+                                <a class="cursor-pointer" (click)="openScheduler()" *ngIf="customerID" ngbTooltip="Open Demo Scheduler" data-placement="bottom"
+                                    container="body" tooltipClass="default">
+                                    <i class="fa fa-desktop d-block card-icons font_20"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-inline-block mr-4" *ngIf="showRedWarning && CustomerResellerName !== ''">
+                        <i class="fas fa-exclamation-triangle text-danger mr-1 font_size_20" *ngIf="showRedWarning"></i>
+                        <span class="heading-title p-0" *ngIf="showRedWarning && CustomerResellerName !== ''">
+                            (Reseller:
+                            <span class="text-danger">{{CustomerResellerName}}</span> ) </span>
+                    </div>
+
+                    <div class="d-inline-block" *ngIf="showBlackListedIcon">
+                        <i class="fas fa-ban text-danger mr-1 font_size_20"></i>
+                        <span class="text-danger heading-title"> Blacklisted </span>
+                    </div>
+                </div>
+                <div class="float-right ml-auto">
+                    <span class="ml-3 d-flex align-items-center float-left" *ngIf="isAllPartyConsent">
+                        <img class="col_img mr-1" width="16px" src="assets/images/warningOfDate.png" />
+                        <b>All Party Consent State!</b>
+                    </span>
+                    <span class="ml-3 d-flex align-items-center float-left" *ngIf="customerDetail.enableConversion === true && !unidentifiedCustomer">
+                        <img class="col_img mr-1" width="16px" src="assets/images/OK.png" />
+                        <b>Conversion Enabled!</b>
+                    </span>
+                    <span class="ml-3 d-flex align-items-center float-left" *ngIf="customerDetail.enableConversion !== true && !unidentifiedCustomer">
+                        <img class="col_img mr-1" width="16px" src="assets/images/warningOfDate.png" />
+                        <b>Conversion Disabled!</b>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-24 customersearch">
+        <div class="crm-mainbox crm-portlet--height-fluid-half">
+            <div class="container-fluid p-3">
+                <app-customer-card-readonly [screen]="'customerCard'" [isSearchDone]="true" [isFilterApplied]="true" [customerID]="customerID"
+                    [customerSearchForm]="customerDetail"></app-customer-card-readonly>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-24 customersearch">
+        <div class="">
+            <!-- [ngClass]="{'container-fluid': selectedTabName !== 'Customer','p-3': selectedTabName !== 'Customer'}" -->
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist" style="border-bottom: 0 !important;">
+                    <a class="nav-item nav-link active" id="nav-customer-tab" data-toggle="tab" href="#customer" role="tab" aria-controls="nav-customer"
+                        aria-selected="true" [ngClass]="{'disabled': mode=='new'}" (click)="tabChanged('Customer')">Customer</a>
+                    <a class="nav-item nav-link" id="nav-activity-tab" data-toggle="tab" href="#activity" role="tab" aria-controls="nav-activity"
+                        aria-selected="true" [ngClass]="{'disabled': mode=='new'}" (click)="tabChanged('Activity')">Activity</a>
+                    <a class="nav-item nav-link" id="nav-customerTicket-tab" data-toggle="tab" href="#customerTicket" role="tab" aria-controls="nav-customerTicket"
+                        aria-selected="false" [ngClass]="{'disabled': mode=='new'}" (click)="tabChanged('Ticket')"> Ticket </a>
+                    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="nav-contact"
+                        aria-selected="false" [ngClass]="{'disabled': mode=='new'}" (click)="tabChanged('Contact')">Contact</a>
+
+                    <a class="nav-item nav-link" id="nav-offices-tab" data-toggle="tab" href="#offices" role="tab" aria-controls="nav-offices"
+                        aria-selected="false" [ngClass]="{'disabled': mode=='new'}" (click)="tabChanged('Offices')">{{officesTitle}} </a>
+
+                    <a class="nav-item nav-link" id="nav-customerLicense-tab" data-toggle="tab" href="#customerLicense" role="tab" aria-controls="nav-customerLicense"
+                        aria-selected="false" [ngClass]="{'disabled': mode=='new'}" (click)="tabChanged('License')"> {{LicenseTitle}} </a>
+                    <a class="nav-item nav-link" id="nav-loginHistory-tab" data-toggle="tab" href="#loginHistory" role="tab" aria-controls="nav-loginHistory"
+                        aria-selected="false" [ngClass]="{'disabled': mode=='new'}" (click)="tabChanged('Login History')">Login History
+                    </a>
+                    <a class="nav-item nav-link" id="nav-marketing-tab" data-toggle="tab" href="#marketing" role="tab" aria-controls="nav-marketing"
+                        aria-selected="false" [ngClass]="{'disabled': mode=='new'}" (click)="tabChanged('Marketing Data')">Marketing Data
+                    </a>
+                    <a class="nav-item nav-link" id="nav-customerBP-tab" data-toggle="tab" href="#customerBP" role="tab" aria-controls="nav-customerBP"
+                        aria-selected="false" [ngClass]="{'disabled': mode=='new'}" (click)="tabChanged('BP')"> BP </a>
+                </div>
+            </nav>
+            <div class="tab-content border p-3" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="customer" role="tabpanel" aria-labelledby="nav-customer-tab">
+                    <app-customer-header-detail [lookup]="lookup" [mode]="mode" [customerDetails]="customerDetail" (customerSearchFormValue)="customerDetail = $event; saveDetails();"
+                        (getCustomerDetails)="getCustomerDetails($event)">
+                    </app-customer-header-detail>
+                </div>
+                <div class="tab-pane fade" id="activity" role="tabpanel" aria-labelledby="nav-activity-tab" *ngIf="selectedTabName == 'Activity'">
+                    <app-customer-activity [customerID]='customerID'></app-customer-activity>
+                </div>
+                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="nav-contact-tab" *ngIf="selectedTabName == 'Contact'">
+                    <app-customer-contact [customerID]='customerID'></app-customer-contact>
+                </div>
+                <div class="tab-pane fade" id="offices" role="tabpanel" aria-labelledby="nav-offices-tab" *ngIf="selectedTabName == 'Offices'">
+                    <app-customer-efin-detail [customerID]='customerID' [masterLocationId]="customerDetail.masterLocationId"></app-customer-efin-detail>
+                </div>
+
+
+                <div class="tab-pane fade" id="loginHistory" role="tabpanel" aria-labelledby="nav-loginHistory-tab" *ngIf="selectedTabName == 'Login History'">
+                    <app-customer-login-history [customerID]='customerID'></app-customer-login-history>
+                </div>
+                <div class="tab-pane fade" id="marketing" role="tabpanel" aria-labelledby="nav-marketing-tab" *ngIf="selectedTabName == 'Marketing Data'">
+                    <app-customer-marketingdata [customerID]='customerID' [isTaxVisionReseller]='isTaxVisionReseller'>
+                    </app-customer-marketingdata>
+                </div>
+                <div class="tab-pane fade" id="customerBP" role="tabpanel" aria-labelledby="nav-customerBP-tab" *ngIf="selectedTabName == 'BP'">
+                    <app-customer-bankproduct [customerID]='customerID' [unidentifiedCustomer]='unidentifiedCustomer'>
+                    </app-customer-bankproduct>
+                </div>
+                <div class="tab-pane fade" id="customerTicket" role="tabpanel" aria-labelledby="nav-customerTicket-tab" *ngIf="selectedTabName == 'Ticket'">
+                    <app-customer-ticket [customerID]='customerID' [isTestCustomer]="customerDetail.isTestCustomer">
+                    </app-customer-ticket>
+                </div>
+                <div class="tab-pane fade" id="customerLicense" role="tabpanel" aria-labelledby="nav-customerLicense-tab" *ngIf="selectedTabName == 'License'">
+                    <app-customer-license [customerID]='customerID' [isTestCustomer]="customerDetail.isTestCustomer" [unidentifiedCustomer]='unidentifiedCustomer'
+                        [customerDetail]="customerDetail">
+                    </app-customer-license>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <hr>
+    <div class="customersearch">
+        <div class="pull-left">
+            <span class="pull-left padding_left_9" *ngIf="customerDetail.createdDate !== undefined">
+                <b>Created By :</b> {{customerDetail.createdByName}}, {{customerDetail.createdDate}}
+            </span>
+            <div>
+                <span class="pull-left padding_left_9" *ngIf="mode ==='edit' && customerDetail.updatedByName !=='' && customerDetail.updatedByName !==undefined">
+                    <b>Updated By : </b> {{customerDetail.updatedByName}},{{customerDetail.updatedDate}}
+                </span>
+            </div>
+        </div>
+    </div>
+
+</div>

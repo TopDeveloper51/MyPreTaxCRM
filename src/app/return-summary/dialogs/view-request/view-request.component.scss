@@ -1,0 +1,30 @@
+.progress{}
+.signature_box {
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+    margin-right: 5px;
+    display: inline-block;
+    color: #005074;
+    font-size: 13px;
+    float: left;
+    border-radius: 18px;
+    font-weight: lighter;
+    cursor: pointer;
+}
+
+.signature_box i {
+    color: #005074;
+    margin-right: 5px;
+}
+.signature-image { width: 150px; height: auto; /* border: 1px solid #ececec; */ }
+
+
+.que_main_repeat { border-bottom: 1px solid #005074; margin-bottom: 20px; padding-bottom: 10px; }
+.que_main_repeat:last-child{border-bottom: 0px solid #005074;}
+.que_main_repeat .orange_font { color: #f8981d; }
+
+span.responsive_wrp { display: inline-block; border: 1px solid #f8981d; margin:0; border-radius: 15px; padding: 3px; cursor: pointer; }
+.file_name_uploaded { color: #005074 !important; font-size: 13px; font-weight: 400; margin-left: 10px; max-width: 100px; float: left; padding-top: 2px; display: inline-block;  -space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.floating { float: left; width: 100%; }
+.sign_output { width: 150px; height: 65px; border: 1px solid #ccc; }
+.sign_title { color: #005074; font-weight: 600; font-size: 14px; margin-bottom: 10px; }

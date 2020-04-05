@@ -1,0 +1,80 @@
+<div class="cont-us">
+    <div class="col-24">
+        <div class="crm-heading   crm-grid__item" id="crm_heading">
+            <div class="crm-container">
+                <div class="crm-heading__main">
+                    <h3 class="crm-heading__title">Ticket Type List</h3>
+                    <span class="crm-heading__separator crm-hidden"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-24">
+        <div class="crm-mainbox crm-portlet--height-fluid-half">
+            <div class="container-fluid p-3">
+
+                <form [formGroup]="ticketTypeListForm">
+                    <div class="row set-mediam">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-24 col-sm-24 col-md-10 col-lg-auto col-xl-auto">
+                                    <p class="font-weight-bold mb-2">Department</p>
+                                    <div class="custom-checkbox-wrap">
+                                        <div class="custom-control custom-checkbox mt-15 d-inline-block mr-3" *ngFor="let dep of ticketTypeListForm.controls.department['controls']; let i=index">
+                                            <span formArrayName="department">
+                                                <input type="checkbox" class="custom-control-input" [formControlName]="i.toString()" [value]="department[i].id" [id]="i.toString()">
+                                                <label class="custom-control-label" [for]="i.toString()">
+                                                    {{department[i].name}}</label>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-24 col-sm-24 col-md-12 col-lg-12 col-xl-12">
+                                    <div class="form-field mt-2">
+                                        <div class="form-field-control">
+                                            <input id="ticketType" type="text" class="form-field-input" formControlName="ticketType" placeholder=" ">
+                                            <label for="ticketType" class="form-field-label">Ticket Type</label>
+                                            <div class="form-field-bar"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-24 col-sm-24 col-md-12 col-lg-7 col-xl-auto">
+                                    <p class="font-weight-bold mb-2">Status</p>
+                                    <div class="custom-control custom-radio custom-control-inline mr-2" *ngFor="let status of statusList">
+                                        <input type="radio" class="custom-control-input" [value]='status.id' name="status" formControlName="status" [id]="status.name">
+                                        <label class="custom-control-label" [for]="status.name">{{status.name}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-auto mt-4">
+                            <button class="btn btn-outline-primary" (click)="search()">Search</button>
+                            <button class="btn btn-outline-primary ml-2" (click)="manageTicketType()">New</button>
+                        </div>
+                    </div>
+
+                </form>
+
+                <div class="no-found mt-3" *ngIf="!gridOptions || !gridOptions.rowData || gridOptions.rowData.length==0">
+                    <p class="mb-0">No Data Available</p>
+                </div>
+                <div class="row">
+                    <div class="col-24 deta-aggrid" *ngIf="gridOptions && gridOptions.rowData && gridOptions.rowData.length > 0">
+                        <p class="font-weight-bold mb-2">Ticket Types
+                            <span>({{gridOptions.rowData.length | number}})</span>
+                        </p>
+                        <ag-grid-angular #agGrid id="myGrid" style="height: calc(100vh - 241px);" class="ag-theme-balham" [rowDragManaged]="true"
+                            [rowData]="gridOptions.rowData" [columnDefs]="gridOptions.columnDefs" [rowSelection]="rowSelection"
+                            (rowDragEnd)="onRowDragEnd($event)" [enableCellTextSelection]="true" (rowDragLeave)="onRowDragLeave($event)" (rowClicked)="onRowClicked($event)"
+                            [domLayout]="domLayout" [animateRows]="true" (gridReady)="onGridReady($event)">
+                        </ag-grid-angular>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,85 @@
+<div class="cont-us">
+    <div class="col-24">
+        <div class="crm-heading   crm-grid__item" id="crm_heading">
+            <div class="crm-container">
+                <div class="crm-heading__main">
+                    <h3 class="crm-heading__title">To Do Overview</h3>
+                    <span class="crm-heading__separator crm-hidden"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-24">
+        <div class="crm-mainbox crm-portlet--height-fluid-half">
+            <div class="container-fluid p-3">
+                <form [formGroup]="activitySummaryFormData">
+                    <div class="set-mediam">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-field">
+                                    <div class="form-field-control">
+                                        <div [ngClass]="{'cross-validation-error': activitySummaryFormData.controls.UserRoleListData.errors  &&  activitySummaryFormData.controls.UserRoleListData.errors.required }">
+                                            <ng-select #userList groupBy="group" [items]="userRoleList" bindValue="id" bindLabel="name" placeholder="Responsible*" formControlName="UserRoleListData"
+                                                required clearAllText="Clear" [selectableGroup]="false" appendTo="body" [closeOnSelect]="true"
+                                                [searchable]="false" [clearable]="false" class="salesprocessstatus" (open)="userRoleList = userRoleList">
+                                                <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                                    <label class="font-weight-bold">{{item.group}}</label>
+                                                </ng-template>
+                                                <ng-template ng-header-tmp>
+                                                    <!-- userList.filter($event.target.value) -->
+                                                    <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="filterData($event.target.value)"
+                                                    />
+                                                </ng-template>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-20">
+                                <div class="row">
+                                    <div class="col-6 mt-3">
+                                        <div class="row">
+                                            <div class="col-auto">
+                                                Status:
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="custom-control custom-radio custom-control-inline mr-2" *ngFor="let status of statusList">
+                                                    <input type="radio" class="custom-control-input" formControlName="status" [value]='status.id' name="status" [id]="status.displayText">
+                                                    <label class="custom-control-label" [for]="status.displayText">{{status.displayText}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 mt-3">
+                                        <div class="custom-control custom-checkbox d-inline-block mr-4">
+                                            <input type="checkbox" formControlName="isTestCustomer" class="custom-control-input" id="customControlInline">
+                                            <label class="custom-control-label" for="customControlInline">Test Customer
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="d-inline-block text-right mb-space mt-2 float-right">
+                                            <button class="btn btn-outline-primary" (click)="search($event)" [disabled]="!activitySummaryFormData.valid">Search</button>
+                                            <button class="btn btn-outline-primary ml-2" (click)="reset()">Reset</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div *ngIf="rowData && rowData.length > 0 && rowData[0] !== 'autoHeight'">
+                    <p class="font-weight-bold mb-2">Open Activity Summary</p>
+                </div>
+                <div *ngIf="rowData && rowData.length > 0 && rowData[0] !== 'autoHeight'">
+                    <ag-grid-angular #agGrid id="myGrid" style="width: 100%;" class="ag-theme-balham activity_summary" [rowData]="rowData" [columnDefs]="columnDefs"
+                        [domLayout]="domLayout" [getRowHeight]="getRowHeight" [detailCellRendererParams]="detailCellRendererParams"
+                        (rowClicked)="onRowClicked($event)" [defaultColDef]="defaultColDef" [rowSelection]="'single'" [masterDetail]="true"
+                        (gridReady)="onGridReady($event)" [enableCellTextSelection]="true" (gridSizeChanged)="onGridReady($event)">
+                    </ag-grid-angular>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

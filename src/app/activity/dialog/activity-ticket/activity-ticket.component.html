@@ -1,0 +1,203 @@
+<!--Dialog header-->
+<div class="modal-header">
+    <h5 class="modal-title">
+        Create/Select Ticket
+    </h5>
+    <!-- <div class="pull-right modal-btn padding_top_2">
+        <div class="cursor-pointer mt-1">
+            <div (click)="modal.close(true)" class="cursor-pointer cus-hov">
+                <i class="fa fa-times"></i>
+            </div>
+        </div>
+    </div> -->
+        <div (click)="modal.close(true)" class="cus-hov">
+            <i class="fa fa-times"></i>
+        </div>
+</div>
+<!--Dialog header End -->
+
+<div id="modal-ticket" class="modal-body cal-box">
+    <div class="main_innerpage">
+        <form [formGroup]="ticketDetailForm">
+            <div class="row">
+                
+                <div class="col-24 col-sm-24 col-md-24 col-xl-auto">
+                    <div class="form-field">
+                        <div class="form-field-control mt-16">
+                            <b *ngIf="rowData!=undefined && rowData !=undefined && rowData.length !=0 && selectTickets">
+                                Select from existing Tickets ({{rowData.length | number}})
+                            </b>
+                            <b *ngIf="rowData == undefined || rowData.length == 0 && selectTickets">
+                                Select from existing Tickets
+                            </b>
+                            <b *ngIf="!selectTickets">
+                                Create Ticket
+                            </b>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-24 col-sm-24 col-md-24 col-xl-3">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <ng-select #year [items]="lookup.taxYearList" bindLabel="name" bindValue="id" [multiple]="true" placeholder="Tax Season"
+                                clearAllText="Clear" [selectableGroup]="true" appendTo="body" formControlName="year" [closeOnSelect]="false"
+                                [searchable]="false" [clearable]="false" (change)="getActivityTicketData()">
+                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                        <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                                        <label class="custom-control-label">{{item.name}}</label>
+                                    </div>
+                                </ng-template>
+                                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                    <app-select-multi-label class="w-100" [items]="items">
+                                    </app-select-multi-label>
+                                </ng-template>
+                                <ng-template ng-header-tmp>
+                                    <input type="text" [appAutofocus] class=" form-field-input" placeholder="Search" (input)="year.filter($event.target.value)"
+                                    />
+                                    <button (click)="onSelectAll('year');getActivityTicketData()" class="btn btn-sm btn-secondary">All</button>
+                                    <button (click)="onClearAll('year');getActivityTicketData()" class="btn btn-sm btn-secondary ml-2">None</button>
+                                </ng-template>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-24 col-sm-24 col-md-24 col-xl-3">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <ng-select #department [items]="lookup.departmentList" bindLabel="name" bindValue="id" [multiple]="true" placeholder="Department"
+                                clearAllText="Clear" [selectableGroup]="true" appendTo="body" formControlName="department" [closeOnSelect]="false"
+                                [searchable]="false" [clearable]="false" (change)="getActivityTicketData()">
+                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                        <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                                        <label class="custom-control-label">{{item.name}}</label>
+                                    </div>
+                                </ng-template>
+                                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                    <app-select-multi-label class="w-100" [items]="items">
+                                    </app-select-multi-label>
+                                </ng-template>
+                                <ng-template ng-header-tmp>
+                                    <input type="text" [appAutofocus] class=" form-field-input" placeholder="Search" (input)="department.filter($event.target.value)"
+                                    />
+                                    <button (click)="onSelectAll('department');getActivityTicketData()" class="btn btn-sm btn-secondary">All</button>
+                                    <button (click)="onClearAll('department');getActivityTicketData()" class="btn btn-sm btn-secondary ml-2">None</button>
+                                </ng-template>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-24 col-sm-24 col-md-24 col-xl-3">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <ng-select #ticketStatus [items]="lookup.statusList" bindLabel="name" bindValue="id" placeholder="Status" clearAllText="Clear"
+                                appendTo="body" formControlName="ticketStatus" [closeOnSelect]="true" [clearable]="false" (change)="getActivityTicketData()">
+                                <ng-template ng-header-tmp>
+                                    <input type="text" [appAutofocus] class=" form-field-input" placeholder="Search" (input)="ticketStatus.filter($event.target.value)"
+                                    />
+                                </ng-template>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-24 col-sm-24 col-md-24 col-xl-5"> </div>
+
+                <div class="col-24 col-sm-24 col-md-24 col-xl-3">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <input id="ticketNr" type="text" formControlName="ticketNr" class=" form-field-input" placeholder=" ">
+                            <label for="ticketNr" class="form-field-label">Ticket Number</label>
+                            <div class="form-field-bar"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="set-mediam col-auto ml-auto mt-2">
+                    <button class="btn btn-outline-primary mb-2" id="Search" name="Search" (click)="getActivityTicketData()">Search
+                    </button>
+                    <button class="btn btn-outline-primary ml-2 mb-2" (click)="selectTickets = !selectTickets;setDropDownOfTicketType(); ">{{selectTickets ? 'Create Ticket':'Select Ticket'}}</button>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-24">
+
+                    <div class="no-found mt-2" *ngIf="(!rowData || rowData.length == 0) && selectTickets">
+                        <p class="mb-0">No Existing Ticket Found</p>
+                    </div>
+                    <div class="mt-2 deta-aggrid" *ngIf="rowData && rowData.length>0 && selectTickets">
+                        <ag-grid-angular #agGrid id="myGrid" style="width: 100%; height: 500px;" class="ag-theme-balham" [columnDefs]="columnDefs"
+                            [defaultColDef]="defaultColDef" [rowData]="rowData" [enableCellTextSelection]="true" (rowClicked)="onRowClicked($event)"
+                            (gridReady)="onGridReady($event)">
+                        </ag-grid-angular>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row" *ngIf="!selectTickets">
+                <div class="col-24 col-sm-24 col-md-24 col-xl-6">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <input id="ticketType" type="text" formControlName="ticketType" class=" form-field-input" placeholder=" ">
+                            <label for="ticketType" class="form-field-label">Search Ticket Type / Sub-Type</label>
+                            <div class="form-field-bar"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-24 col-sm-24 col-md-24 col-xl-2">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <img class="col_img pt-4 cursor-pointer" src="assets/images/clear-filter.png" alt="Clear" title="Clear Filter"
+                                (click)="clearTicketType($event)" *ngIf=" ticketDetailForm.get('ticketType').value !== undefined && ticketDetailForm.get('ticketType').value !== null && ticketDetailForm.get('ticketType').value !== ''"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+            <div *ngIf="!selectTickets">
+                <table id="tableMenu" class="tableMenus">
+                    <tr>
+                        <td valign="top" *ngFor="let ticketTypeArray of lookup.ticketType">
+                            <div class="menu-inner-container">
+                                <ul class="main-menu">
+                                    <li class="cursor-pointer" *ngFor="let type of ticketTypeArray">
+                                        <a [ngStyle]="{'background':type.style}" (click)="newTicket($event,type,[])">
+                                            <span>{{type.name}}</span>
+                                        </a>
+                                        <ul class="sub-menu sub_menu_length ticket_submenu">
+                                            <span *ngFor="let errorType of type.subTypeList">
+                                                <li class="cursor-pointer" *ngIf="errorType.status == 0">
+                                                    <a (click)="newTicket($event,type,[errorType])" [ngStyle]="{'background':errorType.style}">{{errorType.name}}</a>
+                                                </li>
+                                            </span>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+
+        </form>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-outline-primary" id="cancel" name="cancel" (click)="modal.close('NO')">Cancel
+    </button>
+</div>

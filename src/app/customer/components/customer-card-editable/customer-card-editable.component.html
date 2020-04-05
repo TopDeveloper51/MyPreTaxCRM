@@ -1,0 +1,581 @@
+    <form [formGroup]="customerSearchForm">
+        <div class="row">
+            <div class="col-24 col-sm-24 col-md-12 col-xl-5">
+                <div class="d-inline-block custom-checkbox custom-control mt-16 mb-9 w-100">
+                    <input type="checkbox" class="custom-control-input" formControlName="isTestCustomer" id="testCustomer">
+                    <label class="custom-control-label" for="testCustomer">Test Customer</label>
+                </div>
+
+                <!-- <div *ngIf="screen == 'customerCard'"
+                        class="d-inline-block custom-checkbox custom-control mb-9 mt-16 w-100">
+                        <input type="checkbox" class="custom-control-input" formControlName="demoCustomer"
+                            id="demoCustomer">
+                        <label class="custom-control-label" for="demoCustomer">Demo Customer</label>
+                    </div> -->
+
+                <div *ngIf="screen == 'customerSearch'" class="form-field">
+                    <div class="form-field-control">
+                        <input id="customerId" type="text" class=" form-field-input" formControlName="customerId" placeholder=" ">
+                        <label for="customerId" class="form-field-label">Customer ID</label>
+                        <div class="form-field-bar"></div>
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <div class="form-field-control">
+                        <input id="customerNumber" type="text" formControlName="customerNumber" class=" form-field-input" placeholder=" ">
+                        <label for="customerNumber" class="form-field-label">Customer Number</label>
+                        <div class="form-field-bar"></div>
+                    </div>
+                </div>
+
+                <div class="form-field" [ngClass]="{'required' : screen == 'customerCard'}">
+                    <div class="form-field-control">
+                        <input id="companyName" type="text" formControlName="customerName" class="form-field-input" placeholder=" ">
+                        <label for="companyName" class="form-field-label">Company Name</label>
+                        <div class="form-field-bar"></div>
+                    </div>
+                </div>
+
+                <div *ngIf="screen == 'customerCard'" class="form-field">
+                    <div class="form-field-control">
+                        <input id="DBA" type="text" formControlName="DBA" class="form-field-input" placeholder=" ">
+                        <label for="DBA" class="form-field-label">DBA</label>
+                        <div class="form-field-bar"></div>
+                    </div>
+                </div>
+
+                <div *ngIf="screen == 'customerCard'" class="form-field">
+                    <div class="form-field-control">
+                        <input id="address1" type="text" formControlName="address1" class="form-field-input" placeholder=" ">
+                        <label for="address1" class="form-field-label">Address 1</label>
+                        <div class="form-field-bar"></div>
+                    </div>
+                </div>
+
+                <div *ngIf="screen == 'customerCard'" class="form-field">
+                    <div class="form-field-control">
+                        <input id="address2" type="text" formControlName="address2" class="form-field-input" placeholder=" ">
+                        <label for="address2" class="form-field-label">Address 2</label>
+                        <div class="form-field-bar"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-24 col-sm-8 col-md-8 col-xl-8">
+                        <div class="form-field">
+                            <div class="form-field-control">
+
+                                <ng-select *ngIf="screen == 'customerSearch'" #country [items]="lookup.countryList" bindLabel="name" bindValue="id" [multiple]="true"
+                                    placeholder="Country" clearAllText="Clear" [selectableGroup]="true" appendTo="body" formControlName="country"
+                                    [closeOnSelect]="false" [searchable]="false" [clearable]="false" class='country'>
+                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                        <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                            <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                                            <label class="custom-control-label">{{item.name}}</label>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                        <app-select-multi-label class="w-100" [items]="items">
+                                        </app-select-multi-label>
+                                    </ng-template>
+                                    <ng-template ng-header-tmp>
+                                        <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="country.filter($event.target.value)"
+                                        />
+                                        <button (click)="onSelectAll('country')" class="btn btn-sm btn-secondary">All</button>
+                                        <button (click)="onClearAll('country')" class="btn btn-sm btn-secondary ml-2">None</button>
+                                        <button (click)="closeSelect(country);emitFormValue()" class="btn btn-sm btn-secondary ml-2">Search</button>
+                                    </ng-template>
+                                </ng-select>
+
+                                <ng-select *ngIf="screen == 'customerCard'" #country [items]="lookup.countryList" bindLabel="name" bindValue="id" placeholder="Country"
+                                    clearAllText="Clear" appendTo="body" formControlName="country" [closeOnSelect]="true" [clearable]="false">
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-24 col-sm-8 col-md-8 col-xl-8">
+
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <ng-select *ngIf="screen == 'customerSearch'" #state [items]="lookup.stateList" bindLabel="name" bindValue="id" [multiple]="true"
+                                    placeholder="State" clearAllText="Clear" [selectableGroup]="true" appendTo="body" formControlName="state"
+                                    [closeOnSelect]="false" [searchable]="false" [clearable]="false" class='country'>
+                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                        <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                            <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                                            <label class="custom-control-label">{{item.name}}</label>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                        <app-select-multi-label class="w-100" [items]="items">
+                                        </app-select-multi-label>
+                                    </ng-template>
+                                    <ng-template ng-header-tmp>
+                                        <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="state.filter($event.target.value)"
+                                        />
+                                        <button (click)="onSelectAll('state')" class="btn btn-sm btn-secondary">All</button>
+                                        <button (click)="onClearAll('state')" class="btn btn-sm btn-secondary ml-2">None</button>
+                                        <button (click)="closeSelect(state);emitFormValue()" class="btn btn-sm btn-secondary ml-2">Search</button>
+                                    </ng-template>
+                                </ng-select>
+
+                                <ng-select *ngIf="screen == 'customerCard'" #state [items]="lookup.stateList" bindLabel="name" bindValue="id" placeholder="State"
+                                    clearAllText="Clear" appendTo="body" formControlName="state" [closeOnSelect]="true" [clearable]="false">
+                                </ng-select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-24 col-sm-8 col-md-8 col-xl-8">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <input id="zipCode" type="text" class=" form-field-input" formControlName="zipCode" placeholder=" ">
+                                <label for="zipCode" class="form-field-label">ZIP</label>
+                                <div class="form-field-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="screen == 'customerCard'" class="form-field">
+                    <div class="form-field-control">
+                        <input id="city" type="text" formControlName="city" class=" form-field-input" placeholder=" ">
+                        <label for="city" class="form-field-label">City</label>
+                        <div class="form-field-bar"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-24 col-sm-24 col-md-12 col-xl-5">
+
+                <div class="form-field">
+                    <div class="form-field-control">
+                        <ng-select *ngIf="screen=='customerSearch'" #reseller [items]="lookup.resellerList" bindLabel="name" bindValue="id" [multiple]="true"
+                            placeholder="Reseller" clearAllText="Clear" [selectableGroup]="true" appendTo="body" formControlName="resellerId"
+                            [closeOnSelect]="false" [searchable]="false" [clearable]="false" class='salesprocessstatus'>
+                            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                    <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                                    <label class="custom-control-label">{{item.name}}</label>
+                                </div>
+                            </ng-template>
+                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                <app-select-multi-label class="w-100" [items]="items"></app-select-multi-label>
+                            </ng-template>
+                            <ng-template ng-header-tmp>
+                                <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="reseller.filter($event.target.value)"
+                                />
+                                <button (click)="onSelectAll('resellerId')" class="btn btn-sm btn-secondary">All</button>
+                                <button (click)="onClearAll('resellerId')" class="btn btn-sm btn-secondary ml-2">None</button>
+                                <button (click)="closeSelect(reseller);emitFormValue()" class="btn btn-sm btn-secondary ml-2">Search</button>
+                            </ng-template>
+                        </ng-select>
+                        <ng-select *ngIf="screen == 'customerCard'" #reseller [items]="lookup.resellerList" bindLabel="name" bindValue="id" placeholder="Reseller"
+                            clearAllText="Clear" appendTo="body" class="salesprocessstatus" formControlName="resellerId" [closeOnSelect]="true"
+                            [clearable]="false">
+                        </ng-select>
+                    </div>
+                </div>
+
+
+                <div class="form-field">
+                    <div class="form-field-control">
+                        <ng-select *ngIf="screen == 'customerSearch'" #preferredLanguage [items]="lookup.preferredLanguageList" bindLabel="name"
+                            bindValue="id" [multiple]="true" placeholder="Preferred Language" clearAllText="Clear" [selectableGroup]="true"
+                            appendTo="body" formControlName="preferredLanguage" [closeOnSelect]="false" [searchable]="false"
+                            [clearable]="false">
+                            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                    <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                                    <label class="custom-control-label">{{item.name}}</label>
+                                </div>
+                            </ng-template>
+                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                <app-select-multi-label class="w-100" [items]="items"></app-select-multi-label>
+                            </ng-template>
+                            <ng-template ng-header-tmp>
+                                <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="preferredLanguage.filter($event.target.value)"
+                                />
+                                <button (click)="onSelectAll('preferredLanguage')" class="btn btn-sm btn-secondary">All</button>
+                                <button (click)="onClearAll('preferredLanguage')" class="btn btn-sm btn-secondary ml-2">None</button>
+                                <button (click)="closeSelect(preferredLanguage);emitFormValue()" class="btn btn-sm btn-secondary ml-2">Search</button>
+                            </ng-template>
+                        </ng-select>
+                        <ng-select *ngIf="screen == 'customerCard'" #preferredLanguage [items]="lookup.preferredLanguageList" bindLabel="name" bindValue="id"
+                            placeholder="Preferred Language" clearAllText="Clear" appendTo="body" formControlName="preferredLanguage"
+                            [closeOnSelect]="true" [clearable]="false">
+                        </ng-select>
+                    </div>
+                </div>
+
+                <div class="d-inline-block custom-checkbox custom-control mb-9 mt-16 w-100">
+                    <input type="checkbox" class="custom-control-input" formControlName="doNotCall" id="doNotCall">
+                    <label class="custom-control-label" for="doNotCall">Don't Call Again</label>
+                </div>
+
+
+                <div class="d-inline-block custom-checkbox custom-control mb-9 mt-16 w-100">
+                    <input type="checkbox" class="custom-control-input" formControlName="dontSendSMS" id="dontSendSMS">
+                    <label class="custom-control-label" for="dontSendSMS">Don't Send SMS</label>
+                </div>
+
+                <div class="d-inline-block custom-checkbox custom-control mb-9 mt-16 w-100">
+                    <input type="checkbox" class="custom-control-input" formControlName="phoneNotFound" id="phoneNotFound">
+                    <label class="custom-control-label" for="phoneNotFound">Phone No. Not Found</label>
+                </div>
+
+
+
+
+            </div>
+
+            <div class="col-24 col-sm-24 col-md-12 col-xl-5">
+
+                <div class="d-inline-block custom-checkbox custom-control mb-9 mr-4 mt-16 w-100">
+                    <input type="checkbox" class="custom-control-input" formControlName="isCurrentRefundRequest" id="isCurrentRefundRequest">
+                    <label class="custom-control-label" for="isCurrentRefundRequest">Current Refund Request</label>
+                </div>
+
+                <div class="d-inline-block custom-checkbox custom-control mb-9 mr-4 mt-16 w-100">
+                    <input type="checkbox" class="custom-control-input" formControlName="isRefundRequestDenied" id="isRefundRequestDenied">
+                    <label class="custom-control-label" for="isRefundRequestDenied">Refund Request Denied</label>
+                </div>
+
+                <div class="d-inline-block custom-checkbox custom-control mb-9 mt-16 w-100">
+                    <input type="checkbox" class="custom-control-input" formControlName="isRefundRequestHandled" id="isRefundRequestHandled">
+                    <label class="custom-control-label" for="isRefundRequestHandled">Refund Request Handled</label>
+                </div>
+
+                <div class="form-field">
+                    <!-- *ngIf="screen !== 'customerSearch'" -->
+                    <div class="form-field-control">
+                        <ng-select #refundRequestFeeling [items]="lookup.refundRequestFeelingList" bindLabel="name" bindValue="id" placeholder="Refund Request Feeling"
+                            clearAllText="Clear" [searchable]="false" appendTo="body" formControlName="refundRequestFeeling"
+                            [closeOnSelect]="true" [clearable]="false">
+                        </ng-select>
+                    </div>
+                    <!-- <div class="form-field-control" *ngIf="screen == 'customerSearch'">
+                            <ng-select #refundRequestFeeling [items]="lookup.refundRequestFeelingList" bindLabel="name" bindValue="id"
+                                [multiple]="true" placeholder="Refund Request Feeling" clearAllText="Clear" [selectableGroup]="true"
+                                appendTo="body" formControlName="refundRequestFeeling" [closeOnSelect]="false" [searchable]="true"
+                                [clearable]="false">
+                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                        <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                                        <label class="custom-control-label">{{item.name}}</label>
+                                    </div>
+                                </ng-template>
+                                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                    <app-select-multi-label class="w-100" [items]="items"></app-select-multi-label>
+                                </ng-template>
+                                <ng-template ng-header-tmp>
+                                    <input type="text" class="in-set form-field-input" [appAutofocus]
+                                        placeholder="Search" (input)="refundRequestFeeling.filter($event.target.value)" />
+                                    <button (click)="onSelectAll('refundRequestFeeling')" class="btn btn-sm btn-secondary">All</button>
+                                    <button (click)="onClearAll('refundRequestFeeling')" class="btn btn-sm btn-secondary ml-2">None</button>
+                                    <button (click)="closeSelect(refundRequestFeeling);emitFormValue()"
+                                        class="btn btn-sm btn-secondary ml-2">Search</button>
+                                </ng-template>
+                            </ng-select>
+                        </div>                    -->
+                </div>
+
+                <div *ngIf="screen=='customerSearch'" class="row">
+                    <div class="col-24 col-sm-7 col-md-7 col-xl-7">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <input id="BP Volume >=" type="number" class=" form-field-input" formControlName="BPVolumeFrom" placeholder=" " min="0" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13">
+                                <label for="BP Volume >=" class="form-field-label">BP Volume>=</label>
+                                <div class="form-field-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-24 col-sm-7 col-md-7 col-xl-7 pl-0">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <input id="BP Volume <=" type="number" class=" form-field-input" formControlName="BPVolumeTo" placeholder=" " min="0" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13">
+                                <label for="BP Volume <=" class="form-field-label">BP Volume
+                                    <=</label>
+                                        <div class="form-field-bar">
+                                        </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-24 col-md-9 col-sm-9 col-xl-9 pl-0">
+                        <div class="custom-checkbox custom-control mt-18 mb-9">
+                            <input type="checkbox" class="custom-control-input" formControlName="unknownVolume" id="unknownVolume">
+                            <label class="custom-control-label" for="unknownVolume">Include Unknown</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="screen=='customerSearch'" class="form-field">
+                    <div class="form-field-control">
+                        <ng-select #bank [items]="lookup.bankList" bindLabel="name" bindValue="id" [multiple]="true" placeholder="Bank" clearAllText="Clear"
+                            [selectableGroup]="true" appendTo="body" formControlName="bank" [closeOnSelect]="false" [searchable]="false"
+                            [clearable]="false">
+                            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                    <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                                    <label class="custom-control-label">{{item.name}}</label>
+                                </div>
+                            </ng-template>
+                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                <app-select-multi-label class="w-100" [items]="items"></app-select-multi-label>
+                            </ng-template>
+                            <ng-template ng-header-tmp>
+                                <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="bank.filter($event.target.value)"
+                                />
+                                <button (click)="onSelectAll('bank')" class="btn btn-sm btn-secondary">All</button>
+                                <button (click)="onClearAll('bank')" class="btn btn-sm btn-secondary ml-2">None</button>
+                                <button (click)="closeSelect(bank);emitFormValue()" class="btn btn-sm btn-secondary ml-2">Search</button>
+                            </ng-template>
+                        </ng-select>
+                    </div>
+                </div>
+
+                <!-- <div class="d-inline-block custom-checkbox custom-control mb-9 mr-4 mt-16 w-100">
+                    <input type="checkbox" title="BP Special Pricing" class="custom-control-input"
+                        formControlName="bankSpecialPricing" id="bankSpecialPricing">
+                    <label class="custom-control-label" for="bankSpecialPricing">BP Special Pricing</label>
+                </div> -->
+                <div *ngIf="screen=='customerSearch'" class="row">
+                    <div class="col-24 col-sm-7 col-md-7 col-xl-12">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <input id="transmitterFeeFrom" title="Transmitter Fee >=" type="number" class=" form-field-input" formControlName="transmitterFeeFrom"
+                                    placeholder=" " min="0" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13">
+                                <label for="transmitterFeeFrom" class="form-field-label">TX Fee >=</label>
+                                <div class="form-field-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-24 col-sm-7 col-md-7 col-xl-12">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <input id="transmitterFeeTo" title="Transmitter Fee <=" type="number" class=" form-field-input" formControlName="transmitterFeeTo"
+                                    placeholder=" " min="0" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13">
+                                <label for="transmitterFeeTo" class="form-field-label">TX Fee
+                                    <=</label>
+                                        <div class="form-field-bar">
+                                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="screen=='customerSearch'" class="row">
+                    <div class="col-24 col-sm-7 col-md-7 col-xl-12">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <input id="addOnTransmitterSharePerFrom" title="Add On Transmitter Fee Share% >=" type="number" class=" form-field-input"
+                                    formControlName="addOnTransmitterSharePerFrom" placeholder=" " min="0" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13">
+                                <label for="addOnTransmitterSharePerFrom" class="form-field-label">Add On TX Fee Share% >=
+                                </label>
+                                <div class="form-field-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-24 col-sm-7 col-md-7 col-xl-12">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <input id="addOnTransmitterSharePerTo" title="Add On Transmitter Fee Share% <=" type="number" class=" form-field-input" formControlName="addOnTransmitterSharePerTo"
+                                    placeholder=" " min="0" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13">
+                                <label for="addOnTransmitterSharePerTo" class="form-field-label">Add On TX Fee Share%
+                                    <=</label>
+                                        <div class="form-field-bar">
+                                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="screen=='customerSearch'" class="row">
+                    <div class="col-24 col-sm-7 col-md-7 col-xl-12">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <input id="addOnPPSharePerFrom" type="number" title="Add On Protection Plus Fee Share% >=" class=" form-field-input" formControlName="addOnPPSharePerFrom"
+                                    placeholder=" " min="0" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13">
+                                <label for="addOnPPSharePerFrom" class="form-field-label">Add On PP Fee Share% >=</label>
+                                <div class="form-field-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-24 col-sm-7 col-md-7 col-xl-12">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <input id="addOnPPSharePerTo" type="number" title="Add On Protection Plus Fee Share% <=" class=" form-field-input" formControlName="addOnPPSharePerTo"
+                                    placeholder=" " min="0" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13">
+                                <label for="addOnPPSharePerTo" class="form-field-label">Add On PP Fee Share%
+                                    <=</label>
+                                        <div class="form-field-bar">
+                                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-24 col-sm-24 col-md-12 col-xl-5">
+
+                <div class="custom-control custom-checkbox mt-16 mb-9 d-inline-block w-100">
+                    <input type="checkbox" class="custom-control-input" formControlName="ElectronicReturnOriginator" id="isEfinHolder">
+                    <label class="custom-control-label" for="isEfinHolder">EFIN Holder</label>
+                </div>
+
+                <div class="custom-control custom-checkbox mt-16 mb-9 d-inline-block w-100">
+                    <input type="checkbox" class="custom-control-input" formControlName="CPAGroup" id="CPAGroup">
+                    <label class="custom-control-label" for="CPAGroup">CPA Group</label>
+                </div>
+
+                <div class="custom-control custom-checkbox mt-16 mb-9 d-inline-block w-100">
+                    <input type="checkbox" class="custom-control-input" formControlName="betaTester" id="betaTester">
+                    <label class="custom-control-label" for="betaTester">Beta Tester</label>
+                </div>
+
+                <div class="custom-control custom-checkbox mt-16 mb-9 d-inline-block w-100">
+                    <input type="checkbox" class="custom-control-input" formControlName="testimonial" id="testimonial">
+                    <label class="custom-control-label" for="testimonial">Testimonial</label>
+                </div>
+
+                <div class="form-field">
+                    <div class="form-field-control">
+                        <ng-select *ngIf="screen == 'customerSearch'" #customerType [items]="lookup.customerTypeList" bindLabel="name" bindValue="id"
+                            [multiple]="true" placeholder="Customer Type" clearAllText="Clear" [selectableGroup]="true" appendTo="body"
+                            formControlName="customerType" [closeOnSelect]="false" [searchable]="false" [clearable]="false">
+                            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                    <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                                    <label class="custom-control-label">{{item.name}}</label>
+                                </div>
+                            </ng-template>
+                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                <app-select-multi-label class="w-100" [items]="items"></app-select-multi-label>
+                            </ng-template>
+                            <ng-template ng-header-tmp>
+                                <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="customerType.filter($event.target.value)"
+                                />
+                                <button (click)="onSelectAll('customerType')" class="btn btn-sm btn-secondary">All</button>
+                                <button (click)="onClearAll('customerType')" class="btn btn-sm btn-secondary ml-2">None</button>
+                                <button (click)="closeSelect(customerType);emitFormValue()" class="btn btn-sm btn-secondary ml-2">Search</button>
+                            </ng-template>
+                        </ng-select>
+                        <ng-select *ngIf="screen == 'customerCard'" #customerType [items]="lookup.customerTypeList" bindLabel="name" bindValue="id"
+                            placeholder="Customer Type" clearAllText="Clear" appendTo="body" formControlName="customerType" [closeOnSelect]="true"
+                            [clearable]="false">
+                        </ng-select>
+                    </div>
+                </div>
+
+                <div *ngIf="screen == 'customerSearch'" class="form-field">
+                    <div class="form-field-control">
+                        <ng-select #software [items]="lookup.softwareList" bindLabel="name" bindValue="id" [multiple]="true" placeholder="Software Used"
+                            clearAllText="Clear" [selectableGroup]="true" appendTo="body" class="salesprocessstatus" formControlName="software"
+                            [closeOnSelect]="false" [searchable]="false" [clearable]="false">
+                            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                    <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                                    <label class="custom-control-label">{{item.name}}</label>
+                                </div>
+                            </ng-template>
+                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                <app-select-multi-label class="w-100" [items]="items"></app-select-multi-label>
+                            </ng-template>
+                            <ng-template ng-header-tmp>
+                                <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="software.filter($event.target.value)"
+                                />
+                                <button (click)="onSelectAll('software')" class="btn btn-sm btn-secondary">All</button>
+                                <button (click)="onClearAll('software')" class="btn btn-sm btn-secondary ml-2">None</button>
+                                <button (click)="closeSelect(software);emitFormValue()" class="btn btn-sm btn-secondary ml-2">Search</button>
+                            </ng-template>
+                        </ng-select>
+                    </div>
+                </div>
+
+                <div *ngIf="screen == 'customerCard'" class="form-field">
+                    <div class="form-field-control">
+                        <input id="homepage" type="text" formControlName="homepage" class="form-field-input" placeholder=" ">
+                        <label for="homepage" class="form-field-label">Home-Page</label>
+                        <div class="form-field-bar"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-24 col-sm-24 col-md-12 col-xl-4">
+
+                <div class="form-field">
+                    <div class="form-field-control">
+                        <ng-select *ngIf="screen == 'customerSearch'" #salesProcessStatus [items]="lookup.salesProcessStatusList" bindLabel="name"
+                            bindValue="id" [multiple]="true" placeholder="Sales Process Status" clearAllText="Clear" [selectableGroup]="true"
+                            appendTo="body" formControlName="salesProcessStatus" [closeOnSelect]="false" [searchable]="false"
+                            [clearable]="false" class="salesprocessstatus">
+                            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                    <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                                    <label class="custom-control-label" [title]="item.name">{{item.name}}</label>
+                                </div>
+                            </ng-template>
+                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                <app-select-multi-label class="w-100" [items]="items"></app-select-multi-label>
+                            </ng-template>
+                            <ng-template ng-header-tmp>
+                                <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="salesProcessStatus.filter($event.target.value)"
+                                />
+                                <button (click)="onSelectAll('salesProcessStatus')" class="btn btn-sm btn-secondary">All</button>
+                                <button (click)="onClearAll('salesProcessStatus')" class="btn btn-sm btn-secondary ml-2">None</button>
+                                <button (click)="closeSelect(salesProcessStatus);emitFormValue()" class="btn btn-sm btn-secondary ml-2">Search</button>
+                            </ng-template>
+                        </ng-select>
+                        <ng-select *ngIf="screen == 'customerCard'" #salesProcessStatus [items]="lookup.salesProcessStatusList" bindLabel="name"
+                            bindValue="id" placeholder="Sales Process Status" class="salesprocessstatus" clearAllText="Clear"
+                            appendTo="body" formControlName="salesProcessStatus" [closeOnSelect]="true" [clearable]="false">
+                            <ng-template ng-option-tmp let-item="item">
+                                <div [title]="item.name">{{item.name}}</div>
+                            </ng-template>
+                        </ng-select>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row" *ngIf="screen == 'customerSearch'">
+            <div class="col-24">
+                <div class="float-right">
+                    <button type="submit" class="btn btn-outline-primary ml-2" (click)="emitFormValue()">Search</button>
+                    <button class="btn btn-outline-primary ml-2" (click)="clearSearch()">Clear</button>
+                    <button class="btn btn-outline-primary ml-2" (click)="newCustomer()">New</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+    <div class="row" *ngIf="screen == 'customerCard'">
+        <div class="col-24">
+            <div class="float-right">
+                <button class="btn btn-outline-primary ml-2" *ngIf="mode=='edit'" (click)="loginInSoftware()">Login To Software
+                </button>
+                <button class="btn btn-outline-primary ml-2" *ngIf="mode=='edit'" (click)="checkDuplicateCustomer()">Check Duplicate
+                </button>
+                <button *ngIf="customerDetails.resellerName &&  customerDetails.resellerName ==='TaxVisionCloud'" class="btn btn-outline-primary ml-2"
+                    (click)="allowAccess()">
+                    {{customerDetails.allowAccess ? 'Disable Access' : 'Allow Access'}}
+                </button>
+                <button *ngIf="!unidentifiedCustomer" class="btn btn-outline-primary ml-2" (click)="enableFeeCollectProgram()">
+                    {{customerDetails.isFeeCollectProgramAvailable ? 'Disable Fee Collect Program' : 'Enable Fee Collect Program'}}
+                </button>
+                <button *ngIf="!unidentifiedCustomer" class="btn btn-outline-primary ml-2" [disabled]="mode ==='new' || unidentifiedCustomer"
+                    (click)="enableConversion()">
+                    {{customerDetails.enableConversion ? 'Disable Conversion' : 'Enable Conversion'}}
+                </button>
+                <!-- <button *ngIf="customerDetails.enableConversion === true" class="btn btn-outline-primary ml-2" [disabled]="mode ==='new'" (click)="enableConversion()">
+                           Disable Conversion
+                        </button>  -->
+                <!-- *ngIf="customerDetails.enableConversion === false" [disabled]="!customerSearchForm.valid"-->
+                <button class="btn btn-outline-primary ml-2" (click)="saveDetails()" [disabled]="!customerSearchForm.valid">Save</button>
+                <button class="btn btn-outline-primary ml-2" (click)="backCustomerSearch()">Back</button>
+            </div>
+        </div>
+    </div>

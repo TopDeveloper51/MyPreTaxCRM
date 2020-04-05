@@ -1,0 +1,466 @@
+<!-- Dialog Title -->
+<div class="modal-header">
+    <h5 *ngIf="!mode" class="modal-title d-flex justify-content-center align-items-center">
+        Edit User
+        <div class="cus-hov d-inline-block d-flex align-items-center mx-2">
+            <i class="fa fa-history fa-md cursor-pointer" data-placement="top" ngbTooltip="History" container="body" tooltipClass="default"
+                (click)="openHistoryDialog()"></i>
+        </div>
+    </h5>
+    <h5 *ngIf="mode" class="modal-title d-flex justify-content-center align-items-center">
+        Add User
+    </h5>
+    <div class="float-right modal-btn">
+        <div [ngClass]="{row:!mode }">
+            <div class="cursor-pointer" *ngIf="!mode">
+                <button class="btn_next_pre_color cus-hov float-left" type="button" [ngClass]="{'disableEvent':currentuserIndex === 0}" [disabled]="currentuserIndex === 0">
+                    <i class="fa fa-angle-double-left color-white" ngbTooltip="Previous" triggers="hover" container="body" tooltipClass="default"
+                        aria-hidden="true" (click)="prevNext('Prev')"></i>
+                </button>
+                <button class="btn_next_pre_color cus-hov float-left" type="button" [ngClass]="{'disabledEvent':currentuserIndex ===  idNextPrev.length-1}"
+                    [disabled]="currentuserIndex ===  idNextPrev.length-1">
+                    <i class="fa fa-angle-double-right color-white" ngbTooltip="Next" triggers="hover" container="body" tooltipClass="default"
+                        aria-hidden="true" (click)="prevNext('Next')"></i>
+                </button>
+            </div>
+            <div (click)="checkChanges('')" class="cursor-pointer cus-hov float-left">
+                <i class="fa fa-times color-white"></i>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Dialog Title End -->
+<div class="modal-body">
+    <form [formGroup]="UserDetailForm" class="row">
+        <div class="col-24">
+            <div class="d-inline-block mr-3">Personal Details</div>
+            <div class="custom-control custom-checkbox d-inline-block">
+                <input type="checkbox" formControlName="isActive" class="custom-control-input" id="isActive">
+                <label class="custom-control-label font-weight-bold" for="isActive">IsActive
+                </label>
+            </div>
+            <div class="border rounded p-2 mt-2">
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <ng-select #salutation [items]="lookupData.salutionList " bindLabel="name" [multiple]="false" bindValue="id" appendTo="body"
+                            [closeOnSelect]="false" [searchable]="false" [clearable]="false" placeholder="Salutation" clearAllText="Clear"
+                            formControlName="salutation">
+                            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                <div>
+                                    <label class="">{{item.name}}</label>
+                                </div>
+                            </ng-template>
+                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                <app-select-multi-label class="w-100" [groupItems]="items" [lookup]="lookupData.salutionList ">
+                                </app-select-multi-label>
+                            </ng-template>
+                        </ng-select>
+                    </div>
+
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <div class="form-field required">
+                            <div class="form-field-control">
+                                <input id="email" type="text" formControlName="email" class=" form-field-input" placeholder=" ">
+                                <label for="Email" class="form-field-label">Email
+                                </label>
+                                <div id="email" class="form-field-bar">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <ng-select #role [items]="lookupData.roleList " bindLabel="name" [multiple]="false" bindValue="id" appendTo="body" [closeOnSelect]="false"
+                            [searchable]="false" [clearable]="false" placeholder="Role" clearAllText="Clear" class="salesprocessstatusdialog"
+                            formControlName="role">
+                            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                <div>
+                                    <label class="">{{item.name}}</label>
+                                </div>
+                            </ng-template>
+                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                <app-select-multi-label class="w-100" [groupItems]="items" [lookup]="lookupData.roleList ">
+                                </app-select-multi-label>
+                            </ng-template>
+                        </ng-select>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 ">
+                        <div class="form-field required">
+                            <div class="form-field-control">
+                                <input id="firstName" type="text" formControlName="firstName" class=" form-field-input" placeholder=" ">
+                                <label for="firstName" class="form-field-label">First Name
+                                </label>
+                                <div class="form-field-bar">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <input id="aliasFirstName" type="text" formControlName="aliasFirstName" class=" form-field-input" placeholder=" ">
+                                <label for="aliasFirstName" class="form-field-label">Alias FirstName
+                                </label>
+                                <div class="form-field-bar">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <div class="form-field-control">
+                            <input id="Designation" type="text" formControlName="designation" class=" form-field-input" placeholder=" ">
+                            <label for="Designation" class="form-field-label">Designation
+                            </label>
+                            <div class="form-field-bar">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 ">
+                        <div class="form-field required">
+                            <div class="form-field-control">
+                                <input id="lastName" type="text" formControlName="lastName" class=" form-field-input" placeholder=" " (blur)="checkInput()">
+                                <label for="lastName" class="form-field-label">Last Name
+                                </label>
+                                <div class="form-field-bar">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <input id="aliasLastName" type="text" formControlName="aliasLastName" class=" form-field-input" placeholder=" ">
+                                <label for="aliasLastName" class="form-field-label">Alias LastName
+                                </label>
+                                <div class="form-field-bar">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <div class="form-field">
+                            <div class="form-field-control" [ngClass]="{'cross-validation-error': UserDetailForm.controls.resellerId.errors  &&  UserDetailForm.controls.resellerId.errors.required }">
+                                <ng-select #resellerId [items]="lookupData.resellerList " bindLabel="name" [multiple]="false" bindValue="id" appendTo="body"
+                                    [closeOnSelect]="false" [searchable]="false" [clearable]="false" placeholder="Reseller" class="salesprocessstatusdialog"
+                                    clearAllText="Clear" formControlName="resellerId">
+                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                        <div>
+                                            <label class="">{{item.name}}</label>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                        <app-select-multi-label class="w-100" [groupItems]="items" [lookup]="lookupData.resellerList ">
+                                        </app-select-multi-label>
+                                    </ng-template>
+                                    <ng-template ng-header-tmp>
+                                        <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="resellerId.filter($event.target.value)"
+                                        />
+                                    </ng-template>
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 ">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <input id="userName" type="text" formControlName="userName" class=" form-field-input" placeholder=" ">
+                                <label for="userName" class="form-field-label">User Name
+                                </label>
+                                <div class="form-field-bar">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <div class="form-field required">
+                            <div class="form-field-control">
+                                <input id="password" type="password" formControlName="password" class=" form-field-input" placeholder=" ">
+                                <label for="password" class="form-field-label">Password
+                                </label>
+                                <div class="form-field-bar">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <div class="col-xs-24 small_datepicker">
+                                    <md2-datepicker type="date" format="MM/dd/y" placeholder="Joining Date" name="joiningDate" id="joiningDate" openOnFocus="true"
+                                        mode="landscape" formControlName="joiningDate">
+                                    </md2-datepicker>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 ">
+                        <ng-select #responsibleperson [items]="responsiblePerson.responsiblePesronList " bindLabel="name" [multiple]="true" bindValue="id"
+                            appendTo="body" [closeOnSelect]="false" [searchable]="false" [clearable]="false" groupBy="group"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" placeholder="Time Accounting Approver"
+                            clearAllText="Clear" formControlName="timesheetApproverId" class="salesprocessstatusdialog" (open)="onClearAll()">
+                            <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                    <input type="checkbox" id="item-{{index}}" type="checkbox" [checked]="item$.selected" class="custom-control-input" />
+                                    <label class="custom-control-label font-weight-bold">{{item.group}}</label>
+                                </div>
+                            </ng-template>
+                            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                    <input id="item-{{index}}" type="checkbox" [checked]="item$.selected" class="custom-control-input" />
+                                    <label class="custom-control-label">{{item.name}}</label>
+                                </div>
+                            </ng-template>
+                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                <app-select-multi-label class="w-100" [groupItems]="items" [lookup]="responsiblePerson.responsiblePesronList ">
+                                </app-select-multi-label>
+                            </ng-template>
+                            <ng-template ng-header-tmp>
+                                <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="filterData($event.target.value)"
+                                />
+                                <button (click)="onSelectAll('timesheetApproverId')" class="btn btn-sm btn-secondary">All</button>
+                                <button (click)="onClearAll('timesheetApproverId')" class="btn btn-sm btn-secondary ml-2">None</button>
+                            </ng-template>
+                        </ng-select>
+                    </div>
+
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <div class="form-field" [ngClass]="{'required': (disablePhoneElement === false || disableChatElement === false)}">
+                            <div class="form-field-control">
+                                <ng-select #language [items]="languageList" bindLabel="name" [multiple]="false" bindValue="id" appendTo="body" [closeOnSelect]="false"
+                                    [searchable]="false" [clearable]="false" placeholder="Language" clearAllText="Clear" formControlName="language">
+                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                        <div class="custom-control custom-checkbox d-inline-block">
+                                            <label>{{item.name}}</label>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                        <app-select-multi-label class="w-100" [groupItems]="items" [lookup]="languageList">
+                                        </app-select-multi-label>
+                                    </ng-template>
+
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <div class="col-xs-24 small_datepicker" *ngIf="!mode">
+                                    <md2-datepicker type="date" format="MM/dd/y" placeholder="Left Date" name="leftDate" id="leftDate" openOnFocus="true" mode="landscape"
+                                        formControlName="leftDate">
+                                    </md2-datepicker>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row pt-3">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 ">
+                        <div class="custom-control custom-checkbox d-inline-block">
+                            <input type="checkbox" formControlName="timeAccounting" class="custom-control-input" id="timeAccounting" (change)="changeBreakExplanationValue()">
+                            <label class="custom-control-label" for="timeAccounting">Time Accounting ?
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <div class="custom-control custom-checkbox d-inline-block">
+                            <input type="checkbox" formControlName="breakExplanation" class="custom-control-input" id="breakExplanation">
+                            <label class="custom-control-label" for="breakExplanation">Break Explanation ?
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <div class="custom-control custom-checkbox d-inline-block">
+                            <input type="checkbox" formControlName="PDManagerView" class="custom-control-input" id="PdManagerView">
+                            <label class="custom-control-label" for="PdManagerView">PD Manager View ?
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-24 mt-3">
+            <div class="d-inline-block mr-3">Plivo Details</div>
+            <div class="custom-control custom-checkbox d-inline-block">
+                <input type="checkbox" formControlName="allowPhone" class="custom-control-input" id="allowPhone" (change)="disableControls()">
+                <label class="custom-control-label font-weight-bold" for="allowPhone">Enable Phone
+                </label>
+            </div>
+            <div class="border rounded p-2 mt-2">
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 ">
+                        <div class="form-field " [ngClass]="{'required' : disablePhoneElement == false}">
+                            <div class="form-field-control">
+                                <input id="plivoUserName" type="text" formControlName="plivoUserName" class=" form-field-input" placeholder=" ">
+                                <label for="plivoUserName" class="form-field-label">Plivo User Name
+                                </label>
+                                <div class="form-field-bar">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <div class="form-field " [ngClass]="{'required' : disablePhoneElement == false}">
+                            <div class="form-field-control">
+                                <input id="extension" type="number" formControlName="extension" class=" form-field-input" placeholder=" ">
+                                <label for="extension" class="form-field-label">Extension
+                                </label>
+                                <div class="form-field-bar">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <ng-select #queue [items]="lookupData.pbxQueueList" bindLabel="name" [multiple]="true" bindValue="id" appendTo="body" [closeOnSelect]="false"
+                            [searchable]="false" [clearable]="false" placeholder="Queue" clearAllText="Clear" class="salesprocessstatusdialog"
+                            formControlName="queue">
+                            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                    <input id="item-{{index}}" type="checkbox" [checked]="item$.selected" class="custom-control-input" />
+                                    <label class="custom-control-label">{{item.name}}</label>
+                                </div>
+                            </ng-template>
+                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                <app-select-multi-label class="w-100" [groupItems]="items" [lookup]="lookupData.pbxQueueList">
+                                </app-select-multi-label>
+                            </ng-template>
+                            <ng-template ng-header-tmp>
+                                <button (click)="onSelectAll('queue')" class="btn btn-sm btn-secondary">All</button>
+                                <button (click)="onClearAll('queue')" class="btn btn-sm btn-secondary ml-2">None</button>
+                            </ng-template>
+                        </ng-select>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 ">
+                        <div class="form-field " [ngClass]="{'required' : disablePhoneElement == false}">
+                            <div class="form-field-control">
+                                <input id="plivoPwd" type="password" formControlName="plivoPwd" class=" form-field-input" placeholder=" ">
+                                <label for="plivoPwd" class="form-field-label">Plivo Pwd
+                                </label>
+                                <div class="form-field-bar">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 mt-3">
+                        <div class="custom-control custom-checkbox d-inline-block">
+                            <input type="checkbox" formControlName="allowIncomingCall" class="custom-control-input" id="allowIncomingCall">
+                            <label class="custom-control-label" for="allowIncomingCall">Allow Incoming Call
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-24 mt-3">
+            <div class="d-inline-block mr-3">Chat Details</div>
+            <div class="custom-control custom-checkbox d-inline-block">
+                <input type="checkbox" formControlName="allowChat" class="custom-control-input" id="allowChat" (change)="disableChatControls()">
+                <label class="custom-control-label font-weight-bold" for="allowChat">Enable Chat
+                </label>
+            </div>
+            <div class="border rounded p-2 mt-2">
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 ">
+                        <div class="form-field" [ngClass]="{'required': disableChatElement === false}">
+                            <div class="form-field-control">
+                                <ng-select #chatQueue [items]="lookupData.chatQueueList" bindLabel="name" [multiple]="true" bindValue="id" appendTo="body"
+                                    [closeOnSelect]="false" [searchable]="false" [clearable]="false" placeholder="Chat Queue"
+                                    clearAllText="Clear" formControlName="chatQueue">
+                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                        <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                            <input id="item-{{index}}" type="checkbox" [checked]="item$.selected" class="custom-control-input" />
+                                            <label class="custom-control-label">{{item.name}}</label>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                        <app-select-multi-label class="w-100" [groupItems]="items" [lookup]="lookupData.chatQueueList">
+                                        </app-select-multi-label>
+                                    </ng-template>
+                                    <ng-template ng-header-tmp>
+                                        <button (click)="onSelectAll('chatQueue')" class="btn btn-sm btn-secondary">All</button>
+                                        <button (click)="onClearAll('chatQueue')" class="btn btn-sm btn-secondary ml-2">None</button>
+                                    </ng-template>
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-24 mt-3" *ngIf="loggedUserDetail.assessmentAdminUser == true && !mode">
+            <div class="d-inline-block mr-3">Assessment Settings</div>
+            <div class="custom-control custom-checkbox d-inline-block">
+                <input type="checkbox" formControlName="enableAssessment" class="custom-control-input" id="enableAssessment" (change)="disableAssessmentControls()">
+                <label class="custom-control-label font-weight-bold" for="enableAssessment">Enable Assessment
+                </label>
+            </div>
+            <div class="border rounded p-2">
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <div class="form-field" [ngClass]="{'cross-validation-error required': disableAssessmentElement === false}">
+                            <div class="form-field-control">
+                                <ng-select #assessmentRole [items]="assessmentRoleList" bindLabel="name" [multiple]="false" bindValue="id" appendTo="body"
+                                    [closeOnSelect]="false" [searchable]="false" [clearable]="false" placeholder="Role" clearAllText="Clear"
+                                    formControlName="assessmentRole">
+                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                        <div class="custom-control custom-checkbox d-inline-block">
+                                            <label>{{item.name}}</label>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                        <app-select-multi-label class="w-100" [groupItems]="items" [lookup]="assessmentRoleList">
+                                        </app-select-multi-label>
+                                    </ng-template>
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 mt-3">
+                        <span class="font-14">
+                            <a id="selectExpertise" [routerLink]="[]" (click)="openExpertiseDialog()">Click to add user expertise
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <div class="mr-auto">
+        <div class="font-weight-bold" *ngIf="user.createdByName !==undefined && user.createdByName!==''">
+            Created By :
+            <span class="font-weight-normal">{{user.createdByName}}, {{disCreatedDate}}</span>
+        </div>
+        <div class="font-weight-bold" *ngIf="user.updatedDate !== undefined">Updated By :
+            <span class="font-weight-normal">{{user.updatedByName}}, {{disUpdatedDate}}</span>
+        </div>
+    </div>
+    <button class="btn btn-outline-primary" id="save" name="save" [disabled]="!UserDetailForm.valid" (click)="save()">Save</button>
+    <button class="btn btn-outline-primary" id="cancel" name="cancel" (click)="close()">Cancel
+    </button>
+</div>

@@ -1,0 +1,157 @@
+<!--Dialog header-->
+<div class="modal-header">
+    <h5 class="modal-title">
+        Dialer
+    </h5>
+    <!-- <div class="pull-right modal-btn padding_top_2">
+        <div class="cursor_-ointer">
+            <div (click)="close()" class="cus-hov">
+                <i class="fa fa-times color-white"></i>
+            </div>
+        </div>
+    </div> -->
+    <div class="float-right">
+        <div (click)="close()" class="cus-hov">
+            <i class="fa fa-times"></i>
+        </div>
+    </div>
+</div>
+<!--Dialog header End -->
+
+<div class="modal-body">
+    <form [formGroup]="dialerDetailsForm">
+        <div class="col-24 col-sm-24 col-md-24 col-lg-24 col-xl-24">
+            <div class="row">
+                <div class="col-20 col-sm-20 col-md-20 col-lg-20 col-xl-20">
+                    <div class="row">
+                        <div class="col-20 col-sm-20 col-md-20 col-lg-20 col-xl-20 pr-0">
+                            <div class="form-field">
+                                <div class="form-field-control">
+                                    <div [ngClass]="{'cross-validation-error': dialerDetailsForm.controls.phoneNo.errors  &&  dialerDetailsForm.controls.phoneNo.errors.required }">
+                                        <input id="phoneNo" type="text" class="form-field-input" formControlName="phoneNo" (keypress)="isValidInput($event)" (key.enter)="dial()"
+                                            required>
+                                        <label for="phoneNo" class="form-field-label">Enter Number</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                            <i *ngIf="dialerDetailsForm.controls.phoneNo.value" (click)="phoneNoClear()" class="fa fa-times color_gray font-size-36 cursor-pointer"
+                                aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 clearfix" *ngIf="dialerData.makeCall===true">
+                    <div class="icons-wrapper telephone-button" (click)="dial()">
+                        <i class="fas fa-phone-alt fa-2x" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <!-- <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 pl-0 pr-0 clearfix"
+                    *ngIf="dialerData.makeCall===false">
+                    <div class="icons-wrapper red-endcall-icon" (click)="endCall()">
+                        <i class="fas fa-phone-alt fa-2x" aria-hidden="true"></i>
+                    </div>
+                    <div class="header-toggle-wrap margin_top_10 position_relative cursor-pointer microp-one_head">
+                        <i class="fa fa-microphone fa-2x" aria-hidden="true" *ngIf="dialerData.isMute===false"
+                            (click)="muteUnMuteTheMic(true)"></i>
+                        <i class="fa fa-microphone-slash fa-2x" aria-hidden="true" *ngIf="dialerData.isMute===true"
+                            (click)="muteUnMuteTheMic(false)"></i>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <div class="col-17 col-sm-17 col-md-17 col-lg-17 col-xl-17">
+            <div class="form-field-control">
+                <ng-select #countryCodeListDialer [items]="countryDetails" bindLabel="label" bindValue="value" [multiple]="false" placeholder="Country"
+                    clearAllText="Clear" [selectableGroup]="true" appendTo="body" formControlName="countryCodeListDialer" [closeOnSelect]="true"
+                    [searchable]="false" [clearable]="false">
+                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                        <div class="d-inline-block mr-4 ln-normal">
+                            <label>
+                                <span class="flag-icon flag-icon-{{item.countryCode}} mr-2"></span>{{item.label}}</label>
+                        </div>
+                    </ng-template>
+                    <ng-template ng-header-tmp>
+                        <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="countryCodeListDialer.filter($event.target.value)"
+                        />
+                    </ng-template>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-24 col-sm-24 col-md-24 col-lg-24 col-xl-24">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <div id="dialer">
+                        <div class="keys">
+                            <div class="key-row">
+                                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('1')">1
+
+                                </button>
+                                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('2')">2
+                                    <span class="alphabet-color">A B C</span>
+                                </button>
+                                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('3')">3
+                                    <span class="alphabet-color">D E F</span>
+                                </button>
+
+                            </div>
+                            <div class="key-row">
+                                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('4')">4
+                                    <span class="alphabet-color">G H I</span>
+                                </button>
+                                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('5')">5
+                                    <span class="alphabet-color">J K L</span>
+                                </button>
+                                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('6')">6
+                                    <span class="alphabet-color">M N O</span>
+                                </button>
+
+
+                            </div>
+                            <div class="key-row">
+
+                                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('7')">7
+                                    <span class="alphabet-color">P Q R S</span>
+                                </button>
+                                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('8')">8
+                                    <span class="alphabet-color">T U V</span>
+                                </button>
+                                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('9')">9
+                                    <span class="alphabet-color">W X Y Z</span>
+                                </button>
+
+                            </div>
+                            <div class="key-row last-row">
+                                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('*')">*</button>
+                                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('0')">0</button>
+                                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('#')">#</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-24 col-sm-24 col-md-24 col-lg-24 col-xl-24" *ngIf="rowData && rowData.length > 0 && rowData[0] !== 'autoHeight'">
+            <div class="row">
+                <div class="col-xl-12">
+                    <h4>Online Agents</h4>
+                </div>
+                <div class="col-xl-12 text-right pt-2">
+                    <span (click)="getAllPilvoUserOnline();startRefresh=true" ngbTooltip="Refresh Plivo Online Users" container="body" tooltipClass="default"
+                        data-placement="bottom">
+                        <i class="fas fa-sync font_size_18" [ngClass]="{'fa-spin':startRefresh==true}"></i>
+                    </span>
+                </div>
+            </div>
+            <ag-grid-angular #agGrid id="myGrid" style="width: 100%; height:100%" class="ag-theme-balham" [rowData]="rowData" [columnDefs]="columnDefs"
+                [domLayout]="domLayout" [enableCellTextSelection]="true" (gridReady)="onGridReady($event)" [animateRows]='true'
+                [floatingFilter]="true" (rowClicked)="onRowClicked($event)">
+            </ag-grid-angular>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-outline-primary" id="cancel" name="cancel" (click)="close()">Cancel
+    </button>
+</div>

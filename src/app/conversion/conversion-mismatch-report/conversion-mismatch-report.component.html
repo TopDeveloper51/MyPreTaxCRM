@@ -1,0 +1,34 @@
+<div class="col-lg-24 col-sm-24 col-md-24 col-xl-24">
+    <form>
+        <div class="row pt-3">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xl-3">
+                <md2-datepicker type="date" format="MM/dd/y" placeholder="Date" name="date" [(ngModel)]="dateToSearchOn"
+                    id="startdate" openOnFocus="false" mode="landscape" (change)="onDateChange()">{{dateToSearchOn}}
+                </md2-datepicker>
+            </div>
+            <div class="col-lg-21 col-md-21 col-sm-21 col-xl-21">
+                <span class="float-right">
+                    <button class="btn btn-outline-primary mr-2" id="search" name="search"
+                        [disabled]="dateToSearchOn == ''" (click)="search()">Search</button>
+                </span>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div *ngIf="rowData && rowData.length>0 && rowData[0] !== 'autoHeight'">
+    <div class="col-lg-24 col-xl-24 col-md-24 col-sm-24 ml-3">
+        <b>Total Available Data ({{rowData.length | number}})
+        </b>
+        <ag-grid-angular style="width: 100%;" class="ag-theme-balham" [columnDefs]="columnDefs" [pagination]="true"
+            [rowData]="rowData" (gridReady)="onGridReady($event)" [enableCellTextSelection]="true" [domLayout]="domLayout">
+        </ag-grid-angular>
+    </div>
+</div>
+
+<div *ngIf="rowData && rowData.length == 0">
+    <div class="col-lg-24 col-xl-24 col-md-24 col-sm-24 pt-4">
+        <b> No Data Available </b>
+    </div>
+</div>

@@ -1,0 +1,242 @@
+<div class="d-blcok background p-3 mb-2" [ngClass]="{'background':customerInfo}">
+    <!-- width:375px; -->
+    <div class="row">
+        <div class="col col-auto">
+            <img class="cursor-pointer" src="assets/images/Angebot1.png" width="20px" height="20px"
+                title="Open Customer Card" (click)="goToCustomerCart()" />
+        </div>
+        <div class="col pd-agent-address">
+            <h3 class="m-0">{{customerInfo.firstName}} {{customerInfo.lastName}}</h3>
+            <h4 class="m-0" *ngIf="customerInfo.customerName !== undefined && customerInfo.customerName !== null">
+                {{customerInfo.customerName}}</h4>
+            <div class="d-block ">
+                <p class="m-0"
+                    *ngIf="customerInfo.mainAddress.address1 !== undefined && customerInfo.mainAddress.address1 !== null">
+                    {{customerInfo.mainAddress.address1}}</p>
+                <p class="m-0"
+                    *ngIf="customerInfo.mainAddress.address2 !== undefined && customerInfo.mainAddress.address2 !== null">
+                    {{customerInfo.mainAddress.address2}}</p>
+                <p class="m-0">
+                    <span>{{customerInfo.mainAddress.city}}</span>
+                    <span *ngIf="customerInfo.mainAddress.city !== undefined">, </span>
+                    <span>{{customerInfo.mainAddress.state}} {{customerInfo.mainAddress.zipCode}}</span>
+                </p>
+                <p class="m-0" *ngIf="customerInfo.phone !== undefined && customerInfo.phone !== null">
+                    {{customerInfo.phone | phone}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="d-blcok bg-light p-3">
+    <div class="row position-relative">
+        <div class="activity-newTab" >
+            <!-- *ngIf="customerInfo.actId !== undefined" -->
+            <i class="fas fa-external-link-alt cursor-pointer font-18" title="Open Activity in a new tab"
+            (click)="goToActivity()"></i>
+            <!-- <img class="cursor-pointer" src="assets/images/external-link.png" title="Open Activity in a new tab"
+                (click)="goToActivity()" /> -->
+        </div>
+        <div class="col col-auto">
+            <img class="cursor-pointer" src="assets/images/tasks1.png" width="20px" title="Open Ticket" (click)="goToTicket()" />
+        </div>
+        
+        <div class="col ticket-info-inner">
+            <h3 class="mb-2">Ticket Information</h3>
+            <p class="my-1 text-primary font-18 font-weight-bold text-primary" *ngIf="customerInfo.reasonForCall">{{customerInfo.reasonForCall}}</p>
+            <p class="mb-1" *ngIf="overviewForRenewalDetails && overviewForRenewalDetails.renewalGroup">Renewal Group: <span class="font-weight-bold">{{overviewForRenewalDetails.renewalGroup}}</span></p>
+            <p class="mb-1" *ngIf="overviewForDialer.revertedBackToDialer && overviewForDialer.revertedBackToDialerETDate">
+                Reverted Back to Dialer on <span class="font-weight-bold">{{overviewForDialer.revertedBackToDialerETDate}}</span> due to unattended Appointment
+            </p>
+            <p class="mb-1" *ngIf="ticketInfo.ticketStatus && ticketInfo.ticketStatus.toLowerCase() === 'try again this year'">
+                Ticket Status: <span class="font-weight-bold">{{ticketInfo.ticketStatus}}</span>
+            </p>
+            <p class="mb-1" *ngIf="overviewForDialer.bankProductInfo !== undefined && overviewForDialer.bankProductInfo !== null && overviewForDialer.bankProductInfo.category !== undefined && overviewForDialer.bankProductInfo.category !== null">
+                {{overviewForDialer.bankProductInfo.category}}
+            </p>
+            <p class="mb-1" *ngIf="overviewForDialer.customerStatus !== undefined && overviewForDialer.customerStatus !== null && overviewForDialer.customerStatus.customerStatus !== undefined && overviewForDialer.customerStatus.customerStatus !== null">
+                {{overviewForDialer.customerStatus.customerStatus}} <span
+                *ngIf="overviewForDialer.customerStatus.lastestRegistrationDate !== undefined && overviewForDialer.customerStatus.lastestRegistrationDate !== null">
+                since {{overviewForDialer.customerStatus.lastestRegistrationDate}}</span>
+            </p>
+            <p class="mb-1" *ngIf="overviewForDialer.EFINFlagData">
+                <span *ngIf="overviewForDialer.EFINFlagData && overviewForDialer.EFINFlagData.ElectronicReturnOriginator === true">EFIN Holder</span>
+                <span *ngIf="overviewForDialer.EFINFlagData.addedEFIN_IRS_DB_After"> - added to EFIN IRS database
+                    after {{overviewForDialer.EFINFlagData.addedEFIN_IRS_DB_After}}</span>
+            </p>
+            <p class="mb-1" *ngIf="overviewForDialer.NYCallQueueActivity !== undefined && overviewForDialer.NYCallQueueActivity.NYCallQueueActivity">
+                <img src="assets/images/Approved.png"> Call Next Year
+            </p>
+            <p class="mb-1">
+
+            </p>
+            <p class="mb-1" *ngIf="overviewForDialer.webSiteVisit !== undefined && overviewForDialer.webSiteVisit !== null && overviewForDialer.webSiteVisit.recentVisits !== undefined && overviewForDialer.webSiteVisit.recentVisits !== null && overviewForDialer.webSiteVisit.recentVisits.length>0">
+                <span *ngFor="let data of overviewForDialer.webSiteVisit.recentVisits">
+                    <br />{{data.date}} - Visited {{data.page}} Page</span>
+            </p>
+
+            <div class="d-block mt-3" *ngIf="overviewForRenewalDetails">
+                <!-- <div class="col-xs-24 clearfix information_padding" *ngIf="overviewForRenewalDetails.category">
+                    <label class="font-weight-normal">{{overviewForRenewalDetails.category}}</label>
+                </div> -->
+                <p class="mb-1" *ngIf="overviewForRenewalDetails.LPGLost" title="Lifetime Price Guarantee Expired">
+                    LPG Expired <i class="fas fa-exclamation-triangle text-danger"></i>                    
+                </p>
+
+                <p class="mb-1" *ngIf="!overviewForRenewalDetails.LPGLost" title="Lifetime Price Guarantee Applicable">
+                    LPG Applicable <img class="col_img padding_left_5" src="assets/images/OK.png" />
+                </p>
+
+                <p class="mb-1" *ngIf="(overviewForRenewalDetails.priceGuranteePrice !== undefined && overviewForRenewalDetails.priceGuranteePrice !== null) || (overviewForRenewalDetails.currentPrice !== undefined && overviewForRenewalDetails.currentPrice !== null)">
+                    PG Price / Current Price:
+                    <span class="font-weight-bold">                        
+                        ${{overviewForRenewalDetails.priceGuranteePrice}} / ${{overviewForRenewalDetails.currentPrice}}                        
+                    </span>
+                </p>
+
+                <p class="mb-1" *ngIf="(overviewForRenewalDetails.threeForTwoOfferPrice !== undefined && overviewForRenewalDetails.threeForTwoOfferPrice !== null)">
+                    3 for 2 price:
+                    <span class="font-weight-bold">                        
+                        ${{overviewForRenewalDetails.threeForTwoOfferPrice}}
+                    </span>
+                </p>
+
+                <p class="mb-1" *ngIf="(overviewForRenewalDetails.priceGuranteePackage !== undefined && overviewForRenewalDetails.priceGuranteePackage !== null)">
+                    PG Package: {{overviewForRenewalDetails.priceGuranteePackage}}
+                </p>
+
+                
+                <p class="mb-1" *ngIf="overviewForRenewalDetails.BPApplied && overviewForRenewalDetails.BPApplied != 0">
+                    BP Applied / Funded:
+                    <span class="font-weight-bold">                        
+                        {{overviewForRenewalDetails.BPApplied}} / {{overviewForRenewalDetails.BPFunded}}
+                    </span>
+                </p>
+
+                <p class="mb-1" *ngIf="overviewForRenewalDetails.BanksClientEnrolled">
+                    Banks Enrolled: {{overviewForRenewalDetails.BanksClientEnrolled}}
+                </p>
+
+                <!-- <div class="clearfix col-sm-24 padding_l_r_0 ticket-info-inner" *ngIf="overviewForRenewalDetails.returnsEfiled && overviewForRenewalDetails.returnsEfiled != 0">
+                    <div class="col-xs-24 clearfix information_padding">
+                        <label class="font-weight-normal">
+                            E-Filed / Accepted:
+                            <b> {{overviewForRenewalDetails.returnsEfiled}} / {{overviewForRenewalDetails.returnsAccepted}}</b>
+                        </label>
+                    </div>
+                </div> -->
+
+
+                <p class="mb-1" *ngFor="let obj of overviewForRenewalDetails.returnStatus">
+                    E-Filed {{obj.year.substring(2)}} / Accepted {{obj.year.substring(2)}}:
+                    <span class="font-weight-bold">                        
+                        {{obj.returnsEfiled}} / {{obj.returnsAccepted}}
+                    </span>
+                </p>
+
+                <p class="mb-1" *ngIf="overviewForRenewalDetails.customerSince !== undefined && overviewForRenewalDetails.customerSince !== null">
+                    Customer since {{overviewForRenewalDetails.customerSince}} years
+                </p>
+
+                <p class="mb-1" *ngIf="overviewForRenewalDetails.emailOrPhoneVerificationDetails !== undefined && overviewForRenewalDetails.emailOrPhoneVerificationDetails !== null">
+                    <span class="d-block" *ngFor="let obj of overviewForRenewalDetails.emailOrPhoneVerificationDetails.email">
+                        {{obj.email}} ({{obj.firstName}}) <img class="col_img padding_left_5" src="assets/images/OK.png" />
+                    </span>
+                    <span class="d-block" *ngFor="let obj of overviewForRenewalDetails.emailOrPhoneVerificationDetails.phone">
+                        {{obj.phone | phone}} ({{obj.firstName}}) <img class="col_img padding_left_5" src="assets/images/OK.png" />
+                    </span>
+                </p>
+
+                <p class="mb-1" *ngIf="overviewForRenewalDetails.clientPortalInfo !== undefined && overviewForRenewalDetails.clientPortalInfo !== null">
+                    <span class="d-block mb-1">
+                        <span class="d-inline-block">Client Portal Usage</span> 
+                        <span class="d-inline-block pl-1">                            
+                            <img *ngIf="overviewForRenewalDetails.clientPortalInfo.clientPortalUsed"
+                                class="col_img padding_left_5" src="assets/images/OK.png" />
+                            <img *ngIf="!overviewForRenewalDetails.clientPortalInfo.clientPortalUsed"
+                                class="col_img padding_left_5" src="assets/images/NOK.png" />
+                        </span>
+                    </span>
+                    <span class="d-block" *ngIf="overviewForRenewalDetails.clientPortalInfo.clientPortalUsed">
+                        <span class="d-block mb-1" title="Number of Remote Signature Requests">
+                            No. of Remote Signature Req.: {{overviewForRenewalDetails.clientPortalInfo.noOfRemoteSignatures}}
+                        </span>
+                        <span class="d-block mb-1" title="Number of Client Invites">
+                            No. of Client Invites: {{overviewForRenewalDetails.clientPortalInfo.noOfInvitedClients}}
+                        </span>
+                    </span>
+                </p>
+
+                <p class="mb-1" *ngIf="overviewForRenewalDetails.trainingStatus">
+                    Training Status: {{overviewForRenewalDetails.trainingStatus}}
+                </p>
+
+            </div>
+
+            <!-- <div class="mb-1" *ngIf="customerInfo.ReasonForSetUpCall && configureOutCome.indexOf('DML_SETUP_') !== -1">
+                <div class="col-xs-24 clearfix information_padding">
+                    <label class="font-weight-normal">
+                        Reason for Setup Call:
+                        <b> {{customerInfo.ReasonForSetUpCall}} </b>
+                    </label>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+
+
+<!-- RENEWAL BLOCK START -->
+<!-- <div class="clearfix" *ngIf="configureOutCome.indexOf('DML_RENEWAL_') !== -1">
+    <div class="col-xs-24 clearfix padding_l_r_0 ticket-info-block">
+        <div class="header_dialer_left">
+            <img class="cursor-pointer" src="assets/images/tasks1.png" title="Open Ticket" (click)="goToTicket()" />
+        </div>
+        <div class="clearfix col-sm-24 padding_l_r_0 ticket-info-inner">
+            <div class="col-xs-24 clearfix information_padding ticket-info-title">
+                <label>Ticket Information</label>
+            </div>
+            <div class="col-xs-24 clearfix information_padding" *ngIf="overviewForDialer.revertedBackToDialer && overviewForDialer.revertedBackToDialerETDate"
+                style="padding-bottom:5px;">
+                <label class="font-weight-normal">
+                    Reverted Back to Dialer on
+                    <b> {{overviewForDialer.revertedBackToDialerETDate}}</b>
+                    due to unattended Appointment
+                </label>
+            </div>
+            <div class="col-xs-24 clearfix information_padding" *ngIf="ticketInfo.ticketStatus && ticketInfo.ticketStatus.toLowerCase() === 'try again this year'"
+                style="padding-bottom:5px;">
+                <label class="font-weight-normal">
+                    Ticket Status:
+                    <b> {{ticketInfo.ticketStatus}}</b>
+                </label>
+            </div>
+            <div class="col-xs-24 clearfix information_padding">
+                <label class="font-weight-normal">{{overviewForRenewalDetails.category}}</label>
+            </div>
+        </div>
+        <div class="clearfix col-sm-24 padding_l_r_0 ticket-info-inner">
+            <div class="col-xs-24 clearfix information_padding">
+                <label class="font-weight-normal">{{overviewForRenewalDetails.priceGuranteePackage}} / ${{overviewForRenewalDetails.priceGuranteePrice}}
+                </label>
+            </div>
+        </div>
+        <div class="clearfix col-sm-24 padding_l_r_0 ticket-info-inner" *ngIf="overviewForRenewalDetails.returnsEfiled && overviewForRenewalDetails.returnsEfiled != 0">
+            <div class="col-xs-24 clearfix information_padding">
+                <label class="font-weight-normal">
+                    E-Filed / Accepted:
+                    <b> {{overviewForRenewalDetails.returnsEfiled}} / {{overviewForRenewalDetails.returnsAccepted}}</b>
+                </label>
+            </div>
+        </div>
+        <div class="clearfix col-sm-24 padding_l_r_0 ticket-info-inner" *ngIf="overviewForRenewalDetails.BPApplied && overviewForRenewalDetails.BPApplied != 0">
+            <div class="col-xs-24 clearfix information_padding">
+                <label class="font-weight-normal">
+                    BP Applied / Funded:
+                    <b> {{overviewForRenewalDetails.BPApplied}} / {{overviewForRenewalDetails.BPFunded}} </b>
+                </label>
+            </div>
+        </div>
+    </div>
+</div> -->
+<!-- RENEWAL BLOCK END -->

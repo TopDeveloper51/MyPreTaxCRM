@@ -1,0 +1,44 @@
+.td-set{
+  text-align: right;
+  width: 4%; 
+  display:inline-grid;
+}
+.font_size_25 {
+  font-size: 25px;
+}
+.h-21{
+  height: 21px;
+}
+.table-sett{
+  border:none; 
+  margin-bottom: 0px;
+}
+.page_title {
+  position: relative;
+  color: #3e3e3e;
+  text-align: left;
+  border-bottom: 1px solid #e9e9e9;
+  padding: 10px 10px 10px 10px;
+}
+.add-border-row {
+ // border-left: 1px solid rgba(0, 0, 0, .08) !important;
+  border-top: 1px solid rgba(0, 0, 0, .08) !important;
+  height:21px;
+}
+.table-set tr td tr{
+  display: block !important;
+  width: 100% !important;
+  // padding: 10px;
+}
+.table-set tr td {
+  padding: 0px;
+  border-left: 0;
+}
+
+.table th, .table td{
+  border:0 !important;
+  padding: 0 !important;
+}
+.card-header.cursor-pointer {
+  padding: 5px !important;
+}

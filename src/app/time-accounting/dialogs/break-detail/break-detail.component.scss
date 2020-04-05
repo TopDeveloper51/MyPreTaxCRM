@@ -1,0 +1,29 @@
+.wpx-100{
+    width: 100px;
+}
+button.btn.btn-outline-primary.wpx-100.btn-primary {
+    color: #fff !important;
+} 
+.btn-group button.btn.btn-outline-primary.wpx-100:first-child{
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+}
+.btn-group button.btn.btn-outline-primary.wpx-100:last-child{
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+}
+.btn-outline-primary:focus, .btn-outline-primary.focus {
+    box-shadow: none;
+    background-color: #005074;
+}
+.btn-outline-primary:hover {
+    background-color: #00364e;
+}
+
+.table td {
+    padding: 0px 10px;
+}
+
+.cross-validation-error {
+    border-bottom: 0px solid red;
+}

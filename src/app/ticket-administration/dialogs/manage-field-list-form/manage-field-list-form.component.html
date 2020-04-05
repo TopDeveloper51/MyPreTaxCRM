@@ -1,0 +1,238 @@
+<div class="">
+  <div class="modal-header dialog-header-confirm">
+    <h5 class="modal-title">
+      {{title}}
+    </h5>
+    <span (click)="closeDialog()" class="cursor-pointer cus-hov">
+      <i class="fa fa-times"></i>
+    </span>
+
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="manageFieldListForm">
+      <div class="row">
+
+        <div class="col-24 col-sm-24 col-md-24 col-xl-8">
+          <div class="form-field">
+            <div class="form-field-control">
+              <!-- <input id="name" type="text" formControlName="name" class=" form-field-input" placeholder=" " disabled *ngIf="mode">
+              <input id="name" type="text" formControlName="name" class=" form-field-input" placeholder=" " *ngIf="!mode"> -->
+              <input id="name" type="text" formControlName="name" class=" form-field-input" placeholder=" ">
+              <label for="name" class="form-field-label">
+                Name</label>
+
+            </div>
+            <div class="form-field-bar"></div>
+
+            <div *ngIf="submitted && manageFeildListFormValue.name.errors" class="invalid-feedback">
+              <div *ngIf="manageFeildListFormValue.name.errors.required">
+                Name is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="col-24 col-sm-24 col-md-12 col-xl-8">
+          <div class="form-field">
+            <div class="form-field-control">
+              <input id="label" type="text" formControlName="label" class=" form-field-input" placeholder=" ">
+              <label for="label" class="form-field-label">
+                Label</label>
+
+            </div>
+            <div class="form-field-bar"></div>
+
+            <div *ngIf="submitted && manageFeildListFormValue.label.errors" class="invalid-feedback">
+              <div *ngIf="manageFeildListFormValue.label.errors.required">
+                Label is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-24 col-sm-24 col-md-12 col-xl-8">
+          <div class="form-field">
+            <div class="form-field-control cursor-pointer">
+              <input id="tooltip" type="text" formControlName="tooltip" class=" form-field-input" placeholder=" ">
+              <label for="tooltip" class="form-field-label">
+                ToolTip</label>
+            </div>
+            <div class="form-field-bar"></div>
+
+            <div *ngIf="submitted && manageFeildListFormValue.tooltip.errors" class="invalid-feedback">
+              <div *ngIf="manageFeildListFormValue.tooltip.errors.required">
+                Tooltip is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div class="row">
+        <div class="col-24 col-sm-24 col-md-12 col-xl-8">
+          <div class="form-field">
+            <div class="form-field-control" *ngIf="mode">
+              <ng-select #inputType [items]="exampleDataInputType" bindLabel="name" bindValue="id" [multiple]="false" placeholder=" " appendTo="body"
+                formControlName="inputType" [closeOnSelect]="true" [searchable]="false" [clearable]="false" [readonly]="false">
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                  <div class="d-inline-block mr-4 ln-normal">
+                    <label>{{item.name}}</label>
+                  </div>
+                </ng-template>
+              </ng-select>
+              <div *ngIf="submitted && manageFeildListFormValue.inputType.errors" class="invalid-feedback text-left pl-1">
+                <div *ngIf="submitted && manageFeildListFormValue.inputType.errors.required">
+                  Input Type is required
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-field-control" *ngIf="!mode">
+              <ng-select #inputType [items]="exampleDataInputType" bindLabel="name" bindValue="id" [multiple]="false" placeholder=" " clearAllText="Clear"
+                appendTo="body" formControlName="inputType" [closeOnSelect]="true" [searchable]="false" [clearable]="false">
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                  <div class="d-inline-block mr-4 ln-normal">
+                    <label>{{item.name}}</label>
+                  </div>
+                </ng-template>
+              </ng-select>
+              <div *ngIf="submitted && manageFeildListFormValue.inputType.errors" class="invalid-feedback text-left pl-1">
+                <div *ngIf="submitted && manageFeildListFormValue.inputType.errors.required">
+                  Input Type is required
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <div class="col-24 col-sm-24 col-md-12 col-xl-8">
+          <div class="form-field">
+            <div class="form-field-control">
+
+              <div class="form-field-control" *ngIf="mode">
+                <ng-select #dataType [items]="exampleDataDataType" bindLabel="name" bindValue="id" [multiple]="false" placeholder=" " clearAllText="Clear"
+                  appendTo="body" formControlName="dataType" [closeOnSelect]="true" [searchable]="false" [clearable]="false"
+                  [readonly]="false">
+                  <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                    <div class="d-inline-block mr-4 ln-normal">
+                      <label>{{item.name}}</label>
+                    </div>
+                  </ng-template>
+                </ng-select>
+
+
+                <div *ngIf="submitted && manageFeildListFormValue.dataType.errors" class="invalid-feedback text-left pl-1">
+                  <div *ngIf="submitted && manageFeildListFormValue.dataType.errors.required">
+                    Data Type is required
+                  </div>
+                </div>
+              </div>
+              <div class="form-field-control" *ngIf="!mode">
+                <ng-select #dataType [items]="exampleDataDataType" bindLabel="name" bindValue="id" [multiple]="false" placeholder=" " clearAllText="Clear"
+                  appendTo="body" formControlName="dataType" [closeOnSelect]="true" [searchable]="false" [clearable]="false">
+                  <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                    <div class="d-inline-block mr-4 ln-normal">
+                      <label>{{item.name}}</label>
+                    </div>
+                  </ng-template>
+                </ng-select>
+                <div *ngIf="submitted && manageFeildListFormValue.dataType.errors" class="invalid-feedback text-left pl-1">
+                  <div *ngIf="submitted && manageFeildListFormValue.dataType.errors.required">
+                    Data Type is required
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div *ngIf="rawValue.inputType === 'dropdown' || rawValue.inputType === 'multiselect'" class="form-group" formArrayName="option">
+            <label for="staticEmail" class="font-weight-bold pt-2 mb-0">Options</label>
+            <div class="row">
+              <div class="scroll col" cdkDropList [cdkDropListData]="options.value" (cdkDropListDropped)="onDrop($event)">
+                <div *ngFor="let item of options.controls; let pointIndex=index" [formGroupName]="pointIndex.toString()" cdkDragBoundary=".scroll"
+                  cdkDrag>
+                  <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+
+                  <div class="row">
+
+                    <div class="col-8">
+                      <div class="form-field">
+                        <div class="form-field-control">
+                          <input type="text" formControlName="key" class="form-field-input" placeholder=" " id='value{{pointIndex}}'>
+                          <label for="value{{pointIndex}}" class="form-field-label">Value</label>
+                        </div>
+                        <div class="form-field-bar">
+                        </div>
+
+                        <div *ngIf="submitted && optionData['controls'][pointIndex]['controls'].key.errors" class="invalid-feedback">
+                          <div *ngIf="submitted && optionData['controls'][pointIndex]['controls'].key.errors.required">
+                            Value is required
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-8">
+                      <div class="form-field">
+                        <div class="form-field-control">
+                          <input type="text" formControlName="value" class=" form-field-input" placeholder=" " id='text{{pointIndex}}'>
+                          <label for="text{{pointIndex}}" class="form-field-label">Display Text</label>
+                        </div>
+                        <div class="form-field-bar">
+                        </div>
+                        <div *ngIf="submitted && optionData['controls'][pointIndex]['controls'].value.errors" class="invalid-feedback">
+                          <div *ngIf="submitted && optionData['controls'][pointIndex]['controls'].value.errors.required">
+                            Display Text is required
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class="col-8 d-inline-flex align-items-center">
+                      <button [disabled]="mode" class="btn btn-outline-primary p-1" cdkDragHandle>
+                        <i class="border-1 p-1 fa fa-arrows-alt cursor-pointer" title="Move Option" aria-hidden="true"></i>
+                      </button>
+                      <!-- *ngIf="pointIndex != 0" -->
+                      <button class="btn btn-outline-primary p-1 ml-1" (click)="deleteOptions(pointIndex)">
+                        <i class="border-1 p-1 fa fa-trash cursor-pointer" title="Remove Option" aria-hidden="true"></i>
+                      </button>
+                      <button class="btn btn-outline-primary p-1 ml-1" *ngIf="pointIndex === options.controls.length-1" (click)=" addOptions()">
+                        <i class="border-1 p-1 fa fa-plus cursor-pointer" title="Add Option" aria-hidden="true"></i>
+                      </button>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-primary" (click)="save()">Save</button>
+    <button type="button" class="btn btn-outline-primary" (click)="closeDialog()">Cancel</button>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+@import "node_modules/bootstrap/scss/buttons";
+// Button Variable Overwrite
+$btn-secondary-bg:#ffffff;
+$btn-secondary-border:#dddddd;
+.btn-outline-secondary {
+    @include button-variant($btn-secondary-bg, $btn-secondary-border, darken($btn-secondary-bg,10%), darken($btn-secondary-border,5%));
+}

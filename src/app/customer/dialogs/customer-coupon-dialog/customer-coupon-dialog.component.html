@@ -1,0 +1,111 @@
+<!--Dialog header-->
+<div class="modal-header">
+    <h5 class="modal-title">
+        Coupon
+    </h5>
+    <!-- <div class="pull-right modal-btn">
+        <div class="cursor-pointer mt-1">
+            <div (click)="close()" class="cursor-pointer cus-hov">
+                <i class="fa fa-times"></i>
+            </div>
+        </div>
+    </div> -->
+    <div class="float-right">
+        <div (click)="close()" class="cus-hov">
+            <i class="fa fa-times"></i>
+        </div>
+    </div>
+</div>
+<!--Dialog header End -->
+
+<div class="modal-body cal-box">
+    <form [formGroup]="couponForm">
+        <div class="row">
+            <div class="col-24 col-xl-24 col-sm-24 col-md-24">
+                <div class="form-field">
+                    <div class="form-field-control">
+                        <input id="couponCode" type="text" formControlName="couponCode" class=" form-field-input" placeholder=" " title="Coupon Code"
+                            disabled>
+                        <label for="couponCode" class="form-field-label">Coupon Code *</label>
+                        <div class="form-field-bar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-24 col-xl-24 col-sm-24 col-md-24">
+                <div class="form-field">
+                    <div class="form-field-control">
+                        <div [ngClass]="{'cross-validation-error': couponForm.controls.packageType.errors  &&  couponForm.controls.packageType.errors.required }">
+                            <!-- <ng-select #packageType bindLabel="name" [selectableGroup]="true" bindValue="id"
+                                    appendTo="body" [closeOnSelect]="true" [searchable]="false" [appAutofocus] [clearable]="false"
+                                    placeholder="Package *" clearAllText="Clear" formControlName="packageType"
+                                    [items]="packageTypeList">
+                                </ng-select> -->
+                            <ng-select #rating bindLabel="name" groupBy="group" [selectableGroup]="true" bindValue="id" appendTo="body" [items]="packageTypeList"
+                                [closeOnSelect]="true" [searchable]="false" [clearable]="false" class="salesprocessstatus" placeholder="Package *"
+                                clearAllText="Clear" formControlName="packageType" (open)="packageTypeList = packageTypeList">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-24 col-sm-24 col-md-12 col-xl-12 pl-0">
+                <div class="form-field">
+                    <div class="form-field-control datepicker-wrapper">
+                        <div class="">
+                            <md2-datepicker type="date" format="MM/dd/y" placeholder="Valid From *" name="validFrom" id="validFrom" openOnFocus="false"
+                                mode="landscape" formControlName="validFrom">
+                            </md2-datepicker>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-24 col-sm-24 col-md-12 col-xl-12">
+                <div class="form-field">
+                    <div class="form-field-control datepicker-wrapper">
+                        <div class="">
+                            <md2-datepicker type="date" format="MM/dd/y" placeholder="Valid To *" name="validTo" id="validTo" openOnFocus="false" mode="landscape"
+                                formControlName="validTo">
+                            </md2-datepicker>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-24 col-xl-24 col-sm-24 col-md-24">
+                <div class="form-field">
+                    <div class="form-field-control">
+                        <input id="discountPrice" type="number" formControlName="discountPrice" class=" form-field-input" placeholder=" " title="Discount Price">
+                        <label for="discountPrice" class="form-field-label">Discount Price *</label>
+                        <div class="form-field-bar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="">
+            <div class="col-2 col-xl-2 col-sm-24 col-md-24 custom-checkbox custom-control mt-16 mb-6 ml-2">
+                <input type="checkbox" class="custom-control-input" formControlName="isUsed" id="isUsed">
+                <label class="custom-control-label" for="isUsed">IsUsed</label>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-outline-primary" id="save" name="save" (click)="saveCoupon()" [disabled]="!couponForm.valid">Save</button>
+    <button class="btn btn-outline-primary" id="cancel" name="cancel" (click)="modal.close('false')">Cancel
+    </button>
+</div>
+
+<!-- LoadingBar-->
+<div *ngIf="showLoading">
+    <div class="loading_background"></div>
+    <div class="preloader">
+        <div class="preloader-container">
+            <span class="animated-preloader"></span>
+        </div>
+    </div>
+</div>

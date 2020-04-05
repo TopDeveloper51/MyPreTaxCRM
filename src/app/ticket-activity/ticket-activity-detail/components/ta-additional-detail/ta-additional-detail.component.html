@@ -1,0 +1,32 @@
+<div class="row" *ngIf="activityAvailable">
+    <div class="col-lg-24 cursor-pointer" *ngIf="lookup && lookup.activityTagList && lookup.activityTagList.length > 0 && activityData">
+        <kendo-multiselect textField="name" valueField="id" name="tagList" [data]="lookup.activityTagList" [(ngModel)]="activityData.tagList"
+            (valueChange)="valueChangeofTag($event)" placeholder="Select tag" title="Select tag" (removeTag)="removeTag($event)">
+        </kendo-multiselect>
+    </div>
+</div>
+<div class="row">
+    <div class="col-24">
+        <div *ngIf="showLoading">
+            <div class="loading_background"></div>
+            <div class="preloader">
+                <div class="preloader-container">
+                    <span class="animated-preloader"></span>
+                </div>
+            </div>
+        </div>
+        <mtpo-activity-order-refund [modelData]="modelData" (changeTag)="changeTagValue($event)">
+        </mtpo-activity-order-refund>
+
+        <mtpo-activity-bp-volume [modelData]="modelData"></mtpo-activity-bp-volume>
+
+
+        <mtpo-activity-special-task [modelData]="modelData"></mtpo-activity-special-task>
+
+
+        <mtpo-activity-email [modelData]="modelData"></mtpo-activity-email>
+
+
+        <mtpo-activity-document-upload [modelData]="modelData"></mtpo-activity-document-upload>
+    </div>
+</div>

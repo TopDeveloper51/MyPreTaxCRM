@@ -1,0 +1,38 @@
+<div class="modal-header">
+    <span class="">
+        <!-- <i class="fa fa-check-square"></i> -->
+    </span>
+    <h5 class="modal-title" id="modal-title"> Verify {{codeObj.type}} </h5>
+    <button type="button" class="close" aria-describedby="modal-title" (click)="close()">
+        <span aria-hidden="true" class="cus-hov">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-16">
+            <form #verifyNumber="ngForm">
+                <div class="form-field">
+                    <div class="form-field-control">
+                        <!-- <input id="otp" type="text" formControlName="otp" class=" form-field-input" placeholder=" ">
+                        <label for="otp" class="form-field-label">OTP</label>
+                        <div class="form-field-bar"></div> -->
+                        <input type="text" class="form-field-input" [maxlength]="codeObj.type == 'Number' ? 4 : 6" 
+                        [minlength]="codeObj.type == 'Number' ? 4 : 6" #otp="ngModel" id="otp" name="otp" 
+                        [(ngModel)]="codeObj.code" placeholder=""
+                        (keypress)="isPositiveNumber($event)" (keyup.enter)="verify(codeObj)" required>
+                            <label for="otp" class="form-field-label">OTP</label>
+                            <div class="form-field-bar"></div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div class="col-8 mt-2 text-center">
+            <button type="button" class="btn btn-outline-primary" (click)="verify(codeObj)" [disabled]="!verifyNumber.form.valid">Verify</button>
+        </div>
+    </div>
+</div>
+<!-- <div class="modal-footer">
+    <button type="button" class="btn btn-outline-primary" (click)="verify(codeObj)" [disabled]="verifyNumberForm.invalid">Verify</button> -->
+<!-- <button type="button" class="btn btn-outline-primary" (click)="modal.close('NO')">No</button> -->
+<!--</div> -->

@@ -1,0 +1,163 @@
+<div class="chat-box" [style.height.px]="count">
+    <form [formGroup]="chatMessageForm" class="h-100" (ngSubmit)="sendMsg($event)">
+        <!--chat header start-->
+        <div class="chat-header clearfix">
+            <div class="clearfix py-1 px-2 chat-header-top bg-primary w-100">
+                <div class="row d-flex align-items-center">
+                    <div class="col-6 chat-agent" *ngIf="chatData.isAllowedToClose && activeAgents?.length > 0">
+                        <ng-select [items]="activeAgents" bindLabel="name" bindValue="userId" placeholder="Select Agent" formControlName="selectedAgent"
+                            clearAllText="Clear" appendTo="body" name="selectedAgents" [closeOnSelect]="true" [clearable]="false"
+                            class="select-agent">
+                        </ng-select>
+                    </div>
+                    <div class="d-inline-block crm-topbar-icon-wrap">
+                        <button class="btn btn-sm crm-topbar-icon icon-xs ml-2" *ngIf="chatData.isAllowedToClose && chatData.isActiveChat && chatData.selfChatActive && (activeAgents && activeAgents.length > 0)"
+                            (click)="transferChat()" title="Transfer Chat" [disabled]="!chatMessageForm.controls.selectedAgent.value">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                    </div>
+                    <div class="col ml-auto">
+                        <div class="d-flex align-items-center w-100 justify-content-end align-items-center">
+                            <div class="ml-auto crm-topbar-icon-wrap">
+                                <button class="btn btn-sm crm-topbar-icon icon-xs  mt-2" (click)="customerChatDetail()" ngbTooltip="Chat Customer Details" triggers="hover" data-placement="bottom" container="body" tooltipClass="default">
+                                    <i class="fa fa-info-circle cursor-pointer"></i>
+                                </button>
+                                <button class="btn btn-sm crm-topbar-icon icon-xs ml-1 mt-2" (click)="joinChat()" ngbTooltip="Join Chat" triggers="hover" container="body" data-placement="bottom" tooltipClass="default" *ngIf="chatData.isActiveChat && !chatData.selfChatActive">
+                                    <i class="fas fa-plus cursor-pointer"></i>
+                                </button>
+                                <button class="btn btn-sm crm-topbar-icon icon-xs ml-1 mt-2" (click)="leaveChat()" ngbTooltip="Leave Chat" triggers="hover" container="body" data-placement="bottom" tooltipClass="default" *ngIf="chatData.isActiveChat && chatData.selfChatActive && chatData.isAllowedToLeave">
+                                    <i class="fas fa-minus cursor-pointer"></i>
+                                </button>
+                                <button class="btn btn-sm crm-topbar-icon icon-xs ml-1 mt-2" (click)="closeChat()" ngbTooltip="Close Chat" triggers="hover" container="body" data-placement="bottom" tooltipClass="default"  *ngIf="chatData.isActiveChat && chatData.selfChatActive && chatData.isAllowedToClose">
+                                    <i class="fas fa-times cursor-pointer"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--chat header end-->
+        <!--chat body start-->
+        <div class="chat-box-body border-top d-inline-block w-100 chat-area-inner" #content>
+            <div class="chat-box-form p-0 d-inline-block w-100">
+                <div class="chat-area">
+                    <div class="">
+                        <ul class="list-unstyled">
+                            <li class="" *ngFor="let chat of messages" #chat_messages>
+                                <div class="user-side col-24 mb-2 float-left chat-msg pl-2" *ngIf="chat.flag === 'receive'">
+                                    <div class="float-left">
+                                        <div class="user-side-image time-stamp">
+                                        </div>
+                                        <p class="user-info text-left">
+                                            <span class="short-user">{{chat.initial}}</span>
+                                            <span class="d-inline-block text-dark font-weight-bold ml-2">{{chat.createdByName}}</span>
+                                            <span class="d-inline-block ml-2">{{chat.time}}</span>
+                                        </p>
+                                        <div class="position-relative">
+                                            <span class="user-curve">
+                                                <img src="assets/images/curve-primary.png" width="25px" />
+                                            </span>
+                                            <p class="msg" [innerHtml]="chat.msg"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="system-side col-24 mb-2 float-right chat-msg pr-2" *ngIf="chat.flag === 'send'">
+                                    <div class="float-right">
+                                        <div class="system-side-image time-stamp">
+                                        </div>
+                                        <p class="user-info text-right">
+                                            <span class="d-inline-block text-dark font-weight-bold">{{chat.createdByName}}</span>
+                                            <span class="d-inline-block ml-2">{{chat.time}}</span>
+                                            <span class="short-user ml-2">{{chat.initial}}</span>
+                                        </p>
+                                        <div class="position-relative">
+                                            <span class="system-curve">
+                                                <img src="assets/images/curve-white.png" width="25px" />
+                                            </span>
+                                            <p class="msg" [innerHtml]="chat.msg"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="w-100 d-flex justify-content-center mt-1" *ngIf="chat.flag == 'notification'">
+                                    <span class="join-conversation">{{chat.msg}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- <div class="clearfix w-100 float-left py-3 px-2 row">
+                        <div class="col-21 pl-3">
+                            <ng-select [items]="defaultMessageList" bindLabel="message" placeholder="Select Messages"
+                                formControlName='defaultMessage' clearAllText="Clear" appendTo="body" name="selectedAgent"
+                                [closeOnSelect]="true" [clearable]="false">
+                            </ng-select>
+                        </div>
+                        <div class="ml-auto col-auto pl-3 pr-0">
+                            <button type="button" class="btn btn-send" (click)="sendDefaultMessage()"
+                                *ngIf="userDetail?.userChatStatus === 'online' && chatData.isActiveChat && chatData.selfChatActive">
+                                <svg width="25px" xmlns="http://www.w3.org/2000/svg" id="Capa_1" x="0px" y="0px"
+                                    viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                                    <g>
+                                        <g>
+                                            <path class="icon-send-fill" fill="#FFF"
+                                                d="M481.508,210.336L68.414,38.926c-17.403-7.222-37.064-4.045-51.309,8.287C2.86,59.547-3.098,78.551,1.558,96.808    L38.327,241h180.026c8.284,0,15.001,6.716,15.001,15.001c0,8.284-6.716,15.001-15.001,15.001H38.327L1.558,415.193    c-4.656,18.258,1.301,37.262,15.547,49.595c14.274,12.357,33.937,15.495,51.31,8.287l413.094-171.409    C500.317,293.862,512,276.364,512,256.001C512,235.638,500.317,218.139,481.508,210.336z" />
+                                        </g>
+                                    </g>
+                                </svg>
+                            </button>
+                        </div>
+                    </div> -->
+            </div>
+        </div>
+        <!--chat body end-->
+        <!--chat footer start-->
+        <div class="enter-message w-100">
+            <div class="visitor-typing" [ngStyle]="{'display': notiLbl ? 'block' : 'none' }">
+                <p class="m-0">{{notiLbl}}</p>
+            </div>
+            <div class="enter-text-area">
+                <div class="enter-text-area-wrap">
+                    <div class="row d-flex align-items-center">
+                        <div class="col pr-0 chat-msg-input">
+                            <textarea id="sender" class="font-14" name="sender" formControlName="sender" rows="2" (keyup.enter)="sendMsg($event)" placeholder="Send a message"
+                                (keyup.arrowup)="editMessage()" (keyup)="keyup($event)" style="background: transparent;"></textarea>
+                        </div>
+                        <div class="col-auto enter-message-btn">
+                            <div class="d-inline-block" style="display: none !important;">
+                                <button type="button" class="cursor-pointer btn btn-circle" title="Bold" [disabled]="!(chatData.isActiveChat && chatData.selfChatActive)"
+                                    (click)="makeBold()" [ngClass]="{'active':isBold}">
+                                    <i class="fa fa-bold" aria-hidden="true"></i>
+                                </button>
+                            </div>
+
+                            <div class="d-inline-block ml-2" style="display: none !important;">
+                                <button type="button" class="cursor-pointer btn btn-circle" title="Italic" [disabled]="!(chatData.isActiveChat && chatData.selfChatActive)"
+                                    (click)="makeItalic()" [ngClass]="{'active':isItalics}">
+                                    <i class="fa fa-italic" aria-hidden="true"></i>
+                                </button>
+                            </div>
+
+                            <div class="d-inline-block ml-2 mr-2">
+                                <!-- *ngIf="userDetail?.userChatStatus === 'online' && chatData.isActiveChat && chatData.selfChatActive" -->
+                                <button type="submit" class="btn btn-send" [disabled]="!(chatData.isActiveChat && chatData.selfChatActive)">
+                                    <svg width="14px" xmlns="http://www.w3.org/2000/svg" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;"
+                                        xml:space="preserve">
+                                        <g>
+                                            <g>
+                                                <path class="icon-send-fill" fill="#FFF" d="M481.508,210.336L68.414,38.926c-17.403-7.222-37.064-4.045-51.309,8.287C2.86,59.547-3.098,78.551,1.558,96.808    L38.327,241h180.026c8.284,0,15.001,6.716,15.001,15.001c0,8.284-6.716,15.001-15.001,15.001H38.327L1.558,415.193    c-4.656,18.258,1.301,37.262,15.547,49.595c14.274,12.357,33.937,15.495,51.31,8.287l413.094-171.409    C500.317,293.862,512,276.364,512,256.001C512,235.638,500.317,218.139,481.508,210.336z"
+                                                />
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--chat footer end-->
+    </form>
+</div>

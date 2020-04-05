@@ -1,0 +1,19 @@
+<div class="">
+    <div class="">
+        <app-customer-card-editable [screen]="'customerCard'" [mode]="mode" [lookup]="lookup" [customerDetails]="customerDetails"
+            [getFormValue]="isSaveCalled"  (customerSearchFormValue)="emitFormValue($event)" (getCustomerDetails)="getCustomerDetail($event)">
+        </app-customer-card-editable>
+        <!-- <div class="row mt-2">
+            <div class="col">
+                <div class="row justify-content-end">
+                    <div class="col-xl-8 text-right mb-space mt-2">
+                        <button class="btn btn-outline-primary ml-2">Check Duplicate</button>
+                        <button class="btn btn-outline-primary ml-2">Enable Conversion</button>
+                        <button class="btn btn-outline-primary ml-2" (click)="saveDetails()">Save</button>
+                        <button class="btn btn-outline-primary ml-2" (click)="backCustomerSearch()">Back</button>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>

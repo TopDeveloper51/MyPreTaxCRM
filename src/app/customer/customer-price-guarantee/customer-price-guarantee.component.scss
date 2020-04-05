@@ -1,0 +1,17 @@
+.card {
+    //box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    //transition: 0.3s;
+    width: 100%;
+  }
+  
+  // .card:hover {
+  //   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  // }
+  .font_size_20 {
+    font-size: 20px;
+  }
+  a.disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: .65;
+  }

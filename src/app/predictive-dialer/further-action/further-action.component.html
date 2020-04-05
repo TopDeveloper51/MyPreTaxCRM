@@ -1,0 +1,58 @@
+<div class="row mb-2">
+  <div class="col bg-light p-3">
+    <div class="row">
+      <div class="col d-block mb-3">
+        <button [disabled]="!showFurtherAction" class="btn btn-default btn-lg w-100 m-0 font-15 height-38" type="submit"
+          id="FurtherAction" name="FurtherAction" value="FurtherAction" (click)="hangUpForFurtherAction()">
+          <div class="float-left">
+            <i class="fa fa-angle-double-right text-primary"></i>
+          </div>
+          Further Action
+        </button>
+      </div>
+      <div class="col d-block mb-3">
+        <button class="btn btn-default btn-lg w-100 m-0 font-15 height-38" id="DemoScheduler" name="DemoScheduler"
+          value="DemoScheduler" (click)="demoScheduler()">
+          <div class="float-left">
+            <i class="fa fa-desktop text-primary font_14"></i>
+          </div>
+          Demo Scheduler
+        </button>
+      </div>
+    </div>
+    <div class="d-flex w-100 align-items-center my-4 justify-content-center">
+      <span class="icon-button further-action" *ngIf="customerInfo.customerId !== undefined">
+        <img src="assets/images/Angebot1.png" width="21px" title="Open Customer Card in a new tab"
+          (click)="goToCustomerCart()" />
+      </span>
+      <span class="icon-button further-action"
+        *ngIf="customerInfo.ticketInfo !== undefined && customerInfo.ticketInfo.id !== undefined">
+        <img src="assets/images/tasks1.png" width="21px" title="Open Ticket" (click)="goToTicket()" />
+      </span>
+      <span class="icon-button further-action" *ngIf="customerInfo.actId !== undefined">
+        <img src="assets/images/external-link.png" width="21px" title="Open Activity in a new tab"
+          (click)="goToActivity()" />
+      </span>
+      <span class="icon-button further-action">
+        <img src="assets/images/training.png" width="24px" title="Open 1on1 Setup Training Planner "
+          (click)="goToTrainingPlanner()" />
+      </span>
+      <!-- <span class="padding_right_10 pull-right cursor-pointer" *ngIf="showFurtherAction">
+        <i class="fa fa-angle-double-right" style="font-size:30px" aria-hidden="true" title="Pause Predictive Dialer For Further Action"
+          (click)="updatePredictiveStatus('PDFurtherAction')"></i>
+      </span> -->
+    </div>
+
+
+    <div class="d-block">
+      <button [disabled]="showFurtherAction" class="btn btn-primary btn-lg w-100 m-0 font-15 height-38" type="submit"
+        id="PDInterested" name="PDInterested" value="PDInterested" (click)="ruleNameChangeEvent('further action')">
+        <i class="fas fa-thumbs-up text-white float-left font-18"></i>
+        Save and Resume
+      </button>
+      <div class="progress" *ngIf="rule === 'further action'">
+        <div class="indeterminate"></div>
+      </div>
+    </div>
+  </div>
+</div>

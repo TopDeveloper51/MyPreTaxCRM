@@ -1,0 +1,203 @@
+<div class="cont-us">
+    <div class="col-24">
+        <div class="crm-heading   crm-grid__item" id="crm_heading">
+            <div class="crm-container">
+                <div class="crm-heading__main">
+                    <h3 class="crm-heading__title">Ticket Mapping List</h3>
+                    <span class="crm-heading__separator crm-hidden"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-24">
+        <div class="crm-mainbox crm-portlet--height-fluid-half">
+            <div class="container-fluid p-3">
+                <div class="clearfix" *ngIf="(availableNewTicketTypeArray!=undefined && availableNewTicketTypeArray.length>0) || (availableOldTicketTypeArray!=undefined && availableOldTicketTypeArray.length>0)">
+                    <div class="clearfix card bg-light text-dark">
+                        <div class="clearfix col-lg-16 col-md-16 col-xl-16 col-sm-16" *ngIf="availableNewTicketTypeArray!=undefined && availableNewTicketTypeArray.length>0">
+                            <div class="col-lg-24 font_size_16 pull-left padding_l_0">
+                                New Ticket Types
+                            </div>
+                            <div class="col-lg-24 padding_top_10 table-overflow space_accordion lesspadding" style="height: 700px; max-height: 700px; overflow: auto; border: 2px solid darkgrey; border-radius: 4px; padding: 5px">
+                                <div role="tablist" id="accordion">
+                                    <div class="card">
+                                        <div *ngFor="let type of availableNewTicketTypeArray;let i = index">
+                                            <div class="card-header" role="tab">
+                                                <h5 class="mb-0">
+                                                    <b class=" font-14 ">{{type.typeText}}</b>
+                                                    <i class="pl-2">Tickets ({{type.typeCount ? type.typeCount : 0 }})
+                                                        <span *ngIf="type !==undefined && type.subTypeList !== undefined
+                                                        && type.subTypeList !==null && type.subTypeList.length> 0"> - Sub Types ({{type.subTypeList.length}})
+                                                        </span>
+                                                    </i>
+                                                    <button class="btn btn-link float-right" data-toggle="collapse" [attr.data-target]="'#demo'+ i" aria-expanded="true">
+                                                        <!-- <i class="fas fa-plus float-right"></i> -->
+                                                        <i class="fa" aria-hidden="true"></i>
+                                                    </button>
+                                                </h5>
+                                            </div>
+
+                                            <div id="demo{{i}}" [ngClass]="{'collapse':(i != 0) }" role="tabpanel">
+                                                <div class="card-body">
+                                                    <div *ngIf="type.subTypeListArray && type.subTypeListArray.length!==0" class="example-container col-lg-24 col-md-24 col-xl-24 col-sm-24 padding_l_r_0">
+                                                        <div class="card mb-5">
+                                                            <table class="table mb-0">
+                                                                <thead class="bg-light">
+                                                                    <tr>
+                                                                        <th style="width:27%">Sub Type</th>
+                                                                        <th style="width:25%">Mapped Type</th>
+                                                                        <th style="width:25%">Mapped Sub Type</th>
+                                                                        <th style="width:12%">Status</th>
+                                                                        <th style="width:8%;text-align: center;">
+                                                                            Validated?
+                                                                        </th>
+                                                                        <th style="width:3%;text-align: center"></th>
+                                                                    </tr>
+                                                                </thead>
+
+                                                                <tbody cdkDropList id="newTypeList{{type.typeId}}" [cdkDropListData]="type.subTypeListArray" (cdkDropListDropped)="onDrop($event)"
+                                                                    class="example-list">
+                                                                    <!-- [ngClass]="{'table-info':selectedRow===ticket.id}" -->
+                                                                    <tr *ngFor="let ticket of type.subTypeListArray;let i=index" class="example-box" cdkDrag>
+                                                                        <td style="width:30%" class="cursor_grab">
+                                                                            <span *ngIf="i == 0 || type.subTypeListArray[i - 1].subTypeText !== type.subTypeListArray[i].subTypeText">{{ticket.subTypeText}} ({{ticket.subTypeCount
+                                                                                ? ticket.subTypeCount : 0}})
+                                                                            </span>
+                                                                        </td>
+                                                                        <td style="width:25%" class="cursor_grab">
+                                                                            {{ticket.oldTypeText}}
+                                                                        </td>
+                                                                        <td style="width:25%" class="cursor_grab">
+                                                                            {{ticket.oldSubTypeText}}</td>
+                                                                        <td style="width:9%" class="cursor_grab">
+                                                                            {{validationStatusList[ticket.status]}}</td>
+                                                                        <td style="width:8%;text-align: center;" class="cursor-pointer">
+                                                                            <span *ngIf="(ticket.status == 2)">Y</span>
+                                                                            <span *ngIf="(ticket.status == 1)">N
+                                                                                <i class="fa fa-question-circle text-primary font_size_20" [title]="ticket.warnings"></i>
+                                                                            </span>
+                                                                        </td>
+                                                                        <td style="width:3%;text-align: center;" class="cursor-pointer" (click)="unmapType(ticket)">
+                                                                            <i *ngIf="ticket.oldTypeText && ticket.status !== 'migrated'" title="Remove mapping" class="fa fa-times font_size_20 text-darkred"></i>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="float-left col-xs-24 col-sm-24 pt-3 pb-3" *ngIf="type === undefined || type.subTypeListArray === undefined || type.subTypeListArray === null || type.subTypeListArray.length === 0">
+                                                        No Sub Type Data Available
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix col-lg-8 col-md-8 col-xl-8 col-sm-8 overflow" *ngIf="availableOldTicketTypeArray!=undefined && availableOldTicketTypeArray.length>0">
+                            <div class="col-lg-24 font_size_16 pull-left padding_l_0">
+                                Old Ticket Types
+                            </div>
+                            <div class="col-lg-24 padding_top_10 table-overflow space_accordion lesspadding" style="height: 700px; max-height: 700px; overflow: auto; border: 2px solid darkgrey; border-radius: 4px; padding: 5px">
+                                <div role="tablist">
+                                    <div class="card">
+                                        <div *ngFor="let type of availableOldTicketTypeArray;let i = index">
+                                            <div class="card-header" role="tab">
+                                                <h5 class="mb-0">
+                                                    <b class="font-14">{{type.typeText}}</b>
+                                                    <i class="pl-2">Tickets ({{type.typeCount ? type.typeCount : 0 }})
+                                                        <span *ngIf="type !==undefined && type.subTypeList !== undefined
+                                                    && type.subTypeList !==null && type.subTypeList.length> 0"> - Sub Types ({{type.subTypeList.length}})
+                                                        </span>
+                                                    </i>
+                                                    <button class="btn btn-link float-right" data-toggle="collapse" [attr.data-target]="'#demos'+ i" aria-expanded="true">
+                                                        <i class="fas fa-plus float-right"></i>
+                                                    </button>
+                                                </h5>
+                                            </div>
+
+                                            <div id="demos{{i}}" [ngClass]="{'collapse':(i != 0) }" role="tabpanel" data-parent="#accordion">
+                                                <div class="card-body">
+                                                    <div class="example-container col-lg-24 col-md-24 col-xl-24 col-sm-24 padding_l_r_0">
+                                                        <div class="card mb-5">
+                                                            <table class="table">
+                                                                <thead class="bg-light">
+                                                                    <tr>
+                                                                        <th>Sub Type</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody cdkDropList #oldTypeList="cdkDropList" [cdkDropListConnectedTo]="connectionList" [cdkDropListData]="type.subTypeList"
+                                                                    cdkDropListSortingDisabled (cdkDropListDropped)="onDrop($event)"
+                                                                    class="example-list">
+                                                                    <tr *ngIf="type.subTypeList && type.subTypeList.length===0">
+                                                                        <td class="pt-2 pl-2 padding_10">No Data Available
+                                                                        </td>
+                                                                    </tr>
+                                                                    <!--  [ngClass]="{'table-info':selectedRow===ticket.id}" -->
+                                                                    <tr *ngFor="let ticket of type.subTypeList" [cdkDragDisabled]="ticket.isMapped" class="example-box" cdkDrag>
+                                                                        <td class="cursor_grab">{{ticket.subTypeText}} ({{ticket.subTypeCount ? ticket.subTypeCount
+                                                                            : 0}})
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                    <div class="pull-left col-xs-24 col-sm-24 padding_l_0" *ngIf="type === undefined || type.subTypeList === undefined || type.subTypeList === null || type.subTypeList.length === 0">
+                                                        No Data Available
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="padding_10">
+
+                            <button class="btn btn-outline-primary float-left ml-2 mt-2" (click)="saveMapping()">
+                                Save
+                            </button>
+
+                            <button class="btn btn-outline-primary float-left ml-2 mt-2" (click)="validateMapping()" [disabled]="(validationStatus == 1) || changesExist">
+                                Validate
+                                <span>
+                                    <i *ngIf="validationStatus == 1" class="fa fa-circle-notch fa-spin"></i>
+                                </span>
+                            </button>
+
+                            <button class="btn btn-outline-primary float-left ml-2 mt-2" (click)="cleanIndex()">
+                                Clean Index
+                            </button>
+
+                            <button class="btn btn-outline-primary float-left ml-2 mt-2" (click)="createReport()" *ngIf="csvStatus !== 3" [disabled]="(csvStatus == 1) || changesExist">
+                                Create Report
+                                <span>
+                                    <i *ngIf="csvStatus == 1" class="fa fa-circle-notch fa-spin ml-2"></i>
+                                </span>
+                            </button>
+
+                            <button class="btn btn-outline-primary float-left ml-2 mt-2" (click)="downloadReport()" *ngIf="csvStatus == 3">
+                                Download Report
+                            </button>
+
+
+                        </div>
+                    </div>
+
+                    <div *ngIf="(!availableNewTicketTypeArray || availableNewTicketTypeArray.length==0) && (!availableOldTicketTypeArray || availableOldTicketTypeArray.length==0)"
+                        class="col-lg-24 font_size_16 float-left pt-5">
+                        No Data Available
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

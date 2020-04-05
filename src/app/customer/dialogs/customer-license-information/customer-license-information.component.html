@@ -1,0 +1,248 @@
+<!--Dialog header-->
+<div class="modal-header">
+    <h5 class="modal-title" *ngIf="!licenseInfomation.showAlert">
+        License Information
+    </h5>
+    <h5 class="modal-title" *ngIf="licenseInfomation.showAlert">
+        Master Location Warning
+    </h5>
+    <div class="float-right">
+        <div (click)="modal.close(false)" class="cus-hov">
+            <i class="fa fa-times"></i>
+        </div>
+    </div>
+</div>
+<!--Dialog header End -->
+
+<div class="modal-body cal-box">
+    <form [formGroup]="licenseInformationForm">
+
+        <div class="col-24 col-xl-24 col-sm-24 col-md-24" *ngIf="!licenseInfomation.showAlert">
+            <!-- Row 1 -->
+            <div class="row">
+                <div class="col col-12">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <input id="taxYear" type="text" formControlName="subscriptionYear" class=" form-field-input" placeholder=" " disabled>
+                            <label for="taxYear" class="form-field-label">Tax Year</label>
+                            <div class="form-field-bar"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-12">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <ng-select #resellerId bindLabel="name" groupBy="group" [selectableGroup]="true" bindValue="id" appendTo="body" [closeOnSelect]="true"
+                                [searchable]="false" class="salesprocessstatus" [clearable]="false" placeholder="Reseller" clearAllText="Clear"
+                                formControlName="resellerId" [items]="lookup.resellerList" (open)="lookup.resellerList = lookup.resellerList">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Row 2 -->
+            <div class="row">
+                <div class="col col-12">
+                    <div class="form-field required">
+                        <div class="form-field-control" [ngClass]="{ 'cross-validation-error': licenseInformationForm.controls.package.errors  &&  licenseInformationForm.controls.package.errors.required}">
+                            <ng-select #package bindLabel="name" groupBy="group" [selectableGroup]="true" bindValue="id" appendTo="body" [closeOnSelect]="true"
+                                [searchable]="false" [clearable]="false" class="salesprocessstatus" placeholder="Package" clearAllText="Clear"
+                                formControlName="package" [items]="plane" (open)="plane = plane">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-12">
+                    <div class="form-field required">
+                        <div class="form-field-control">
+                            <input id="price" type="text" formControlName="price" class="form-field-input" placeholder=" ">
+                            <label for="price" class="form-field-label">Price</label>
+                            <div class="form-field-bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Row 3 -->
+            <div class="row">
+                <div class="col col-12">
+                    <div class="form-field required">
+                        <div class="form-field-control">
+                            <input id="noOfUsers" type="number" formControlName="noOfUsers" class="form-field-input" placeholder=" ">
+                            <label for="noOfUsers" class="form-field-label">Total Users</label>
+                            <div class="form-field-bar"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-12">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <input id="TransmitterFee" type="number" formControlName="transmitterFee" class=" form-field-input" placeholder=" ">
+                            <label for="TransmitterFee" class="form-field-label">Transmitter Fee</label>
+                            <div class="form-field-bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Row 4 -->
+            <div class="row">
+                <div class="col col-12">
+                    <div class="form-field required">
+                        <div class="form-field-control">
+                            <input id="totalStorage" type="number" formControlName="storage" class=" form-field-input" placeholder=" ">
+                            <label for="totalStorage" class="form-field-label">Total Storage(GB)</label>
+                            <div class="form-field-bar"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-12">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <input id="ServiceBureauFee" type="number" formControlName="serviceBureauFee" class=" form-field-input" placeholder=" ">
+                            <label for="ServiceBureauFee" class="form-field-label">Service Bureau Fee</label>
+                            <div class="form-field-bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Row 5 -->
+            <div class="row">
+                <div class="col col-12">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <div class="custom-control custom-checkbox mt-18 mr-3 d-inline-block">
+                                <input type="checkbox" class="custom-control-input" formControlName="individual" id="individual">
+                                <label class="custom-control-label" for="individual">Allow Individual</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-12">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <input id="serviceBureauSharePer" type="number" formControlName="serviceBureauSharePer" class=" form-field-input" placeholder=" ">
+                            <label for="serviceBureauSharePer" class="form-field-label">Service Bureau Share (%)
+                            </label>
+                            <div class="form-field-bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Row 6 -->
+            <div class="row">
+                <div class="col col-12">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <div class="custom-control custom-checkbox mt-18 mr-3 d-inline-block">
+                                <input type="checkbox" class="custom-control-input" formControlName="business" id="business">
+                                <label class="custom-control-label" for="business">Allow Business</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-12">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <div class="custom-control custom-checkbox mt-18 mr-3 d-inline-block">
+                                <input type="checkbox" class="custom-control-input" formControlName="priceGuarantee" id="priceGuarantee">
+                                <label class="custom-control-label" for="priceGuarantee">Price Guarantee
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Row 7 -->
+            <div class="row">
+                <div class="col col-12">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <ng-select #webLibrary bindLabel="name" groupBy="group" [selectableGroup]="true" bindValue="id" appendTo="body" [closeOnSelect]="true"
+                                [searchable]="false" [clearable]="false" placeholder="Taxbook Type" clearAllText="Clear" formControlName="webLibrary"
+                                [items]="lookup.licenseTypeList" [readonly]="true" (open)="lookup.licenseTypeList = lookup.licenseTypeList">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-12">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <div class="custom-control custom-checkbox mt-18 mr-3 d-inline-block">
+                                <input type="checkbox" class="custom-control-input" formControlName="enableSignaturePad" id="enableSignaturePad">
+                                <label class="custom-control-label" for="enableSignaturePad">Enable Signature Pad
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-24 col-xl-24 col-sm-24 col-md-24" *ngIf="licenseInfomation.showAlert">
+
+            <div class=" col-lg-24 col-md-24 col-sm-24 col-xs-24 clearfix alert alert-danger mb-3" *ngIf="disableContinue">
+                <!-- *ngIf="disableContinue" -->
+                <strong>The 'First Name' and 'Last Name' of the contact selected should be atleast three characters long in order
+                    to continue further</strong>
+            </div>
+            <div> In order to create license information, master location is required. This customer is not having any master location
+                yet.
+            </div>
+            <div class="pt-3" *ngIf="showContinue">
+                <!-- *ngIf="showContinue" -->
+                Following information will be considered to create master location
+            </div>
+            <div class="pt-3" *ngIf="isValidContactPerson===false">
+                <!-- *ngIf="isValidContactPerson===false" -->
+                Contact Information
+                <br />
+                <b>Firstname</b>
+                <br />
+                <b>Lastname</b>
+                <br />
+                <b>Email</b>
+                <br />
+                <b>Telephone/Mobile</b>
+                <br /> Please select contact with necessary information as mentioned above
+            </div>
+
+
+            <div>
+                <app-customer-contact [customerID]="customerID" [isTestCustomer]="isTestCustomer" [isFromLicense]="true" (contactListUpdated)="setContactPersonListLength($event)"
+                    (readContactId)="readContactId($event)">No Data Available</app-customer-contact>
+            </div>
+
+
+
+        </div>
+
+
+    </form>
+</div>
+
+
+<!-- Dialog Footer starts -->
+<div class="modal-footer col">
+    <div class="row w-100">
+        <div class="col pl-0">
+
+            <div class="pull-left">
+                <span class="pull-left padding_left_9" *ngIf="licenseInfomation.createdDate !== undefined">
+                    <b>Created By :</b> {{licenseInfomation.createdByName}},{{createdDate}}</span>
+                <div>
+                    <span class="pull-left padding_left_9" *ngIf="licenseInfomation.updatedDate !== undefined">
+                        <b>Updated By : </b> {{licenseInfomation.updatedByName}},{{updatedDate}}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-outline-primary mr-2" id="continue" name="continue" *ngIf="licenseInfomation.showAlert  && showContinue"
+            (click)="licenseInfomation.showAlert=false" [disabled]="!isValidContactPerson || disableContinue">Continue</button>
+        <button class="btn btn-outline-primary mr-2" id="save" name="save" *ngIf="!licenseInfomation.showAlert" (click)="save()"
+            [disabled]="!licenseInformationForm.valid">Save</button>
+        <button class="btn btn-outline-primary mr-2" id="cancel" name="cancel" (click)="modal.close(false)">Cancel
+        </button>
+
+    </div>
+</div>

@@ -1,0 +1,28 @@
+.max_height_400 {
+    max-height: 400px;
+    overflow: auto;
+ }
+td.highLight {
+   color: black !important;
+    font-size: 14px;
+    font-weight: bold;
+}
+.loader-hidden {visibility: hidden;} 
+.loading_background { background: #f5e6e6; opacity: 0.3; position: absolute; height: auto !important; width: 100%; z-index: 5 }
+.no-click {
+    pointer-events: none !important;
+  }
+
+.audio-wrap{
+    position: relative;
+    background: #f1f3f4;
+    border-radius: 54px;
+    height: 54px;
+    position: relative;
+
+    // audio::-webkit-media-controls-current-time-display,
+    // audio::-webkit-media-controls-time-remaining-display{
+    //     font-size: 10px;
+    //     position: absolute;
+    // }
+}

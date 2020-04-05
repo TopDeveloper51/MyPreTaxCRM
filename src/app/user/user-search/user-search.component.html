@@ -1,0 +1,234 @@
+<div class="cont-us col">
+    <div class="row">
+        <div class="col-24">
+            <div class="crm-heading   crm-grid__item" id="crm_heading">
+                <div class="crm-container">
+                    <div class="crm-heading__main">
+                        <h3 class="crm-heading__title">User</h3>
+                        <span class="crm-heading__separator crm-hidden"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-24">
+            <div class="crm-mainbox crm-portlet--height-fluid-half">
+                <div class="container-fluid p-3">
+                    <form [formGroup]="UserSearchForm">
+                        <div class="">
+                            <div class="row">
+                                <div class="col-3">
+                                    <div class="form-field">
+                                        <div class="form-field-control">
+                                            <input id="name" type="text" formControlName="name" class=" form-field-input" placeholder=" ">
+                                            <label for="name" class="form-field-label">Name
+                                            </label>
+                                            <div class="form-field-bar">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-3">
+                                    <div class="form-field">
+                                        <div class="form-field-control">
+                                            <input id="email" type="text" formControlName="email" class=" form-field-input" placeholder=" ">
+                                            <label for="email" class="form-field-label">Email
+                                            </label>
+                                            <div class="form-field-bar">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-3">
+                                    <div class="form-field">
+                                        <div class="form-field-control">
+                                            <input id="designation" type="text" formControlName="designation" class=" form-field-input" placeholder=" ">
+                                            <label for="designation" class="form-field-label">Designation
+                                            </label>
+                                            <div class="form-field-bar">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-3">
+                                    <div class="form-field">
+                                        <div class="form-field-control">
+                                            <ng-select #role [items]="lookupData.roleList" bindLabel="name" [multiple]="true" bindValue="id" appendTo="body" [closeOnSelect]="false"
+                                                [searchable]="false" [clearable]="false" placeholder="Role" clearAllText="Clear"
+                                                class="salesprocessstatus" formControlName="role">
+                                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                                    <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                                        <input id="item-{{index}}" type="checkbox" [checked]="item$.selected" class="custom-control-input" />
+                                                        <label class="custom-control-label">{{item.name}}</label>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                                    <app-select-multi-label class="w-100" [groupItems]="items" [lookup]="lookupData.roleList">
+                                                    </app-select-multi-label>
+                                                </ng-template>
+                                                <ng-template ng-header-tmp>
+                                                    <!-- responsibleperson.filter($event.target.value) -->
+                                                    <input type="text" class="in-set form-field-input" placeholder="Search" [appAutofocus] (input)="role.filter($event.target.value)"
+                                                    />
+                                                    <button (click)="onSelectAll('role')" class="btn btn-sm btn-secondary">All</button>
+                                                    <button (click)="onClearAll('role')" class="btn btn-sm btn-secondary ml-2">None</button>
+                                                    <button (click)="closeSelect(role);initAvailableUser()" class="btn btn-sm btn-secondary ml-2">Search</button>
+                                                </ng-template>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-2">
+                                    <div class="form-field">
+                                        <div class="form-field-control">
+                                            <ng-select #language [items]="languageList" bindLabel="name" [multiple]="true" bindValue="id" appendTo="body" [closeOnSelect]="false"
+                                                [searchable]="false" [clearable]="false" placeholder="Language" clearAllText="Clear"
+                                                formControlName="language">
+                                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                                    <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                                        <input id="item-{{index}}" type="checkbox" [checked]="item$.selected" class="custom-control-input" />
+                                                        <label class="custom-control-label">{{item.name}}</label>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                                    <app-select-multi-label class="w-100" [groupItems]="items" [lookup]="languageList">
+                                                    </app-select-multi-label>
+                                                </ng-template>
+                                                <ng-template ng-header-tmp>
+                                                    <button (click)="onSelectAll('language')" class="btn btn-sm btn-secondary">All</button>
+                                                    <button (click)="onClearAll('language')" class="btn btn-sm btn-secondary ml-2">None</button>
+                                                </ng-template>
+                                            </ng-select>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-3">
+                                    <div class="form-field">
+                                        <div class="form-field-control">
+                                            <ng-select #queue [items]="lookupData.pbxQueueList" bindLabel="name" [multiple]="true" bindValue="id" appendTo="body" [closeOnSelect]="false"
+                                                [searchable]="false" [clearable]="false" placeholder="Queue" clearAllText="Clear"
+                                                formControlName="queue">
+                                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                                    <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                                        <input id="item-{{index}}" type="checkbox" [checked]="item$.selected" class="custom-control-input" />
+                                                        <label class="custom-control-label">{{item.name}}</label>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                                    <app-select-multi-label class="w-100" [groupItems]="items" [lookup]="lookupData.pbxQueueList">
+                                                    </app-select-multi-label>
+                                                </ng-template>
+                                                <ng-template ng-header-tmp>
+                                                    <button (click)="onSelectAll('queue')" class="btn btn-sm btn-secondary">All</button>
+                                                    <button (click)="onClearAll('queue')" class="btn btn-sm btn-secondary ml-2">None</button>
+                                                </ng-template>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-field">
+                                        <div class="form-field-control">
+                                            <ng-select #reseller [items]="lookupData.resellerList" bindLabel="name" [multiple]="true" bindValue="id" appendTo="body"
+                                                [closeOnSelect]="false" [searchable]="false" class="salesprocessstatus" [clearable]="false"
+                                                placeholder="Reseller" clearAllText="Clear" formControlName="resellerIdResult">
+                                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                                    <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                                        <input id="item-{{index}}" type="checkbox" [checked]="item$.selected" class="custom-control-input" />
+                                                        <label class="custom-control-label">{{item.name}}</label>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                                    <app-select-multi-label class="w-100" [groupItems]="items" [lookup]="lookupData.resellerList">
+                                                    </app-select-multi-label>
+                                                </ng-template>
+                                                <ng-template ng-header-tmp>
+                                                    <input type="text" class="in-set form-field-input" placeholder="Search" [appAutofocus] (input)="reseller.filter($event.target.value)"
+                                                    />
+                                                    <button (click)="onSelectAll('reseller')" class="btn btn-sm btn-secondary">All</button>
+                                                    <button (click)="onClearAll('resellerIdResult')" class="btn btn-sm btn-secondary ml-2">None</button>
+                                                    <button (click)="closeSelect(reseller);initAvailableUser()" class="btn btn-sm btn-secondary ml-2">Search</button>
+                                                </ng-template>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-auto mt-18">
+                                    <div class="custom-control custom-checkbox d-inline-block">
+                                        <input type="checkbox" formControlName="allowIncomingCall" class="custom-control-input" id="allowIncomingCalls">
+                                        <label class="custom-control-label" for="allowIncomingCalls">Allow Incoming Call
+                                        </label>
+                                    </div>
+
+                                </div>
+                                <div class="col-1 mt-18">
+                                    <div class="custom-control custom-checkbox d-inline-block">
+                                        <input type="checkbox" formControlName="isActive" class="custom-control-input" id="isactive">
+                                        <label class="custom-control-label" for="isactive">IsActive
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row ">
+                                <div class="col-auto mt-18">
+                                    <div class="custom-control custom-checkbox d-inline-block">
+                                        <input type="checkbox" formControlName="timeAccounting" class="custom-control-input" id="timeaccounting">
+                                        <label class="custom-control-label" for="timeaccounting">Time Accounting
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-auto mt-18">
+                                    <div class="custom-control custom-checkbox d-inline-block">
+                                        <input type="checkbox" formControlName="breakExplanation" class="custom-control-input" id="breakexplanation">
+                                        <label class="custom-control-label" for="breakexplanation">Break Explanation
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-auto mt-18">
+                                    <div class="custom-control custom-checkbox d-inline-block">
+                                        <input type="checkbox" formControlName="PDManagerView" class="custom-control-input" id="PDManagerView">
+                                        <label class="custom-control-label" for="PDManagerView">PD Manager View
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-auto ml-auto">
+                                    <div class="set-mediam">
+                                        <div class="justify-content-end">
+                                            <div class="w-100 text-right mb-space mt-2">
+                                                <button class="btn btn-outline-primary ml-2 mb-2" (click)="initAvailableUser()">Search</button>
+                                                <button class="btn btn-outline-primary ml-2 mb-2" (click)="reset()">Reset</button>
+                                                <button class="btn btn-outline-primary ml-2 mb-2" (click)="openUserPopup()">New
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- AG-Grid starts here-->
+                    <div class="no-found mt-2" *ngIf="rowData && rowData.length == 0">
+                        <p class="mb-0">No Data Available</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-24 deta-aggrid" *ngIf="rowData && rowData.length>0">
+                            <p class="font-weight-bold mb-2">User ({{rowData.length}})</p>
+                            <ag-grid-angular #agGrid id="myGrid" style="width: 100%;height: calc(100vh - 275px);" class="ag-theme-balham" [columnDefs]="columnDefs"
+                                [defaultColDef]="defaultColDef" [rowData]="rowData" (gridReady)="onGridReady($event)" [animateRows]='true'
+                                (rowClicked)="onRowClicked($event)" [floatingFilter]="true" [enableCellTextSelection]="true">
+                            </ag-grid-angular>
+                        </div>
+                    </div>
+
+                    <!-- AG-Grid Ends here-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

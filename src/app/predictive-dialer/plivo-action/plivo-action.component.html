@@ -1,0 +1,75 @@
+<div class="d-flex w-100 align-items-center mb-2">
+    <div class="mr-auto pr-2">
+        <label class="call-status call-active" *ngIf="callActive !== undefined && predictiveMakeCall === false && callActive === true">
+            Call is Active since
+            <span [appMyCurrentTime]="currentTime"></span>
+        </label>
+        <label class="call-status call-end" *ngIf="callActive !== undefined && predictiveMakeCall !== undefined && predictiveMakeCall === true && callActive===false">
+            Call Ended
+            <span style="display: none;" [appMyCurrentTime]="currentTime" (appMyCurrentTimeChange)="emitPostCallTime($event)"></span>
+        </label>
+    </div>
+    <div class="ml-auto">
+        <div class="ml-2 header-toggle-wrap icon-button" style="width: 35px !important;padding: 5px 0;text-align: center;line-height: 1;height: 35px;border-radius:5px;"
+            *ngIf="predictiveMakeCall === false">
+            <i class="fa fa-microphone" aria-hidden="true" title="Mute" *ngIf="isMute===false" (click)="muteTheMic(isMute)"></i>
+            <i class="fa fa-microphone-slash" aria-hidden="true" title="Unmute" *ngIf="isMute===true" (click)="muteTheMic(isMute)"></i>
+        </div>
+        <div class="ml-2 header-toggle-wrap icon-button" style="width: 35px !important;padding: 5px 0;text-align: center;line-height: 1;height: 35px;border-radius:5px;"
+            *ngIf="predictiveMakeCall === false">
+            <i class="fas fa-keyboard" aria-hidden="true" title="Dial Pad" (click)="showDialPad=!showDialPad"></i>
+        </div>
+    </div>
+
+    <div id="dialer" class="view_dialer" *ngIf="predictiveMakeCall===false && showDialPad">
+        <!--Dialer -2-->
+        <div class="key">
+            <div class="key-row">
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('1')">1</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('2')">2</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('3')">3</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('4')">4</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('5')">5</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('6')">6</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('7')">7</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('8')">8</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('9')">9</button>
+            </div>
+            <div class="key-row last-row">
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('*')">*</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('0')">0</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('#')">#</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('A')">A</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('B')">B</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('C')">C</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('D')">D</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('E')">E</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('F')">F</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('G')">G</button>
+            </div>
+            <div class="key-row">
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('H')">H</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('I')">I</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('J')">J</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('K')">K</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('L')">L</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('M')">M</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('N')">N</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('O')">O</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('P')">P</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('Q')">Q</button>
+            </div>
+            <div class="key-row">
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('R')">R</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('S')">S</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('T')"> T</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('U')"> U</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('V')"> V</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('W')"> W</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('X')"> X</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('Y')"> Y</button>
+                <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('Z')"> Z</button>
+            </div>
+        </div>
+    </div>
+</div>

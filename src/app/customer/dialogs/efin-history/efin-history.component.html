@@ -1,0 +1,28 @@
+<!--Dialog header-->
+<div class="modal-header">
+  <h5 class="modal-title">
+    History
+  </h5>
+  <!-- <div class="pull-right modal-btn padding_top_2">
+    <div style="cursor: pointer;">
+      <div (click)="activeModal.close(false)" class="cus-hov cursor-pointer">
+        <i class="fa fa-times color-white"></i>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="float-right">
+    <div (click)="activeModal.close(false)" class="cus-hov">
+      <i class="fa fa-times"></i>
+    </div>
+  </div>
+
+</div>
+<!--Dialog header End -->
+<!--Dialog Body-->
+<div class="modal-body cal-box">
+  <div class="main_innerpage col-sm-24">
+    <pre>{{historyJson | json}}</pre>
+  </div>
+</div>
+<!--Dialog Body End-->

@@ -1,0 +1,84 @@
+<div class="cont-us col">
+
+    <div class="row">
+        <div class="col">
+            <div class="crm-heading   crm-grid__item" id="crm_heading">
+                <div class="crm-container">
+                    <div class="crm-heading__main">
+                        <h3 class="crm-heading__title">Manage Sub Type</h3>
+                        <span class="crm-heading__separator crm-hidden"></span>
+                        <span class="crm-heading__separator crm-hidden" *ngIf="ticketTypeName">
+                            (Department :
+                            <b>{{ticketSubTypeDept | titlecase}}</b>, Type Name:
+                            <b>{{ticketTypeName | titlecase }}</b>)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="float-right">
+                <button class="btn btn-outline-primary float-left ml-2 mt-2" (click)="saveSubType()">
+                    Save
+                </button>
+                <button class="btn btn-outline-primary float-left ml-2 mt-2" *ngIf="mode" (click)="deleteTicketSubTypeList()">
+                    Delete
+                </button>
+                <button class="btn btn-outline-primary float-left ml-2 mt-2" (click)="newTicketType()">
+                    Back
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-24 customersearch">
+            <div class="crm-mainbox crm-portlet--height-fluid-half">
+                <div class="container-fluid p-3">
+                    <form [formGroup]="manageTicketSubTypeForm">
+                        <div class="row set-mediam">
+                            <div class="col row">
+                                <div class="col-24 col-sm-24 col-md-12 col-xl-4">
+                                    <div class="form-field">
+                                        <div class="form-field-control">
+                                            <input id="type" type="text" formControlName="name" class="form-field-input" placeholder=" ">
+                                            <label for="type" class="form-field-label">Sub Type</label>
+                                            <div *ngIf="submitted && f.name.errors" class="invalid-feedback text-left pl-1">
+                                                <div *ngIf="f.name.errors.required">Sub Type is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-24 col-sm-24 col-md-12 col-xl-12">
+                                    <div class="form-field">
+                                        <div class="form-field-control">
+                                            <input id="whenToUse" type="text" formControlName="whenToUse" class="form-field-input" placeholder=" ">
+                                            <label for="whenToUse" class="form-field-label">When To Use</label>
+                                            <!-- <div *ngIf="submitted && f.whenToUse.errors"
+                                            class="invalid-feedback text-left pl-1">
+                                            <div *ngIf="f.whenToUse.errors.required">When To Use is required</div>
+                                        </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-24 col-lg-4 col-md-12 col-sm-24 col-xl-4">
+                                    <label>Status</label>
+                                    <br>
+                                    <div class="custom-control custom-radio custom-control-inline mr-2" *ngFor="let status of statusList">
+                                        <input type="radio" class="custom-control-input" [value]='status.id' name="status" formControlName="status" [id]="status.name">
+                                        <label class="custom-control-label" [for]="status.name">{{status.name}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+
+                    <app-manage-ticket-sub-type-grid [manageTicketSubTypeData]="ticketSubtypeDataResponse" (ticketSubTypeGridData)="gridDataTicketSubType($event)"></app-manage-ticket-sub-type-grid>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

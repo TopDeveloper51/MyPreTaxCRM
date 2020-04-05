@@ -1,0 +1,556 @@
+<app-header></app-header>
+<div class="cont-us col">
+
+    <div class="row">
+        <div class="col">
+            <div class="crm-heading   crm-grid__item" id="crm_heading">
+                <div class="crm-container">
+                    <div class="crm-heading__main">
+                        <h3 class="crm-heading__title">PD Manager View</h3>
+                        <span class="crm-heading__separator crm-hidden"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-auto d-inline-flex align-items-center">
+            <div class="d-inline-block mr-2 position-relative">
+                <i class="fa fa-info-circle set-ic info-icon" data-placement="left" ngbTooltip="status color information" container="body"
+                    tooltipClass="default" aria-hidden="true" (click)="showInfo=!showInfo"></i>
+                <div class="col-auto slot-info" *ngIf="showInfo">
+                    <div class="color_info float-left">
+                        <span class="set-span">
+                            <img src="assets/images/light-green.png" class="border-color"> OnCall / PDOnline / PDOnCall
+                        </span>
+                        <span class="set-span">
+                            <img src="assets/images/light-blue.png" class="border-color"> PDPostCall /PDFurtherAction
+                        </span>
+                        <span class="set-span">
+                            <img src="assets/images/light-yellow.png" class="border-color"> PDPause / Online / DoNotDisturb
+                        </span>
+                        <span class="set-span">
+                            <img src="assets/images/light-grey.png" class="border-color"> Offline</span>
+                    </div>
+                </div>
+            </div>
+            <button (click)="createRetentionDialer()" class="btn btn-outline-primary mr-2" [disabled]="!(userDetails.role === 'Development Team' || allowedUserToChangeSpeed.includes(userDetails.id))">Create New Retention Dialer</button>
+            <button (click)="createUpdateSession({noOfCallsPerAgent:1.6, machineDetectionTime: 2, isMachineDetectionOn: true})" class="btn btn-outline-primary"
+                [disabled]="!(userDetails.role === 'Development Team' || allowedUserToChangeSpeed.includes(userDetails.id))">Create New Session</button>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-24">
+            <div class="crm-mainbox crm-portlet--height-fluid-half">
+                <div class="container-fluid p-3">
+
+                    <div class="row">
+                        <div class="col-24">
+                            <div class="loader" *ngIf="isDataLoadingNew">
+                                <div class="bar"></div>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="row">
+                                <div class="col" *ngIf="!(sessionList && sessionList.length > 0)">
+                                    <p class="mb-0">No Session Available</p>
+                                </div>
+                                <div class="col" *ngIf="sessionList && sessionList.length > 0">
+                                    <div class="accordion show" id="accordion" aria-expanded="true">
+                                        <div class="card mb-2 session-accordian" *ngFor="let obj of sessionList;let i = index" (click)="sessionPanel(i, obj, 'open')">
+                                            <div class="card-header cursor-pointer" [attr.data-target]="'#collapseExample'+ i" data-toggle="collapse" aria-expanded="true"
+                                                aria-controls="'collapseExample' + i">
+                                                <div class="d-flex w-100 align-items-center">
+                                                    <div class="mr-auto">
+                                                        <a class="font-weight-bold" role="button">
+                                                            {{obj.name}} - {{obj.status | titlecase}}
+                                                        </a>
+                                                    </div>
+                                                    <div class="ml-auto">
+                                                        <button class="btn btn-outline-primary btn-sm ml-2" type="button" *ngIf="obj.status === 'created'" aria-hidden="true" (click)="PDSessionAction('running', obj.id)"
+                                                            title="Start Session" [disabled]="!(userDetails.role === 'Development Team' || allowedUserToChangeSpeed.includes(userDetails.id))">Start</button>
+
+                                                        <button class="btn btn-outline-primary btn-sm ml-2" type="button" *ngIf="obj.status === 'running'" aria-hidden="true" (click)="PDSessionAction('pause', obj.id)"
+                                                            title="Pause Session" [disabled]="!(userDetails.role === 'Development Team' || allowedUserToChangeSpeed.includes(userDetails.id))">Pause</button>
+
+                                                        <button class="btn btn-outline-primary btn-sm ml-2" type="button" *ngIf="obj.status === 'pause'" aria-hidden="true" (click)="PDSessionAction('running', obj.id)"
+                                                            title="Resume Session" [disabled]="!(userDetails.role === 'Development Team' || allowedUserToChangeSpeed.includes(userDetails.id))">Resume</button>
+
+                                                        <button class="btn btn-outline-primary btn-sm ml-2" type="button" *ngIf="obj.status === 'running' || obj.status === 'pause'"
+                                                            aria-hidden="true" (click)="PDSessionAction('stop', obj.id)" title="Stop Session"
+                                                            [disabled]="!(userDetails.role === 'Development Team' || allowedUserToChangeSpeed.includes(userDetails.id))">Stop</button>
+
+                                                        <button class="btn btn-outline-primary btn-sm ml-2" type="button" *ngIf="obj.id" aria-hidden="true" (click)="createUpdateSession(obj)"
+                                                            title="Change Speed" [disabled]="!(userDetails.role === 'Development Team' || allowedUserToChangeSpeed.includes(userDetails.id))">Change Speed
+                                                        </button>
+
+                                                        <div class="ml-3 float-right mt-1">
+                                                            <a *ngIf="!openIndex.includes(obj.id)" class="text-dark">
+                                                                <i class="fas fa-chevron-down"></i>
+                                                            </a>
+                                                            <a class="text-dark" *ngIf="openIndex.includes(obj.id)">
+                                                                <i class="fas fa-chevron-up"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div [attr.id]="'collapseExample'+ i" [ngClass]="{'collapse': !openIndex.includes(obj.id),'collapse-show': openIndex.includes(obj.id)}">
+                                                <div class="card card-body mb-0">
+                                                    <div class="row">
+                                                        <div class="col-24">
+                                                            <table class="table border">
+                                                                <thead>
+                                                                    <tr class="add-border-row bg-light">
+                                                                        <th></th>
+                                                                        <th class="text-right padding-right">Count</th>
+                                                                        <th class="text-right padding-right">% Connected
+                                                                        </th>
+                                                                        <th class="text-right padding-right">% Initiated
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr class="add-border-row cursor-pointer" (click)="showDialerList(obj.id, obj.name)">
+                                                                        <td>Total numbers in lists</td>
+                                                                        <td class="text-right text-decoration">
+                                                                            <span *ngIf="obj.totalNoInLists > 0">{{obj.totalNoInLists | number}}</span>
+                                                                        </td>
+                                                                        <td class="text-right"></td>
+                                                                        <td class="text-right"></td>
+                                                                    </tr>
+                                                                    <tr class="add-border-row" *ngIf="obj.id !== undefined">
+                                                                        <td>
+                                                                            <b>Initiated Calls</b>
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.statistics.initiatedCalls > 0">{{obj.statisticsOfPdSession.statistics.initiatedCalls
+                                                                                | number}}</span>
+                                                                        </td>
+                                                                        <td class="text-right"></td>
+                                                                        <td class="text-right"></td>
+                                                                    </tr>
+                                                                    <tr class="add-border-row" *ngIf="obj.id !== undefined">
+                                                                        <td>Invalid Numbers</td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.statistics.invalidNumbers > 0">{{obj.statisticsOfPdSession.statistics.invalidNumbers
+                                                                                | number}}</span>
+                                                                        </td>
+                                                                        <td class="text-right"></td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.statistics.invalidNumbers > 0">{{obj.statisticsOfPdSession.statistics.invalidNumbersPercentage}}%</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr class="add-border-row" *ngIf="obj.id !== undefined">
+                                                                        <td>Deleted Calls</td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.statistics.deletedCalls > 0">{{obj.statisticsOfPdSession.statistics.deletedCalls
+                                                                                | number}}</span>
+                                                                        </td>
+
+                                                                        <td class="text-right"></td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.statistics.deletedCalls > 0">{{obj.statisticsOfPdSession.statistics.deletedCallsPercentage}}%</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr class="add-border-row" *ngIf="obj.id !== undefined">
+                                                                        <td>Deleted Calls (Error)</td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.statistics.deletedCallErrors > 0">{{obj.statisticsOfPdSession.statistics.deletedCallErrors
+                                                                                | number}}</span>
+                                                                        </td>
+                                                                        <td class="text-right"></td>
+                                                                        <td class="text-right"></td>
+                                                                    </tr>
+                                                                    <!-- <tr *ngIf="obj.id !== undefined">
+                                                                                <td></td>
+                                                                                <td></td>
+                                                                                <td></td>
+                                                                                <td></td>
+                                                                            </tr> -->
+                                                                    <tr class="add-border-row" *ngIf="obj.id !== undefined">
+                                                                        <td>Agent was not free</td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.statistics.custAnsweredButAgentNotFree > 0">{{obj.statisticsOfPdSession.statistics.custAnsweredButAgentNotFree
+                                                                                | number}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.statistics.custAnsweredButAgentNotFree > 0">{{obj.statisticsOfPdSession.statistics.answeredAgentNotFreePercentage}}%</span>
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.statistics.custAnsweredButAgentNotFree > 0">{{obj.statisticsOfPdSession.statistics.agentNotFreePercentage}}%</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <!-- <tr *ngIf="obj.id !== undefined">
+                                                                                <td></td>
+                                                                                <td></td>
+                                                                                <td></td>
+                                                                                <td></td>
+                                                                            </tr> -->
+                                                                    <tr class="add-border-row" *ngIf="obj.id !== undefined">
+                                                                        <td>Cust. didn't answer</td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.statistics.custDidNotAnswer > 0">{{obj.statisticsOfPdSession.statistics.custDidNotAnswer
+                                                                                | number}}</span>
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.statistics.custDidNotAnswer > 0">{{obj.statisticsOfPdSession.statistics.custDidNotAnswerPercentage}}%</span>
+                                                                        </td>
+
+                                                                    </tr>
+                                                                    <tr class="add-border-row" *ngIf="obj.id !== undefined">
+                                                                        <td>Rejected</td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.statistics.rejectedCalls > 0">{{obj.statisticsOfPdSession.statistics.rejectedCalls
+                                                                                | number}}</span>
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.statistics.rejectedCalls > 0">{{obj.statisticsOfPdSession.statistics.answeredRejectedCallPercentage}}%</span>
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.statistics.rejectedCalls > 0">{{obj.statisticsOfPdSession.statistics.rejectedCallsPercentage}}%</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <!-- <tr *ngIf="obj.id !== undefined">
+                                                                                <td></td>
+                                                                                <td></td>
+                                                                                <td></td>
+                                                                                <td></td>
+                                                                            </tr> -->
+                                                                    <tr class="add-border-row" *ngIf="obj.id !== undefined">
+                                                                        <td>Connected</td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.statistics.custAnsweredAndConnectedToAgent > 0">{{obj.statisticsOfPdSession.statistics.custAnsweredAndConnectedToAgent
+                                                                                | number}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.statistics.custAnsweredAndConnectedToAgent > 0">{{obj.statisticsOfPdSession.statistics.answeredConnectedPercentage}}%</span>
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.statistics.custAnsweredAndConnectedToAgent > 0">{{obj.statisticsOfPdSession.statistics.connectedPercentage}}%</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <!-- <tr *ngIf="obj.id !== undefined">
+                                                                                <td></td>
+                                                                                <td></td>
+                                                                                <td></td>
+                                                                                <td></td>
+                                                                            </tr> -->
+                                                                    <tr class="add-border-row" *ngIf="obj.id !== undefined">
+                                                                        <td title="Connected (legally) = Agent not Free + Rejected + Connected">
+                                                                            <b>Connected (legally)</b>
+                                                                        </td>
+                                                                        <td class="text-right" title="Connected (legally) = Agent not Free + Rejected + Connected">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.statistics.totalAnsweredCalls > 0">{{obj.statisticsOfPdSession.statistics.totalAnsweredCalls
+                                                                                | number}}</span>
+                                                                        </td>
+                                                                        <td class="text-right"></td>
+                                                                        <td class="text-right"></td>
+                                                                    </tr>
+                                                                    <tr class="add-border-row" *ngIf="obj.id !== undefined">
+                                                                        <td>No of machine detected calls</td>
+                                                                        <td class="text-right" title="No of machine detected calls">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.statistics.machineDetectedCalls > 0">{{obj.statisticsOfPdSession.statistics.machineDetectedCalls
+                                                                                | number}}</span>
+                                                                        </td>
+                                                                        <td class="text-right"></td>
+                                                                        <td class="text-right"></td>
+                                                                    </tr>
+                                                                    <!-- <tr *ngIf="obj.id !== undefined">
+                                                                                <td></td>
+                                                                                <td></td>
+                                                                                <td></td>
+                                                                                <td></td>
+                                                                            </tr> -->
+                                                                    <tr class="add-border-row" *ngIf="obj.id !== undefined">
+                                                                        <td>No of calls per free agent</td>
+                                                                        <td class="text-right">
+                                                                            {{obj.noOfCallsPerAgent | number}}
+                                                                        </td>
+                                                                        <td class="text-right"></td>
+                                                                        <td class="text-right"></td>
+                                                                    </tr>
+                                                                </tbody>
+
+
+                                                            </table>
+                                                        </div>
+                                                        <div class="col-24">
+                                                            <table class="table border mb-0">
+                                                                <thead>
+                                                                    <tr class="add-border-row bg-light">
+                                                                        <th>Outcome</th>
+                                                                        <th class="text-right padding-right">Count
+                                                                            <span *ngIf="obj.statisticsOfPdSession.outcomeStatistics.total > 0">
+                                                                                ({{obj.statisticsOfPdSession.outcomeStatistics.total | number}})
+                                                                            </span>
+                                                                        </th>
+                                                                        <th class="text-right padding-right">% Connected
+                                                                            <span *ngIf="obj.statisticsOfPdSession.statistics.custAnsweredAndConnectedToAgent > 0">
+                                                                                ({{obj.statisticsOfPdSession.statistics.custAnsweredAndConnectedToAgent | number}})
+                                                                            </span>
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr *ngIf="obj.id !== undefined">
+                                                                        <td>Wrong Number</td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.outcomeStatistics.wrongNumber > 0">
+                                                                                {{obj.statisticsOfPdSession.outcomeStatistics.wrongNumber | number}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.outcomeStatistics.wrongNumberPercentage > 0">
+                                                                                {{obj.statisticsOfPdSession.outcomeStatistics.wrongNumberPercentage}} %
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr *ngIf="obj.id !== undefined">
+                                                                        <td>AM Left Message</td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.outcomeStatistics.AMLeftMessage > 0">
+                                                                                {{obj.statisticsOfPdSession.outcomeStatistics.AMLeftMessage | number}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.outcomeStatistics.AMLeftMessagePercentage > 0">
+                                                                                {{obj.statisticsOfPdSession.outcomeStatistics.AMLeftMessagePercentage}}%
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr *ngIf="obj.id !== undefined">
+                                                                        <td>Secretary Left Message</td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.outcomeStatistics.secretaryLeftMessage > 0">
+                                                                                {{obj.statisticsOfPdSession.outcomeStatistics.secretaryLeftMessage | number}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.outcomeStatistics.secretaryLeftMessagePercentage > 0">
+                                                                                {{obj.statisticsOfPdSession.outcomeStatistics.secretaryLeftMessagePercentage}}%
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr *ngIf="obj.id !== undefined">
+                                                                        <td>AM Didn't Leave Message</td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.outcomeStatistics.AMDidNotLeftMessage > 0">
+                                                                                {{obj.statisticsOfPdSession.outcomeStatistics.AMDidNotLeftMessage | number}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.outcomeStatistics.AMDidNotLeftMessagePercentage > 0">
+                                                                                {{obj.statisticsOfPdSession.outcomeStatistics.AMDidNotLeftMessagePercentage}}%
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr *ngIf="obj.id !== undefined">
+                                                                        <td>Secretary Didn't Leave Message</td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.outcomeStatistics.secretaryDoNotLeftMessage > 0">
+                                                                                {{obj.statisticsOfPdSession.outcomeStatistics.secretaryDoNotLeftMessage | number}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.outcomeStatistics.secretaryDoNotLeftMessagePercentage > 0">
+                                                                                {{obj.statisticsOfPdSession.outcomeStatistics.secretaryDoNotLeftMessagePercentage}}%
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr *ngIf="obj.id !== undefined">
+                                                                        <td>Don't Call Again</td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.outcomeStatistics.dontCallAgain > 0">
+                                                                                {{obj.statisticsOfPdSession.outcomeStatistics.dontCallAgain | number}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.outcomeStatistics.dontCallAgainPercentage > 0">
+                                                                                {{obj.statisticsOfPdSession.outcomeStatistics.dontCallAgainPercentage}}%
+                                                                            </span>
+
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr *ngIf="obj.id !== undefined">
+                                                                        <td>Already Renewed</td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.outcomeStatistics.alreadyRenewed > 0">
+                                                                                {{obj.statisticsOfPdSession.outcomeStatistics.alreadyRenewed | number}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.outcomeStatistics.alreadyRenewedPercentage > 0">
+                                                                                {{obj.statisticsOfPdSession.outcomeStatistics.alreadyRenewedPercentage}}%
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    <tr *ngIf="obj.id !== undefined">
+                                                                        <td>Call This Year Again</td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.outcomeStatistics.callThisYearAgain > 0">
+                                                                                {{obj.statisticsOfPdSession.outcomeStatistics.callThisYearAgain | number}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.outcomeStatistics.callThisYearAgainPercentage > 0">
+                                                                                {{obj.statisticsOfPdSession.outcomeStatistics.callThisYearAgainPercentage}}%
+                                                                            </span>
+
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr *ngIf="obj.id !== undefined">
+                                                                        <td>Call Next Year Again</td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.outcomeStatistics.callNextYearAgain > 0">
+                                                                                {{obj.statisticsOfPdSession.outcomeStatistics.callNextYearAgain | number}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.outcomeStatistics.callNextYearAgainPercentage > 0">
+                                                                                {{obj.statisticsOfPdSession.outcomeStatistics.callNextYearAgainPercentage}}%
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr *ngIf="obj.id !== undefined">
+                                                                        <td>Further Action</td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.outcomeStatistics.furtherAction > 0">
+                                                                                {{obj.statisticsOfPdSession.outcomeStatistics.furtherAction | number}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            <span *ngIf="obj.statisticsOfPdSession.outcomeStatistics.furtherActionPercentage > 0">
+                                                                                {{obj.statisticsOfPdSession.outcomeStatistics.furtherActionPercentage}}%
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr *ngIf="obj.id == undefined">
+                                                                        <td>No Data Available</td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                    </tr>
+                                                                </tbody>
+
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- <p>
+                                <button class="btn btn-primary" type="button" data-toggle="collapse"
+                                    data-target="#collapseExample" aria-expanded="false"
+                                    aria-controls="collapseExample">
+                                    Button with data-target
+                                </button>
+                            </p>
+                            <div class="collapse" id="collapseExample">
+                                <div class="card card-body">
+                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                                    richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson
+                                    cred nesciunt sapiente ea proident.
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="col-16">
+                            <table class="table border tbl-session">
+                                <thead>
+                                    <tr class="bg-light">
+                                        <th>
+                                            Dialer Name
+                                        </th>
+                                        <th>OnCall
+                                            <span *ngIf="count.onCall > 0">({{count.onCall | number}})</span>
+                                        </th>
+                                        <th>PDOnline
+                                            <span *ngIf="count.PDOnline > 0">({{count.PDOnline | number}})</span>
+                                        </th>
+                                        <th>PDOnCall
+                                            <span *ngIf="count.PDOnCall > 0">({{count.PDOnCall | number}})</span>
+                                        </th>
+                                        <th>PDPostCall
+                                            <span *ngIf="count.PDPostCall > 0">({{count.PDPostCall | number}})</span>
+                                        </th>
+                                        <th>PDFurtherAction
+                                            <span *ngIf="count.PDFurtherAction > 0">({{count.PDFurtherAction | number}})</span>
+                                        </th>
+                                        <th>PDPause
+                                            <span *ngIf="count.PDPause > 0">({{count.PDPause | number}})</span>
+                                        </th>
+                                        <th>Online
+                                            <span *ngIf="count.online > 0">({{count.online | number}})</span>
+                                        </th>
+                                        <th>DND
+                                            <span *ngIf="count.doNotDisturb > 0">({{count.doNotDisturb | number}})</span>
+                                        </th>
+                                        <th>Offline
+                                            <span *ngIf="count.offline > 0">({{count.offline | number}})</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngFor="let obj of agentsListData">
+                                    <tr>
+                                        <td colspan="10">{{obj.department}}</td>
+                                    </tr>
+                                    <tr *ngFor="let data of obj.agentList">
+                                        <td>
+                                            <span>{{data.sessionName}}</span>
+                                        </td>
+                                        <td [ngClass]="{'lightgreen': data.status == 'onCall'}">
+                                            <span *ngIf="data.status == 'onCall'">{{data.name | titlecase}}</span>
+                                        </td>
+                                        <td [ngClass]="{'lightgreen': data.status == 'PDOnline'}">
+                                            <span *ngIf="data.status == 'PDOnline'">{{data.name | titlecase}}</span>
+                                        </td>
+                                        <td [ngClass]="{'lightgreen': data.status == 'PDOnCall'}">
+                                            <span *ngIf="data.status == 'PDOnCall'">{{data.name | titlecase}}</span>
+                                        </td>
+                                        <td [ngClass]="{'lightblue': data.status == 'PDPostCall'}">
+                                            <span *ngIf="data.status == 'PDPostCall'">{{data.name | titlecase}}</span>
+                                        </td>
+                                        <td [ngClass]="{'lightblue': data.status == 'PDFurtherAction'}">
+                                            <span *ngIf="data.status == 'PDFurtherAction'">{{data.name | titlecase}}</span>
+                                        </td>
+                                        <td [ngClass]="{'lightyellow': data.status == 'PDPause'}">
+                                            <span *ngIf="data.status == 'PDPause'">{{data.name | titlecase}}</span>
+                                        </td>
+                                        <td [ngClass]="{'lightyellow': data.status == 'online'}">
+                                            <span *ngIf="data.status == 'online'">{{data.name | titlecase}}</span>
+                                        </td>
+                                        <td [ngClass]="{'lightyellow': data.status == 'doNotDisturb'}">
+                                            <span *ngIf="data.status == 'doNotDisturb'">{{data.name | titlecase}}</span>
+                                        </td>
+                                        <td [ngClass]="{'lightgrey': data.status == 'offline'}">
+                                            <span *ngIf="data.status == 'offline'">{{data.name | titlecase}}</span>
+                                        </td>
+
+                                    </tr>
+                                    <!-- <tr style="border: none">
+                                            <td colspan="10"></td>
+                                        </tr> -->
+                                </tbody>
+                                <tbody *ngIf="agentsListData.length === 0">
+                                    <tr>
+                                        <td colspan="12">No Data Available</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

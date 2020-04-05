@@ -1,0 +1,27 @@
+<!--Dialog Header-->
+<div class="modal-header">
+    <h5 class="modal-title">
+        Duplicate Customers
+    </h5>
+    <div class="float-right">
+        <div (click)="close()" class="cus-hov">
+            <i class="fa fa-times"></i>
+        </div>
+    </div>
+</div>
+<!--Dialog Header End-->
+<div class="modal-body">
+    <div class="col-xl-24" *ngIf="rowData && rowData.length > 0 && rowData[0] !== 'autoHeight'">
+        <div class="height_scroll">
+            <ag-grid-angular #agGrid style="width: 100%" class="ag-theme-balham" [rowData]="rowData" [defaultColDef]="defaultColDef"
+                [enableCellTextSelection]="true" [columnDefs]="columnDefs" (rowClicked)="onRowClicked($event)" [domLayout]="domLayout"
+                (gridReady)="onGridReady($event)">
+            </ag-grid-angular>
+        </div>
+    </div>
+    <div class="col-xl-24" *ngIf="!rowData || rowData.length === 0">
+        <span class="font-weight-bold">
+            No Data Available
+        </span>
+    </div>
+</div>

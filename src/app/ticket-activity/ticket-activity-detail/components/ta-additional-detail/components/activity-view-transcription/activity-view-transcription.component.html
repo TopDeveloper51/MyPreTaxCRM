@@ -1,0 +1,56 @@
+<div class="cont-us container-wrap col">
+  <div class="row">
+    <div class="col">
+      <div class="crm-heading   crm-grid__item" id="crm_heading">
+        <div class="crm-container">
+          <div class="crm-heading__main">
+            <h3 class="crm-heading__title">View Transciption</h3>
+            <span class="crm-heading__separator crm-hidden"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="float-right mt-4">
+        <i class="fas fa-external-link-alt text-black cursor-pointer fa-lg activity-link" 
+          title="Open Activity" (click)="goToActivity()"></i>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="col-24">
+    <div class="">
+      <div class="container-fluid p-3">
+
+        <div class="chat-wrap" *ngIf="chatAsArray && chatAsArray.length>0">
+          <ul class="list-unstyled" *ngFor="let item of chatAsArray">
+            <li class="replies col-xs-20" *ngIf="item.userName == 'Channel 2'">
+              <div class="pull-left">
+                <p class="d-block text-light chat-time"><small> {{item.userName}} {{item.chatTime}}</small></p>
+                <p class="bg-primary text-white chat-msg col-xs-20"> {{item.message}}</p>
+              </div>
+            </li>
+            <li class="sent col-xs-20 col-xs-offset-4" *ngIf="item.userName == 'Channel 1'">
+              <div class="pull-right">
+                <p class="d-block text-light chat-time text-right"><small> {{item.userName}} {{item.chatTime}}</small>
+                </p>
+                <p class="bg-light chat-msg "> {{item.message}}</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+
+        <div class="no-found mt-3" *ngIf="chatAsArray && chatAsArray.length == 0">
+          <p class="mb-0"> No Transciption Available
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+</div>

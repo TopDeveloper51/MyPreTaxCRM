@@ -1,0 +1,133 @@
+<div class="cont-us col">
+    <div class="row">
+        <div class="col-24">
+            <div class="crm-heading   crm-grid__item" id="crm_heading">
+                <div class="crm-container">
+                    <div class="crm-heading__main">
+                        <h3 class="crm-heading__title">Internal Meeting</h3>
+                        <span class="crm-heading__separator crm-hidden"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-24">
+            <div class="crm-mainbox crm-portlet--height-fluid-half mb-0">
+                <div class="container-fluid p-3">
+                    <form [formGroup]="internalMeetingForm">
+                            <div class="row  justify-content-center align-items-center">
+                                <div class="col-3">
+                                    <div class="form-field">
+                                        <div class="form-field-control">
+                                            <div [ngClass]="{'cross-validation-error': internalMeetingForm.controls.participants.errors  &&  internalMeetingForm.controls.participants.errors.required }">
+                                                <ng-select  (open)="onClearAll()" #participants  [items]="internalMeetingLookup.responsiblePersonList" [multiple]="true" bindLabel="name" groupBy="group" [selectableGroup]="true"
+                                                    bindValue="id" appendTo="body" [closeOnSelect]="false" [searchable]="false"
+                                                    [clearable]="false" placeholder="Participants*" class="salesprocessstatus" clearAllText="Clear" formControlName="participants" required>
+                                                    <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                                        <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                                            <input type="checkbox" id="item-{{index}}" type="checkbox" [checked]="item$.selected" class="custom-control-input" />
+                                                            <label class="custom-control-label font-weight-bold">{{item.group}}</label>
+                                                        </div>
+                                                    </ng-template>
+                                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                                        <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                                            <input id="item-{{index}}" type="checkbox" [checked]="item$.selected" class="custom-control-input" />
+                                                            <label class="custom-control-label">{{item.name}}</label>
+                                                        </div>
+                                                    </ng-template>
+                                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                                        <app-select-multi-label class="w-100" [groupItems]="items" [lookup]="internalMeetingLookup.responsiblePersonList">
+                                                        </app-select-multi-label>
+                                                    </ng-template>
+                                                    <ng-template ng-header-tmp>
+                                                        <!-- participants.filter($event.target.value) -->
+                                                        <input  type="text" class="set-input form-field-input" [appAutofocus] placeholder="Search" (input)="filterData($event.target.value)"
+                                                        />
+                                                        <button (click)="onSelectAll('participants')" class="btn btn-sm btn-secondary">All</button>
+                                                        <button (click)="onClearAll('participants')" class="btn btn-sm btn-secondary ml-2">None</button>
+                                                        <button (click)="closeSelect(participants);" class="btn btn-sm btn-secondary ml-2">Search</button>
+                                                    </ng-template>
+                                                </ng-select>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-field">
+                                        <div class="form-field-control">
+                                            <input id="subject" type="text" formControlName="subject" class=" form-field-input" placeholder=" ">
+                                            <label for="subject" class="form-field-label">Subject
+                                                <span class="col-red">*</span>
+                                            </label>
+                                            <div class="form-field-bar">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-3">
+                                    <div class="form-field">
+                                        <div class="form-field-control datepicker-wrapper">
+                                            <div class="" [ngClass]="{'cross-validation-error': internalMeetingForm.controls.date.errors  &&  internalMeetingForm.controls.date.errors.required }">
+                                                <md2-datepicker type="date" format="MM/dd/y" placeholder="Date" name="date" id="date" openOnFocus="true" [max]="maxDate"
+                                                    mode="landscape" formControlName="date" (change)="onDateChange()" required>
+                                                </md2-datepicker>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="form-field">
+                                        <div class="form-field-control d-flex align-items-center">
+                                            <div class="edit_check_in_out_lbl_wrap d-inline-block">
+                                                <label class="check_label mr-2 font-weight-bold inter-label" id="lblEmailActivity">Start Time :
+                                                </label>
+                                            </div>
+                                            <timepicker name="startTime" class="d-inline-block" [minuteStep]="1" formControlName="startTime" (ngModelChange)="onChangesStarttime($event)"></timepicker>
+                                            <div class="edit_check_in_out_lbl_wrap padding_left_15">
+                                                <span *ngIf="startTimeInEt !== undefined && startTimeInEt !== '' && startTimeInEt !==null" class="font-weight-bold inter-span">
+                                                    ET : {{startTimeInEt| date: 'MM/dd/yy hh:mm a' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="form-field">
+                                        <div class="form-field-control d-flex align-items-center">
+                                            <div class="edit_check_in_out_lbl_wrap d-inline-block">
+                                                <label class="check_label mr-2 font-weight-bold inter-label" id="lblEmailActivity">End Time :
+                                                </label>
+                                            </div>
+                                            <timepicker name="endTime" class="d-inline-block" [minuteStep]="1" formControlName="endTime"  (ngModelChange)="onChangesEndtime($event)"></timepicker>
+                                            <div class="edit_check_in_out_lbl_wrap padding_left_15">
+                                                <span *ngIf="endTimeInET!=undefined && endTimeInET!='' && endTimeInET!==null" class="font-weight-bold inter-span">
+                                                    ET : {{endTimeInET| date: 'MM/dd/yy h:mm a' }}</span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-auto ml-auto">
+                                        <button class="btn btn-outline-primary" [disabled]="!internalMeetingForm.valid" (click)="createActivity()">Create Activity</button>
+                                </div>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="cont-us col">
+    <div class="row">
+        <div class="col-24">
+            <!-- Start of the search form for Meeting/Training Data -->
+            <app-training-search [isInternalMeeting]="true"></app-training-search>
+            <!-- End of the search form for Meeting/Training Data -->
+        </div>
+    </div>
+</div>

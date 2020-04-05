@@ -1,0 +1,33 @@
+<!--Dialog header-->
+<div class="modal-header ">
+    <h5 class="modal-title">
+        Ticket History
+    </h5>
+    <div class="float-right">
+        <div (click)="modal.close(true)" class="cus-hov">
+            <i class="fa fa-times"></i>
+        </div>
+    </div>
+</div>
+
+<div id="modal-ticket" class="modal-body cal-box">
+    <div class="main_innerpage row">
+        <div class="col-24">
+
+            <div class="no-found" *ngIf="(!rowData || rowData.length == 0)">
+                <p class="mb-0">No Data Found</p>
+            </div>
+            <div class="deta-aggrid" *ngIf="rowData && rowData.length>0">
+
+                <ag-grid-angular #agGrid id="myGrid" style="width: 100%;height:calc(100vh - 710px);" class="ag-theme-balham" [columnDefs]="columnDefs"
+                    [defaultColDef]="defaultColDef" [enableCellTextSelection]="true" [rowData]="rowData" (gridReady)="onGridReady($event)">
+                </ag-grid-angular>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-outline-primary" id="cancel" name="cancel" (click)="modal.close('NO')">Cancel
+    </button>
+</div>

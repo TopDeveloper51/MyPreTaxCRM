@@ -1,0 +1,82 @@
+<div class="cont-us col">
+  <div class="row">
+    <div class="col">
+      <div class="crm-heading crm-grid__item" id="crm_heading">
+        <div class="crm-container">
+          <div class="crm-heading__main">
+            <h3 class="crm-heading__title">Customer Search</h3>
+            <span class="crm-heading__separator crm-hidden"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <form name="CustomerHeaderSearchForm">
+      <div class="col">
+        <div class="float-right">
+          <div class="form-field float-left">
+            <div class="form-field-control">
+              <input id="TopEFIN" type="text" [(ngModel)]="customerSearch.TopEFIN" class="form-field-input" name="efin" placeholder=" "
+                (keydown.space)="$event.preventDefault()">
+              <label for="TopEFIN" class="form-field-label">EFIN</label>
+              <div class="form-field-bar"></div>
+            </div>
+          </div>
+          <button class="btn btn-outline-primary float-left ml-2 mt-2" value="searchEFIN" (click)="searchEFIN()" [disabled]="!customerSearch.TopEFIN">Search</button>
+          <button *ngIf="isSearchDone" class="btn btn-outline-primary ml-2 mt-2" (click)="isSearchDone=false">Edit</button>
+        </div>
+      </div>
+    </form>
+
+
+    <div class="col-24 customersearch">
+      <div class="crm-mainbox crm-portlet--height-fluid-half">
+        <div class="container-fluid p-3">
+          <div class="row">
+            <!-- start of section for search filters in editable mode -->
+            <div *ngIf="!isSearchDone" class="col">
+              <app-customer-card-editable #customersearch [screen]="'customerSearch'" [lookup]="customerSearch" [getFormValue]="isSearchCalled"
+                (customerSearchFormValue)=" changeCustomerSearchFormValue($event);" (clearCustomerSearchFormValue)="clearSearch()">
+              </app-customer-card-editable>
+            </div>
+            <!-- end of section for search filters in editable mode -->
+
+            <!-- start of section for search filters in read only mode -->
+            <div *ngIf="isSearchDone && isFilterApplied" class="col">
+              <app-customer-card-readonly-searchrowresult [screen]="'customerSearch'" [isSearchDone]="isSearchDone" [isFilterApplied]="isFilterApplied"
+                [customerSearchForm]="customerSearchForm" [customerSearchLookup]="customerSearch" [availableCustomer]="availableCustomer">
+              </app-customer-card-readonly-searchrowresult>
+            </div>
+            <!-- end of section for search filters in read only mode -->
+
+            <div *ngIf="isSearchDone && !isFilterApplied" class="col">
+              <p class="pt-2 mb-1">No filters applied as search criteria</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="row justify-content-end">
+                <div class="col-xl-24">
+                  <div class="no-found" *ngIf="!availableCustomer || availableCustomer.data.length == 0">
+                    <p class="mb-0">No Data Available</p>
+                  </div>
+                  <div class="deta-aggrid" *ngIf="availableCustomer && availableCustomer.data && availableCustomer.data.length>0 && isSearchDone">
+                    <p class="font-weight-bold mb-0">Customer
+                      <span class="font-weight-bold">({{availableCustomer.total | number}})</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-24 mt-2 deta-aggrid" *ngIf="isSearchDone && availableCustomer && availableCustomer.data && availableCustomer.data.length>0">
+            <ag-grid-angular #agGrid id="myGrid" style="width: 100%; height:calc(100vh - 193px);" class="ag-theme-balham" [columnDefs]="columnDefs"
+              [defaultColDef]="defaultColDef" [rowData]="rowData" [sideBar]="sideBar" (rowClicked)="onRowClicked($event)" (gridReady)="onGridReady($event)"
+              [animateRows]='true' [floatingFilter]="true" [enableCellTextSelection]="true">
+            </ag-grid-angular>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>

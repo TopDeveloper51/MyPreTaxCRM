@@ -1,0 +1,16 @@
+<div [formGroup]="knowldegeBaseEditor">
+  <div class="modal-header dialog-header-confirm">
+    <h5 class="modal-title" id="modal-title">Knowledge Base Details</h5>
+    <button type="button" class="close " aria-describedby="modal-title" (click)="modal.close(true)">
+      <span aria-hidden="true" class="cus-hov">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <ckeditor formControlName="knowledgebase" [editor]="Editor"></ckeditor>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-primary" (click)="save()">Save</button>
+    <button type="button" class="btn btn-outline-primary" (click)="modal.close(true)">Cancel</button>
+  </div>
+</div>

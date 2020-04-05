@@ -1,0 +1,60 @@
+<!--Dialog Header-->
+<div class="modal-header">
+    <h5 class="modal-title">
+        {{title}}
+    </h5>
+    <div class="float-right">
+        <span (click)="close()" class="cursor-pointer cus-hov">
+            <i class="fa fa-times"></i>
+        </span>
+    </div>
+</div>
+<!--Dialog Header End-->
+<div class="modal-body">
+    <div class="col-xl-24">
+        <div class="clearfix col-xl-24 pl-0 pr-0">
+            <span *ngIf="addOnFeeInfo?.bankDetails && addOnFeeInfo.bankDetails.length > 0">
+                <span class="pr-2">
+                    <b>Accounting Date : </b>{{addOnFeeInfo.accountingDate}}</span>
+                <span>
+                    <b>Cut Off Date </b>: {{addOnFeeInfo.cutOffDate}}</span>
+            </span>
+            <span *ngIf="addOnFeeInfo.bankDetails && addOnFeeInfo.bankDetails.length === 0">No Data Available</span>
+        </div>
+        <div class="clearfix col-xl-24 pl-0 pr-0" *ngIf="addOnFeeInfo?.bankDetails && addOnFeeInfo?.bankDetails.length > 0">
+            <table class="table table-reponsive table_header" s>
+                <thead>
+                    <tr>
+                        <th class="table_th_bank_name_header">
+                            Bank Name
+                        </th>
+                        <th class="table_th_header">
+                            Funded BP
+                        </th>
+                        <th class="table_th_header">
+                            AddOnFee85%
+                        </th>
+                        <th class="icon_height"></th>
+                    </tr>
+                </thead>
+                <tbody style="max-height:500px; height:auto">
+                    <tr *ngFor="let banks of addOnFeeInfo?.bankDetails">
+                        <td>
+                            {{banks.bank}}
+                        </td>
+                        <td class="text-right">
+                            {{(banks.fundedBPWithAddOnFee && banks.fundedBPWithAddOnFee > 0) ? (banks.fundedBPWithAddOnFee | number:'1.2-2') : ''}}
+                        </td>
+                        <td class="text-right">
+                            {{(banks.addOnTransFee85Per && banks.addOnTransFee85Per > 0) ? (banks.addOnTransFee85Per | number:'1.2-2') : ''}}
+                        </td>
+                        <td class="PDF_icon">
+                            <img (click)="viewPDF(banks.filePath)" class="cursor-pointer;" height="24px" width="19px" alt="View PDF" title="View PDF"
+                                src="assets/images/icon_Detail.png" *ngIf="banks.filePath">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

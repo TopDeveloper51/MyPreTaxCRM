@@ -1,0 +1,93 @@
+<form [formGroup]="demoSchedulerCreateSlotForm">
+    <div class="">
+      <!--Dialog Header-->
+      <div class="modal-header">
+        <h5 class="modal-title " *ngIf="data.type === 'createSlot'">
+          Create Slot
+        </h5>
+        <h5 class="modal-title " *ngIf="data.type !== 'createSlot'">
+          Change Time/Purpose
+        </h5>
+        <div class="float-right">
+          <div (click)="close()" class="cus-hov">
+            <i class="fa fa-times"></i>
+          </div>
+        </div>
+      </div>
+      <!--Dialog Header End-->
+  
+      <!--Dialog Body-->
+      <div class="modal-body" [ngClass]="{'create_slot_dialog':(data.type === 'createSlot'), 'create_slot_dialog_change':(data.type !== 'createSlot')}">
+        <div class="col">
+          <div class="main_innerpage row ">
+            <div class="col-6 d-flex align-items-center mb-3 padding_top_20 clearfix" *ngIf="data.type === 'createSlot'">
+              <div class="col">
+                <div class="form-field ">
+                  <div class="form-field-control">
+                    <input id="slots" type="number" class=" form-field-input" formControlName="slots" placeholder=" " min="1" max="6" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                    <label for="slots" class="form-field-label">No. of Slots</label>
+                    <div class="form-field-bar"></div>
+                    <!-- <input id="slots" type="number" min="1" max="6" class="form-field-input" placeholder=""
+                    formControlName="slots">
+                  <label for="volume" class="form-field-label">No. of Slots</label>
+                  <div class="form-field-bar"></div> -->
+                  </div>
+                </div>
+              </div>
+  
+            </div>
+            <div class="clearfix internl_wrpper" [ngClass]="{'col-lg-18': data.type === 'createSlot', 'col-lg-24': data.type !== 'createSlot'}">
+              <div class="row">
+                <div class="col">
+                  <div class="form-field">
+                    <div class="form-field-control d-flex align-items-center">
+                      <div class="edit_check_in_out_lbl_wrap d-inline-block">
+                        <label class="check_label mr-2 font-14 position-relative pos-top-5" id="lblEmailActivity">Slot Time :</label>
+                      </div>
+                      <timepicker name="time" class="d-inline-block" [minuteStep]="1" formControlName="time"></timepicker>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="col dropdown_wrappeR d-flex align-items-center">
+                  <div class="col mb-3">
+                    <div class="form-field">
+                      <div class="form-field-control">
+                        <ng-select #purpose [items]="purposeList" bindLabel="name" bindValue="id" [multiple]="false" placeholder="purpose" clearAllText="Clear"
+                          [selectableGroup]="false" appendTo="body" formControlName="purpose" [closeOnSelect]="true" [searchable]="false">
+                          <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                            <div class="d-inline-block ln-normal">
+                              <label>{{item.name}}</label>
+                            </div>
+                          </ng-template>
+  
+                          <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                            <app-select-multi-label class="w-100" [items]="items">
+                            </app-select-multi-label>
+                          </ng-template>
+  
+                          <ng-template ng-header-tmp>
+                            <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="purpose.filter($event.target.value)"
+                            />
+                          </ng-template>
+  
+                        </ng-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+  
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-primary" (click)="save()" [disabled]="data.type === 'createSlot' && !demoSchedulerCreateSlotForm.valid">Save</button>
+        <button class="btn btn-outline-primary" (click)="close()">Cancel</button>
+  
+      </div>
+      <!--Dialog Body End-->
+    </div>
+  </form>

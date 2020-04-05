@@ -1,0 +1,118 @@
+<div class="centric-modal-body window_form_wrapper">
+    <div class="row" *ngIf="refreshView">
+        <div class="col-xl-7">
+
+            <mtpo-ta-customer (dialStatusEmit)="dialStatusChange($event)" [modelData]="modelData" [activityId]="activityId"></mtpo-ta-customer>
+
+            <mtpo-ta-customer-ticket [modelData]="modelData" [activityId]="activityId"></mtpo-ta-customer-ticket>
+
+            <mtpo-ta-customer-activity [modelData]="modelData" [activityId]="activityId">
+            </mtpo-ta-customer-activity>
+        </div>
+        <div class="col-xl-13">
+            <!-- h-25 -->
+            <div class="card bg-gray">
+                <div class="card-body" id="activtiyHeight">
+                    <mtpo-ta-ticket-activity [modelData]="modelData" [activityId]="activityId">
+                    </mtpo-ta-ticket-activity>
+                </div>
+            </div>
+
+            <!-- h-75 -->
+            <div class="card">
+                <!-- style="height: calc(100vh - 243px);" -->
+                <div class="card-body" [style.height.px]="chatDynamicHeightActivities">
+                    <mtpo-ta-activity [windowId]="windowId" [modelData]="modelData" [(activityData)]="activityData">
+                    </mtpo-ta-activity>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-xl-4 set-leftgray">
+            <div class="card bg-gray">
+                <div class="card-body" id="taTicketHeight">
+                    <!-- [activityId]="activityId" -->
+                    <mtpo-ta-ticket [windowId]="windowId" [modelData]="modelData"></mtpo-ta-ticket>
+                </div>
+            </div>
+            <div class="set-bg-before">
+                <div class="card bg-gray">
+                    <div class="card-body" style="min-height: 74px;overflow-y: scroll;" [style.height.px]="dynamicHeight">
+                        <mtpo-ta-additional-detail [modelData]="modelData"></mtpo-ta-additional-detail>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div *ngIf="customerInfo">
+    <div id="titlebar_{{windowId}}">
+        <ng-template #windowTitleBar let-win>
+            <div class="w-100 d-flex align-items-center">
+                <div class="float-left">
+                    <img src="assets/images/Angebot.png" title="Go to customer (Reseller: {{customerInfo.resellerName}})" *ngIf="customerInfo.resellerId == '4dc601df-dc0e-4a7a-857d-9493ba33a223'"
+                        class="cursor-pointer" style="width:20px" (click)="goToCustomerCart(customerInfo.customerId)">
+                    <img src="assets/images/warning-original-25x25.png" title="Go to customer (Reseller: {{customerInfo.resellerName}})" *ngIf="customerInfo.resellerId !== undefined && userResellerId !== undefined && customerInfo.resellerId !== userResellerId"
+                        class="cursor-pointer" style="width:20px" (click)="goToCustomerCart(customerInfo.customerId)">
+                    <span class="d-inline-block font-weight-bold ml-2 font-17">
+                        {{customerInfo.activityCustomerFinalInformation}}
+                    </span>
+                    <span class="d-inline-block font-weight-bold ml-2 font-17" *ngIf="customerInfo.resellerId !== undefined && userResellerId !== undefined && customerInfo.resellerId !== userResellerId">
+                        <span class="text-danger" *ngIf="customerInfo.resellerName !== undefined && customerInfo.resellerName !== null && customerInfo.resellerName !== ''">
+                            Reseller: {{customerInfo.resellerName}}
+                        </span>
+                        <!-- <span class="text-danger" *ngIf="customerInfo.resellerName !== undefined && customerInfo.resellerName !== null && customerInfo.resellerName !== ''" >
+                            {{customerInfo.resellerName}}
+                        </span> -->
+                    </span>
+                    <span *ngIf="showBlacklistIcon" class="d-inline-block font-weight-bold ml-2 font-17">
+                        <img src="assets/images/blacklisted.png" title="BlackListed" class="cust_table_small" (click)="goToCustomerCart(customerInfo.customerId)">
+                        <span class="text-danger">
+                            BlackListed
+                        </span>
+                    </span>
+                    <span class="d-inline-block ml-2">
+                        <span class="alert alert-danger margin_bottom_0" *ngIf="isDoNotCall">
+                            <strong>This customer has opted for 'Don't Call Again'</strong>
+                        </span>
+                    </span>
+                    <span class="d-inline-block ml-2">
+                        <span class="alert alert-danger margin_bottom_0" *ngIf="dialStatus && dialStatus !== ''">
+                            <strong>{{dialStatus}}</strong>
+                        </span>
+                    </span>
+                </div>
+                <div class="float-right ml-auto">
+                    <span class="d-inline-block text-danger font-weight-bold font-italic" *ngIf="isViewMode">
+                        Read Only
+                    </span>
+                    <!-- displayCountAndNextPrev -->
+                    <div id="counter_{{windowId}}" class="p-2 d-inline-block" *ngIf="currentActivityIndex">
+                        {{currentActivityIndex}} of {{totalArrayLength}}
+                    </div>
+                    <div class="d-inline-block" *ngIf="currentActivityIndex">
+                        <button class="btn_next_pre_color text-black k-button-icon k-button k-bare" id="prev_{{windowId}}" [ngClass]="{'no-clicking': disabledPrevButton}"
+                            (click)="checkChanges('Prev')" >
+                            &lt;&lt;
+                        </button>
+                        <button class="btn_next_pre_color text-black k-button-icon k-button k-bare" id="next_{{windowId}}" [ngClass]="{'no-clicking': disabledNextButton}"
+                            (click)="checkChanges('Next')" >&gt;&gt;</button>
+                    </div>
+
+                    <!-- <button kendoButton [icon]="'minimize'" [look]="'bare'" *ngIf="windowRef.window.instance.state == 'maximized' || windowRef.window.instance.state == 'default'"
+                        (click)="minimize(windowTitleBar)"></button>
+                    <button kendoButton [icon]="'maximize'" [look]="'bare'" *ngIf="windowRef.window.instance.state == 'minimized' || windowRef.window.instance.state == 'default'"
+                        (click)="maximize(windowTitleBar)"></button> -->
+                    <button kendoWindowMinimizeAction [window]="win"></button>
+                    <button kendoWindowRestoreAction [window]="win"></button>
+                    <button class="k-button-icon k-button k-bare btn" title="Close" (click)="checkChanges('Close')">
+                        <i class="fa fa-times chat_close_icon cursor-pointer minimize_close"></i>
+                    </button>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+</div>

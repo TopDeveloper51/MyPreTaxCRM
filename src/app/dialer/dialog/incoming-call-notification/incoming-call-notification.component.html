@@ -1,0 +1,22 @@
+<div class="modal-header ">
+    <h5 class="modal-title">
+        Waiting/Active Calls
+    </h5>
+    <div class="float-right modal-btn">
+        <div class="cursor-pointer mt-1">
+            <div class="d-inline-block">
+                <span (click)="refreshData();" class="mr-2 cus-hov">
+                    <i class="fas fa-sync-alt" [ngClass]="{'fa-spin':refreshing==true}"></i>
+                </span>
+            </div>
+            <div class="d-inline-block">
+                <span class="cus-hov d-flex justify-content-center align-items-center" (click)="close(undefined)">
+                    <i class="fa fa-times"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-body">
+    <app-incoming-calls [isDialog]="true" (onClose)="close($event)"></app-incoming-calls>
+</div>

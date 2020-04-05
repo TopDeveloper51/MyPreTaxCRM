@@ -1,0 +1,21 @@
+.cus-hov-custom
+{
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: color 0.2s ease-in-out;
+    cursor: pointer;
+    border-radius: 13%;
+}
+.modal-header .cus-hov-custom:hover {
+    opacity: 1;
+}
+.cus-hov-custom:hover {
+    background: rgba(185, 185, 185, 0.5) !important;
+}
+.modal-header .cus-hov-custom {
+    opacity: 0.5;
+}

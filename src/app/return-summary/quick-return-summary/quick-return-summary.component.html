@@ -1,0 +1,384 @@
+<div class="clearfix px-3">
+    <div class="row">
+        <div class="col">
+            <div class="crm-heading">
+                <div class="crm-heading__main">
+                    <div class="crm-heading__title">Support</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-quickReturnSummary-tab" data-toggle="tab" href="#quickReturnSummary" role="tab"
+                        (click)="tabChanged('Quick Return Summary')" aria-controls="nav-quickReturnSummary" aria-selected="true">Quick Return Summary
+                    </a>
+                    <a class="nav-item nav-link" id="nav-returnSearch-tab" data-toggle="tab" href="#returnSearch" role="tab" aria-controls="nav-returnSearch"
+                        (click)="tabChanged('Return Search')" aria-selected="false">Return Search
+                    </a>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active p-3 border" id="quickReturnSummary" role="tabpanel" aria-labelledby="nav-quickReturnSummary-tab"
+                    style="border-top: 0 !important;">
+                    <div class="clearfix">
+                        <form [formGroup]="quickReturnSummaryForm">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-8 col-sm-8 col-xs-13">
+                                    <div class="form-field">
+                                        <div class="form-field-control ml-auto">
+                                            <input id="customerNumber" type="text" class="form-field-input" placeholder=" " formControlName="customerNumber" minlength="3">
+                                            <label for="customerNumber" class="form-field-label">Customer Number
+                                                <span>*</span>
+                                            </label>
+                                            <div class="form-field-bar"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-11">
+                                    <div class="form-field mb-0 mt-2">
+                                        <div class="form-field-control ml-auto">
+                                            <button class="btn btn-outline-primary ml-2" [disabled]="quickReturnSummaryForm.controls.customerNumber.value === ''" type="button"
+                                                id="location" name="location" (click)="getLocation()">Get LocationId</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-24" *ngIf="isLoctionError">
+                                    <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24">
+                                        <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24">
+                                            <label class="text-danger">* Location not found.</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!--Row-1 End-->
+
+                            <!--Row-2-->
+                            <div class="row">
+                                <div class="col-lg-6 col-md-8 col-sm-10 col-xs-24">
+                                    <div class="dropdown_wrapper">
+                                        <div class="form-field">
+                                            <div class="form-field-control">
+                                                <ng-select #LocationId [items]="locationIds" bindLabel="name" bindValue="id" [multiple]="false" placeholder="Location Id"
+                                                    clearAllText="Clear" [selectableGroup]="true" appendTo="body" formControlName="LocationId"
+                                                    [closeOnSelect]="true" [searchable]="true" [clearable]="false">
+                                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                                        <div class="d-inline-block ln-normal">
+                                                            <label title="{{item.name}}">{{item.name}}</label>
+                                                        </div>
+                                                    </ng-template>
+
+                                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                                        <app-select-multi-label class="w-100" [items]="items">
+                                                        </app-select-multi-label>
+                                                    </ng-template>
+                                                    <ng-template ng-header-tmp>
+                                                        <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="LocationId.filter($event.target.value)"
+                                                        />
+                                                    </ng-template>
+
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Row-2 End-->
+
+                            <!--Row-3-->
+                            <div class="row">
+
+                                <div class="col-lg-6 col-md-8 col-sm-10 col-xs-24">
+                                    <div class="form-field">
+                                        <div class="form-field-control">
+                                            <ng-select #taxYear [items]="taxyearList" bindLabel="name" bindValue="id" [multiple]="false" placeholder="Tax Year" clearAllText="Clear"
+                                                [selectableGroup]="true" appendTo="body" formControlName="taxYear" [closeOnSelect]="true"
+                                                [searchable]="true" [clearable]="false">
+                                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                                    <div class="d-inline-block ln-normal">
+                                                        <label>{{item.name}}</label>
+                                                    </div>
+                                                </ng-template>
+
+                                                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                                    <app-select-multi-label class="w-100" [items]="items">
+                                                    </app-select-multi-label>
+                                                </ng-template>
+                                                <ng-template ng-header-tmp>
+                                                    <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="taxYear.filter($event.target.value)"
+                                                    />
+                                                </ng-template>
+
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!--Row-3 End-->
+
+                            <!--Row-4-->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="row padding_l_r_0 padding_top_20 ">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-24">
+                                            <div class="dropdown_wrapper">
+                                                <div class="form-field">
+                                                    <div class="form-field-control">
+                                                        <ng-select #maskType [items]="maskTypeList" bindLabel="name" bindValue="id" [multiple]="false" placeholder="SSN OR EIN OR Submission Id"
+                                                            clearAllText="Clear" [selectableGroup]="true" appendTo="body" formControlName="maskType" 
+                                                            [closeOnSelect]="true" [clearable]="false" [searchable]="true" (ngModelChange)="changeValue($event)">
+                                                            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                                                <div class="d-inline-block ln-normal">
+                                                                    <label>{{item.name}}</label>
+                                                                </div>
+                                                            </ng-template>
+
+                                                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                                                <app-select-multi-label class="w-100" [items]="items">
+                                                                </app-select-multi-label>
+                                                            </ng-template>
+                                                            <ng-template ng-header-tmp>
+                                                                <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="maskType.filter($event.target.value)"
+                                                                />
+                                                            </ng-template>
+
+                                                        </ng-select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-24">
+                                            <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24 input-wrapper padding_l_r_0">
+                                                <!-- <div class="form-field"
+                                                *ngIf="masktype !== 'SSN' && masktype !== 'EIN'">
+                                                <div class="form-field-control ml-auto">
+                                                    <input id="ssnorein" type="text"
+                                                        class="form-field-input" placeholder=" "  [appTextMask]="{mask:'(999) 999-9999'}"
+                                                        formControlName="ssnorein">
+                                                    
+                                                    <label for="ssnorein"
+                                                        class="form-field-label">SSN OR EIN OR
+                                                        Submission Id</label>
+                                                    <div class="form-field-bar"></div>
+                                                </div>
+                                            </div> 
+                                            [appTextMask]="{mask: mask}"
+                                        -->
+                                                <div class="form-field" *ngIf="masktype == 'SSN' || masktype == 'EIN'">
+                                                    <div class="form-field-control ml-auto">
+                                                        <input id="ssnorein" type="text" class="form-field-input" placeholder=" " [appTextMask]="{mask:mask}"   (keypress)="keyPress($event,'getSummary')"  formControlName="ssnorein">
+                                                        <label for="ssnorein" class="form-field-label">SSN OR EIN OR Submission Id</label>
+                                                        <div class="form-field-bar"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-field" *ngIf="masktype == 'submissionId'">
+                                                    <div class="form-field-control ml-auto">
+                                                        <input id="ssnorein" type="text" class="form-field-input" placeholder=" " formControlName="ssnorein" [required]="!quickReturnSummaryForm.value.ssnorein">
+                                                        <label for="ssnorein" class="form-field-label">SSN OR EIN OR Submission Id</label>
+                                                        <div class="form-field-bar"></div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-auto ml-auto d-flex align-items-center">
+                                    <div class="row">
+                                        <!-- ************ pagination start *********** -->
+                                        <div class="link-buttons-wrapper pull-left col-auto">
+                                            <div class="row">
+                                                <div class="col-auto d-flex align-items-center">
+                                                    <div class="inner-content pull-left margin_top_5" *ngIf="matchedIdLength">
+                                                        {{pager.currentPage}} of {{matchedIdLength}} items
+                                                    </div>
+                                                </div>
+                                                <div class="col-auto d-flex align-items-center">
+                                                    <ul *ngIf="pager.pages && pager.pages.length" class="pagination pull_right" style=" margin: 0 15px; ">
+                                                        <li [ngClass]="{disabled:pager.currentPage === 1}">
+                                                            <button class="btn btn-outline-secondary btn-default" (click)="setPage(pager.currentPage - 1)">
+                                                                <<</button>
+                                                        </li>
+                                                        <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                                                            <button class="btn btn-outline-secondary btn-default" (click)="setPage(pager.currentPage + 1)">>></button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-auto">
+                                            <!-- ************ pagination end *********** -->
+                                            <button class="btn btn-outline-primary ml-2" (click)="getReturnStummary()" [disabled]="!quickReturnSummaryForm.valid">Search</button>
+                                            <button class="btn btn-outline-primary ml-2" [disabled]="quickSummary.id == undefined || quickSummary.id == ''" (click)="getRejection()">Get Rejection</button>
+                                            <button class="btn btn-outline-primary ml-2" [disabled]="quickSummary.id == undefined || quickSummary.id == ''" (click)="getBankRejection()">Get Bank Rejection
+                                            </button>
+                                            <button class="btn btn-outline-primary ml-2" [disabled]="quickSummary.id == undefined || quickSummary.id == ''" (click)="downloadReturn()">Download Return</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Row-4 End-->
+
+
+                            <div id="tax_estimator_tab">
+                                <div *ngIf="quickSummary!=='' && quickSummary['id'] !== undefined && (quickReturnSummaryForm.controls.maskType.value ==='SSN' || quickReturnSummaryForm.controls.maskType.value == 'submissionId')">
+                                    <app-return-with-ssn [quickSummary]="quickSummary" (search)="Search()">
+                                    </app-return-with-ssn>
+                                </div>
+                                <div *ngIf="quickSummary!=='' && quickSummary['id'] !== undefined && quickReturnSummaryForm.controls.maskType.value ==='EIN'">
+                                    <app-return-with-ein [quickSummary]="quickSummary" (search)="Search()">
+                                    </app-return-with-ein>
+                                </div>
+                                <div class=" margin_top_15" *ngIf="isDataLoading">
+                                    <div class="loader2"></div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="row" *ngIf="message">
+
+                            <div class="col">
+                                <hr>
+                                <span class="font-weight-bold">{{message}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--  return search screen starts -->
+                <div class="tab-pane fade p-3 border" id="returnSearch" role="tabpanel" aria-labelledby="nav-returnSearch-tab" style="border-top: 0 !important;">
+                    <div class="clearfix">
+                        <form [formGroup]="quickReturnSummaryForm">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-8 col-sm-10 col-xs-24">
+                                    <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24 pl-0">
+                                        <div class="form-field">
+                                            <div class="form-field-control">
+                                                <ng-select #taxYear [items]="taxyearList" bindLabel="name" bindValue="id" [multiple]="false" placeholder="Tax Year" clearAllText="Clear"
+                                                    [selectableGroup]="true" appendTo="body" formControlName="taxYear" [closeOnSelect]="true"
+                                                    [searchable]="true" [clearable]="false">
+                                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                                        <div class="d-inline-block ln-normal">
+                                                            <label>{{item.name}}</label>
+                                                        </div>
+                                                    </ng-template>
+
+                                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                                        <app-select-multi-label class="w-100" [items]="items">
+                                                        </app-select-multi-label>
+                                                    </ng-template>
+                                                    <ng-template ng-header-tmp>
+                                                        <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="taxYear.filter($event.target.value)"
+                                                        />
+                                                    </ng-template>
+
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-24">
+                                            <div class="dropdown_wrapper">
+                                                <div class="form-field">
+                                                    <div class="form-field-control">
+                                                        <ng-select #maskType [items]="maskTypeList" bindLabel="name" bindValue="id" [multiple]="false" placeholder="SSN OR EIN OR Submission Id"
+                                                            clearAllText="Clear" [selectableGroup]="true" appendTo="body" formControlName="maskType"
+                                                            [closeOnSelect]="true" [searchable]="true" (ngModelChange)="changeValue($event)"
+                                                            [clearable]="false">
+                                                            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                                                <div class="d-inline-block ln-normal">
+                                                                    <label>{{item.name}}</label>
+                                                                </div>
+                                                            </ng-template>
+
+                                                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                                                <app-select-multi-label class="w-100" [items]="items">
+                                                                </app-select-multi-label>
+                                                            </ng-template>
+                                                            <ng-template ng-header-tmp>
+                                                                <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="maskType.filter($event.target.value)"
+                                                                />
+                                                            </ng-template>
+                                                        </ng-select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-24">
+                                            <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24 input-wrapper padding_l_r_0">
+                                                <div class="form-field" *ngIf="masktype == 'submissionId'">
+                                                    <div class="form-field-control ml-auto">
+                                                        <input id="ssnorein1" type="text" class="form-field-input" placeholder=" " formControlName="ssnorein" [required]="!quickReturnSummaryForm.value.ssnorein">
+                                                        <label for="ssnorein1" class="form-field-label">SSN OR EIN OR Submission Id</label>
+                                                        <div class="form-field-bar"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-field" *ngIf="masktype == 'SSN' || masktype == 'EIN'">
+                                                    <div class="form-field-control ml-auto">
+                                                        <input id="ssnorein1" type="text" [appTextMask]="{mask:mask}"   (keypress)="keyPress($event,'getSummary')" class="form-field-input" placeholder=" " formControlName="ssnorein" [required]="!quickReturnSummaryForm.value.ssnorein">
+                                                        <label for="ssnorein1" class="form-field-label">SSN OR EIN OR Submission Id</label>
+                                                        <div class="form-field-bar"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-24 pt-2">
+                                            <button class="btn btn-outline-primary ml-2" [disabled]="quickReturnSummaryForm.controls.taxYear.value === '' || quickReturnSummaryForm.controls.ssnorein.value  === ''"
+                                                (click)="Search()">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- display through selector starts -->
+                            <div class="" id="tax_estimator_tab">
+                                <div *ngIf="quickSummaryWithSearch!== undefined && quickSummaryWithSearch['id'] !== undefined && (quickReturnSummaryForm.controls.maskType.value =='SSN' || quickReturnSummaryForm.controls.maskType.value == 'submissionId')">
+                                    <app-return-search-with-ssn [quickSummaryWithSearch]="quickSummaryWithSearch" (search)="Search()">
+                                    </app-return-search-with-ssn>
+                                </div>
+                                <div *ngIf="quickSummaryWithSearch!== undefined && quickSummaryWithSearch['id'] !== undefined && quickReturnSummaryForm.controls.maskType.value =='EIN'">
+                                    <app-return-search-with-ein [quickSummaryWithSearch]="quickSummaryWithSearch" (search)="Search()">
+                                    </app-return-search-with-ein>
+                                </div>
+                                <div class=" margin_top_15" *ngIf="isDataLoading">
+                                    <div class="loader2"></div>
+                                </div>
+                            </div>
+
+                            <!-- display through selector ends -->
+                        </form>
+
+                        <div class="row" *ngIf="messageSearch">
+                            <div class="col">
+                                <hr>
+                                <span class="font-weight-bold">{{messageSearch}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--  return search screen ends -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- LoadingBar-->
+<div *ngIf="showLoading">
+    <div class="loading_background"></div>
+    <div class="preloader">
+        <div class="preloader-container">
+            <span class="animated-preloader"></span>
+        </div>
+    </div>
+</div>

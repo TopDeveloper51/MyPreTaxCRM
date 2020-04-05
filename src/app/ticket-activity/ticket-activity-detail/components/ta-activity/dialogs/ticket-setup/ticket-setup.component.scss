@@ -1,0 +1,9 @@
+.ticket-no{
+    cursor: pointer;
+    color: #007ad9;
+
+    &:hover{
+        text-decoration: underline;
+        color: #007ad9;
+    }
+}    

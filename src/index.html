@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>CRM</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico"><style>
+    .loading_background {
+      background: #f5e6e6;
+      opacity: 0.3;
+      position: absolute;
+      height: auto !important;
+      width: 100%;
+      z-index: 5
+    }
+
+    @-webkit-keyframes loading_background {
+      to {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes loading_background {
+      to {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1976d2">
+</head>
+
+<body>
+  <app-root>
+    <div class="loading_background"></div>
+    <div class="preloader">
+      <div class="preloader-container">
+        <span class="animated-preloader"></span>
+      </div>
+    </div>
+  </app-root>
+  <noscript>Please enable JavaScript to continue using this application.</noscript>
+</body>
+
+</html>

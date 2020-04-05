@@ -1,0 +1,120 @@
+<!-- Dialog Title -->
+<div class="modal-header">
+  <h5 *ngIf="sessionDetail.id" class="modal-title d-flex justify-content-center align-items-center">
+    Change Speed of Dialer for {{sessionDetail.name}}
+  </h5>
+  <h5 *ngIf="!(sessionDetail.id) && !(sessionDetail.retentionDialer)" class="modal-title d-flex justify-content-center align-items-center">
+    Create Session
+  </h5>
+  <h5 *ngIf="!(sessionDetail.id) && sessionDetail.retentionDialer" class="modal-title d-flex justify-content-center align-items-center">
+    Create Retention Dialer Session
+  </h5>
+
+  <div (click)="modal.close()" class="cursor-pointer cus-hov float-left">
+    <i class="fa fa-times"></i>
+  </div>
+</div>
+<!-- Dialog Title End -->
+<div class="modal-body">
+  <form [formGroup]="newDialerSessionForm">
+    <div class="row" *ngIf="!sessionDetail.id">
+      <div class="col-8" *ngIf="!sessionDetail.retentionDialer">
+        <div class="form-field" [ngClass]="{'no-clicking': !(dialerLookup && dialerLookup.length>0)}">
+          <div class="form-field-control" [ngClass]="{'cross-validation-error': (dialerLookup && dialerLookup.length>0) && (newDialerSessionForm.controls.marketingListDocKey.errors  &&  newDialerSessionForm.controls.marketingListDocKey.errors.required) }">
+            <ng-select #marketingListDocKey [items]="dialerLookup" bindLabel="name" bindValue="id" placeholder="Dialer List" clearAllText="Clear"
+              appendTo="body" formControlName="marketingListDocKey" [closeOnSelect]="true" [searchable]="false" [clearable]="false">
+              <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                <div>
+                  <label class="">{{item.name}}</label>
+                </div>
+              </ng-template>
+              <ng-template ng-header-tmp>
+                <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="marketingListDocKey.filter($event.target.value)"
+                />
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="col-8" *ngIf="sessionDetail.retentionDialer">
+        <div class="form-field">
+          <div class="form-field-control" [ngClass]="{'cross-validation-error': newDialerSessionForm.controls.dialerType.errors  &&  newDialerSessionForm.controls.dialerType.errors.required }">
+            <ng-select #dialerType [items]="dialerTypeLookup" (change)="onDialerTypeChange($event)" bindLabel="name" bindValue="id" placeholder="Dialer Type"
+              clearAllText="Clear" appendTo="body" formControlName="dialerType" [closeOnSelect]="true" [searchable]="false"
+              [clearable]="false">
+              <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                <div>
+                  <label class="">{{item.name}}</label>
+                </div>
+              </ng-template>
+              <ng-template ng-header-tmp>
+                <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="dialerType.filter($event.target.value)"
+                />
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="col-8">
+        <div class="form-field">
+          <div class="form-field-control">
+            <input id="name" type="text" class="form-field-input" formControlName="name" placeholder=" " [disabled]="sessionDetail.id"
+            />
+            <label for="name" class="form-field-label">Session Name</label>
+            <div class="form-field-bar"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-8">
+        <div class="form-field">
+          <div class="form-field-control">
+            <input id="noOfCallsPerFreeAgent" type="number" min="0" formControlName="noOfCallsPerAgent" class="form-field-input" placeholder="">
+            <label for="noOfCallsPerFreeAgent" (keypress)="isPositiveNumber($event)" class="form-field-label">No of calls per free agent</label>
+            <div class="form-field-bar"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div [ngClass]="{'col-8': !sessionDetail.id,'col-7':sessionDetail.id}">
+        <div class="d-flex align-items-center">
+          <div class="d-inline-block mr-2">Machine Det. Status:</div>
+          <div class="d-inline-block">
+            <label class="switch mt-1">
+              <input type="checkbox" formControlName="isMachineDetectionOn" [checked]="newDialerSessionForm.controls.isMachineDetectionOn.value">
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
+
+      </div>
+      <div [ngClass]="{'col-8': !sessionDetail.id,'col-7':sessionDetail.id}" *ngIf="newDialerSessionForm.controls.isMachineDetectionOn.value">
+        <div class="form-field">
+          <div class="form-field-control">
+            <input id="machineDetectionTime" type="number" min="2" max="10" formControlName="machineDetectionTime" class="form-field-input"
+              placeholder="" (input)="checkValidation()" (keypress)="isPositiveNumber($event)">
+            <label for="machineDetectionTime" class="form-field-label">Machine Detection Time (sec.)</label>
+            <div class="form-field-bar"></div>
+          </div>
+        </div>
+      </div>
+      <div [ngClass]="{'col-9': !sessionDetail.id,'col-6':sessionDetail.id}" *ngIf="sessionDetail.id">
+        <div class="form-field">
+          <div class="form-field-control">
+            <input id="noOfCallsPerAgent" type="number" min="0" formControlName="noOfCallsPerAgent" class="form-field-input" placeholder=""
+              (keypress)="isPositiveNumber($event)">
+            <label for="noOfCallsPerAgent" class="form-field-label">No of calls per free agent</label>
+            <div class="form-field-bar"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>
+<div class="modal-footer">
+  <div class="float-right">
+    <button class="btn btn-outline-primary ml-2" id="save" name="save" [disabled]="(!sessionDetail.id ? (!sessionDetail.retentionDialer ? (!newDialerSessionForm.controls.marketingListDocKey.value || !newDialerSessionForm.controls.name.value || !newDialerSessionForm.controls.noOfCallsPerAgent.value) : (!newDialerSessionForm.controls.dialerType.value || !newDialerSessionForm.controls.name.value || !newDialerSessionForm.controls.noOfCallsPerAgent.value) ) : !newDialerSessionForm.controls.noOfCallsPerAgent.value) || disableSave"
+      (click)="saveManageDialer(true)">{{sessionDetail.id ? 'Update' : 'Create'}}</button>
+  </div>
+</div>

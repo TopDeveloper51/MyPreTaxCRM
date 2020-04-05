@@ -1,0 +1,17 @@
+<div class="clearfix">
+    <b>Certificates </b>
+    <div class="row">
+        <div class="col-24 pt-2" *ngIf="rowData && rowData.length > 0">
+            <ag-grid-angular #agGrid style="width: 100%;overflow-x:hidden;" class="ag-theme-balham"
+                [rowData]="rowData" [columnDefs]="columnDefs" [domLayout]="domLayout" [defaultColDef]="defaultColDef"
+                (gridReady)="onGridReady($event)" [enableCellTextSelection]="true">
+            </ag-grid-angular>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-24 padding_15" *ngIf="(!rowData || rowData.length===0)">
+            No Data Available
+        </div>
+    </div>
+</div>

@@ -1,0 +1,431 @@
+<!-- <nav class="navbar navbar-expand bg-primary navbar-dark">
+<div class="header-logo">
+<a class="navbar-brand" [routerLink]="['/home']">
+</a>
+</div>
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02"
+aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"></span>
+</button>
+</nav> -->
+
+<nav id="CRMBanner" class="navbar navbar-expand-lg navbar-dark">
+
+  <div class="col-auto">
+    <a class="navbar-brand mr-5" [routerLink]="['/home']">CRM</a>
+    <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+      aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button> -->
+  </div>
+
+  <!-- minimize window overlay start -->
+
+  <div class="footer_wrapper_minimize col-auto">
+
+    <a class="btn_left" style="display: block;">
+      <i *ngIf="currentBatch !== 0" class="fa fa-angle-left left" (click)="prevNext('prev')"></i>
+    </a>
+    <div class="popup_min_bar" *ngFor="let win of openedWindowList[currentBatch]">
+      <a class="minimize dialog_minmax minimize_model cursor-pointer"
+        (click)="maximizeWindow(win.windowId ? win.windowId : win.id,win.screen)">
+        <span class="badge bg-danger mr-1" *ngIf="win?.messageCount">{{win?.messageCount}}</span>
+        <span class="minimizepanel_wrapper" id="title-dialog-box-1576044774849"
+          [title]="win.minimizeTitle">{{win.minimizeTitle}}</span>
+        <span class="pull-right">
+          <span class="fa fa-window-maximize chat_close_icon minimize_maxmize" title="Maximize"
+            (click)="maximizeWindow(win.windowId ? win.windowId : win.id,win.screen)"></span>
+          <span id="close-dialog-box-1576044774849" class="fa fa-times chat_close_icon cursor-pointer minimize_close"
+            title="Close" (click)="closeWindow($event, win.windowId, win.id)"></span>
+          <!-- [ngClass]="{'no-clicking': !displayKendoCloseButton}" -->
+        </span>
+      </a>
+    </div>
+
+    <a class="btn_right" style="display: block;">
+      <i *ngIf="currentBatch !== lastBatch" class="fa fa-angle-right right" (click)="prevNext('next')"></i>
+    </a>
+
+  </div>
+
+  <!-- minimize window overlay end -->
+
+
+  <div class="col-auto ml-auto">
+    <ul class="navbar-nav w-100 d-flex align-items-center">
+      <!-- <li class="nav-item">
+     
+      </li> -->
+      <!-- <li class="nav-item" *ngIf="!isCallOverviewUser">
+        <app-dialer></app-dialer>
+      </li> -->
+      <!-- <li class="nav-item">
+        <a class="nav-link" routerLink="/activity" routerLinkActive="active">Activity</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/ticket" routerLinkActive="active">Ticket</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/customer" routerLinkActive="active">Customer</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/contact" routerLinkActive="active">Contact</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/ticket-admin/ticketType" routerLinkActive="active">Ticket Type</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/ticket-admin/managefield-list" routerLinkActive="active">Ticket Field List</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/ticket-admin/analysis-report" routerLinkActive="active">Ticket Usage Report</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLinkActive="active" routerLink='/training-planning'>1on1 Setup Training Planner</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" routerLinkActive="active" routerLink='/predictiveDialer/statistics'
+          title="Predictive Dialer Statistics">PD Statistics</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLinkActive="active" routerLink='/reports/calendar'>Calendar</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLinkActive="active" routerLink='/reports/activitySummary'>To Do Overview</a>
+      </li> -->
+      <!-- <li class="nav-item">
+        <a class="nav-link" href="#">Support</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#">Calendar</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">1on1 Setup Training Planner </a>
+      </li> -->
+      <!-- <li>
+        <div class="mr-2" *ngIf="isDefaultReseller && !isCallOverviewUser">
+          <button class="button" *ngIf="!isChecking" style="line-height: 14px; padding-top: 15px"
+            (click)="checkInOut()">{{checkInStatus == true ? 'Check-Out' : 'Check-In'}}
+            <br />
+            <i class="fa-lg"
+              [ngClass]="{'fa fa-long-arrow-alt-right':checkInStatus,'fas fa-long-arrow-alt-left':!checkInStatus}"></i>
+          </button>
+          <i *ngIf="isChecking" class="fas fa-circle-notch fa-spin fa-lg icon-center"></i>
+        </div>
+      </li> -->
+      <li class="nav-item" *ngIf="(isManagement || isAMManagement)">
+        <div class="crm-topbar-icon-wrap">
+          <span class="call_enble_wrp crm-topbar-icon" ngbTooltip="Chat Enabled" triggers="hover" container="body"
+            tooltipClass="default" data-placement="bottom" tooltipclass="default"
+            *ngIf="chat?.chatStatus?.toLowerCase() == 'on'" (click)="manageAllChat()">
+            <i class="fas fa-comment"></i>
+          </span>
+
+          <span class="call_dsbl_wrp crm-topbar-icon" ngbTooltip="Chat Disabled" triggers="hover" container="body"
+            tooltipClass="default" data-placement="bottom" ngbtooltip="Chat Disabled" tooltipclass="default"
+            *ngIf="chat?.chatStatus?.toLowerCase() == 'off'" (click)="manageAllChat()">
+            <i class="fas fa-comment-slash text-warning"></i>
+          </span>
+
+
+          <!-- <div class="pull-right cursor-pointer mr-2">
+              <div class="answer_btn_border" *ngIf="chat?.chatStatus?.toLowerCase() == 'off'" (click)="manageAllChat()">
+                <span class="call_enble_wrp">
+                  <i class="fas fa-comment-dots text-white"></i>
+                </span>
+                <span class="call_text_enble" title="Go Offline with chat for All User">Chat Enabled
+                </span>
+              </div>
+              <div class="answer_btn_border" *ngIf="chat?.chatStatus?.toLowerCase() == 'on'" (click)="manageAllChat()">
+                <span class="call_dsbl_wrp">
+                  <i class="far fa-comment-dots text-white"></i>
+                </span>
+                <span class="call_text_dsble" title="Go Online with Chat for All User">Chat Disabled
+                </span>
+              </div>
+            </div> -->
+        </div>
+        <!-- Chat Section END -->
+      </li>
+      <li class="nav-item mr-2 notification">
+        <!-- Chat -->
+        <div class="crm-topbar-icon-wrap position-relative active-chat" *ngIf="userDetails?.allowChat">
+          <span class="crm-topbar-icon" (click)="openHistory()" ngbTooltip="Pending/Active Chat" triggers="hover"
+            container="body" tooltipClass="default" data-placement="bottom">
+            <svg width="24" viewBox="0 0 43.065 41.629">
+              <g transform="translate(0 -1)">
+                <path
+                  d="M31.632,15H4.256A4.261,4.261,0,0,0,0,19.256V34.429a4.261,4.261,0,0,0,4.256,4.256H8.613v7.177a.718.718,0,0,0,.459.67.719.719,0,0,0,.79-.187l6.964-7.66H31.631a4.261,4.261,0,0,0,4.256-4.256V19.256A4.261,4.261,0,0,0,31.632,15ZM8.613,30.073A2.871,2.871,0,1,1,11.484,27.2,2.874,2.874,0,0,1,8.613,30.073Zm9.331,0A2.871,2.871,0,1,1,20.815,27.2,2.874,2.874,0,0,1,17.944,30.073Zm9.331,0A2.871,2.871,0,1,1,30.145,27.2,2.874,2.874,0,0,1,27.274,30.073Z"
+                  transform="translate(0 -3.952)" fill="#fff" />
+                <path
+                  d="M41.631,1H14.256A4.261,4.261,0,0,0,10,5.256V9.613H34.454A5.7,5.7,0,0,1,40.145,15.3v9.381h1.486a4.261,4.261,0,0,0,4.256-4.256V5.256A4.261,4.261,0,0,0,41.631,1Z"
+                  transform="translate(-2.823)" fill="#fff" />
+              </g>
+            </svg>
+
+            <!-- <i class="fas fa-comments"></i> -->
+            <span *ngIf="pendingChatCount && chatHistoryResponse &&chatHistoryResponse?.wait?.length>0"
+              class="notification-counter red-color">{{pendingChatCount}}</span>
+          </span>
+        </div>
+      </li>
+      <li class="nav-item px-2 mx-1">
+        <div class="custom-control custom-switch mr-2"
+          *ngIf="userDetails?.allowChat && chat?.chatStatus?.toLowerCase() == 'on'"
+          ngbTooltip="{{chat.chatStatustoolTip}}" triggers="hover" container="body" tooltipClass="default">
+          <input type="checkbox" name="userStatus" class="custom-control-input" id="customSwitch2"
+            [(ngModel)]="chat.IsOnline" (change)="manageUserChat()">
+          <label class="custom-control-label" for="customSwitch2"></label>
+        </div>
+
+        <!-- <div class="header-toggle-wrap margin_top_12 mr-2"
+          *ngIf="userDetails.allowChat && chat?.chatStatus?.toLowerCase() == 'on'" title="{{chat.chatStatustoolTip}}">
+          <label class="switch">
+            <input type="checkbox" name="chatStatus" [(ngModel)]="chat.IsOnline" (change)="manageUserChat()">
+            <div class="slider round"></div>
+          </label>
+        </div> -->
+      </li>
+      <li class="nav-item px-2 divider-last divider-call" *ngIf="isManagement || isAMManagement">
+        <div class="crm-topbar-icon-wrap">
+          <span class="crm-topbar-icon" ngbTooltip="AM Enabled" triggers="hover" container="body" tooltipClass="default"
+            data-placement="bottom" tooltipclass="default" *ngIf="answeringMachine && !isCallOverviewUser"
+            (click)="changeAnswerMachine(false)">
+            <i class="fas fa-phone rotate-90"></i>
+          </span>
+          <span class="crm-topbar-icon" ngbTooltip="AM Disabled" triggers="hover" container="body"
+            tooltipClass="default" data-placement="bottom" ngbtooltip="Chat Disabled" tooltipclass="default"
+            *ngIf="!(answeringMachine || isCallOverviewUser)" (click)="changeAnswerMachine(true)">
+            <i class="fas fa-phone-slash text-warning rotate-90"></i>
+          </span>
+
+          <!-- <div class="answer_btn_border mr-2 px-2 d-flex align-items-center"
+            *ngIf="answeringMachine && !isCallOverviewUser">
+            <span class="call_enble_wrp">
+              <img class="cursor-pointer" width="15px" src="assets/images/call_orange.png"
+                (click)="changeAnswerMachine(false)" />
+            </span>
+            <span class="call_text_enble" title="Answering Machine Enabled">AM Enabled
+            </span>
+          </div>
+          <div class="answer_btn_border mr-2 px-2 d-flex align-items-center"
+            *ngIf="!(answeringMachine || isCallOverviewUser)">
+            <span class="call_dsbl_wrp cursor-pointer mr-2">
+              <img class="" src="assets/images/call_cancel_ans.png" width="15px" (click)="changeAnswerMachine(true)" />
+            </span>
+            <span class="call_text_dsble" title="Answering Machine Disabled">AM Disabled
+            </span>
+          </div> -->
+
+        </div>
+      </li>
+      <li class="nav-item" *ngIf="!isCallOverviewUser && isPlivoUser">
+        <div class="nav-item d-inline-block">
+          <app-dialer></app-dialer>
+        </div>
+      </li>
+      <!-- *ngIf="isToShowReminder && !isCallOverviewUser  && !(disableUrl && liveCRMMenuName  && liveCRMMenuName.length > 0 &&  liveCRMMenuName.includes('time-accounting'))" -->
+      <li class="nav-item divider-last px-2 notification" *ngIf="isToShowReminder && !isCallOverviewUser  && !(disableUrl && liveCRMMenuName  && liveCRMMenuName.length > 0 &&  liveCRMMenuName.includes('time-accounting'))">
+        <div class="crm-topbar-icon-wrap position-relative" ngbTooltip="{{tooltipReminder}}" triggers="hover"
+          container="body" tooltipClass="default" data-placement="bottom" ngbtooltip="Chat Disabled"
+          (click)="reminder()">
+          <span class="crm-topbar-icon">
+            <i class="fas fa-bell {{settingsReminder.animation}}" [style.font-size]="settingsReminder.size"
+              [style.color]="settingsReminder.color" [style.opacity]="settingsReminder.intensity"></i>
+            <span class="notification-counter">{{totalOfAllReminders}}</span>
+          </span>
+        </div>
+      </li>
+      <li class="nav-item dropdown pl-2 divider-last">
+        <div class="d-inline-block">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-user"></i>
+            {{userName}}
+          </a>
+          <!-- style="z-index:99999;" -->
+          <div class="dropdown-menu dropdown-menu-right shadow-lg p-1 mb-5 bg-white rounded"
+            aria-labelledby="navbarDropdownMenuLink">
+            <div class="col-xl-24 pt-2 border_bottom mb-sc">
+              <div class="row">
+                <div class="col-xl-4 side_border">
+                  <h5 class="dropdown-header">Customer</h5>
+                  <div class="">
+                    <!-- <a class="dropdown-item" href="#">Customer Profile</a> -->
+                    <a class="dropdown-item" href="#" [routerLink]="['/customer']">Lead/Customer</a>
+                    <a class="dropdown-item" href="#" [routerLink]="['/customer/customerProfile']">Customer Profile</a>
+                    <a class="dropdown-item" href="#" [routerLink]="['/contact']"
+                      [hidden]="disableUrl && liveCRMMenuName  && liveCRMMenuName.length > 0 &&  liveCRMMenuName.includes('contact')">Contact</a>
+                    <a class="dropdown-item" href="#" [routerLink]="['/activity']">Activity</a>
+                    <a class="dropdown-item" href="#" [routerLink]="['/ticket']">Ticket</a>
+                  </div>
+                </div>
+                <div class="col-xl-5 side_border">
+                  <h5 class="dropdown-header">Time Accounting</h5>
+                  <a class="dropdown-item" href="#" [routerLink]="['/time-accounting/management']"
+                    [hidden]="disableUrl && liveCRMMenuName  && liveCRMMenuName.length > 0 &&  liveCRMMenuName.includes('time-accounting')">Time
+                    Accounting</a>
+                  <a class="dropdown-item" href="#" [routerLink]="['/time-accounting/dailyTimeUsage']"
+                    [hidden]="disableUrl && liveCRMMenuName  && liveCRMMenuName.length > 0 &&  liveCRMMenuName.includes('dtu-graph')">DTU
+                    Graph</a>
+                </div>
+                <div class="col-xl-3 side_border">
+                  <h5 class="dropdown-header">Library</h5>
+
+                  <!-- <a class="dropdown-item" href="#">Article</a>
+                <a class="dropdown-item" href="#">Media</a>
+                <a class="dropdown-item" href="#">Policies</a>
+                <a class="dropdown-item" href="#">Training Video</a>
+                <a class="dropdown-item" href="#">News</a> -->
+                </div>
+                <div class="col-xl-4 side_border">
+                  <h5 class="dropdown-header">Tools</h5>
+                  <a class="dropdown-item" href="#" [routerLink]="['/support']"
+                    [hidden]="disableUrl && liveCRMMenuName  && liveCRMMenuName.length > 0 &&  liveCRMMenuName.includes('support')">Support</a>
+                  <a class="dropdown-item" href="#" [routerLink]="['/reports/calendar']"
+                    [hidden]="disableUrl && liveCRMMenuName  && liveCRMMenuName.length > 0 &&  liveCRMMenuName.includes('calender')">Calendar</a>
+                  <a class="dropdown-item" href="#" [routerLink]="['/demo-scheduler']"
+                    [hidden]="disableUrl && liveCRMMenuName  && liveCRMMenuName.length > 0 &&  liveCRMMenuName.includes('demo-scheduler')">Demo
+                    Scheduler</a>
+                  <a class="dropdown-item" href="#" [routerLink]="['/training-planning']"
+                    [hidden]="disableUrl && liveCRMMenuName  && liveCRMMenuName.length > 0 &&  liveCRMMenuName.includes('1on1-setup')">1On1
+                    Setup Training Planner
+                  </a>
+                  <span *ngIf="isPlivoUser && dialerData.makeCall">
+                    <a class="dropdown-item cursor-pointer" (click)="dialPad()">Dial Pad</a>
+                  </span>
+                  <a class="dropdown-item cursor-pointer" (click)="goToPredictiveDialer()"
+                    [hidden]="disableUrl && liveCRMMenuName  && liveCRMMenuName.length > 0 &&  liveCRMMenuName.includes('pd-agent-view')">PD
+                    Agent View</a>
+                  <a class="dropdown-item cursor-pointer" (click)="goToTestPredictiveDialer()"
+                    [hidden]="disableUrl && liveCRMMenuName  && liveCRMMenuName.length > 0 &&  liveCRMMenuName.includes('pd-agent-demo')">PD
+                    Agent View Demo</a>
+                  <a class="dropdown-item" href="#" [routerLink]="['/reports/activitySummary']"
+                    [hidden]="disableUrl && liveCRMMenuName  && liveCRMMenuName.length > 0 &&  liveCRMMenuName.includes('todo-overview')">To
+                    Do Overview</a>
+                  <!-- <a class="dropdown-item" href="#">PD Agent View Demo</a>
+                <a class="dropdown-item" href="#">Conversion Monitor</a> -->
+                  <a class="dropdown-item" href="#" [routerLink]="['/conversion/conversion-report']"
+                    [hidden]="disableUrl && liveCRMMenuName  && liveCRMMenuName.length > 0 &&  liveCRMMenuName.includes('conversion')">Conversion
+                    Monitor</a>
+                </div>
+                <div class="col-xl-3 side_border" style="display:none">
+                  <h5 class="dropdown-header">E-Mail Marketing</h5>
+                  <!-- <a class="dropdown-item" href="#">Template Configuration</a>
+                <a class="dropdown-item" href="#">Sendout Comparison</a>
+                <a class="dropdown-item" href="#">Timeline Analysis</a>
+                <a class="dropdown-item" href="#">Email Order Overview</a> -->
+                </div>
+                <div class="col-xl-4 side_border">
+                  <h5 class="dropdown-header">Monitoring</h5>
+                  <a class="dropdown-item" href="#" [routerLink]="['/dialer/calls-details']"
+                    [hidden]="disableUrl && liveCRMMenuName  && liveCRMMenuName.length > 0 &&  liveCRMMenuName.includes('call-overview')">Call
+                    Overview</a>
+                  <!-- <a class="dropdown-item" href="#">Recording Not Provided</a> -->
+                </div>
+                <div class="col-xl-4">
+                  <h5 class="dropdown-header">Personal</h5>
+                  <a class="dropdown-item" href="#" [routerLink]="['/setting']">Settings</a>
+                  <a class="dropdown-item" href="#" [routerLink]="['/user/changePassword']">Change Password</a>
+                  <a class="dropdown-item" href="#" [routerLink]="['/activity/commission']">Commission</a>
+                  <a class="dropdown-item cursor-pointer" (click)="checkInOut()">
+                    {{checkInStatus == true ? 'Check-Out' : 'Check-In'}}</a>
+                  <a class="dropdown-item cursor-pointer" (click)="appReLoad()">Reload</a>
+                  <a class="dropdown-item" *ngIf="!isChecking" [routerLink]="['/logout']">Logout</a>
+                  <label class="text-white">{{environment.releaseVersion}}</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-24 pt-2 pb-2" *ngIf="isManagement===true">
+              <div class="row">
+                <div class="col-xl-4 side_border">
+                  <h5 class="dropdown-header">Customer Accounting</h5>
+                  <div class="">
+                    <!-- <a class="dropdown-item" href="#">Import Transactions</a>
+                  <a class="dropdown-item" href="#">Transactions Search</a>
+                  <a class="dropdown-item" href="#">Reconciliation</a> -->
+                  </div>
+                </div>
+                <div class="col-xl-5 side_border">
+                  <div class="padding_top_35">
+                    <!-- <a class="dropdown-item" href="#">Time Accounting Manager</a>
+                  <a class="dropdown-item" href="#">Time Accounting Overview</a>
+                  <a class="dropdown-item" href="#">Time Accounting 2 Week Summary</a>
+                  <a class="dropdown-item" href="#">DTU Manager Graph</a>
+                  <a class="dropdown-item" href="#">Order Overview Graph</a> -->
+
+                    <a class="dropdown-item" href="#" [routerLink]="['/activity/internalMeeting']"
+                      [hidden]="disableUrl && liveCRMMenuName  && liveCRMMenuName.length > 0 &&  liveCRMMenuName.includes('internal-meeting')">Internal
+                      Meeting</a>
+                    <a class="dropdown-item" href="#" [routerLink]="['/reports/orderOverview']"
+                      [hidden]="disableUrl && liveCRMMenuName  && liveCRMMenuName.length > 0 &&  liveCRMMenuName.includes('order-overview-graph')">Order
+                      Overview Graph</a>
+                  </div>
+                </div>
+                <div class="col-xl-3 side_border">
+                  <div class="padding_top_35">
+                    <a class="dropdown-item" href="#" [routerLink]="['/user/search']"
+                      [hidden]="disableUrl && liveCRMMenuName  && liveCRMMenuName.length > 0 &&  liveCRMMenuName.includes('user')">
+                      User </a>
+                    <a class="dropdown-item" href="#" [routerLink]="['/ticket-admin/ticketType']"
+                      [hidden]="disableUrl && liveCRMMenuName  && liveCRMMenuName.length > 0 &&  liveCRMMenuName.includes('ticket-type-list')">Ticket
+                      Type</a>
+                    <a class="dropdown-item" href="#" [routerLink]="['/ticket-admin/managefield-list']"
+                      [hidden]="disableUrl && liveCRMMenuName  && liveCRMMenuName.length > 0 &&  liveCRMMenuName.includes('manage-field')">Ticket
+                      Fields
+                    </a>
+
+                    <!-- <a class="dropdown-item" href="#">User</a>
+                  <a class="dropdown-item" href="#">E-Mail Account Reader</a>
+                  <a class="dropdown-item" href="#">State</a>
+                  <a class="dropdown-item" href="#">Activity Status</a>
+                  <a class="dropdown-item" href="#">Phone System</a>
+                  <a class="dropdown-item" href="#">IVR Call Distribution</a> -->
+                  </div>
+                </div>
+                <div class="col-xl-4 side_border">
+                  <div class="padding_top_35">
+                    <a class="dropdown-item" href="#" [routerLink]="['/predictiveDialer/statistics']"
+                      [hidden]="disableUrl && liveCRMMenuName  && liveCRMMenuName.length > 0 &&  liveCRMMenuName.includes('pd-statistics')">PD
+                      Statistics</a>
+                    <a class="dropdown-item" href="#" [routerLink]="['/predictiveDialer/predictiveDialerManage']"
+                      [hidden]="disableUrl && liveCRMMenuName  && liveCRMMenuName.length > 0 &&  liveCRMMenuName.includes('pd-manager-view')">PD
+                      Manager View</a>
+                    <!-- <a class="dropdown-item" href="#">PD Manager View</a>
+                  <a class="dropdown-item" href="#">To Do Overview Manager</a>
+                  <a class="dropdown-item" href="#">Merge Customer</a>
+                  <a class="dropdown-item" href="#">PBX Details</a> -->
+                  </div>
+                </div>
+                <div class="col-xl-3 side_border" style="display:none">
+                  <h5 class="dropdown-header">
+                    <img style="height: 20px;  width: 20px" src="assets/images/assessment-icon.png" aria-hidden="true">
+                    <span class="pl-2">Assessment</span>
+                  </h5>
+                  <a class="dropdown-item" href="#">Expertise</a>
+                  <a class="dropdown-item" href="#">Questions</a>
+                </div>
+                <div class="col-xl-4">
+                  <h5 class="dropdown-header">Reporting</h5>
+                  <a class="dropdown-item" href="#" [routerLink]="['/ticket-admin/analysis-report']"
+                    [hidden]="disableUrl && liveCRMMenuName  && liveCRMMenuName.length > 0 &&  liveCRMMenuName.includes('ticket-usage-report')">Ticket
+                    Usage Report
+                  </a>
+                  <!-- <a class="dropdown-item" href="#">Call Reports</a> -->
+                </div>
+              </div>
+            </div>
+
+            <!-- <a class="dropdown-item" [routerLink]="['/logout']">Logout</a>
+          <a class="dropdown-item" (click)="dialPad()">Dialer</a> -->
+            <!-- <a class="dropdown-item" href="#">Change Password</a> -->
+            <!-- <a class="dropdown-item" href="#">Something else here</a> -->
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+</nav>

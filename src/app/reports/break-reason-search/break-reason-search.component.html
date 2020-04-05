@@ -1,0 +1,206 @@
+<div class="crm-heading   crm-grid__item" id="crm_heading">
+    <div class="crm-container">
+        <div class="crm-heading__main">
+            <h3 class="crm-heading__title" *ngIf="!isInternalMeeting"> Break Reason Search</h3>
+            <h3 class="crm-heading__title" *ngIf="isInternalMeeting"> Break Reason Search for 'Meeting/Training'</h3>
+            <span class="crm-heading__separator crm-hidden"></span>
+        </div>
+    </div>
+</div>
+
+<div class="crm-mainbox crm-portlet--height-fluid-half">
+    <div class="container-fluid p-3">
+        <form [formGroup]="trainingSearchForm">
+            <div class="row align-items-center">
+                <div *ngIf="!isInternalMeeting" class="col-3 dropdown_wrapper">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <ng-select #reason [items]="trainingSearchLookup.reasonList" bindLabel="name" groupBy="group" [selectableGroup]="true" bindValue="id"
+                                appendTo="body" [closeOnSelect]="false" [searchable]="false" [clearable]="false" placeholder="Reason*"
+                                clearAllText="Clear" (change)="setIndependentFlags($event)" formControlName="reason" (open)="onClearAll()">
+                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <div class="d-inline-block mr-4 ln-normal">
+                                        <label>{{item.name}}</label>
+                                    </div>
+                                </ng-template>
+                                <ng-template ng-header-tmp>
+                                    <input type="text" class="set-input form-field-input" [appAutofocus] placeholder="Search" (input)="reason.filter($event.target.value)"
+                                    />
+                                </ng-template>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="isInternalMeeting" class="col-3 dropdown_wrapper">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <ng-select #reason [items]="trainingSearchLookup.reasonList" (open)="onClearAll()" bindLabel="name" groupBy="group" [selectableGroup]="true"
+                                bindValue="id" appendTo="body" [closeOnSelect]="false" [searchable]="false" [clearable]="false"
+                                placeholder="Reason*" clearAllText="Clear" (change)="setIndependentFlags($event)" formControlName="reason">
+                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <div class="d-inline-block mr-4 ln-normal">
+                                        <label>{{item.name}}</label>
+                                    </div>
+                                </ng-template>
+                                <ng-template ng-header-tmp>
+                                    <input type="text" class="set-input form-field-input" [appAutofocus] placeholder="Search" (input)="reason.filter($event.target.value)"
+                                    />
+                                </ng-template>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3 dropdown_wrapper" *ngIf="(reasonData.askForConductor || reasonData.askForColleague) &&  !isInternalMeeting">
+                    <div class="form-field">
+                        <div class="form-field-control" [ngClass]="{'cross-validation-error': trainingSearchForm.controls.responsibleperson.errors  &&  trainingSearchForm.controls.responsibleperson.errors.required }">
+                            <ng-select #responsibleperson (open)="onClearAll()" [items]="trainingSearchLookup.responsiblePersonList" bindLabel="name"
+                                [multiple]="true" groupBy="group" [selectableGroup]="true" [selectableGroupAsModel]="false" bindValue="id"
+                                appendTo="body" [closeOnSelect]="false" [searchable]="false" [clearable]="false" placeholder="Responsible Person"
+                                clearAllText="Clear" formControlName="responsibleperson">
+                                <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                        <input type="checkbox" id="item-{{index}}" type="checkbox" [checked]="item$.selected" class="custom-control-input" />
+                                        <label class="custom-control-label font-weight-bold">{{item.group}}</label>
+                                    </div>
+                                </ng-template>
+                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                        <input id="item-{{index}}" type="checkbox" [checked]="item$.selected" class="custom-control-input" />
+                                        <label class="custom-control-label">{{item.name}}</label>
+                                    </div>
+                                </ng-template>
+                                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                    <app-select-multi-label class="w-100" [groupItems]="items" [lookup]="trainingSearchLookup.responsiblePersonList">
+                                    </app-select-multi-label>
+                                </ng-template>
+                                <ng-template ng-header-tmp>
+                                    <!-- responsibleperson.filter($event.target.value) -->
+                                    <input type="text" class="set-input form-field-input" placeholder="Search" [appAutofocus] (input)="filterData($event.target.value)"
+                                    />
+                                    <button (click)="onSelectAll('responsibleperson')" class="btn btn-sm btn-secondary">All</button>
+                                    <button (click)="onClearAll('responsibleperson')" class="btn btn-sm btn-secondary ml-2">None</button>
+                                    <button (click)="closeSelect(responsibleperson);search()" class="btn btn-sm btn-secondary ml-2">Search</button>
+                                </ng-template>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3 dropdown_wrapper" *ngIf="isInternalMeeting">
+                    <div class="form-field">
+                        <div class="form-field-control" [ngClass]="{'cross-validation-error': trainingSearchForm.controls.responsibleperson.errors  &&  trainingSearchForm.controls.responsibleperson.errors.required }">
+                            <ng-select #responsibleperson [items]="trainingSearchLookup.responsiblePersonList" bindLabel="name" [multiple]="true" groupBy="group"
+                                [selectableGroup]="true" [selectableGroupAsModel]="false" bindValue="id" appendTo="body" [closeOnSelect]="false"
+                                [searchable]="false" [clearable]="false" placeholder="Responsible Person" clearAllText="Clear"
+                                formControlName="responsibleperson" (open)="onClearAll()">
+                                <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                        <input type="checkbox" id="item-{{index}}" type="checkbox" [checked]="item$.selected" class="custom-control-input" />
+                                        <label class="custom-control-label font-weight-bold">{{item.group}}</label>
+                                    </div>
+                                </ng-template>
+                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                        <input id="item-{{index}}" type="checkbox" [checked]="item$.selected" class="custom-control-input" />
+                                        <label class="custom-control-label">{{item.name}}</label>
+                                    </div>
+                                </ng-template>
+                                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                    <app-select-multi-label class="w-100" [groupItems]="items" [lookup]="trainingSearchLookup.responsiblePersonList">
+                                    </app-select-multi-label>
+                                </ng-template>
+                                <ng-template ng-header-tmp>
+                                    <!-- responsibleperson.filter($event.target.value) -->
+                                    <input type="text" class="set-input form-field-input" placeholder="Search" [appAutofocus] (input)="filterData($event.target.value)"
+                                    />
+                                    <button (click)="onSelectAll('responsibleperson')" class="btn btn-sm btn-secondary">All</button>
+                                    <button (click)="onClearAll('responsibleperson')" class="btn btn-sm btn-secondary ml-2">None</button>
+                                    <button (click)="closeSelect(responsibleperson);search()" class="btn btn-sm btn-secondary ml-2">Search</button>
+                                </ng-template>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3 set-date">
+                    <div class="form-field" *ngIf="!isInternalMeeting">
+                        <div class="form-field-control">
+                            <div class="col-xs-24 small_datepicker">
+                                <md2-datepicker type="date" format="MM/dd/y" placeholder="Start Date" name="startdate" id="startdate" openOnFocus="true"
+                                    mode="landscape" [max]="maxDate" formControlName="startdate" (change)="dateChange($event)">
+                                </md2-datepicker>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-field" *ngIf="isInternalMeeting">
+                        <div class="form-field-control">
+                            <div class="col-xs-24 small_datepicker">
+                                <md2-datepicker type="date" format="MM/dd/y" placeholder="Start Date" name="startdate" id="startdate" openOnFocus="true"
+                                    mode="landscape" [max]="maxDate" formControlName="startdate" (change)="dateChange($event)">
+                                </md2-datepicker>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-3 set-date">
+                    <div class="small_datepicker" *ngIf="!isInternalMeeting">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <md2-datepicker type="date" format="MM/dd/y" placeholder="End Date" name="enddate" id="enddate" openOnFocus="true" mode="landscape"
+                                    [max]="maxDate" formControlName="enddate" (change)="dateChange($event)">
+                                </md2-datepicker>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="small_datepicker" *ngIf="isInternalMeeting">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <md2-datepicker type="date" format="MM/dd/y" placeholder="End Date" name="enddate" id="enddate" openOnFocus="true" mode="landscape"
+                                    [max]="maxDate" formControlName="enddate" (change)="dateChange($event)">
+                                </md2-datepicker>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3 col-auto">
+                    <button ngbTooltip="Previous week" container="body" data-placement="bottom" tooltipClass="default" class="btn btn-outline-secondary pull-left mr-2"
+                        type="button" (click)="dateChange($event,'Previous')">
+                        <span>
+                            <i class="fas fa-angle-double-left font-15" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                    <button ngbTooltip="Next week" container="body" data-placement="bottom" tooltipClass="default" class="btn btn-outline-secondary pull-left mr-2"
+                        type="button" [disabled]="disableNext" (click)="dateChange($event,'Next')">
+                        <span>
+                            <i class="fas fa-angle-double-right font-15" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                </div>
+
+                <div class="col-3 ml-auto d-inline-block text-right mb-space float-right">
+                    <button class="btn btn-outline-primary mr-2" [disabled]="!trainingSearchForm.valid" (click)="search()">Search</button>
+                    <button class="btn btn-outline-primary" (click)="setDefault()">Reset</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="col-24">
+    <div class="row">
+        <div class="col-xl-12 pt-3" *ngIf="rowData && rowData.length > 0">
+            <span class="font-weight-bold">Meeting/Training: ({{rowData.length | number}})</span>
+        </div>
+    </div>
+</div>
+
+<div class="col-24 deta-aggrid mt-2" *ngIf="rowData && rowData.length > 0  ">
+    <ag-grid-angular #agGrid style="width: 100%; height: calc(100vh - 412px);" class="ag-theme-balham" [rowData]="rowData" [columnDefs]="gridOptions.columnDefs"
+        [domLayout]="domLayout" [enableCellTextSelection]="true" (gridReady)="onGridReady($event)">
+    </ag-grid-angular>
+</div>
+
+<div class="col-24">
+    <div *ngIf="rowData && rowData.length===0">
+        No Data Available
+    </div>
+</div>

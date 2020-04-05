@@ -1,0 +1,299 @@
+<app-header></app-header>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-24">
+            <div class="crm-heading  crm-grid__item" id="crm_heading">
+                <div class="crm-container">
+                    <div class="crm-heading__main">
+                        <h3 class="crm-heading__title">Predictive Dialer Statistics</h3>
+                        <span class="crm-heading__separator crm-hidden"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-24">
+            <div class="crm-mainbox crm-portlet--height-fluid-half p-3">
+                <form [formGroup]="predictiveDialerForm">
+                    <div class="row mb-3">
+                        <div class="col-xl-3">
+                            <div class="form-field">
+                                <div class="form-field-control datepicker-wrapper">
+                                    <div class="col-xs-24">
+                                        <md2-datepicker [type]="type" [format]="format" placeholder="Start Date" name="startdate" id="startdate" openOnFocus="false"
+                                            mode="landscape" formControlName="startdate" (change)="dateChange($event)">
+                                        </md2-datepicker>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3">
+                            <div class="form-field">
+                                <div class="form-field-control datepicker-wrapper">
+                                    <div class="col-xs-24">
+                                        <md2-datepicker [type]="type" [format]="format" placeholder="End Date" name="enddate" id="enddate" openOnFocus="false" mode="landscape"
+                                            formControlName="enddate" (change)="dateChange($event)">
+                                        </md2-datepicker>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-18">
+                            <div class="justify-content-end">
+                                <div class="w-100 text-right mb-space mt-2">
+                                    <button class="btn btn-outline-primary ml-2 mb-2" (click)="search()">Search</button>
+                                    <button class="btn btn-outline-primary ml-2 mb-2" (click)="resetFilter()">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="col-24">
+                        <p *ngIf="len" class="font-weight-bold">Dialers
+                            <span class="font-weight-normal">({{len}})</span>
+                        </p>
+
+                        <div class="accordion" id="accordionExample" *ngFor="let obj of processData | keyvalue; let i = index">
+                            <div class="card mb-1 border">
+                                <div class="card-header cursor-pointer border-bottom" data-toggle="collapse" [attr.data-target]="'#accordion'+ i">
+                                    <p class="mb-0">
+                                        {{obj.key}}
+                                        <!-- <i class="fa" aria-hidden="true"></i> -->
+                                    </p>
+                                </div>
+                                <div id="accordion{{i}}" class="collapse" aria-labelledby=i data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col col-auto">
+                                                <table class="table stats_table m-0">
+                                                    <tr class="h-21">
+                                                        <td class="add-border-row">
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="add-border-row">
+                                                        <td class="add-border-row">
+                                                            Total numbers in lists
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="add-border-row">
+                                                        <td class="add-border-row">
+                                                            <b>Initiated Calls</b>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="add-border-row">
+
+                                                        <td class="add-border-row">
+                                                            Invalid Numbers
+                                                        </td>
+
+                                                    </tr>
+
+                                                    <tr class="add-border-row">
+
+                                                        <td class="add-border-row">
+                                                            Deleted Calls
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr class="add-border-row">
+
+                                                        <td class="add-border-row">
+                                                            Deleted Calls (Error)
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr class="add-border-row">
+
+                                                        <td class="add-border-row">
+                                                            Agent was not free
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr class="add-border-row">
+
+                                                        <td class="add-border-row">
+                                                            Cust. didn't answer
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr class="add-border-row">
+
+                                                        <td class="add-border-row">
+                                                            Rejected
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr class="add-border-row">
+
+                                                        <td class="add-border-row">
+                                                            Connected
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr class="add-border-row">
+
+                                                        <td class="add-border-row">
+                                                            No of machine detected calls
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <table class="table stats_table m-0">
+                                                    <tr class="add-border-row">
+                                                        <td class="add-border-row">
+                                                            Wrong Number
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr class="add-border-row">
+                                                        <td class="add-border-row">
+                                                            AM Left Message
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr class="add-border-row">
+                                                        <td class="add-border-row">
+                                                            Secretary Left Message
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr class="add-border-row">
+                                                        <td class="add-border-row">
+                                                            AM Didn't Leave Message
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr class="add-border-row">
+                                                        <td class="add-border-row">
+                                                            Secretary Didn't Leave Message
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr class="add-border-row">
+                                                        <td class="add-border-row">
+                                                            Don't Call Again
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr class="add-border-row">
+                                                        <td class="add-border-row">
+                                                            Already Renewed
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr class="add-border-row">
+                                                        <td class="add-border-row">
+                                                            Call This Year Again
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr class="add-border-row">
+                                                        <td class="add-border-row">
+                                                            Call Next Year Again
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr class="add-border-row">
+                                                        <td class="add-border-row">
+                                                            Further Action
+                                                        </td>
+                                                    </tr>
+                                                    
+                                                </table>
+                                            </div>
+                                            <div class="col col-21 table-set">
+                                                <table class="table stats_table table-sett">
+
+                                                    <tr class="">
+                                                        <th class="add-border-row td-set" *ngFor="let obj1 of obj.value">
+                                                            {{obj1.creadtedDate }}</th>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td class="td-set" *ngFor="let obj1 of obj.value">
+                                                            <tr class="add-border-row">
+                                                                <span>{{obj1.statistics.totalNumbersInList | number}}</span>
+                                                            </tr>
+                                                            <tr class="add-border-row">
+                                                                <span *ngIf="obj1.statistics.initiatedCalls > 0">{{obj1.statistics.initiatedCalls | number}}</span>
+                                                            </tr>
+                                                            <tr class="add-border-row">
+                                                                <span *ngIf="obj1.statistics.invalidNumbers > 0">{{obj1.statistics.invalidNumbers | number}}</span>
+                                                            </tr>
+                                                            <tr class="add-border-row">
+                                                                <span *ngIf="obj1.statistics.deletedCalls > 0">{{obj1.statistics.deletedCalls | number}}</span>
+                                                            </tr>
+                                                            <tr class="add-border-row">
+                                                                <span *ngIf="obj1.statistics.deletedCallErrors > 0">{{obj1.statistics.deletedCallErrors | number}}</span>
+                                                            </tr>
+                                                            <tr class="add-border-row">
+                                                                <span *ngIf="obj1.statistics.custAnsweredButAgentNotFree > 0">{{obj1.statistics.custAnsweredButAgentNotFree | number}}</span>
+                                                            </tr>
+                                                            <tr class="add-border-row">
+                                                                <span *ngIf="obj1.statistics.custDidNotAnswer > 0">{{obj1.statistics.custDidNotAnswer | number}}</span>
+                                                            </tr>
+                                                            <tr class="add-border-row">
+                                                                <span *ngIf="obj1.statistics.rejectedCalls > 0">{{obj1.statistics.rejectedCalls | number}}</span>
+                                                            </tr>
+                                                            <tr class="add-border-row">
+                                                                <span *ngIf="obj1.statistics.custAnsweredAndConnectedToAgent > 0">{{obj1.statistics.custAnsweredAndConnectedToAgent | number}}</span>
+                                                            </tr>
+
+                                                            <tr class="add-border-row">
+                                                                <span *ngIf="obj1.statistics.totalAnsweredCalls > 0">{{obj1.statistics.totalAnsweredCalls | number}}</span>
+                                                            </tr>
+
+                                                            <tr class="add-border-row">
+                                                                <span *ngIf="obj1.statistics.wrongNumber > 0">{{obj1.statistics.wrongNumber | number}}</span>
+                                                            </tr>
+                                                            <tr class="add-border-row">
+                                                                <span *ngIf="obj1.statistics.AMLeftMessage > 0">{{obj1.statistics.AMLeftMessage | number}}</span>
+                                                            </tr>
+                                                            <tr class="add-border-row">
+                                                                <span *ngIf="obj1.statistics.secretaryLeftMessage > 0">{{obj1.statistics.secretaryLeftMessage | number}}</span>
+                                                            </tr>
+                                                            <tr class="add-border-row">
+                                                                <span *ngIf="obj1.statistics.AMDidNotLeftMessage > 0">{{obj1.statistics.AMDidNotLeftMessage | number}}</span>
+                                                            </tr>
+                                                            <tr class="add-border-row">
+                                                                <span *ngIf="obj1.statistics.secretaryDoNotLeftMessage > 0">{{obj1.statistics.secretaryDoNotLeftMessage | number}}</span>
+                                                            </tr>
+                                                            <tr class="add-border-row" [ngClass]="{'set-height' : obj1.statistics.dontCallAgain  === 0}">
+                                                                <span *ngIf="obj1.statistics.dontCallAgain > 0">{{obj1.statistics.dontCallAgain | number}}</span>
+                                                            </tr>
+                                                            <tr class="add-border-row" [ngClass]="{'set-height' : obj1.statistics.alreadyRenewed  === 0}">
+                                                                <span *ngIf="obj1.statistics.alreadyRenewed > 0">{{obj1.statistics.alreadyRenewed | number}}</span>
+                                                            </tr>
+                                                            <tr class="add-border-row" [ngClass]="{'set-height' : obj1.statistics.callThisYearAgain  === 0}">
+                                                                <span *ngIf="obj1.statistics.callThisYearAgain > 0">{{obj1.statistics.callThisYearAgain | number}}</span>
+                                                            </tr>
+                                                            <tr class="add-border-row" [ngClass]="{'set-height' : obj1.statistics.callNextYearAgain  === 0}">
+                                                                <span *ngIf="obj1.statistics.callNextYearAgain > 0">{{obj1.statistics.callNextYearAgain | number}}</span>
+                                                            </tr>
+                                                            <tr class="add-border-row">
+                                                                <span *ngIf="obj1.statistics.furtherAction > 0">{{obj1.statistics.furtherAction | number}}</span>
+                                                            </tr>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="!len">
+                    <div class="col">
+                        <p class="m-0">No Data Available</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

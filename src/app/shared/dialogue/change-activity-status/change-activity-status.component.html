@@ -1,0 +1,100 @@
+<div class="">
+  <div class="modal-header dialog-header-confirm">
+    <h5 class="modal-title">
+      Change activity
+    </h5>
+    <!-- <button type="button" aria-describedby="modal-title" (click)="close()" class="close">
+      <span aria-hidden="true">×</span>
+    </button> -->
+    <div (click)="close()" class="cus-hov">
+      <i class=" fa fa-times"></i>
+    </div>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="changeCustomerForm">
+      <div class="row">
+
+        <div class="col-6">
+          <div class="form-field">
+            <div class="form-field-control">
+              <ng-select #responsiblePesron [items]="changeActivityLookup.responsiblePesronList" bindLabel="name" bindValue="id" groupBy="group"
+                appendTo="body" formControlName="responsiblePerson" placeholder="Responsible" [closeOnSelect]="true" [searchable]="false"
+                [clearable]="false" [readonly]="false" class="customertabsalesprocessstatus" (open)="changeActivityLookup.responsiblePesronList = changeActivityLookup.responsiblePesronList">
+                <ng-template ng-optgroup-tmp let-item="item">
+                  <div>
+                    <span class="font-weight-bold">{{ item.group }}</span>
+                  </div>
+                </ng-template>
+              </ng-select>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="form-field">
+            <div class="form-field-control">
+              <ng-select #activitystatus [items]="changeActivityLookup.activitystatuslist" bindLabel="name" bindValue="id" [multiple]="false"
+                placeholder="Status" class="customertabsalesprocessstatus" clearAllText="Clear" appendTo="body" formControlName="activitystatus"
+                [closeOnSelect]="true" [searchable]="false" [clearable]="false">
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                  <div class="d-inline-block mr-4 ln-normal">
+                    <label>{{item.name}}</label>
+                  </div>
+                </ng-template>
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-field">
+            <div class="form-field-control">
+              <ng-select #year [items]="changeActivityLookup.year" bindLabel="name" bindValue="id" [multiple]="false" placeholder="Year"
+                clearAllText="Clear" appendTo="body" formControlName="year" [closeOnSelect]="true" [searchable]="false" [clearable]="false"
+                [readonly]="false">
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                  <div class="d-inline-block mr-4 ln-normal">
+                    <label>{{item.name}}</label>
+                  </div>
+                </ng-template>
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-field">
+            <div class="form-field-control">
+              <ng-select #department [items]="changeActivityLookup.departmentlistDetail" bindLabel="name" bindValue="id" [multiple]="false"
+                placeholder="Department" clearAllText="Clear" appendTo="body" formControlName="department" [closeOnSelect]="true"
+                [searchable]="false" [clearable]="false">
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                  <div class="d-inline-block mr-4 ln-normal">
+                    <label>{{item.name}}</label>
+                  </div>
+                </ng-template>
+              </ng-select>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="isOtherTeamMember" class="form-field">
+          <div class="form-field-control">
+            <ng-select #ticketStatus [items]="changeActivityLookup.ticketStatusList" bindLabel="name" bindValue="id" [multiple]="false"
+              placeholder="TicketStatus" clearAllText="Clear" appendTo="body" formControlName="ticketStatus" [closeOnSelect]="true"
+              [searchable]="false" [clearable]="false">
+              <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                <div class="d-inline-block mr-4 ln-normal">
+                  <label>{{item.name}}</label>
+                </div>
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+
+
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-primary" (click)="changeStatus()">Change</button>
+  </div>
+</div>

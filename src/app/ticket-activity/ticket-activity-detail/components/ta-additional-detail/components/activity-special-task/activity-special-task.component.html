@@ -1,0 +1,49 @@
+<div class="bg-gray ic-set" *ngIf="isShowSpacialTask && activityAvailable">
+    <form [formGroup]="specialTaskForm">
+        <div class="row">
+            <div class="col-lg-24">
+                <h4 class="mt-2">
+                    <b>Special task Details</b>
+                </h4>
+            </div>
+            <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <md2-datepicker type="datetime" format="MM/dd/yy HH:mm A" placeholder="Task Start Time" name="startDate" id="startDate" openOnFocus="false"
+                                    mode="landscape" formControlName="startDate" (change)="onDateChange()" [required]=true>
+                                </md2-datepicker>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <md2-datepicker type="datetime" format="MM/dd/yy HH:mm A" placeholder="Task End Time" name="endDate" id="endDate" [disabled]="isHideEndTime"
+                                    openOnFocus="false" mode="landscape" formControlName="endDate" (change)="onDateChange()"
+                                    [required]=true>
+                                </md2-datepicker>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-24 ">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <div class="custom-control custom-checkbox  d-inline-block mt-16 mb-09">
+                                    <input type="checkbox" name="continues" value="true" formControlName="continues" id="continues" class="custom-control-input ng-pristine ng-untouched ng-valid"
+                                        (change)="resetTaskEndTime()">
+                                    <label class="custom-control-label" for="continues">continues</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

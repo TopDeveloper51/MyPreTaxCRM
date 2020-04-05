@@ -1,0 +1,255 @@
+<!-- Dialog Title -->
+<div class="modal-header">
+    <h5 class="modal-title" *ngIf="!this.data.details.activityId">
+        Book Setup Training
+    </h5>
+    <h5 class="modal-title" *ngIf="this.data.details.activityId">
+        Assign Trainer ( {{slotDetails.time}}
+        <span *ngIf="slotDetails.purpose">/ {{slotDetails.purpose}}</span>)
+    </h5>
+
+    <div class="float-right">
+        <div class="cus-hov">
+            <i class="fa fa-times" (click)="close()"></i>
+        </div>
+    </div>
+
+</div>
+<!-- Dialog Title End-->
+
+<div class="modal-body edit_user_main_wrpper">
+    <form [formGroup]="assignTrainnerForm">
+        <div class="">
+            <div class="col-24">
+                <!-- code start for book training -->
+                <div class="font_size_20">
+                    <img src="assets/images/Angebot.png" title="Redirect to Customer Card" class="cursor-pointer" style="width:20px" (click)="openCustomerCard(customerId)"> {{customerName}}
+                </div>
+
+                <div class="row" *ngIf="!this.data.details.activityId">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <!-- <input input-autocomplete [config]="config2" [control]="formControl" [items]="newContactPersonFirstNameArray"  id="firstName" type="text" formControlName="firstName" class=" form-field-input" placeholder=""       
+                                (selectEvent)="selectValue(contact.contactDetails)">
+                                <label for="firstName" class="form-field-label">FirstName
+                                    <span>*</span>
+                                </label> -->
+                                <mat-form-field class="example-full-width">
+                                    <input id="firstName" type="text" name="firstName" formControlName="firstName" placeholder="FirstName" class=" form-field-input"
+                                        matInput [matAutocomplete]="firstname" (change)="filterOnPersonFirstName(autocomplete.lastName)">
+                                    <mat-autocomplete #firstname="matAutocomplete">
+                                        <mat-option *ngFor="let contact of newContactPersonFirstNameArray" [value]="contact.name" (onSelectionChange)="selectValue(contact.contactDetails)">
+                                            {{contact.name}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                    <!-- <label for="firstName" class="form-field-label">FirstName
+                                        <span>*</span>
+                                    </label> -->
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <!-- <input input-autocomplete [config]="config2" [control]="formControl"
+                                    [items]="newContactPersonLastNameArray" id="LastName" type="text"
+                                    formControlName="lastName" class=" form-field-input" placeholder=""
+                                    (change)="filterOnPersonLastName(autocomplete.lastName)">
+                                <label for="LasttName" class="form-field-label">LastName
+                                    <span>*</span>
+                                </label> -->
+                                <mat-form-field class="example-full-width">
+                                    <input id="lastName" type="text" name="lasttName" formControlName="lastName" class=" form-field-input" placeholder="LastName"
+                                        matInput [matAutocomplete]="lastname" (change)="filterOnPersonLastName(autocomplete.lastName)">
+                                    <mat-autocomplete #lastname="matAutocomplete">
+                                        <mat-option *ngFor="let contact of newContactPersonLastNameArray" [value]="contact.name" (onSelectionChange)="selectValue(contact.contactDetails)">
+                                            {{contact.name}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                    <!-- <label for="lastName" class="form-field-label">lastName
+                                        <span>*</span>
+                                    </label> -->
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="!this.data.details.activityId">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 input-wrapper bigger_dropdown">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <ng-select #countryCode [items]="country" bindLabel="name" bindValue="id" [multiple]="false" placeholder="Country Code"
+                                    clearAllText="Clear" [selectableGroup]="false" appendTo="body" formControlName="countryCode"
+                                    [closeOnSelect]="true" [searchable]="false">
+                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                        <div class="d-inline-block ln-normal">
+                                            <label>{{item.name}}</label>
+                                        </div>
+                                    </ng-template>
+
+                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                        <app-select-multi-label class="w-100" [groupItems]="items" [lookup]="country">
+                                        </app-select-multi-label>
+                                    </ng-template>
+
+                                    <ng-template ng-header-tmp>
+                                        <input type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="countryCode.filter($event.target.value)"
+                                        />
+                                    </ng-template>
+
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <!-- <input id="phone" input-autocomplete [config]="configphone" [control]="formControl"
+                                    [items]="newContactPersonPhoneArray" type="text" formControlName="phone"
+                                    class=" form-field-input" placeholder=""
+                                    (change)="filterOnPhoneNo(autocomplete.phone)">
+                                <label for="phone" class="form-field-label">Phone
+                                    <span>*</span>
+                                </label> -->
+                                <mat-form-field class="example-full-width">
+                                    <input id="phone" type="text" name="phone" formControlName="phone" class=" form-field-input" placeholder="Phone" matInput
+                                        [matAutocomplete]="phone" (change)="filterOnPhoneNo(autocomplete.phone)">
+                                    <mat-autocomplete #phone="matAutocomplete">
+                                        <mat-option *ngFor="let contact of newContactPersonPhoneArray" [value]="contact.phone" (onSelectionChange)="selectValue(contact.contactDetails)">
+                                            {{contact.phone}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                    <!-- <label for="phone" class="form-field-label">Phone
+                                        <span>*</span>
+                                    </label> -->
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="" *ngIf="!this.data.details.activityId">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <!-- <input input-autocomplete [config]="configemail" [control]="formControl"
+                                [items]="newContactPersonEmailArray" id="email" type="text" formControlName="email"
+                                class=" form-field-input" placeholder="" (change)="filterOnEmail(autocomplete.email)">
+                            <label for="email" class="form-field-label">Email
+                                <span>*</span>
+                            </label> -->
+                            <mat-form-field class="example-full-width">
+                                <input id="email" type="text" name="email" formControlName="email" class=" form-field-input" placeholder="Email" matInput
+                                    [matAutocomplete]="email" (change)="filterOnEmail(autocomplete.email)">
+                                <mat-autocomplete #email="matAutocomplete">
+                                    <mat-option *ngFor="let contact of newContactPersonEmailArray" [value]="contact.email" (onSelectionChange)="selectValue(contact.contactDetails)">
+                                        {{contact.email}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <!-- <label for="email" class="form-field-label">Email
+                                    <span>*</span>
+                                </label> -->
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row align-items-center d-flex" *ngIf="!this.data.details.activityId">
+                    <div class="col-12 dropdown_wrapper align-items-center d-flex">
+                        <div class="edit_invoice_creditnote_lbl_wrap">
+                            <label id="lblDesiredTime" class="position-relative font-14 top-5">Desired Time :
+                            </label>
+                        </div>
+                        <timepicker name="time" [minuteStep]="1" class="d-inline-block" formControlName="time" (ngModelChange)="onStartTimeChange($event)"
+                            [disabled]="this.data.details.activityId">
+                        </timepicker>
+                    </div>
+                    <div class="col-12 dropdown_wrapper">
+
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <ng-select #purpose [items]="purposeList" bindLabel="name" bindValue="id" [multiple]="false" placeholder="Purpose" clearAllText="Clear"
+                                    [selectableGroup]="true" appendTo="body" formControlName="purpose" [closeOnSelect]="true"
+                                    [searchable]="false" [clearable]="false">
+                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                        <div class="d-inline-block ln-normal">
+                                            <label>{{item.name}}</label>
+                                        </div>
+                                    </ng-template>
+
+                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                        <app-select-multi-label class="w-100" [items]="items">
+                                        </app-select-multi-label>
+                                    </ng-template>
+
+                                    <ng-template ng-header-tmp>
+                                        <input type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="purpose.filter($event.target.value)"
+                                        />
+                                    </ng-template>
+
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- code end for book training -->
+
+                <!-- code start for assign trainer -->
+                <div *ngIf="this.data.details.activityId">
+                    <div class="col-24" *ngIf="autocomplete.firstName !== '' && autocomplete.firstName !== undefined">
+                        {{autocomplete.firstName}} {{ autocomplete.lastName}} - {{autocomplete.phone}}
+                    </div>
+                    <div class="col-24" *ngIf="autocomplete.email !== '' &&  autocomplete.email !== undefined">
+                        {{autocomplete.email}}
+                    </div>
+                </div>
+
+                <div class="col-24 mt-2" *ngIf="lookupData !== undefined && this.data.details.activityId">
+
+                    <div class="form-field">
+                        <div class="form-field-control" *ngIf="lookupData && lookupData.responsiblePesronList">
+                            <ng-select #responsiblePerson [items]="lookupData.responsiblePesronList" bindLabel="name" bindValue="id" [multiple]="false"
+                                placeholder="Responsible" clearAllText="Clear" [selectableGroup]="false"
+                                [selectableGroupAsModel]="false" appendTo="body" groupBy="group" formControlName="responsiblePersonList"
+                                [closeOnSelect]="true" [searchable]="false" (open)="onClearAll()">
+                                <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <div class="d-inline-block mr-4 ln-normal">
+                                        <label class="font-weight-bold">{{item.groupName}}</label>
+                                    </div>
+                                </ng-template>
+
+                                <ng-template ng-header-tmp>
+                                    <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="responsiblePerson.filter($event.target.value)"
+                                    />
+                                </ng-template>
+
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-wrapper">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <input id="comment" cols="24" type="text" class="form-field-input" placeholder="" formControlName="comment" [readonly]="this.data.details.activityId">
+                            <label for="comment" class="form-field-label">Comment</label>
+                            <div class="form-field-bar"></div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- code end for assign trainer -->
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-outline-primary" name="Save" [disabled]="!assignTrainnerForm.valid" (click)="save()">Save</button>
+    <button class="btn btn-outline-primary" name="Cancel" (click)="close()">Cancel</button>
+</div>

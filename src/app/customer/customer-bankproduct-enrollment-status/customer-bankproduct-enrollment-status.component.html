@@ -1,0 +1,75 @@
+<form [formGroup]="bankSpecialPricingForm">
+
+    <div class="row">
+        <div class="col-20">
+            <div class="row">
+                <div class="col-22">
+                    <span class="font-weight-bold">Bank Product Enrollment Status Details </span>
+                    <span *ngIf="!unidentifiedCustomer && customerEnrollmentStatusRowData && customerEnrollmentStatusRowData.length > 0" class="font-weight-bold">({{customerEnrollmentStatusRowData.length | number}})</span>
+                </div>
+                <div class="col-2 text-right mb-space">
+                    <span (click)="refreshData();" ngbTooltip="Refresh Data" container="body" tooltipClass="default" data-placement="bottom">
+                        <i class="fas fa-sync font_size_18 cursor-pointer" [ngClass]="{'fa-spin':startRefresh==true}"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="row">
+                <div class="col-18">
+                    <span class="font-weight-bold">Special Pricing </span>
+                </div>
+                <div class="col-6 text-right mb-space ">
+                    <button class="btn btn-outline-primary" [disabled]="!bankSpecialPricingForm.valid" (click)="saveSpecialPricing()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-20 pt-2">
+            <div *ngIf="customerEnrollmentStatusRowData && customerEnrollmentStatusRowData.length > 0">
+                <ag-grid-angular #agGrid style="width: 100%;height: 255px" class="ag-theme-balham" [columnDefs]="customerEnrollmentStatusColumnDefs"
+                    [rowData]="customerEnrollmentStatusRowData" [enableCellTextSelection]="true" [defaultColDef]="defaultColDef" (gridReady)="onGridReady($event)">
+                </ag-grid-angular>
+            </div>
+            <div class="padding_15" *ngIf="customerEnrollmentStatusRowData && customerEnrollmentStatusRowData.length == 0">
+                No Data Available
+            </div>
+        </div>
+
+
+        <!-- ************************************* Special Pricing ************************************************** -->
+
+        <div class="col-4 pt-2">
+
+
+            <div class="form-field-control">
+                <input id="transmitterFee" type="number" class=" form-field-input" formControlName="transmitterFee" placeholder=" " [min]="0">
+                <label for="transmitterFee" class="form-field-label">Transmitter Fee</label>
+                <div class="form-field-bar"></div>
+            </div>
+
+
+
+            <div class="form-field-control">
+                <input id="addOnTransmitterSharePer" type="number" class=" form-field-input" formControlName="addOnTransmitterSharePer" placeholder=" "
+                    [min]="0">
+                <label for="addOnTransmitterSharePer" class="form-field-label">Add On Transmitter Fee Share %</label>
+                <div class="form-field-bar"></div>
+            </div>
+
+
+
+            <div class="form-field-control">
+                <input id="addOnPPSharePer" type="number" class=" form-field-input" formControlName="addOnPPSharePer" placeholder=" " [min]="0">
+                <label for="addOnPPSharePer" class="form-field-label">Add On Protection Plus Fee Share %</label>
+                <div class="form-field-bar"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</form>

@@ -1,0 +1,114 @@
+<div class="save_new_filter_dialog">
+
+  <div class="modal-header">
+    <h5 class="modal-title">Customer Search</h5>
+    <div (click)="close(false)" class="cus-hov">
+      <i class=" fa fa-times cursor-pointer"></i>
+    </div>
+  </div>
+
+  <!--Dialer Header End-->
+
+  <!--Dialer Body-->
+  <div class="modal-body">
+
+    <div class="col-24 input-wrapper">
+      <div class="row">
+        <div class="col-12">
+          <div class="padding_l_0">
+            <form [formGroup]="changeCustomerForm">
+              <p class="font-weight-bold mb-1">Customer </p>
+              <div class="form-field">
+                <div class="form-field-control">
+                  <input id="CustomerName" type="text" formControlName="CustomerName" class=" form-field-input" placeholder=" ">
+                  <label for="CustomerName" class="form-field-label">Customer Name</label>
+                  <div class="form-field-bar"></div>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <div class="form-field-control">
+                  <input id="CustomerNumber" type="text" formControlName="CustomerNumber" class=" form-field-input" placeholder=" ">
+                  <label for="CustomerNumber" class="form-field-label">Customer Number</label>
+                  <div class="form-field-bar"></div>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <div class="form-field-control">
+                  <button (click)="searchForCustomer()" class="btn btn-sm btn-outline-primary">Search</button>
+                </div>
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="padding_l_0">
+            <form [formGroup]="changeCustomerContactForm">
+              <p class="font-weight-bold mb-1">Contact </p>
+              <div class="form-field">
+                <div class="form-field-control">
+                  <input id="contactEmail" type="text" formControlName="Email" class=" form-field-input" placeholder=" ">
+                  <label for="contactEmail" class="form-field-label">Email</label>
+                  <div class="form-field-bar"></div>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <div class="form-field-control">
+                  <input id="contactPhone" type="text" formControlName="Phone" class=" form-field-input" placeholder=" ">
+                  <label for="contactPhone" class="form-field-label">Phone</label>
+                  <div class="form-field-bar"></div>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <div class="form-field-control">
+                  <button (click)="searchForContect()" class="btn btn-sm btn-outline-primary">Search</button>
+                </div>
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-24">
+      <div class="no-found mt-2" *ngIf="!rowData || rowData.length == 0">
+        <p class="mb-0">No Data Available</p>
+      </div>
+    </div>
+
+    <div class="col-24 mt-2 " *ngIf="rowData && rowData.length > 0">
+      <div class="deta-aggrid">
+        <div class="row d-flex mb-3">
+          <div class="col-auto d-flex align-items-center">
+            <p class="font-weight-bold mb-0">Customer List
+              <span>({{rowData.length | number}})</span>
+            </p>
+          </div>
+          <div class="col-auto d-flex align-items-center ml-auto text-right">
+            <button (click)="moveToSelectedCustomer()" class="btn btn-sm btn-outline-primary">Move Transaction</button>
+            <button (click)="Cancel()" class=" ml-2 btn btn-sm btn-outline-primary">Cancel</button>
+          </div>
+        </div>
+
+        <ag-grid-angular #agGrid id="myGrid" style="width: 100%; height: calc(100vh - 350px);" class="ag-theme-balham" [columnDefs]="columnDefs"
+          [defaultColDef]="defaultColDef" [enableCellTextSelection]="true" [rowData]="rowData" [rowSelection]="'single'" (gridReady)="onGridReady($event)">
+        </ag-grid-angular>
+      </div>
+    </div>
+
+  </div>
+  <!--Dialer Body End-->
+
+  <!--Dialer Footer-->
+  <div class="modal-footer">
+    <button class="btn btn-outline-primary" id="Cancel" name="Cancel" (click)="Cancel()">Cancel</button>
+  </div>
+  <!--Dialer Footer End-->
+</div>

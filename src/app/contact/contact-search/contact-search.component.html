@@ -1,0 +1,119 @@
+<div class="cont-us col">
+
+    <div class="row">
+        <div class="col-24">
+            <div class="crm-heading   crm-grid__item" id="crm_heading">
+                <div class="crm-container">
+                    <div class="crm-heading__main">
+                        <h3 class="crm-heading__title">Contact Search</h3>
+                        <span class="crm-heading__separator crm-hidden"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-24">
+            <div class="crm-mainbox crm-portlet--height-fluid-half">
+                <div class="container-fluid p-3">
+                    <form [formGroup]="contactSearchForm">
+                        <div class="row set-mediam">
+                            <div class="col row">
+                                <div class="col-24 col-sm-12 col-md-6 col-xl-6">
+                                    <div class="form-field">
+                                        <div class="form-field-control">
+                                            <input id="contactname" type="text" formControlName="contactName" class="form-field-input" placeholder=" ">
+                                            <label for="contactname" class="form-field-label">Contact Name</label>
+                                            <div class="form-field-bar"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-24 col-sm-12 col-md-6 col-xl-6">
+                                    <div class="form-field">
+                                        <div class="form-field-control">
+                                            <input id="email" type="text" class="form-field-input" formControlName="email" placeholder=" ">
+                                            <label for="email" class="form-field-label">Email</label>
+                                            <div class="form-field-bar"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-24 col-sm-12 col-md-6 col-xl-6">
+                                    <div class="form-field">
+                                        <div class="form-field-control">
+                                            <input id="telephone" type="text" class="form-field-input" placeholder=" " formControlName="telephone">
+                                            <label for="telephone" class="form-field-label">Telephone</label>
+                                            <div class="form-field-bar"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-24 col-sm-12 col-md-6 col-xl-6">
+                                    <div class="form-field">
+                                        <div class="form-field-control">
+                                            <ng-select #emailStatus [items]="contactSearch.emailStatusList" bindLabel="name" bindValue="id" [multiple]="true" placeholder="Email Status"
+                                                clearAllText="Clear" [selectableGroup]="true" appendTo="body" formControlName="emailStatus"
+                                                [closeOnSelect]="false" [clearable]="false">
+                                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                                    <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                                        <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                                                        <label class="custom-control-label">{{item.name}}</label>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                                    <app-select-multi-label class="w-100" [items]="items"></app-select-multi-label>
+                                                </ng-template>
+                                                <ng-template ng-header-tmp>
+                                                    <button (click)="onSelectAll()" class="btn btn-sm btn-secondary">All</button>
+                                                    <button (click)="onClearAll()" class="btn btn-sm btn-secondary ml-2">None</button>
+                                                    <button (click)="closeSelect(emailStatus);Search()" class="btn btn-sm btn-secondary ml-2">Search</button>
+                                                </ng-template>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="custom-control custom-checkbox mt-18 d-inline-block mr-4">
+                                    <input type="checkbox" class="custom-control-input" formControlName="unsubscribeEmail" id="customControlInline">
+                                    <label class="custom-control-label" for="customControlInline">Unsubscribe Email</label>
+                                </div>
+                                <div class="custom-control custom-checkbox mt-18 d-inline-block mr-4">
+                                    <input type="checkbox" class="custom-control-input" formControlName="testCustomer" id="customControlInline2">
+                                    <label class="custom-control-label" for="customControlInline2">Test Customer?</label>
+                                </div>
+                                <div class="custom-control custom-checkbox mt-18 d-inline-block mr-4">
+                                    <input type="checkbox" class="custom-control-input" formControlName="isWrongNumber" id="customControlInline3">
+                                    <label class="custom-control-label" for="customControlInline3">Wrong Number</label>
+                                </div>
+                                <div class="custom-control custom-checkbox mt-18 d-inline-block mr-4">
+                                    <input type="checkbox" class="custom-control-input" formControlName="isInvalidNumber" id="customControlInline4">
+                                    <label class="custom-control-label" for="customControlInline4">Invalid Number</label>
+                                </div>
+                                <div class="d-inline-block mb-space mt-2 float-right">
+                                    <button class="btn btn-outline-primary" (click)="Search()">Search</button>
+                                    <button class="btn btn-outline-primary ml-2" (click)="clearInputData()">Clear</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="no-found mt-2" *ngIf=" !availableContact">
+                        <p class="mb-0">No Data Available</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-24 deta-aggrid" *ngIf="availableContact && availableContact.data && availableContact.data.length>0">
+                            <p class="font-weight-bold mb-2">Contact
+                                <span class="font-weight-bold">({{availableContact.data.length | number}})</span>
+                            </p>
+                            <ag-grid-angular #agGrid id="myGrid" style="width: 100%; height: calc(100vh - 227px);" class="ag-theme-balham" [columnDefs]="columnDefs"
+                                [defaultColDef]="defaultColDef" [rowData]="rowData" (gridReady)="onGridReady($event)" [sideBar]="sideBar"
+                                [getRowHeight]="getRowHeight" [multiSortKey]="multiSortKey" (rowClicked)="onRowClicked($event)"
+                                [animateRows]="animateRows" [floatingFilter]="floatingFilter" [enableCellTextSelection]="true">
+                            </ag-grid-angular>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

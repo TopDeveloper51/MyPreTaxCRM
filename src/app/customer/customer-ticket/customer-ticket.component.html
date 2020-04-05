@@ -1,0 +1,109 @@
+<form [formGroup]="customerTicketForm">
+    <div class="row">
+
+        <div class="col-auto mx-0 cursor-pointer border-right" *ngIf="rowData && rowData.length>0">
+            <div class="form-field">
+                <div class="custom-control custom-checkbox mt-16 mb-8 mr-3 d-inline-block cursor-pointer">
+                    <input type="checkbox" class="custom-control-input" formControlName="isFullView" id="isFullView">
+                    <label class="custom-control-label" for="isFullView">Full View</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-auto cursor-pointer">
+            <div class="custom-control custom-checkbox mt-15 d-inline-block mr-3 mt-3 cursor-pointer" *ngFor="let dep of customerTicketForm.controls.department['controls']; let i=index">
+                <span formArrayName="department">
+                    <input type="checkbox" class="custom-control-input" [formControlName]="i.toString()" [value]="ticketLookup.departmentList[i].id"
+                        [id]="i.toString()">
+                    <label class="custom-control-label" [for]="i.toString()">
+                        {{ticketLookup.departmentList[i].name}}</label>
+                </span>
+            </div>
+        </div>
+
+        <div class="col col-xl-2">
+            <div class="form-field">
+                <ng-select #year [items]="ticketLookup.yearList" bindLabel="name" bindValue="id" [multiple]="true" placeholder="Year" clearAllText="Clear"
+                    [selectableGroup]="true" appendTo="body" formControlName="year" [closeOnSelect]="false" [searchable]="false"
+                    [clearable]="false">
+                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                        <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                            <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                            <label class="custom-control-label">{{item.name}}</label>
+                        </div>
+                    </ng-template>
+                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                        <app-select-multi-label class="w-100" [items]="items">
+                        </app-select-multi-label>
+                    </ng-template>
+                    <ng-template ng-header-tmp>
+                        <input type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="year.filter($event.target.value)"
+                        />
+                        <button (click)="onSelectAll('year')" class="btn btn-sm btn-secondary">All</button>
+                        <button (click)="onClearAll('year')" class="btn btn-sm btn-secondary ml-2">None</button>
+                        <button (click)="closeSelect(year);search()" class="btn btn-sm btn-secondary ml-2">Search</button>
+                    </ng-template>
+                </ng-select>
+            </div>
+        </div>
+
+        <div class="col col-xl-3">
+            <div class="form-field">
+                <ng-select #ticketStatus [items]="ticketLookup.ticketStatusList" bindLabel="name" bindValue="id" [multiple]="true" class="customertabsalesprocessstatus"
+                    placeholder="Ticket Status" clearAllText="Clear" [selectableGroup]="true" appendTo="body" formControlName="ticketStatus"
+                    [closeOnSelect]="false" [searchable]="false" [clearable]="false">
+                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                        <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                            <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                            <label class="custom-control-label">{{item.name}}</label>
+                        </div>
+                    </ng-template>
+                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                        <app-select-multi-label class="w-100" [items]="items">
+                        </app-select-multi-label>
+                    </ng-template>
+                    <ng-template ng-header-tmp>
+                        <input type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="ticketStatus.filter($event.target.value)"
+                        />
+                        <button (click)="onSelectAll('ticketStatus')" class="btn btn-sm btn-secondary">All</button>
+                        <button (click)="onClearAll('ticketStatus')" class="btn btn-sm btn-secondary ml-2">None</button>
+                        <button (click)="closeSelect(ticketStatus);search()" class="btn btn-sm btn-secondary ml-2">Search</button>
+                    </ng-template>
+                </ng-select>
+            </div>
+        </div>
+
+        <div class="col-auto ml-auto mb-space d-flex align-items-center">
+            <span (click)="search();startRefresh=true" class="cursor-pointer mr-3 font_size_25" data-placement="bottom" ngbTooltip="Refresh Customer Tickets"
+                container="body" tooltipClass="default">
+                <i class="fas fa-sync font_size_18" [ngClass]="{'fa-spin':startRefresh==true}"></i>
+            </span>
+            <button class="btn btn-outline-primary" (click)="search()">Search</button>
+            <button class="btn btn-outline-primary ml-2" (click)="reset()">Reset</button>
+        </div>
+    </div>
+</form>
+
+<div class="row mt-2">
+    <div class="col-24" *ngIf="rowData && rowData.length > 0">
+        <span class="font-weight-bold">
+            Tickets & Activity ({{rowData.length | number}})</span>
+    </div>
+
+    <div class="col-24" *ngIf="!rowData || rowData.length === 0">
+        <span class="font-weight-bold">
+            Tickets & Activity</span>
+    </div>
+
+    <div class="col-24 pt-2" *ngIf="rowData && rowData.length > 0">
+        <ag-grid-angular #agGrid id="myGrid" style="width: 100%;height: calc(100vh - 576px);" class="ag-theme-balham" [columnDefs]="columnDefs"
+            [defaultColDef]="defaultColDef" [rowData]="rowData" (firstDataRendered)="onFirstDataRendered($event)" [rowClassRules]="rowClassRules"
+            (rowClicked)="onRowClicked($event)" (gridReady)="onGridReady($event)" [masterDetail]="true" [detailCellRendererParams]="detailCellRendererParams"
+            [getRowHeight]="getRowHeight" [enableCellTextSelection]="true" (sortChanged)="onSortChanged()" (filterChanged)="onSortChanged()">
+        </ag-grid-angular>
+    </div>
+
+    <div class="col-24" *ngIf="!rowData || rowData.length === 0">
+        No Data Available for Tickets & Activity
+    </div>
+</div>

@@ -1,0 +1,173 @@
+<div class="cont-us col">
+    <div class="row">
+        <div class="col">
+            <div class="crm-heading   crm-grid__item" id="crm_heading">
+                <div class="crm-container">
+                    <div class="crm-heading__main">
+                        <h3 class="crm-heading__title">Time Accounting 2 Week Summary
+                        </h3>
+                        <span class="crm-heading__separator crm-hidden"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="text-right mt-3">
+                <div class="cursor-pointer d-inline-block">
+                    <i class="fa fa-info-circle set-ic font-24 position-relative" placement="left" [ngbPopover]="popContent" ngbTooltip="Graph Information"
+                        [autoClose]="true" triggers="manual" #p="ngbPopover" (click)="$event.preventDefault(); $event.stopPropagation();p.open()"
+                        container="body" tooltipClass="default" style="top: -2px;" aria-hidden="true"></i>
+                    <div>
+                        <ng-template #popContent>
+                            <app-graph-info></app-graph-info>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-24">
+    <div class="crm-mainbox crm-portlet--height-fluid-half">
+        <div class="container-fluid p-3">
+            <!-- ********************* Time Accounting Summary form Start *****************************************-->
+            <form [formGroup]="checkInOutSummaryForm">
+                <div class="row">
+                    <div class="col-4 pl-2">
+                        <div class="form-field required">
+                            <div class="form-field-control" [ngClass]="{ 'cross-validation-error': checkInOutSummaryForm.controls.responsiblePerson.errors  &&  checkInOutSummaryForm.controls.responsiblePerson.errors.required}">
+                                <ng-select #responsiblePerson bindLabel="name" groupBy="group" [items]="checkInOutSummaryLookup.responsiblePersonList" bindValue="id"
+                                    [multiple]="true" placeholder="Responsible Person" formControlName="responsiblePerson" clearAllText="Clear"
+                                    class="salesprocessstatus" [selectableGroup]="true" [selectableGroupAsModel]="false" appendTo="body"
+                                    [closeOnSelect]="false" [searchable]="false" [clearable]="false" (open)="onClearAll()">
+                                    <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                        <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                            <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                                            <label class="custom-control-label font-weight-bold">{{item.group}}</label>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                        <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                            <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                                            <label class="custom-control-label">{{item.name}}</label>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                        <app-select-multi-label class="w-100" [groupItems]="items" [lookup]="checkInOutSummaryLookup.responsiblePersonList">
+                                        </app-select-multi-label>
+                                    </ng-template>
+                                    <ng-template ng-header-tmp>
+                                        <input type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="filterData($event.target.value)"
+                                        />
+                                        <button (click)="onSelectAll('responsiblePerson')" class="btn btn-sm btn-secondary">All</button>
+                                        <button (click)="onClearAll('responsiblePerson')" class="btn btn-sm btn-secondary ml-2">None</button>
+                                        <button (click)="search()" class="btn btn-sm btn-secondary ml-2">Search</button>
+                                    </ng-template>
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <md2-datepicker type="date" format="MM/dd/y" placeholder="Start Date" name="startdate" id="startdate" openOnFocus="false"
+                                    mode="landscape" formControlName="startDate" (change)="dateChange($event)">
+                                </md2-datepicker>
+                            </div>
+                            <div class="col-12">
+                                <md2-datepicker type="date" format="MM/dd/y" placeholder="End Date" name="enddate" id="enddate" openOnFocus="false" mode="landscape"
+                                    formControlName="endDate" (change)="dateChange($event)">
+                                </md2-datepicker>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="row">
+                            <div class="col-9">
+                                <div class="float-left">
+                                    <button ngbTooltip="Previous Week" data-placement="bottom" container="body" tooltipClass="default" class="btn btn-outline-secondary pull-left ml-0 mr-2 mt-2"
+                                        type="button" (click)="dateChange($event,'Previous')">
+                                        <i class="fas fa-angle-double-left font-15" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <div class="float-left ml-2">
+                                    <button ngbTooltip="Next Week" data-placement="bottom" [disabled]="disableNext" container="body" tooltipClass="default" class="btn btn-outline-secondary pull-left ml-0 mr-2 mt-2"
+                                        type="button" (click)="dateChange($event,'Next')">
+                                        <i class="fas fa-angle-double-right font-15" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="justify-content-end w-100 text-right mb-space mt-2">
+                            <button class="btn btn-outline-primary ml-2" [disabled]="!checkInOutSummaryForm.valid" (click)="search()">Search
+                            </button>
+                            <button class="btn btn-outline-primary ml-2" (click)="setDefault()">
+                                Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!-- ********************* Time Accounting Summary Form Ends *****************************************-->
+            <div class="col-24 mt-3" *ngIf="availableHistory!=undefined && availableHistory.length>0">
+                <div class="accordion show" id="accordion" aria-expanded="true" *ngFor="let history of availableHistory;let i = index">
+                    <div class="card mb-2" style="border-radius: 5px; border-bottom: 1px solid rgba(0, 0, 0, 0.08)">
+                        <div class="card-header cursor-pointer" data-toggle="collapse" [attr.data-target]="'#accordion'+ i">
+                            <a role="button" data-toggle="collapse" href="#collapse-1" aria-expanded="true" aria-controls="collapse-1">
+                                <b class="font-14 margin_top_5">{{history.department}}</b>
+                            </a>
+                        </div>
+
+
+                        <div id="collapse-1" class="collapse show" data-parent="#accordion" aria-labelledby="heading-1">
+                            <div class="card-body">
+                                <div id="accordion-1" *ngFor="let data of history.departmentData;let i = index">
+                                    <div class="card">
+                                        <div class="card-header" id="heading-1-1">
+                                            <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-1-1" aria-expanded="true" aria-controls="collapse-1-1">
+                                                <b class="font-14 pull-left margin_top_5">{{data.userName}}</b> |
+                                            </a>
+                                            <i class="margin_right_10 font-14">Week1:Total hours:{{data.weekOneTotalWorkingHours | hhmmss:true}} | Week2:Total
+                                                hours:{{data.weekTwoTotalWorkingHours | hhmmss : true}} | Total hours:{{data.totalHours
+                                                | hhmmss : true}}
+                                            </i>
+                                            <i *ngIf="data.eligibleFor5MinProvision" class="margin_right_20 font-14">--->
+                                                <span class="margin_left_10"> After 5 mins provision | Week1:Total hours:{{data.weekOneTotalWorkingHoursWith5MinProvision
+                                                    | hhmmss:true}} ({{data.weekOneTotalSecondsWith5MinProvision | hhmmss:true}})
+                                                    | Week2:Total hours:{{data.weekTwoTotalWorkingHoursWith5MinProvision
+                                                    | hhmmss : true}} ({{data.weekTwoTotalSecondsWith5MinProvision | hhmmss:true}})
+                                                    | Total hours:{{data.totalHoursWith5MinProvision | hhmmss : true}} ({{data.totalSecondsWith5MinProvision
+                                                    | hhmmss:true}})</span>
+                                            </i>
+                                            <!-- <a *ngIf="isManagement" class=" margin_right_25 pull-right"
+                                                (click)="manualEntry(data.userName,$event)">Add New Entry</a> -->
+                                        </div>
+                                        <div *ngIf="data.accountingDetails !== undefined && data.accountingDetails !== null">
+                                            <div class="row">
+                                                <div class="col-24 deta-aggrid">
+                                                    <ag-grid-angular #agGrid id="myGrid" style="width: 100%;" class="ag-theme-balham" [columnDefs]="columnDefs" [defaultColDef]="defaultColDef"
+                                                        [domLayout]="domLayout" [rowData]="data.accountingDetails" (gridReady)="onGridReady($event)"
+                                                        [sideBar]="sideBar" [getRowHeight]="getRowHeight" [multiSortKey]="multiSortKey"
+                                                        [animateRows]="animateRows" [rowClassRules]="rowClassRules" [floatingFilter]="floatingFilter"
+                                                        [enableCellTextSelection]="true">
+                                                    </ag-grid-angular>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="pull-left col-xs-24 col-sm-24 padding_l_0" *ngIf="history.departmentData === undefined || history.departmentData.length === 0">
+                                            No Data Available
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

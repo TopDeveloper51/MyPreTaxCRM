@@ -1,0 +1,615 @@
+<div class="row">
+    <div class="col-24 customersearch">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-returnEIN-tab" data-toggle="tab" href="#returnEIN" role="tab" aria-controls="nav-returnEIN"
+                    aria-selected="true">Return
+                </a>
+                <a class="nav-item nav-link" id="nav-statisticsEIN-tab" data-toggle="tab" href="#statisticsEIN" role="tab" aria-controls="nav-statisticsEIN"
+                    aria-selected="false">Statistics
+                </a>
+                <a class="nav-item nav-link" id="nav-efileEIN-tab" data-toggle="tab" href="#efileEIN" role="tab" aria-controls="nav-efileEIN"
+                    aria-selected="false">Efile
+                </a>
+                <a class="nav-item nav-link" id="nav-efileHistoryEIN-tab" data-toggle="tab" href="#efileHistoryEIN" role="tab" aria-controls="nav-efileHistoryEIN"
+                    aria-selected="false" (click)="Search()">Efile History
+                </a>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <!-- Return tab starts-->
+            <div class="tab-pane fade pt-3 show active" id="returnEIN" role="tabpanel" aria-labelledby="nav-returnEIN-tab">
+                <div class="row">
+                    <div class="col-lg-6 col-md-24 col-sm-24 margin_top_10 padding_l_0 quick_width_full">
+                        <div class="info_tile_wrap">
+                            <div class="info_tile_title font-weight-bold">
+                                Return
+                            </div>
+                            <div class="info_tile_content">
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Return Type
+                                    </label>
+
+                                    <span class="pull-right font-weight-bold width_full_40" *ngIf="quickSummary.returnInfoDetail.returnType == '1065'" >Partnership</span>
+                                    <span class="pull-right font-weight-bold width_full_40" *ngIf="quickSummary.returnInfoDetail.returnType == '1120'" >Corporate</span>
+                                    <span class="pull-right font-weight-bold width_full_40" *ngIf="quickSummary.returnInfoDetail.returnType == '1120s'" >S-Corporate</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Filling Status
+                                    </label>
+                                    <span class="pull-right width_full_40 font-weight-bold">{{quickSummary.returnInfoDetail.fillStatus}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Created By
+                                    </label>
+                                    <span class="pull-right width_full_40">{{quickSummary.returnInfoDetail.createdBy}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="font-weight-bold">Created Date & Time</label>
+                                    <span class="pull-right width_full_40">{{quickSummary.returnInfoDetail.createdDateTime | date:'MM/dd/yyyy h:mm a'}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Updated By
+                                    </label>
+                                    <span class="pull-right width_full_40">{{quickSummary.returnInfoDetail.updatedBy}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="font-weight-bold">Updated Date & Time</label>
+                                    <span class=" pull-right width_full_40">{{quickSummary.returnInfoDetail.lastEdited | date:'MM/dd/yyyy h:mm a'}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Return Status
+                                    </label>
+                                    <span class=" pull-right width_full_40">{{quickSummary.returnInfoDetail.status | json}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-24 col-sm-24 margin_top_10 padding_l_0 quick_width_full">
+                        <div class="info_tile_wrap">
+                            <div class="info_tile_title font-weight-bold">
+                                Partnership
+                            </div>
+                            <div class="info_tile_content">
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">EIN</label>
+                                    <span class="pull-right width_full_40">{{quickSummary.partnership.ein}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Company Name
+                                    </label>
+                                    <span class="pull-right width_full_40">{{quickSummary.partnership.companyName}} {{quickSummary.partnership.lastName}}
+                                    </span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Address</label>
+                                    <div class="pull-right width_full_40">
+                                        <div>{{quickSummary.partnership.usAptNo}}
+                                            <span>, </span>{{quickSummary.partnership.usStreet}}
+                                        </div>
+                                        <div>{{quickSummary.partnership.usZipCode}}
+                                            <span>, </span>{{quickSummary.partnership.usCity}}
+                                            <span data-ng-show="quickSummary.partnership.usState && quickSummary.partnership.usCity">,
+                                            </span>{{quickSummary.partnership.usState}}</div>
+                                    </div>
+                                    <div class="pull-right width_full_40">
+                                        <div>{{quickSummary.partnership.fgStreet}}
+                                            <span *ngIf="quickSummary.partnership.fgCity && quickSummary.partnership.fgStreet">,
+                                            </span>{{quickSummary.partnership.fgCity}}</div>
+                                        <div>{{quickSummary.partnership.fgPostalCode}}
+                                            <span *ngIf="quickSummary.partnership.fgPostalCode && quickSummary.partnership.fgState">,
+                                            </span>{{quickSummary.partnership.fgState}}
+                                            <span *ngIf="quickSummary.partnership.fgCountry && quickSummary.partnership.fgState">,
+                                            </span>{{quickSummary.partnership.fgCountry}}</div>
+                                    </div>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Home No
+                                    </label>
+                                    <span class="pull-right width_full_40">{{quickSummary.partnership.phoneNo}}</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--second info card start-->
+                    <div class="col-lg-6 col-md-24 col-sm-24 margin_top_10 padding_l_0 quick_width_full">
+                        <div class="info_tile_wrap">
+                            <div class="info_tile_title font-weight-bold">
+                                Preparer
+                            </div>
+                            <div class="info_tile_content">
+
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Id</label>
+                                    <span class="pull-right width_full_40">{{quickSummary.preparerDetail.preparerId}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Name</label>
+                                    <span class="pull-right width_full_40">{{quickSummary.preparerDetail.name}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">SSN</label>
+                                    <span class="pull-right width_full_40">{{quickSummary.preparerDetail.ssn}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">PTIN</label>
+                                    <span class="pull-right width_full_40">{{quickSummary.preparerDetail.ptin}}</span>
+                                </div>
+
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">EIN</label>
+                                    <span class="pull-right width_full_40">{{quickSummary.preparerDetail.ein}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Phone No
+                                    </label>
+                                    <span class="pull-right width_full_40">{{quickSummary.preparerDetail.telephoneNo}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Email</label>
+                                    <span class="pull-right width_full_40">{{quickSummary.preparerDetail.email}}</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--second info card end-->
+                    <!--third info card start-->
+
+
+                    <!--additional information start-->
+                    <!-- <div class="row"> -->
+
+                    <div class="col-lg-6 col-md-24 col-sm-24 margin_top_10 padding_l_0 quick_width_full">
+                        <div class="info_tile_wrap">
+                            <div class="info_tile_title font-weight-bold">
+                                Bank
+                            </div>
+                            <div class="info_tile_content">
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">RTN</label>
+                                    <span class="pull-right width_full_40">{{quickSummary.bankDetail.rtn}}</span>
+                                </div>
+
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Account No
+                                    </label>
+                                    <span class="pull-right width_full_40">{{quickSummary.bankDetail.accountNo}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Account Type
+                                    </label>
+                                    <span class=" pull-right width_full_40" *ngIf="quickSummary.bankDetail.accountType == '2'">Saving</span>
+                                    <span class=" pull-right width_full_40" *ngIf="quickSummary.bankDetail.accountType == '1'">Current</span>
+                                </div>
+
+
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Name</label>
+                                    <span class="pull-right width_full_40">{{quickSummary.bankDetail.name}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Return tab ends-->
+
+            <!-- statistics tab starts -->
+            <div class="tab-pane fade pt-3" id="statisticsEIN" role="tabpanel" aria-labelledby="nav-statisticsEIN-tab">
+                <div class="row">
+                    <div class="col-lg-6 col-md-24 col-sm-24 margin_top_10 padding_l_0 quick_width_full">
+                        <div class="info_tile_wrap">
+                            <div class="info_tile_title font-weight-bold">
+                                Income
+                            </div>
+                            <div class="info_tile_content">
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Wages & --Salary
+                                    </label>
+
+                                    <span class="pull-right width_full_40">{{quickSummary.incomeDetail.wagesAndSalary | currency:'USD':'symbol':'1.2-2'}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Interest & Dividend
+                                    </label>
+                                    <span class="pull-right width_full_40">{{quickSummary.incomeDetail.interestAndDividend | currency:'USD':'symbol':'1.2-2'}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Business Income
+                                    </label>
+                                    <span class=" pull-right width_full_40">{{quickSummary.incomeDetail.businessIncome | currency:'USD':'symbol':'1.2-2'}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Capital Gain
+                                    </label>
+                                    <span class="pull-right width_full_40">{{quickSummary.incomeDetail.capitalGain | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Farm Income
+                                    </label>
+                                    <span class="pull-right width_full_40">{{quickSummary.incomeDetail.farmIncome | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Other Income
+                                    </label>
+                                    <span class="pull-right width_full_40">{{quickSummary.incomeDetail.otherIncome | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Total Income
+                                    </label>
+                                    <span class="pull-right width_full_40">{{quickSummary.incomeDetail.totalIncome | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Total Adjustment
+                                    </label>
+                                    <span class="pull-right width_full_40">{{quickSummary.incomeDetail.totalAdjustment | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">AGI</label>
+                                    <span class="pull-right width_full_40">{{quickSummary.incomeDetail.adjustedGrossIncome | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Itemized / Std. Deduction
+                                    </label>
+                                    <span class="pull-right width_full_40">{{quickSummary.incomeDetail.itemizedOrStandardDed | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Taxable income
+                                    </label>
+                                    <span class="pull-right width_full_40">{{quickSummary.incomeDetail.taxableIncome | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--CREDIT SUMMARY start-->
+                    <div class="col-lg-6 col-md-24 col-sm-24 margin_top_10 padding_l_0 quick_width_full">
+                        <div class="info_tile_wrap">
+                            <div class="info_tile_title font-weight-bold">
+                                Credit
+                            </div>
+                            <div class="info_tile_content">
+
+
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Foreign tax
+                                    </label>
+                                    <span class="pull-right width_full_40">{{quickSummary.creditDetail.foreignTaxCredit | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Child & dependent care
+                                    </label>
+                                    <span class="pull-right width_full_40">{{quickSummary.creditDetail.childAndDepCare | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Elderly or disabled
+                                    </label>
+                                    <span class=" pull-right width_full_40">{{quickSummary.creditDetail.elderlyAndDisableCr | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Education</label>
+                                    <span class="pull-right width_full_40">{{quickSummary.creditDetail.educationCredit | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Retirement savings contri.
+                                    </label>
+                                    <span class="pull-right width_full_40">{{quickSummary.creditDetail.rtrSavingsCredit | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">EIC</label>
+                                    <span class="pull-right width_full_40">{{quickSummary.creditDetail.eic | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">CTC</label>
+                                    <span class="pull-right width_full_40">{{quickSummary.creditDetail.ctc | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Adoption</label>
+                                    <span class="pull-right width_full_40"></span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Additional child care
+                                    </label>
+                                    <span class="pull-right width_full_40">{{quickSummary.creditDetail.additionCTC | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Other Credit
+                                    </label>
+                                    <span class="pull-right width_full_40">{{quickSummary.creditDetail.otherCredit | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Total Credit
+                                    </label>
+                                    <span class="pull-right width_full_40">{{quickSummary.creditDetail.totalCredit | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--second info card end-->
+                    <!--third info card start-->
+                    <div class="col-lg-6 col-md-24 col-sm-24 margin_top_10 padding_l_0 quick_width_full">
+                        <div class="info_tile_wrap">
+                            <div class="info_tile_title font-weight-bold">
+                                Tax
+                            </div>
+                            <div class="info_tile_content">
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Tax on Income
+                                    </label>
+                                    <span class="pull-right width_full_40">{{quickSummary.taxDetail.taxOnIncome | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">AMT</label>
+                                    <span class="pull-right width_full_40">{{quickSummary.taxDetail.amt | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Other taxes
+                                    </label>
+                                    <span class=" pull-right width_full_40">{{quickSummary.taxDetail.otherTaxes | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Total Tax
+                                    </label>
+                                    <span class="pull-right width_full_40">{{quickSummary.taxDetail.totalTax | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-24 col-sm-24 margin_top_10 padding_l_0 quick_width_full">
+                        <div class="info_tile_wrap">
+                            <div class="info_tile_title font-weight-bold">
+                                Payment
+                            </div>
+                            <div class="info_tile_content">
+
+
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Income tax withheld
+                                    </label>
+                                    <span class="pull-right width_full_40">{{quickSummary.paymentDetail.incomeTaxWithheld | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Estimated tax payment
+                                    </label>
+                                    <span class="pull-right width_full_40">{{quickSummary.paymentDetail.estimateTaxPayAmt | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Other payments
+                                    </label>
+                                    <span class=" pull-right width_full_40">{{quickSummary.paymentDetail.otherPayments | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Estimated tax penalty
+                                    </label>
+                                    <span class="pull-right width_full_40">{{quickSummary.paymentDetail.estimateTaxPenalyt | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix" *ngIf="quickSummary.paymentDetail.balanceDue>0">
+                                    <label class="pull-left width_full_60 font-weight-bold">Balance Due
+                                    </label>
+                                    <span class="pull-right width_full_40">{{quickSummary.paymentDetail.balanceDue | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix" *ngIf="!quickSummary.paymentDetail.balanceDue && quickSummary.paymentDetail.balanceDue>=0">
+                                    <label class="pull-left width_full_60 font-weight-bold">Refund</label>
+                                    <span class="pull-right width_full_40">{{quickSummary.paymentDetail.refund | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <!--additional information start-->
+                    <div class="clearfix" *ngIf="quickSummary.stateDetails.length!==0">
+                        <h3 class="page_title_wrap title_height_40 margin_bottom_20 clearfix" translate="ESTIMATOR_PERSONALINFO_LBL" translate-default="State Information">
+                        </h3>
+                        <div class="col-lg-6 col-md-24 col-sm-24 margin_top_10 padding_l_0 quick_width_full" *ngFor="let state of quickSummary.stateDetails">
+                            <div class="info_tile_wrap">
+                                <div class="info_tile_title font-weight-bold">
+                                    {{state.stateName}}
+                                </div>
+                                <div class="info_tile_content">
+                                    <div class="clearfix">
+                                        <label class="pull-left width_full_60 font-weight-bold">Taxable income
+                                        </label>
+                                        <span class="pull-right width_full_40">{{state.taxableIncome | currency:'USD':'symbol':'1.2-2' }}</span>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label class="pull-left width_full_60 font-weight-bold">Tax</label>
+                                        <span class="pull-right width_full_40">{{state.tax | currency:'USD':'symbol':'1.2-2' }}</span>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label class="pull-left width_full_60 font-weight-bold">Credits</label>
+                                        <span class=" pull-right width_full_40">{{state.credits | currency:'USD':'symbol':'1.2-2' }}</span>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label class="pull-left width_full_60 font-weight-bold">Payments</label>
+                                        <span class="pull-right width_full_40">{{state.payments | currency:'USD':'symbol':'1.2-2'}}</span>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label class="pull-left width_full_60 font-weight-bold">Interest & Penalties
+                                        </label>
+                                        <span class="pull-right width_full_40">{{state.interstAndPenalties }}</span>
+                                    </div>
+                                    <div class="clearfix" *ngIf="state.balanceDue>0">
+                                        <label class="pull-left width_full_60 font-weight-bold">Balance due
+                                        </label>
+                                        <span class="pull-right width_full_40">{{state.balanceDue | currency:'USD':'symbol':'1.2-2' }}</span>
+                                    </div>
+                                    <div *ngIf="!state.balanceDue || state.balanceDue<=0">
+                                        <label class="pull-left width_full_60 font-weight-bold">Refund</label>
+                                        <span class="pull-right width_full_40">{{state.refund }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--additional information end-->
+
+                </div>
+            </div>
+            <!--  statistics tab ends -->
+
+            <!-- efile tab starts -->
+            <div class="tab-pane fade pt-3" id="efileEIN" role="tabpanel" aria-labelledby="nav-efileEIN-tab">
+                <div class="row">
+                    <div class="col-lg-8 col-md-24 col-sm-24 quick_width_full">
+                        <div class="info_tile_wrap" *ngFor="let key of quickSummary.eFileDetail | keys">
+                            <div class="info_tile_title font-weight-bold">
+                                {{quickSummary.eFileDetail[key].returnTypeDisplayText}}
+                            </div>
+                            <div class="info_tile_content">
+
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Status</label>
+                                    <span class="pull-right width_full_40" *ngIf="quickSummary.eFileDetail[key]">{{quickSummary.eFileDetail[key]|statusFromNumber}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Submission Id
+                                    </label>
+                                    <span class="pull-right width_full_40 cursor-pointer" *ngIf="quickSummary.eFileDetail[key]">{{quickSummary.eFileDetail[key].submissionId}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Date filed
+                                    </label>
+                                    <span class="pull-right width_full_40" *ngIf="quickSummary.eFileDetail[key]">{{quickSummary.eFileDetail[key].createdDate|date:'MM/dd/yyyy h:mm a'}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Transmission date
+                                    </label>
+                                    <span class="pull-right width_full_40" *ngIf="quickSummary.eFileDetail[key]">{{quickSummary.eFileDetail[key].transmittedDate|date:'MM/dd/yyyy h:mm a'}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Acknowledgement date
+                                    </label>
+                                    <span class="pull-right width_full_40" *ngIf="quickSummary.eFileDetail[key]">{{quickSummary.eFileDetail[key].acknowledgementDate|date:'MM/dd/yyyy h:mm a'}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Filed By
+                                    </label>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Name</label>
+                                    <span class="pull-right width_full_40" *ngIf="quickSummary.eFileDetail[key]">{{quickSummary.eFileDetail[key].createdByName}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="pull-left width_full_60 font-weight-bold">Email</label>
+                                    <span class="pull-right width_full_40" *ngIf="quickSummary.eFileDetail[key]">{{quickSummary.eFileDetail[key].createdBy}}</span>
+                                </div>
+                                <div class="clearfix" *ngIf="quickSummary.eFileDetail[key] && quickSummary.eFileDetail[key].balanceDue>0">
+                                    <label class="pull-left width_full_60 font-weight-bold">Balance due
+                                    </label>
+                                    <span class="pull-right width_full_40" *ngIf="quickSummary.eFileDetail[key]">{{quickSummary.eFileDetail[key].balanceDue |currency:'USD' }}</span>
+                                </div>
+                                <div class="clearfix" *ngIf="quickSummary.eFileDetail[key] && (!quickSummary.eFileDetail[key].balanceDue || quickSummary.eFileDetail[key].balanceDue<=0)">
+                                    <label class="pull-left width_full_60 font-weight-bold">Refund</label>
+                                    <span class="pull-right width_full_40" *ngIf="quickSummary.eFileDetail[key]">{{quickSummary.eFileDetail[key].expectedRefund |currency:'USD' }}</span>
+                                </div>
+                                <div class="clearfix" *ngIf="quickSummary.eFileDetail[key]">
+                                    <a>
+                                        <label class="cursor-pointer text-primary" (click)="openEFile(quickSummary.eFileDetail[key].key)">View efile
+                                        </label>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <!--additional information start-->
+                    <div class="col p-0" *ngIf="quickSummary.eFileStateDetails.length!==0">
+                        <!-- <h3 class="page_title_wrap title_height_40 margin_bottom_20 clearfix"
+                                translate="ESTIMATOR_PERSONALINFO_LBL"
+                                translate-default="State Information"></h3> -->
+                        <div class="col-lg-8 col-md-24 col-sm-24 quick_width_full" *ngFor="let state of quickSummary.eFileStateDetails">
+                            <div class="info_tile_wrap" *ngFor="let key of state | keys">
+                                <div class="info_tile_title font-weight-bold">
+                                    {{state[key].returnTypeDisplayText | uppercase}}
+                                </div>
+                                <div class="info_tile_content">
+
+                                    <div class="clearfix">
+                                        <label class="pull-left width_full_60 font-weight-bold">Status</label>
+                                        <span class="pull-right width_full_40" *ngIf="state[key]">{{state[key]|statusFromNumber}}</span>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label class="pull-left width_full_60 font-weight-bold">Submission Id
+                                        </label>
+                                        <span class="pull-right width_full_40 cursor-pointer">{{state[key].submissionId}}</span>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label class="pull-left width_full_60 font-weight-bold">Date filed
+                                        </label>
+                                        <span class="pull-right width_full_40">{{state[key].createdDate|date:'MM/dd/yyyy h:mm a'}}</span>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label class="pull-left width_full_60 font-weight-bold">Transmission date
+                                        </label>
+                                        <span class="pull-right width_full_40">{{state[key].transmittedDate|date:'MM/dd/yyyy h:mm a'}}</span>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label class="pull-left width_full_60 font-weight-bold">Acknowledgement date
+                                        </label>
+                                        <span class="pull-right width_full_40">{{state[key].acknowledgementDate|date:'MM/dd/yyyy h:mm a'}}</span>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label class="pull-left width_full_60 font-weight-bold">Filed By
+                                        </label>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label class="pull-left width_full_60 font-weight-bold">Name</label>
+                                        <span class="pull-right width_full_40">{{state[key].createdByName}}</span>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label class="pull-left width_full_60 font-weight-bold">Email</label>
+                                        <span class="pull-right width_full_40">{{state[key].createdBy}}</span>
+                                    </div>
+                                    <div class="clearfix" *ngIf="state[key].balanceDue>0">
+                                        <label class="pull-left width_full_60 font-weight-bold">Balance due
+                                        </label>
+                                        <span class="pull-right width_full_40">{{state[key].balanceDue |currency:'USD' }}</span>
+                                    </div>
+                                    <div class="clearfix" *ngIf="!state[key].balanceDue||state[key].balanceDue<=0">
+                                        <label class="pull-left width_full_60 font-weight-bold">Refund</label>
+                                        <span class="pull-right width_full_40">{{state[key].expectedRefund |currency:'USD' }}</span>
+                                    </div>
+                                    <div class="clearfix" *ngIf="state[key].key != undefined && state[key].status!= undefined && state[key].status>2">
+                                        <a class="pull-left width_full_60">
+                                            <label (click)="openEFile(state[key].key)" class="text-primary cursor-pointer">View efile</label>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--additional information end-->
+                </div>
+            </div>
+            <!--  efile tab ends -->
+
+
+            <!-- efile-history tab starts -->
+            <div class="tab-pane fade pt-3" id="efileHistoryEIN" role="tabpanel" aria-labelledby="nav-efileHistoryEIN-tab">
+                <div class="row mb-3" *ngFor="let ssnData of data | keyvalue ;let i = index">
+                    <div class="col">
+                        <h5 class="font-weight-bold">
+                            {{ssnData.key | uppercase}}
+                        </h5>
+                        <app-return-search-with-ssn-grid style="width:100%" [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" [rowData]="ssnData.value"
+                            [animateRows]='true' [enableCellTextSelection]="true" [domLayout]="domLayout" [getRowStyle]="getRowStyle">
+                        </app-return-search-with-ssn-grid>
+                    </div>
+                </div>
+            </div>
+            <!--  efile-history tab ends -->
+        </div>
+    </div>
+</div>

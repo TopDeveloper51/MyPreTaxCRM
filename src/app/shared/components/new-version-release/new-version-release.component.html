@@ -1,0 +1,41 @@
+<!--Dialog Header-->
+<div class="modal-header">
+    <h5 class="modal-title">
+        New Updates Available
+    </h5>
+    <div class="float-right">
+        <div (click)="close()" class="cus-hov">
+            <i class="fa fa-times"></i>
+        </div>
+    </div>
+</div>
+<!--Dialog Header End-->
+<div class="modal-body">
+    <div class="form-group input-group-lg">
+        <!-- <div class="pl-2 mb-2">
+            <span>A new and improved version of CRM is available.</span>
+        </div> -->
+        <div class="pl-2 mb-2">
+            <span>The Application must be reloaded to apply the new updates.</span>
+        </div>
+        <div class="pl-2 mb-4">
+            <span>Please save your work before reloading the application.</span>
+        </div>
+        <!-- <div>
+            <span class="pl-2">
+                If you are ready to reload the application, then please click
+                <b>Do It Now</b>
+            </span>
+        </div> -->
+    </div>
+</div>
+
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-primary" (click)="close()">
+        <span>Do It Later</span>
+    </button>
+    <button type="button" class="btn btn-outline-primary" (click)="reloadApplication()">
+        <span>Do It Now</span>
+    </button>
+</div>

@@ -1,0 +1,176 @@
+<div class="modal-header ">
+    <h5 class="modal-title">
+        Call Details
+    </h5>
+    <div class="float-right">
+        <div (click)="close()" class="cus-hov">
+            <i class="fa fa-times"></i>
+        </div>
+    </div>
+</div>
+<div class="modal-body" *ngIf="phoneDataOutgoing !== undefined && phoneDataOutgoing.length > 0">
+    <h5>
+        <b>Outgoing Call Details</b>
+    </h5>
+    <div style="max-height: 400px; overflow: auto;">
+        <table>
+            <tbody *ngFor="let outgoing of phoneDataOutgoing">
+                <tr>
+                    <td style="width:25%">
+                        <b>Phone Number: </b>
+                        <h6 class="phone_number_style">{{outgoing.phoneNumber | phone }}</h6>
+                    </td>
+                    <td style="width:25%">
+                        <b>StartTime: </b>{{outgoing.convCallStartTime}}</td>
+                    <td style="width:25%">
+                        <span *ngIf="outgoing.convAnswerTime !== undefined">
+                            <b>AnswerTime: </b>{{outgoing.convAnswerTime}}</span>
+                    </td>
+                    <td style="width:15%">
+                        <span *ngIf="outgoing.convCallDuration !== undefined">
+                            <b>Duration: </b>{{outgoing.convCallDuration}}</span>
+                    </td>
+                    <td style="width:10%">
+                        <!-- <i class="far fa-copy cursor-pointer mr-2" (click)="copyToClipboard(outgoing.recordingFile)" title="Copy recording file path to clipboard" style="font-size: 18px;"></i>;
+                            <i class="far fa-copy cursor-pointer" (click)="copyToClipboard(outgoing.callId)" title="Copy Call ID to clipboard" style="font-size: 18px;"></i>; -->
+
+                        <img class="pull-right" ngbTooltip="Copy recording file path to clipboard" container="body" data-placement="left" tooltipClass="default"
+                            src="../../../../../../../assets/images/copyToClipboard.png" alt="Copy file path" (click)="copyToClipboard(outgoing.recordingFile)"
+                            style="border-width:0px;font-size: 14px;cursor: pointer;">
+                        <img class="pull-right" ngbTooltip="Copy Call ID to clipboard" container="body" data-placement="left" tooltipClass="default"
+                            src="../../../../../../../assets/images/copyToClipboard.png" alt="Copy Call ID" (click)="copyToClipboard(outgoing.callId)"
+                            style="border-width:0px;font-size: 14px;cursor: pointer;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>Outcome: </b>{{outgoing.callOutcome}}</td>
+                    <td>
+                        <b>EndTime: </b>{{outgoing.convCallEndTime}}</td>
+                    <td>
+                        <span *ngIf="outgoing.selectedHangupOption !== undefined && outgoing.selectedHangupOption !== '' && outgoing.selectedHangupOption !== null">
+                            <b>Selected HangUp Option: </b>{{outgoing.selectedHangupOption}}</span>
+                    </td>
+                    <td>
+                        <span class="pull-right" *ngIf="outgoing.PDSId !== undefined">
+                            <img src="../../../../../../../assets/images/Approved.png">
+                            <b> PDS</b>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="p-2" *ngIf="phoneDataIncoming !== undefined && phoneDataIncoming.length >0">
+    <h4>
+        <b> Incoming Call Details</b>
+    </h4>
+    <div style="max-height: 400px; overflow: auto; border: 1px solid #dddddd !important;" *ngFor="let incoming of phoneDataIncoming">
+        <table>
+            <tbody>
+                <tr>
+                    <td style="width:25%">
+                        <b>Phone Number: </b>
+                        <h6 class="phone_number_style">{{incoming.phoneNumber}}</h6>
+                    </td>
+                    <td style="width:23%">
+                        <b>StartTime: </b>{{incoming.convCallStartTime}}</td>
+                    <td style="width:25%">
+                        <span *ngIf="incoming.convAnswerTime !== undefined">
+                            <b>AnswerTime: </b>{{incoming.convAnswerTime}}</span>
+                    </td>
+                    <td style="width:14%">
+                        <b>Language: </b>{{incoming.in_language}}</td>
+                    <td style="width:13%">
+                        <span *ngIf="incoming.queue !== undefined">
+                            <b>Queue: </b>{{incoming.queue}}</span>
+                    </td>
+                    <td>
+                        <img class="pull-right" ngbTooltip="Copy Call ID to clipboard" container="body" data-placement="left" tooltipClass="default"
+                            src="../../../../../../../assets/images/copyToClipboard.png" alt="Copy Call ID" (click)="copyToClipboard(incoming.callId)"
+                            style="border-width:0px;font-size: 14px;cursor: pointer;">
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>Outcome: </b>{{incoming.callOutcome}}</td>
+                    <td>
+                        <b>EndTime: </b>{{incoming.convCallEndTime}}</td>
+                    <td>
+                        <b>Waiting Duration: </b>{{incoming.convWaitingDuration}}</td>
+                    <td>
+                        <span *ngIf="incoming.convCallDuration !== undefined">
+                            <b>Duration: </b>{{incoming.convCallDuration}}</span>
+                    </td>
+                    <td>
+                        <span *ngIf="incoming.extension !== undefined">
+                            <b>Extension: </b>{{incoming.extension}}</span>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span *ngIf="incoming.notifiedDateTime !== undefined">
+                            <b>Notified: </b>{{incoming.notifiedDateTime}}</span>
+                    </td>
+                    <td>
+                        <span *ngIf="incoming.notifiedUsers !== undefined">
+                            <b>Notified User(s): </b>{{incoming.notifiedUsers}}</span>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span *ngIf="incoming.refusedDatetime !== undefined">
+                            <b>Refused: </b>{{incoming.refusedDatetime}}</span>
+                    </td>
+                    <td>
+                        <span *ngIf="incoming.refusedUsers !== undefined">
+                            <b>Refused User(s): </b>{{incoming.refusedUsers}}</span>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span *ngIf="incoming.abandonedDatetime !== undefined">
+                            <b>Abandoned: </b>{{incoming.abandonedDatetime}}</span>
+                    </td>
+                    <td>
+                        <span *ngIf="incoming.abandonedUsers !== undefined">
+                            <b>Abandoned User(s): </b>{{incoming.abandonedUsers}}</span>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table-bordered" *ngIf="incoming.answeredBy !== undefined && incoming.answeredBy.length >0">
+            <tbody>
+                <tr class="border" *ngFor="let object of incoming.answeredBy">
+                    <td>
+                        <b>{{object.type}}</b>
+                    </td>
+                    <td style='padding: 10px'>
+                        <span *ngIf='object.userId !== undefined'>{{object.userId}}</span>
+                    </td>
+                    <td style='padding : 10px'>
+                        <span *ngIf='object.startTime !== undefined'>{{object.startTime}}</span>
+                    </td>
+                    <td style='padding : 10px'>
+                        <span *ngIf='object.endTime !== undefined'>{{object.endTime}}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

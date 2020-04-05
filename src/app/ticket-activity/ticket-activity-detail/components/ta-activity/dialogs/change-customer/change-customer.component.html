@@ -1,0 +1,252 @@
+<!--Dialog Header-->
+<div class="modal-header">
+    <h5 class="modal-title">Customer Search</h5>
+    <div class="cus-hov float-right " data-dismiss="modal" (click)="close()">
+        <i class="fa fa-times" style="opacity: 0.7; font-size: 16px;"></i>
+    </div>
+</div>
+
+<!--Dialog Header End-->
+
+<!--Dialog Body-->
+<div class="modal-body">
+    <div class="row">
+        <div class="col-16">
+            <b class="mb-1 d-block">Customer</b>
+        </div>
+        <div class="col-8">
+            <b class="mb-1 d-block crm-heading__title">Contact</b>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-16">
+            <div class="card mb-0">
+                <div class="card-body">
+                    <form [formGroup]="customerForm">
+                        <div class="row">
+                            <div class="col-24 col-sm-12 col-md-6 col-xl-12">
+                                <div class="form-field">
+                                    <div class="form-field-control">
+                                        <input id="customerName1" formControlName="customerName" type="text" class="form-field-input" placeholder=" ">
+                                        <label for="customerName1" class="form-field-label">Customer Name
+                                        </label>
+                                        <div class="form-field-bar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-24 col-sm-12 col-md-6 col-xl-12">
+                                <div class="form-field">
+                                    <div class="form-field-control">
+                                        <input id="street" type="text" formControlName="street" class="form-field-input" placeholder=" ">
+                                        <label for="street" class="form-field-label">Street</label>
+                                        <div class="form-field-bar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-24 col-sm-12 col-md-6 col-xl-12">
+                                <div class="form-field">
+                                    <div class="form-field-control">
+                                        <input id="customerNumberr" formControlName="customerNumber" type="text" class="form-field-input" placeholder=" ">
+                                        <label for="customerNumberr" class="form-field-label">Customer Name
+                                        </label>
+                                        <div class="form-field-bar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-24 col-sm-12 col-md-6 col-xl-12">
+                                <div class="form-field">
+                                    <div class="form-field-control">
+                                        <input id="city" type="text" formControlName="city" class="form-field-input" placeholder=" ">
+                                        <label for="city" class="form-field-label">City</label>
+                                        <div class="form-field-bar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-24 col-sm-12 col-md-6 col-xl-10">
+                                <div class="row-set-mediam">
+                                    <div class="row">
+                                        <div class="col-xl-8">
+                                            <div class="form-field">
+                                                <div class="form-field-control">
+                                                    <ng-select #state [items]="clsStateLookupData" bindLabel="text" bindValue="value" [multiple]="false" placeholder="state"
+                                                        clearAllText="Clear" [selectableGroup]="true" appendTo="body" formControlName="state"
+                                                        [closeOnSelect]="false" [searchable]="false" [clearable]="false">
+                                                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                                            <div class="d-inline-block mr-4 ln-normal" >
+                                                                <label>{{item.value}}</label>
+                                                            </div>
+                                                        </ng-template>
+                                                        <ng-template ng-header-tmp>
+                                                            <input type="text" class="in-set form-field-input" placeholder="Search" [appAutofocus] (input)="state.filter($event.target.value)"
+                                                            />
+                                                        </ng-template>
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-8">
+                                            <div class="form-field">
+                                                <div class="form-field-control">
+                                                    <!-- <ng-select #countryList [items]="clsCountryLookupData"
+                                                bindLabel="name" bindValue="id"
+                                                placeholder="country" clearAllText="Clear"
+                                                [selectableGroup]="true" appendTo="body"
+                                                formControlName="country" [closeOnSelect]="false"
+                                                [searchable]="false" [clearable]="false">
+                                                <ng-template ng-option-tmp let-item="item"
+                                                    let-item$="item$" let-index="index">
+                                                    <div class="d-inline-block"
+                                                       ln-normal  >
+                                                        <label>{{item.name}}</label>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template ng-multi-label-tmp let-items="items"
+                                                    let-clear="clear">
+                                                    <app-select-multi-label class="w-100"
+                                                        [items]="items">
+                                                    </app-select-multi-label>
+                                                </ng-template>
+                                                <ng-template ng-header-tmp>
+                                                    <input 
+                   in-set                                      type="text" class=" form-field-input"
+                                                        placeholder="Search"
+                                                        (input)="countryList.filter($event.target.value)" />
+                                                </ng-template>
+                                            </ng-select> -->
+                                                    <ng-select #country [items]="clsCountryLookupData" bindLabel="text" bindValue="value" [multiple]="false" placeholder="Country"
+                                                        clearAllText="Clear" [selectableGroup]="true" appendTo="body" formControlName="country"
+                                                        [closeOnSelect]="false" [searchable]="false" [clearable]="false">
+                                                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                                            <div class="d-inline-block mr-4 ln-normal" >
+                                                                <label>{{item.value}}</label>
+                                                            </div>
+                                                        </ng-template>
+                                                        <ng-template ng-header-tmp>
+                                                            <input type="text" class="in-set  form-field-input" [appAutofocus] placeholder="Search" (input)="country.filter($event.target.value)"
+                                                            />
+                                                        </ng-template>
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-8">
+                                            <div class="form-field">
+                                                <div class="form-field-control">
+                                                    <input id="zipCode" type="text" formControlName="zipCode" class="form-field-input" placeholder=" ">
+                                                    <label for="zipCode" class="form-field-label">Zip Code
+                                                    </label>
+                                                    <div class="form-field-bar"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-24 col-sm-12 col-md-6 col-xl-8">
+                                <div class="form-field">
+                                    <div class="form-field-control">
+                                        <div class="d-inline-block text-right mb-space mt-2">
+                                            <button class="btn btn-outline-primary" (click)="searchCustomer()">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="card mb-0">
+                <div class="card-body">
+                    <form [formGroup]="contactForm">
+                        <div class="row">
+                            <div class="col-24 col-sm-12 col-md-6 col-xl-24">
+                                <div class="form-field">
+                                    <div class="form-field-control">
+                                        <input id="contactEmail" type="text" formControlName="email" class="form-field-input" placeholder=" ">
+                                        <label for="contactEmail" class="form-field-label">Email</label>
+                                        <div class="form-field-bar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-24 col-sm-12 col-md-6 col-xl-24">
+                                <div class="form-field">
+                                    <div class="form-field-control">
+                                        <input id="contactPhone" type="text" formControlName="phone" class="form-field-input" placeholder=" ">
+                                        <label for="contactPhone" class="form-field-label">Phone</label>
+                                        <div class="form-field-bar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-24 col-sm-12 col-md-6 col-xl-24">
+                                <div class="form-field">
+                                    <div class="d-inline-block text-right mb-space mt-2">
+                                        <button class="btn btn-outline-primary" (click)="searchCustomerAccordingContact()">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="rowData && rowData.length===0">
+        <div class="col-24">
+            <div>No data Available</div>
+        </div>
+    </div>
+    <div class="row" *ngIf="rowData && rowData.length > 0 && rowData[0] !== 'autoHeight'">
+        <div class="col-24">
+            <div class="card mb-0">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-24 col-sm-12 col-md-6 col-xl-12">
+                            <div class="form-field">
+                                <div class="font-weight-bold pt-3">
+                                    Customer List ({{rowData.length | number}})
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-24 col-sm-12 col-md-6 col-xl-12">
+                            <div class="mb-space float-right">
+                                <button class="btn btn-outline-primary mr-2" (click)="moveToSelectedCustomer()" *ngIf="rowData && rowData.length > 0 && rowData[0] !== 'autoHeight'">Move Transaction
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-24 col-sm-12 col-md-6 col-xl-24 pt-2">
+                            <div class="form-field" *ngIf="rowData && rowData.length > 0 && rowData[0] !== 'autoHeight'">
+                                <div class="form-field-control">
+                                    <ag-grid-angular #agGrid style="width: 100%; max-height: 50vh;" class="ag-theme-balham" [rowData]="rowData" [columnDefs]="gridOptions.columnDefs"
+                                        [domLayout]="domLayout" [rowSelection]="'single'" (selectionChanged)="onSelectionChanged()"
+                                        (gridReady)="onGridReady($event)" [enableCellTextSelection]="true">
+                                    </ag-grid-angular>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-outline-primary" (click)="close()">Cancel</button>
+</div>
+<!--Dialog Body End-->

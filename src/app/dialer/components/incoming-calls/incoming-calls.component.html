@@ -1,0 +1,207 @@
+<!-- <div class="page_title clearfix" *ngIf="!isDialog">
+        <div class="font_size_25 pull-left padding_left_7">
+            Call Overview
+        </div>
+        <div class="pull-right col-md-8 col-sm-12 col-xs-24">
+    
+            <div class="pull-right margin_right_5 margin_bottom_5">
+                    <button class="btn btn-secondary" type="button" id="searchButton" name="searchButton" buttonText="Save" placeholder="save" [disabled]="callOverviewScreenRefreshInterval === undefined || callOverviewScreenRefreshInterval === null || callOverviewScreenRefreshInterval == ''"
+                    (click)="changeInterval()"></button>
+            </div>
+            <div class="pull-right margin_right_5 margin_bottom_5 padding_top_15">
+                    <div class="col-24 col-sm-12 col-md-6 col-xl-6">
+                            <div class="form-field">
+                                <div class="form-field-control">
+                                    <input id="seconds" type="text" (keypress)="onlyNumeric($event,callOverviewScreenRefreshInterval)" (ngModelChange)="refreshIntervalChange(callOverviewScreenRefreshInterval)" [required]="true"  [(ngModel)]="callOverviewScreenRefreshInterval"   minlength="0" maxlength="3"   class="form-field-input" placeholder=" ">
+                                    <label for="seconds" class="form-field-label">Refresh interval in seconds</label>
+                                    <div class="form-field-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+            </div>
+        </div>
+    </div> -->
+
+
+<div class="cont-us col">
+    <div class="row d-flex justify-content-between" *ngIf="!isDialog">
+        <div class="col-3">
+            <div class="crm-heading crm-grid__item" id="crm_heading">
+                <div class="crm-container">
+                    <div class="crm-heading__main">
+                        <h3 class="crm-heading__title">Call Overview</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-21">
+            <div class="float-right col-auto">
+                <div class="">
+                    <div class="row">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <input id="seconds" type="text"
+                                    (keypress)="onlyNumeric($event,callOverviewScreenRefreshInterval)"
+                                    (ngModelChange)="refreshIntervalChange(callOverviewScreenRefreshInterval)"
+                                    [required]="true" [(ngModel)]="callOverviewScreenRefreshInterval" minlength="0"
+                                    maxlength="3" class="form-field-input" placeholder=" ">
+                                <label for="seconds" class="form-field-label">Refresh interval in seconds</label>
+                                <div class="form-field-bar"></div>
+                            </div>
+                        </div>
+                        <div class="pt-2 pl-2">
+                            <button class="btn btn-outline-primary"
+                                [disabled]="callOverviewScreenRefreshInterval === undefined || callOverviewScreenRefreshInterval === null || callOverviewScreenRefreshInterval == ''"
+                                (click)="changeInterval()">save</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- <div class="col-xl-24">
+
+  <div class="crm-heading   crm-grid__item" id="crm_heading">
+            <div class="crm-container">
+                <div class="crm-heading__main">
+                    <h3 class="crm-heading__title">Call Overview</h3>
+                    <span class="crm-heading__separator crm-hidden"></span>
+                </div>
+            </div>
+  
+        </div>
+        <div class="pull-right col-md-8 col-sm-12 col-xs-24">
+    
+            <div class="pull-right margin_right_5 margin_bottom_5">
+                    <button class="btn btn-secondary" type="button" id="searchButton" name="searchButton" buttonText="Save" placeholder="save" [disabled]="callOverviewScreenRefreshInterval === undefined || callOverviewScreenRefreshInterval === null || callOverviewScreenRefreshInterval == ''"
+                    (click)="changeInterval()"></button>
+            </div>
+            <div class="pull-right margin_right_5 margin_bottom_5 padding_top_15">
+                    <div class="col-24 col-sm-12 col-md-6 col-xl-6">
+                            <div class="form-field">
+                                <div class="form-field-control">
+                                    <input id="seconds" type="text" (keypress)="onlyNumeric($event,callOverviewScreenRefreshInterval)" (ngModelChange)="refreshIntervalChange(callOverviewScreenRefreshInterval)" [required]="true"  [(ngModel)]="callOverviewScreenRefreshInterval"   minlength="0" maxlength="3"   class="form-field-input" placeholder=" ">
+                                    <label for="seconds" class="form-field-label">Refresh interval in seconds</label>
+                                    <div class="form-field-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+            </div>
+        </div>
+</div> -->
+
+
+<div class="col-24">
+    <div class="crm-mainbox crm-portlet--height-fluid-half">
+        <div class="container-fluid p-3">
+            <div class="list-view-ui-wrap">
+                <div class="table-responsive incomming-call-tbl-wrap" *ngIf="callerList.length>0">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Status</th>
+                                <th>In/Out</th>
+                                <!--<th>Number/Agent (internal)</th>-->
+                                <!--<th>Start Time</th>-->
+                                <th></th>
+                                <th title="Selected Queue/Ext.">Origin</th>
+                                <th>Destination</th>
+                                <th>Wait duration</th>
+                                <th>Hold duration</th>
+                                <th>Active duration</th>
+                                <!--<th>Language</th>-->
+                                <th title="Agent (active/held by)">Agent (active/held by)</th>
+                                <th *ngIf="isDialog == true">Action</th>
+                                <th
+                                    *ngIf="!isDialog && (userDetails.id === '5deeecdd-74f8-4da4-a642-82e4ab2f74ae' || userDetails.id === '033209fe-eda4-469a-897e-35e124732321' || userDetails.id === '4400a3c1-c1a8-48d4-805d-858dfce61075' )">
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let notifyme of callerList; trackBy: trackByFn"
+                                [ngClass]="{'highlight-row':notifyme.isExtensionAvailable}"
+                                [style.background-color]="updateSettings(notifyme)">
+                                <td *ngIf="notifyme.status=='wait'">
+                                    <img src="assets/images/call-wait.png">
+                                </td>
+                                <td *ngIf="notifyme.status=='active'">
+                                    <img src="assets/images/call-active.png" width="28px" height="28px">
+                                </td>
+                                <td *ngIf="notifyme.status=='OnHold'">
+                                    <img src="assets/images/call-hold.png">
+                                </td>
+                                <td class="padding_top_6">{{notifyme.status}}</td>
+                                <td class="padding_top_6">{{notifyme.direction}}</td>
+                                <!--<td>{{notifyme.no}}</td>-->
+                                <!--<td>{{notifyme.convStartTime}}</td>-->
+                                <td>
+                                    <span
+                                        *ngIf="notifyme.direction === 'In' && (notifyme.destNumber === '14708850501' || notifyme.destNumber === '14708850500')">
+                                        <img src="assets/images/Iconc.png" width="35px" height="35px"
+                                            style="margin-top:-3px;">
+                                    </span>
+                                    <span
+                                        *ngIf="notifyme.direction === 'In' && (notifyme.destNumber === '14704653181' || notifyme.destNumber === '14704653180')">
+                                        <img src="assets/images/IconVIP.png" width="35px" height="35px"
+                                            style="margin-top:-3px;">
+                                    </span>
+                                </td>
+                                <td class="padding_top_6">{{notifyme.Origin | phone}}</td>
+                                <td class="padding_top_6">{{notifyme.destination | phone}}</td>
+                                <td class="padding_top_6">
+                                    <span *ngIf="notifyme.waitDuration !== undefined"
+                                        [(appMyCurrentTime)]="notifyme.waitDuration"></span>
+                                </td>
+                                <td class="padding_top_6">
+                                    <span *ngIf="notifyme.holdDuration !== undefined"
+                                        [(appMyCurrentTime)]="notifyme.holdDuration"></span>
+                                </td>
+                                <td class="padding_top_6">
+                                    <span *ngIf="notifyme.activeDuration !== undefined"
+                                        [(appMyCurrentTime)]="notifyme.activeDuration"></span>
+                                </td>
+                                <!--<td>{{notifyme.language}}</td>-->
+                                <td class="padding_top_6">{{notifyme.connectedUserName}}</td>
+                                <td *ngIf="isDialog == true">
+                                    <div *ngIf="notifyme.agentId !== userDetails.id">
+                                        <button class="btn btn-success" *ngIf="notifyme.status=='wait'"
+                                            [disabled]="!currentUserStatusAllowedCalling"
+                                            (click)="accept(notifyme)">Accept
+                                            <i *ngIf="notifyme.isAccepting"
+                                                class="fas fa-circle-notch fa-spin ml-2"></i>
+                                        </button>
+                                        <button class="btn btn-success" *ngIf="notifyme.status=='OnHold'"
+                                            (click)="resume(notifyme)"
+                                            [disabled]="!currentUserStatusAllowedCalling">Resume
+                                            <i *ngIf="notifyme.isResuming" class="fas fa-circle-notch fa-spin ml-2"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td
+                                    *ngIf="! isDialog  && (userDetails.id === '5deeecdd-74f8-4da4-a642-82e4ab2f74ae' || userDetails.id === '033209fe-eda4-469a-897e-35e124732321' || userDetails.id === '4400a3c1-c1a8-48d4-805d-858dfce61075' )">
+                                    <!-- <i class="fa fa-trash-o" style="font-size: 20px;cursor:pointer;" ></i> -->
+                                    <!-- <span *ngIf="notifyme.status !== 'wait'" class="icon-s icon-trash font-20 cursor-pointer" aria-hidden="true"
+                                        (click)="deleteCall($event, notifyme);"></span> -->
+                                    <i class="fa fa-trash-alt" *ngIf="notifyme.status !== 'wait'"
+                                        (click)="deleteCall($event, notifyme);"> </i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="clearfix margin_bottom_10 margin_left_10  text_center margin_top_15 " *ngIf="isDataLoading">
+                    <div class="loaderNew"></div>
+                </div>
+                <div class="clearfix margin_bottom_10 margin_left_10  text_center"
+                    *ngIf="callerList.length<=0 && isDataLoading == false">There is no waiting/active call for you
+                    currently.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+// .font_size_16{font-size: 16px;}
+.no_comment_icon_wrap {cursor:pointer; background: url("/assets/images/activity_comment_no.png") no-repeat; height:30px; width:30px; display:block; }
+.comment_icon_wrap {cursor:pointer; background: url("/assets/images/activity_comment.png") no-repeat; height:30px; width:30px; display:block; }
+.group_border{border: 2px solid rgba(0,0,0,.38);border-radius: 5px;}
+// .border_bottom{border-bottom: 2px solid rgba(0, 0, 0, 0.38);}
+.commission_table_header{border: 1px solid #ddd; margin-bottom: 0px}
+.commission_table_tr_header{background: #b1b1b1; color: white;}
+.commission_table_comment_width{background: #b1b1b1; color: white;width: 50%}
+.yearlyinfo_table_tr_header{background: #b1b1b1; color: white; text-align: right;padding-left: 0px;}
+.yearlyinfo_text_right{text-align: right}
+.scroll_height{width: 100%; height: calc(100vh - 150px);overflow-y: auto;overflow-x:hidden }
+.usageperyear_th_header{background: #b1b1b1; color: white; width: 200px;}
+.usageperyear_th_header_common{background: #b1b1b1; color: white; text-align: right; width:100px;padding-left: 0px;padding-right: 0px;}
+.usageperyear_td_header_common{text-align: right; width:100px;}
+.table td {padding:3px;} 
+.table th {padding:0px;}
+.yearlyInfo_text_right{background: #b1b1b1; color: white;}

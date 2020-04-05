@@ -1,0 +1,55 @@
+<div class="card bg-gray">
+    <div class="card-body pb-1 clearfix">
+        <div class="row">
+            <div *ngIf="showLoading">
+                <div class="loading_background"></div>
+                <div class="preloader">
+                    <div class="preloader-container">
+                        <span class="animated-preloader"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto">
+                <div class="float-left">
+                    <h4 class="card-title mb-1">Activities ({{totalOpenActivities | number}}) - Open
+                    </h4>
+                </div>
+            </div>
+            <div class="col ml-auto">
+                <div class="float-right">
+                    <span *ngIf="activityData && activityData.id && currentActivityIndex !== -1 && currentActivityIndex !== undefined">
+                        <div class="float-left">
+                            <span class="d-inline-block">
+                                {{currentActivityIndex + 1}} of {{rowData.length | number}}
+                            </span>
+                        </div>
+                        <div class="float-left">
+                            <button id="previous" name="previous" class="btn common_btn_action" (click)="checkChanges('CustActPrev')" [disabled]="currentActivityIndex  === 0">
+                                <i class="fas fa-angle-double-left  font-15" ngbTooltip="Previous" container="body" data-placement="bottom" tooltipClass="default"
+                                    aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="float-left">
+                            <button id="next" name="next" class="btn common_btn_action" (click)="checkChanges('CustActNext')" [disabled]="currentActivityIndex  === arrayOfActivityIds.length - 1">
+                                <i class="fas fa-angle-double-right  font-15" ngbTooltip="Next" container="body" data-placement="bottom" tooltipClass="default"
+                                    aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row box-height-without" [ngClass]="{'box-height': activityData.type == 'phonecall' && userDetails.isPlivoUser && dialerService.hasMediaPermission}">
+            <div class="col-24" *ngIf="rowData && rowData.length > 0 && rowData[0] !== 'autoHeight'">
+                <ag-grid-angular #agGrid style="width: 100%;" class="ag-theme-balham" [rowData]="rowData" [gridOptions]="gridOptions" [domLayout]="domLayout"
+                    [rowSelection]="rowSelection" [rowClassRules]="rowClassRules" (rowClicked)="checkChanges('CustActSelection')"
+                    (gridReady)="onGridReady($event)" [getRowStyle]="getRowStyle" [enableCellTextSelection]="true">
+                </ag-grid-angular>
+            </div>
+            <div class="col-24 mt-2" *ngIf="rowData.length==0 || rowData[0] == 'autoHeight'">
+                No Open Activity List available for the Customer
+            </div>
+        </div>
+
+    </div>
+</div>

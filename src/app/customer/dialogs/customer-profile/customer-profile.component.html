@@ -1,0 +1,524 @@
+<!--Dialog Header-->
+<div class="modal-header">
+    <h5 class="modal-title">
+        <span>
+            <img src="assets/images/Angebot.png" ngbTooltip="Go to customer" data-placement="bottom" container="body" tooltipClass="default"
+                *ngIf="orderOverviewData.CustomerInfo && orderOverviewData.CustomerInfo.customerId && orderOverviewData.CustomerInfo.customerId"
+                (click)="goToCustomerCart()" class="cursor-pointer">
+        </span>
+        {{customerHeaderInformation}}
+        <span *ngIf="orderOverviewData.CustomerInfo && orderOverviewData.CustomerInfo.customerId && orderOverviewData.CustomerInfo.customerId"
+            id="copyCustomerId" ngbTooltip="Copy Customer ID to Clipboard" data-placement="bottom" container="body" tooltipClass="default"
+            class="fas fa-copy cursor-pointer" alt="Copy CustomerId" (click)="toClipboard()"></span>
+    </h5>
+    <div class="float-right">
+        <span>
+            <i class="fas fa-print fa-lg cus-hov d-inline-flex" ngbTooltip="JSON Viewer" data-placement="bottom" container="body" tooltipClass="default"
+                aria-hidden="true" (click)="showJson()">
+
+            </i>
+        </span>
+        <span class="cus-hov d-inline-flex" *ngIf="isDocumentLoaded">
+            <i class="fa fa-info-circle fa-lg" ngbTooltip="Profile Information" data-placement="bottom" container="body" tooltipClass="default"
+                aria-hidden="true" (click)="showInfo()"></i>
+        </span>
+        <span (click)="closeCustomerProfileDialog()" class="cus-hov d-inline-flex">
+            <i class="fa fa-times"></i>
+        </span>
+    </div>
+</div>
+<!--Dialog Header End-->
+<div class="scroll_height">
+
+    <div class="modal-body">
+        <form [formGroup]="customerProfileForm">
+            <!--customer profile part start-->
+            <div class="row d-flex align-items-center justify-content-center">
+                <div class="col-xl-15 pt-2">
+                    <b>Customer Profile </b>
+                    <span>-
+                        <b>SPS: </b> {{orderOverviewData?.CustomerInfo?.salesProcessStatus}}</span>
+                    <span> /
+                        <b> Refund Status: </b>
+                        {{orderOverviewData?.ClassificationDetails?.licenseStatus?.refundStatus}}</span>
+                    <span>/
+                        <b> Payment Status: </b>
+                        {{orderOverviewData?.ClassificationDetails?.licenseStatus?.paymentStatus}}</span>
+                    <span>/
+                        <b> Offices: </b> {{orderOverviewData?.ClassificationDetails?.multiOffice?.noOfOffice}}</span>
+                    <span>/
+                        <b> Users: </b> {{orderOverviewData?.ClassificationDetails?.usage?.noOfUsers}}</span>
+                </div>
+                <div class="col-xl-9">
+                    <div class="row ml-auto d-flex align-items-center justify-content-center">
+                        <div class="col-auto">
+                            <div class="custom-control custom-checkbox d-inline-block pt-3">
+                                <input type="checkbox" class="custom-control-input" formControlName="clearCase" id="clearCase">
+                                <label class="custom-control-label" for="clearCase">Clear Case</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-7">
+                            <div class="form-field">
+                                <div class="form-field-control">
+                                    <ng-select #responsiblePerson [items]="dropDownObject?.responsiblePesronList" [multiple]="false" bindLabel="name" groupBy="group"
+                                        [selectableGroup]="false" bindValue="id" appendTo="body" class="salesprocessstatus" [closeOnSelect]="true"
+                                        [searchable]="false" [clearable]="false" placeholder="Responsible" clearAllText="Clear"
+                                        formControlName="responsiblePerson" (open)="dropDownObject.responsiblePesronList = dropDownObject.responsiblePesronList">
+                                        <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                            <div class="d-inline-block ln-normal">
+                                                <label class="font-weight-bold">{{item.group}}</label>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                            <div class="d-inline-block mr-4 ln-normal">
+                                                <label>{{item.name}}</label>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template ng-header-tmp>
+                                            <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="responsiblePerson.filter($event.target.value)"
+                                            />
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-7">
+                            <div class="form-field">
+                                <div class="form-field-control">
+                                    <ng-select #status [items]="dropDownObject?.statusList" bindLabel="name" bindValue="id" [multiple]="false" placeholder="Status"
+                                        clearAllText="Clear" [selectableGroup]="true" appendTo="body" formControlName="status"
+                                        [closeOnSelect]="false" [searchable]="false" [clearable]="false">
+                                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                            <div class="d-inline-block mr-4 ln-normal">
+                                                <label>{{item.name}}</label>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template ng-header-tmp>
+                                            <input type="text" class="in-set form-field-input" placeholder="Search" [appAutofocus] (input)="status.filter($event.target.value)"
+                                            />
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-2">
+                            <a ngbTooltip="Comments" container="body" data-placement="bottom" tooltipClass="default" [ngClass]="{'no_comment_icon_wrap' : docStatus.feedbackComments == undefined || docStatus.feedbackComments.length === 0, 'comment_icon_wrap' : docStatus.feedbackComments != undefined && docStatus.feedbackComments.length > 0 }"
+                                (click)="openActivityComment()"></a>
+                        </div>
+                        <div class="col-3 py-0 ml-auto">
+                            <button class="btn btn-outline-primary float-right" (click)="save('normal')">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--customer profile part end-->
+            <!--Price Info start-->
+            <div class="row">
+                <div class="col-xl-24 mb-2">
+                    <b>Price Info</b>
+                </div>
+                <div class="col-xl-24">
+                    <div class="border clearfix p-3">
+                        <app-customer-ledger [customerID]="customerID" [(ledgerValue)]="ledgerValueData" [(LedgerInfo)]="orderOverviewData.LedgerInfo" [customerDisplayFlagOnLedger]="customerDisplayFlagOnLedger"></app-customer-ledger>
+                    </div>
+                </div>
+                <!--Price Info end-->
+                <!--Usage Per Year start-->
+                <div class="col-xl-24 pt-4">
+                    <div class="clearfix border p-3">
+                        <div class="mb-2 d-inline-block">
+                            <b>Usage Per Year (Returns Per Package)</b>
+                        </div>
+                        <span *ngIf="returnsPerYear !==undefined && returnsPerYear.length>0" class="pl-2 pr-2">
+                            <img class="pr-2" src="assets/images/blue.png">Created</span>
+                        <span *ngIf="returnsPerYear !==undefined && returnsPerYear.length>0">
+                            <img class="pr-2" src="assets/images/pastrol-orange.png">E-filed</span>
+                        <div *ngFor="let return of returnsPerYear">
+                            <div class="row">
+                                <div class="col-xl-1 col-md-2 col-sm-24 col-xs-24">
+                                    <span class=" font-weight-bold">{{return.year}}</span>
+                                </div>
+                                <div class="col-xl-23 col-md-22 col-sm-24 col-xs-24">
+                                    <div class="row">
+                                        <div class="col-xl-9">
+                                            <svg id="barGraph" height="150" width="500">
+                                                <g transform="translate(30,0)">
+                                                    <g class="x_axis" transform="translate(0,125)">
+                                                        <g class="tick" transform="translate(0, 0)" style="opacity: 1;">
+                                                            <text dy=".71em" y="9" x="0" style="text-anchor: start;">12/01</text>
+                                                        </g>
+                                                        <g class="tick" transform="translate(125,0)" style="opacity: 1;">
+                                                            <text dy=".71em" y="9" x="0" style="text-anchor:end;">01/01</text>
+                                                        </g>
+
+                                                        <g class="tick" transform="translate(220,0)" style="opacity: 1;">
+                                                            <text dy=".71em" y="9" x="0" style="text-anchor:end;">02/01</text>
+                                                        </g>
+
+                                                        <g class="tick" transform="translate(306,0)" style="opacity: 1;">
+                                                            <text dy=".71em" y="9" x="0" style="text-anchor:end;">03/01</text>
+                                                        </g>
+
+                                                        <g class="tick" transform="translate(401,0)" style="opacity: 1;">
+                                                            <text dy=".71em" y="9" x="0" style="text-anchor:end;">04/01</text>
+                                                        </g>
+                                                        <!-- <g class="tick" transform="translate(460,0)" style="opacity: 1;">
+                                                                            <text dy=".71em" y="9" x="0" style="text-anchor:end;">04/30</text>
+                                                                        </g> -->
+                                                        <path class="domain" d="M0,1V0H460V1"></path>
+                                                    </g>
+                                                    <g class="y_axis">
+                                                        <g class="tick" transform="translate(0,140)" style="opacity: 1;">
+                                                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">{{return.graphConfig.minX}}</text>
+                                                        </g>
+                                                        <g class="tick" transform="translate(0,10)" style="opacity: 1;">
+                                                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">{{return.graphConfig.maxX}}</text>
+                                                        </g>
+                                                        <path class="domain" d="M-1,0H0V125H-1"></path>
+                                                    </g>
+                                                    <g class="bar" *ngFor="let barGraphs of return.graphConfig.barData">
+                                                        <rect class="bar" [attr.x]="barGraphs.xCreated" width="2" [attr.y]="barGraphs.yCreated" [attr.height]="barGraphs.heightCreated"
+                                                            style="fill:blue">
+                                                            <title>
+                                                                Date : {{barGraphs.date}}&#13;Created : {{barGraphs.created}}
+                                                            </title>
+                                                        </rect>
+                                                        <rect class="bar" [attr.x]="barGraphs.xEfiled" width="2" [attr.y]="barGraphs.yEfiled" [attr.height]="barGraphs.heightEfiled"
+                                                            style="fill:orange">
+                                                            <title>
+                                                                Date : {{barGraphs.date}}&#13;Efiled : {{barGraphs.efiled}}
+                                                            </title>
+                                                        </rect>
+                                                    </g>
+                                                </g>
+                                            </svg>
+                                        </div>
+                                        <div class="col-xl-15">
+                                            <div *ngIf="return.returnsPerPackage!=undefined && return.returnsPerPackage.length>0">
+                                                <table class="table table-responsive commission_table_header">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="usageperyear_th_header">
+                                                                Package
+                                                            </th>
+                                                            <th class="usageperyear_th_header_common">
+                                                                Total ({{return.total | number}})
+                                                            </th>
+                                                            <th class="usageperyear_th_header_common">
+                                                                E-Filed ({{return.efiled | number }})
+                                                            </th>
+                                                            <th class="usageperyear_th_header_common">
+                                                                Accepted ({{return.accepted | number }})
+                                                            </th>
+                                                            <th class="usageperyear_th_header_common">
+                                                                Rejected ({{return.rejected | number }})
+                                                            </th>
+                                                            <th class="usageperyear_th_header_common">
+                                                                Converted ({{return.convertedReturnCount | number }})
+                                                            </th>
+                                                            <th class="usageperyear_th_header_common">
+                                                                Proforma ({{return.proformaReturnCount | number }})
+                                                            </th>
+                                                            <th class="usageperyear_th_header_common">
+                                                                Printed ({{return.printedReturnCount | number }})
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody *ngFor="let data of return.returnsPerPackage; let i=index">
+                                                        <tr>
+                                                            <td style="width: 200px;">
+                                                                {{data.package}}
+                                                            </td>
+                                                            <td class="usageperyear_td_header_common">
+                                                                {{(data.total > 0) ? (data.total | number) : ''}}
+                                                            </td>
+                                                            <td class="usageperyear_td_header_common">
+                                                                {{(data.efiled > 0) ? (data.efiled | number) : ''}}
+                                                            </td>
+                                                            <td class="usageperyear_td_header_common">
+                                                                {{(data.accepted > 0) ? (data.accepted | number) : ''}}
+                                                            </td>
+                                                            <td class="usageperyear_td_header_common">
+                                                                {{(data.rejected > 0 )? (data.rejected | number) : ''}}
+                                                            </td>
+                                                            <td class="usageperyear_td_header_common">
+                                                                {{(data.convertedReturnCount > 0) ? (data.convertedReturnCount | number) : ''}}
+                                                            </td>
+                                                            <td class="usageperyear_td_header_common">
+                                                                {{(data.proformaReturnCount > 0) ? (data.proformaReturnCount | number) : ''}}
+                                                            </td>
+                                                            <td class="usageperyear_td_header_common">
+                                                                {{(data.printedReturnCount > 0) ? (data.printedReturnCount | number) : ''}}
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tbody *ngIf="return.returnsPerPackage.length == 0">No Data Available
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                        <div *ngIf="returnsPerYear.length==0"> No Data Available</div>
+
+                        <div class="row d-flex align-items-center mb-2">
+                            <div class="col-xl-10">
+                                <b>Yearly Info</b>
+                                <span *ngIf="orderOverviewData?.ClassificationDetails?.bankProduct !== undefined && orderOverviewData?.ClassificationDetails?.bankProduct !== null && orderOverviewData?.ClassificationDetails?.bankProduct?.addOnFee2019">
+                                    <img class="pl-3 pr-2" src="assets/images/Approved.png">Add on Fee Customer 2018
+                                </span>
+
+                                <span *ngIf="orderOverviewData?.ClassificationDetails?.bankProduct !== undefined && orderOverviewData?.ClassificationDetails?.bankProduct !== null && orderOverviewData?.ClassificationDetails?.bankProduct?.addOnFee">
+                                    <img class="pl-3 pr-2" src="assets/images/Approved.png">Add on Fee Customer 2017
+                                </span>
+                            </div>
+                            <div class="col-xl-14">
+                                <div class="float-right" *ngIf="orderOverviewData?.ClassificationDetails?.Renewal19">
+                                    <b class="">Renewal 19: Group {{orderOverviewData?.ClassificationDetails?.Renewal19?.Group}} / {{orderOverviewData?.ClassificationDetails?.Renewal19?.PlanName}}
+                                        / {{orderOverviewData?.ClassificationDetails?.Renewal19?.PlanPrice | number:'1.2-2'}}</b>
+                                </div>
+                            </div>
+                            <!-- <div class="col-xl-14">
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <div class="form-field">
+                                                    <div class="form-field-control">
+                                                        <input id="checkSentAmount" type="number" class="form-field-input"
+                                                            formControlName="checkSentAmount"
+                                                            placeholder="Check Sent Amount">
+                                                        <label for="checkSentAmount" class="form-field-label"></label>
+                                                        <div class="form-field-bar"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <div class="form-field">
+                                                    <div class="form-field-control">
+                                                        <ng-select #addOnAcctStatus
+                                                            [items]="dropDownObject?.addOnAcctStatusList" bindLabel="name"
+                                                            bindValue="id" [multiple]="false" placeholder="addOnAcctStatus"
+                                                            clearAllText="Clear" [selectableGroup]="true" appendTo="body"
+                                                            formControlName="addOnAcctStatus" [closeOnSelect]="false"
+                                                            [searchable]="false" [clearable]="false">
+                                                            <ng-template ng-option-tmp let-item="item" let-item$="item$"
+                                                                let-index="index">
+                                                                <div class="d-inline-block mr-4"
+                                                                ln-normal >
+                                                                    <label>{{item.name}}</label>
+                                                                </div>
+                                                            </ng-template>
+                                                            <ng-template ng-header-tmp>
+                                                                <input type="text"
+       in-set                                                              class="form-field-input" placeholder="Search"
+                                                                    [appAutofocus]
+                                                                    (input)="addOnAcctStatus.filter($event.target.value)" />
+                                                            </ng-template>
+                                                        </ng-select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+    
+                                    </div> -->
+                        </div>
+
+
+                        <table class="table commission_table_header">
+                            <thead>
+                                <tr>
+                                    <th class="yearlyInfo_text_right">
+                                        Year
+                                    </th>
+                                    <th class="yearlyinfo_table_tr_header">
+                                        Payment
+                                    </th>
+                                    <th class="yearlyinfo_table_tr_header">
+                                        No. Of Payments
+                                    </th>
+                                    <th class="yearlyinfo_table_tr_header">
+                                        Refund
+                                    </th>
+                                    <th class="yearlyinfo_table_tr_header">
+                                        No. of Refunds
+                                    </th>
+                                    <th class="yearlyinfo_table_tr_header">
+                                        Total
+                                    </th>
+                                    <th class="yearlyinfo_table_tr_header">
+                                        Applied
+                                    </th>
+                                    <th class="yearlyinfo_table_tr_header">
+                                        Funded
+                                    </th>
+                                    <th class="yearlyinfo_table_tr_header">
+                                        Funding %
+                                    </th>
+                                    <th class="yearlyinfo_table_tr_header">
+                                        AddOnFeeMay
+                                    </th>
+                                    <th class="yearlyinfo_table_tr_header">
+                                        AddOnFeeOct
+                                    </th>
+                                    <th class="yearlyInfo_text_right">
+                                        &nbsp;Package
+                                    </th>
+                                    <th class="yearlyinfo_table_tr_header">
+                                        Users
+                                    </th>
+                                    <th class="yearlyinfo_table_tr_header">
+                                        Storage (in GB)
+                                    </th>
+                                    <th class="yearlyInfo_text_right">
+                                        &nbsp;Commission Receiver
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let data of customerInyears ; let i=index">
+                                <tr>
+                                    <td>
+                                        {{data.year}}
+                                    </td>
+                                    <td class="yearlyinfo_text_right">
+                                        <span *ngIf="data.payment !=undefined && data.payment !=null">{{(data.payment.toFixed(2) != "0.00") ? (data.payment.toFixed(2) | number) : '' }}</span>
+                                    </td>
+                                    <td class="yearlyinfo_text_right">
+                                        {{(data.noOfPayments > 0) ? ( data.noOfPayments | number): ''}}
+                                    </td>
+                                    <td class="yearlyinfo_text_right">
+                                        <span *ngIf="data.refund !=undefined && data.refund !=null">{{(data.refund > 0) ? ( data.refund.toFixed(2) | number): ''}}</span>
+                                    </td>
+                                    <td class="yearlyinfo_text_right">
+                                        {{(data.noOfrefunds > 0) ? ( data.noOfrefunds | number): ''}}
+                                    </td>
+                                    <td class="yearlyinfo_text_right">
+                                        <span *ngIf="data.total !=undefined && data.total !=null">{{(data.total> 0) ? (data.total.toFixed(2) | number) : ''}}</span>
+                                    </td>
+                                    <td class="yearlyinfo_text_right">
+                                        {{(data.Applied > 0) ? (data.Applied | number) : ''}}
+                                    </td>
+                                    <td class="yearlyinfo_text_right">
+                                        {{(data.Funded > 0) ? (data.Funded | number) : ''}}
+                                    </td>
+                                    <td class="yearlyinfo_text_right">
+                                        <span *ngIf="data.fundingPercent !=undefined && data.fundingPercent !=null">{{data.fundingPercent.toFixed(2)}}</span>
+                                    </td>
+                                    <td class="yearlyinfo_text_right">
+                                        <span class="cursor-pointer" [title]="data.mayTitle" (click)="addOnFeeSummary(data.addOnFeephase1Details, data.year, 'May')">
+                                            {{(data.addOnFeePhase1 && data.addOnFeePhase1 > 0) ? (data.addOnFeePhase1 | number:'1.2-2') : ''}}
+                                        </span>
+                                    </td>
+
+                                    <td class="yearlyinfo_text_right">
+                                        <span class="cursor-pointer" [title]="data.octTitle" (click)="addOnFeeSummary(data.addOnFeephase2Details)">
+                                            {{(data.addOnFeePhase2 && data.addOnFeePhase2 > 0) ? (data.addOnFeePhase2 | number:'1.2-2') : ''}}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        &nbsp; {{data.package == 'FREE' ? 'Trial' : data.package}}
+                                    </td>
+                                    <td class="yearlyinfo_text_right">
+                                        {{(data.noOfUsers > 0) ? (data.noOfUsers | number) : ''}}
+                                    </td>
+                                    <td class="yearlyinfo_text_right">
+                                        <span *ngIf="data.storage !=undefined && data.storage !=null">{{(((data.storage/1024).toFixed(0)) != "0") ? (((data.storage)/1024).toFixed(0) |
+                                            number) : ''}}</span>
+                                    </td>
+                                    <td style="text-align: left">
+                                        <span *ngFor="let receiver of data.commissionReceiverInfo">&nbsp;{{receiver.commissionReceiverName}} , </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tbody *ngIf="customerInyears.length == 0">No Data Available</tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!--Usage Per Year end-->
+            <!--Commission info start-->
+            <div class="row" *ngIf="orderOverviewData?.ActivityInfo!=undefined && orderOverviewData?.ActivityInfo?.length > 0 && isDocumentLoaded">
+                <div class="col-xl-24 my-2">
+                    <b>Commission Info</b>
+                </div>
+                <div class="col-xl-14">
+                    <div class="clearfix border p-3">
+                        <div class="row">
+                            <div class="col-24 mb-2">
+                                <b>Tag List </b>
+                            </div>
+                            <div class="col-sm-24">
+                                <table class="table commission_table_header">
+                                    <thead>
+                                        <tr>
+                                            <th class="commission_table_tr_header"></th>
+                                            <th class="commission_table_tr_header">
+                                                Tag
+                                            </th>
+                                            <th class="commission_table_tr_header">
+                                                Month/Year
+                                            </th>
+                                            <th class="commission_table_tr_header">
+                                                Receiver
+                                            </th>
+                                            <th class="commission_table_tr_header text-right">
+                                                Price
+                                            </th>
+                                            <th class="commission_table_comment_width pl-2">
+                                                Comment
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngFor="let data of commissionInfo ; let i=index">
+                                        <tr>
+                                            <td>
+                                                <i class="fas fa-external-link-square-alt fa-lg cursor-pointer" ngbTooltip="Open Activity in a new tab" data-placement="bottom"
+                                                    container="body" tooltipClass="default" *ngIf="data?.activityDocId" (click)="openActivity(data.activityDocId)"></i>
+                                            </td>
+                                            <td>
+                                                {{data.tagName}}
+                                            </td>
+                                            <td>
+                                                {{data.commissionMonth}}/{{data.commissionYear}}
+                                            </td>
+                                            <td>
+                                                {{data.commissionReceiver_Name}}
+                                            </td>
+                                            <td class="yearlyinfo_text_right">
+                                                {{(data.orderPrice > 0) ? (data.orderPrice | number) : ''}}
+                                            </td>
+                                            <td class="pl-2 w-50">
+                                                {{data.comment}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngIf="commissionInfo.length == 0">No Data Available</tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Commission info end-->
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <div class="flet-left w-100" *ngIf="orderOverviewData?.customerProfile">
+            <span *ngIf="orderOverviewData?.customerProfile?.updatedByName">
+                <b>Updated By:</b> {{orderOverviewData?.customerProfile?.updatedByName}}, {{orderOverviewData?.customerProfile?.updatedDate
+                }}
+                <br>
+            </span>
+            <span *ngIf="orderOverviewData?.customerProfile?.clearCaseCreatedByName">
+                <b>Clear Case Set By:</b> {{orderOverviewData?.customerProfile?.clearCaseCreatedByName}}, {{orderOverviewData?.customerProfile?.clearCaseCreatedDate}}
+                <br>
+            </span>
+            <span *ngIf="orderOverviewData?.customerProfile?.clearCaseDeletedByName">
+                <b>Clear Case Reset By:</b> {{orderOverviewData?.customerProfile?.clearCaseDeletedByName}}, {{orderOverviewData?.customerProfile?.clearCaseDeletedDate}}
+            </span>
+        </div>
+    </div>
+</div>

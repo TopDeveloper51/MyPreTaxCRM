@@ -1,0 +1,217 @@
+<form [formGroup]="customerActivitySearchForm">
+    <div class="row">
+        <div class="col-24 col-sm-12 col-md-3 col-xl-2">
+            <div class="form-field">
+                <div class="form-field-control">
+                    <ng-select #department [items]="customerActivitySearchLookup.departmentList" bindLabel="name" bindValue="id" [multiple]="true"
+                        placeholder="Department" clearAllText="Clear" [selectableGroup]="true" appendTo="body" formControlName="department"
+                        [closeOnSelect]="false" [searchable]="false" [clearable]="false">
+                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                            <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                                <label class="custom-control-label">{{item.name}}</label>
+                            </div>
+                        </ng-template>
+                        <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                            <app-select-multi-label class="w-100" [items]="items">
+                            </app-select-multi-label>
+                        </ng-template>
+                        <ng-template ng-header-tmp>
+                            <input type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="department.filter($event.target.value)"
+                            />
+                            <button (click)="onSelectAll('department')" class="btn btn-sm btn-secondary">All</button>
+                            <button (click)="onClearAll('department')" class="btn btn-sm btn-secondary ml-2">None</button>
+                            <button (click)="closeSelect(department);search()" class="btn btn-sm btn-secondary ml-2">Search</button>
+                        </ng-template>
+                    </ng-select>
+                </div>
+            </div>
+        </div>
+        <div class="col-24 col-sm-12 col-md-3 col-xl-2">
+            <div class="form-field">
+                <div class="form-field-control">
+                    <ng-select #responsiblePersonResult [items]="customerActivitySearchLookup.responsiblePesronList" [multiple]="true" (open)="onClearAll()"
+                        bindLabel="name" groupBy="group" [selectableGroup]="true" bindValue="id" appendTo="body" [closeOnSelect]="false"
+                        class="customertabsalesprocessstatus" [searchable]="false" [clearable]="false" placeholder="Responsible"
+                        clearAllText="Clear" formControlName="responsiblePersonResult">
+                        <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                            <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                <input type="checkbox" id="item-{{index}}" type="checkbox" [checked]="item$.selected" class="custom-control-input" />
+                                <label class="custom-control-label font-weight-bold">{{item.group}}</label>
+                            </div>
+                        </ng-template>
+                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                            <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                <input id="item-{{index}}" type="checkbox" [checked]="item$.selected" class="custom-control-input" />
+                                <label class="custom-control-label">{{item.name}}</label>
+                            </div>
+                        </ng-template>
+                        <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                            <app-select-multi-label class="w-100" [groupItems]="items" [lookup]="customerActivitySearchLookup.responsiblePesronList">
+                            </app-select-multi-label>
+                        </ng-template>
+                        <ng-template ng-header-tmp>
+                            <!-- responsiblePersonResult.filter($event.target.value) -->
+                            <input type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="filterData($event.target.value)"
+                            />
+                            <button (click)="onSelectAll('responsiblePersonResult')" class="btn btn-sm btn-secondary">All</button>
+                            <button (click)="onClearAll('responsiblePersonResult')" class="btn btn-sm btn-secondary ml-2">None</button>
+                            <button (click)="closeSelect(responsiblePersonResult);search()" class="btn btn-sm btn-secondary ml-2">Search</button>
+                        </ng-template>
+                    </ng-select>
+                </div>
+            </div>
+        </div>
+        <div class="col-24 col-sm-12 col-md-2 col-xl-2">
+            <div class="form-field">
+                <ng-select #activityTypeResult [items]="customerActivitySearchLookup.activityTypelist" bindLabel="name" bindValue="id" [multiple]="true"
+                    placeholder="Type" clearAllText="Clear" [selectableGroup]="true" appendTo="body" formControlName="activityTypeResult"
+                    [closeOnSelect]="false" class="customertabsalesprocessstatus" [searchable]="false" [clearable]="false">
+                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                        <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                            <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                            <label class="custom-control-label">{{item.name}}</label>
+                        </div>
+                    </ng-template>
+                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                        <app-select-multi-label class="w-100" [items]="items">
+                        </app-select-multi-label>
+                    </ng-template>
+                    <ng-template ng-header-tmp>
+                        <input type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="activityTypeResult.filter($event.target.value)"
+                        />
+                        <button (click)="onSelectAll('activityTypeResult')" class="btn btn-sm btn-secondary">All</button>
+                        <button (click)="onClearAll('activityTypeResult')" class="btn btn-sm btn-secondary ml-2">None</button>
+                        <button (click)="closeSelect(activityTypeResult);search()" class="btn btn-sm btn-secondary ml-2">Search</button>
+                    </ng-template>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-24 col-sm-12 col-md-2 col-xl-2">
+            <div class="form-field">
+                <ng-select #activitystatusResult [items]="customerActivitySearchLookup.activitystatuslist" bindLabel="name" bindValue="id"
+                    [multiple]="true" placeholder="Status" clearAllText="Clear" [selectableGroup]="true" appendTo="body" formControlName="activitystatusResult"
+                    [closeOnSelect]="false" class="customertabsalesprocessstatus" [searchable]="false" [clearable]="false">
+                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                        <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                            <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                            <label class="custom-control-label">{{item.name}}</label>
+                        </div>
+                    </ng-template>
+                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                        <app-select-multi-label class="w-100" [items]="items">
+                        </app-select-multi-label>
+                    </ng-template>
+                    <ng-template ng-header-tmp>
+                        <input type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="activitystatusResult.filter($event.target.value)"
+                        />
+                        <button (click)="onSelectAll('activitystatusResult')" class="btn btn-sm btn-secondary">All</button>
+                        <button (click)="onClearAll('activitystatusResult')" class="btn btn-sm btn-secondary ml-2">None</button>
+                        <button (click)="closeSelect(activitystatusResult);search()" class="btn btn-sm btn-secondary ml-2">Search</button>
+                    </ng-template>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-24 col-sm-12 col-md-2 col-xl-2">
+            <div class="form-field">
+                <div class="form-field-control">
+                    <ng-select #tagListResult [items]="customerActivitySearchLookup.tagListLkp" bindLabel="name" bindValue="id" [multiple]="true"
+                        placeholder="Tags" clearAllText="Clear" [selectableGroup]="true" appendTo="body" formControlName="tagListResult"
+                        class="customertabsalesprocessstatus" [closeOnSelect]="false" [searchable]="false" [clearable]="false">
+                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                            <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                                <label class="custom-control-label">{{item.name}}</label>
+                            </div>
+                        </ng-template>
+                        <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                            <app-select-multi-label class="w-100" [items]="items">
+                            </app-select-multi-label>
+                        </ng-template>
+                        <ng-template ng-header-tmp>
+                            <input type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="tagListResult.filter($event.target.value)"
+                            />
+                            <button (click)="onSelectAll('tagListResult')" class="btn btn-sm btn-secondary">All</button>
+                            <button (click)="onClearAll('tagListResult')" class="btn btn-sm btn-secondary ml-2">None</button>
+                            <button (click)="closeSelect(tagListResult);search()" class="btn btn-sm btn-secondary ml-2">Search</button>
+                        </ng-template>
+                    </ng-select>
+                </div>
+            </div>
+        </div>
+        <div class="col-24 col-sm-12 col-md-2 col-xl-3">
+            <div class="form-field">
+                <div class="form-field-control">
+                    <md2-datepicker type="date" format="MM/dd/y" placeholder="Actual Date From" name="dateFrom" id="dateFrom" openOnFocus="false"
+                        mode="landscape" formControlName="dateFrom" (change)="onDateChange()"></md2-datepicker>
+                    <div class="form-field-bar">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-24 col-sm-12 col-md-2 col-xl-3">
+            <div class="form-field">
+                <div class="form-field-control">
+                    <md2-datepicker type="date" format="MM/dd/y" placeholder="Actual Date To" name="dateTo" id="dateTo" openOnFocus="false" mode="landscape"
+                        formControlName="dateTo" (change)="onDateChange()"></md2-datepicker>
+                    <div class="form-field-bar">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-24 col-sm-12 col-md-3 col-xl-3">
+            <div class="form-field set-desc">
+                <div class="form-field-control">
+                    <textarea id="freeText" type="text" formControlName="freeText" class=" form-field-input" placeholder=" " rows="1">
+                                </textarea>
+                    <label for="freeText" class="form-field-label">Subject/Body</label>
+                    <div class="form-field-bar"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-auto">
+            <div class="form-field">
+                <div class="form-field-control">
+                    <div class="custom-control custom-checkbox mt-18 mb-8 mr-3 d-inline-block">
+                        <input type="checkbox" class="custom-control-input" formControlName="actsWithoutTicket" id="actsWithoutTicket">
+                        <label class="custom-control-label" for="actsWithoutTicket">w/o Ticket
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-auto ml-auto d-inline-block text-right mb-space mt-2 float-right">
+            <button class="btn btn-outline-primary" (click)="search()">Search</button>
+            <button class="btn btn-outline-primary ml-2" (click)="clearSearchData()">Clear</button>
+            <button class="btn btn-outline-primary ml-2" (click)="newActivity()">New</button>
+        </div>
+    </div>
+</form>
+<!-- <div class="no-found mt-2" *ngIf=" !availableCustomerActivity">
+            <p class="mb-0">No Data Available</p>
+        </div>
+        <div class="col-24 mt-2 deta-aggrid" *ngIf="availableCustomerActivity && availableCustomerActivity.data && availableCustomerActivity.data.length>0">
+            <h5 class="font-weight-bold">Contact
+                <span>({{availableCustomerActivity.data.length}})</span>
+            </h5>
+            <ag-grid-angular #agGrid id="myGrid" style="width: 100%; height: calc(100vh - 255px);" class="ag-theme-balham" [columnDefs]="columnDefs"
+                [defaultColDef]="defaultColDef" [rowData]="rowData" (gridReady)="onGridReady($event)" [sideBar]="sideBar"
+                [multiSortKey]="multiSortKey" [animateRows]="animateRows" [floatingFilter]="floatingFilter" [enableCellTextSelection]="true">
+            </ag-grid-angular>
+        </div> -->
+<div class="row mt-1">
+    <div class="col-24" *ngIf="rowData && rowData.length > 0">
+        <span class="font-weight-bold">Activity: ({{rowData.length | number}}) - Open ({{openActivityCount | number}})</span>
+    </div>
+
+    <div class="col-24 pt-2" *ngIf="rowData && rowData.length > 0 ">
+        <ag-grid-angular #agGrid style="width: 100%;height: calc(100vh - 576px);" class="ag-theme-balham" [rowData]="rowData" [columnDefs]="columnDefs"
+            [getRowHeight]="getRowHeight" [getRowStyle]="getRowStyle" [rowClassRules]="rowClassRules" (gridReady)="onGridReady($event)"
+            (rowClicked)="onRowClicked($event)" (sortChanged)="onSortChanged()" [enableCellTextSelection]="true" (filterChanged)="onSortChanged()">
+        </ag-grid-angular>
+    </div>
+
+    <div class="col-24 padding_15" *ngIf="!rowData || rowData.length===0">
+        No Data Available
+    </div>
+</div>

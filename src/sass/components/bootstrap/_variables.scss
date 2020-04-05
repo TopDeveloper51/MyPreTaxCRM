@@ -1,0 +1,45 @@
+// BOOTSTRAP VARIABLE FILE
+@import "node_modules/bootstrap/scss/variables";
+$body-color: color-yiq($body-bg);
+$link-color:lighten($primary, 5%);
+$table-color:color-yiq($body-bg);
+$list-group-bg: lighten($body-bg, 5%);
+$list-group-border-color:darken($body-bg, 5%);
+$input-disabled-bg:#ffffff;
+$modal-xl:84vw;
+$zindex-modal:11111;
+$zindex-modal-backdrop:999;
+//form control modern theam change
+// $input-border-radius:0;
+// $input-border-radius-lg:0;
+// $input-border-radius-sm:0;
+// $custom-select-border-radius:0;
+// $custom-file-border-radius:0;
+// $dropdown-border-radius:0;
+// $dropdown-inner-border-radius:0;
+// $btn-border-radius:0;
+// $btn-border-radius-lg:0;
+// $btn-border-radius-sm:0;
+// $custom-checkbox-indicator-border-radius:0;
+// $nav-tabs-border-radius:0;
+// $nav-pills-border-radius:0;
+// $navbar-toggler-border-radius:0;
+// $card-border-radius:0;
+// $card-inner-border-radius:0;
+// $tooltip-border-radius:0;
+// $form-feedback-tooltip-border-radius:0;
+// $popover-border-radius:0;
+// $toast-border-radius:0;
+// $badge-border-radius:0;
+// $badge-pill-border-radius:0;
+// $modal-content-border-radius:0;
+// $alert-border-radius:0;
+// $progress-border-radius:0;
+// $list-group-border-radius:0;
+// $breadcrumb-border-radius:0;
+// $border-radius:0;
+// $border-radius-lg:0;
+// $border-radius-sm:0;
+
+
+

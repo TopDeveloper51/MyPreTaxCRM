@@ -1,0 +1,60 @@
+{
+  "$schema": "./node_modules/@angular/service-worker/config/schema.json",
+  "index": "/index.html",
+  "dataGroups": [
+    {
+      "name": "api",
+      "urls": [
+        "/customer/getLookupForCustomerSearch",
+        "/customer/getLookupForCustomerCard",
+        "/ticket/new_getLookupForTicketSearch",
+        "/ticket/getLookupForSeasonReadiness",
+        "/activity/getLookupForactivitySearch",
+        "/orderScreen/getLookupDetails",
+        "/customer/getEmailStatusLookup",
+        "/contact/getContactTypeLookup",
+        "/contact/getRoleLookup",
+        "/activity/getLookupForActivity",
+        "/activity/new_getLookupForActivity",
+        "/customer/feedback/getLookup",
+        "/customer/getLookupForSoftwareIdentification",
+        "/customer/getLookupForBPIdentificationSource",
+        "/customer/getLookupForbankList",
+        "/ticket/getLookupForTicketSearch",
+        "/activity/getDepartmentLookup",
+        "/subscription/getLookup",
+        "/orderOverview/getLookup"
+      ],
+      "cacheConfig": {
+        "maxSize": 0,
+        "maxAge": "1d",
+        "strategy": "performance"
+      }
+    }
+  ],
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "resources": {
+        "files": [
+          "/favicon.ico",
+          "/index.html",
+          "/manifest.webmanifest",
+          "/*.css",
+          "/*.js"
+        ]
+      }
+    }, {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "/assets/**",
+          "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"
+        ]
+      }
+    }
+  ]
+}

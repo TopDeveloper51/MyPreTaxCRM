@@ -1,0 +1,69 @@
+<!--Dialog header-->
+<div class="modal-header">
+    <h5 class="modal-title">Add Software Used Detail</h5>
+    <div (click)="modal.close(true)" class="cursor-pointer cus-hov">
+        <i class="fa fa-times"></i>
+    </div>
+</div>
+<!--Dialog header End -->
+
+<div class="modal-body cal-box">
+    <form [formGroup]="softwareUsedForm">
+        <div class="row">
+            <div class="col-24 col-xl-24 col-sm-24 col-md-24">
+                <div class="row">
+                    <div class="col-4 col-xl-3 col-sm-24 col-md-24">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <ng-select #year bindLabel="name" groupBy="group" [selectableGroup]="true" bindValue="id" appendTo="body" [closeOnSelect]="true"
+                                    [searchable]="false" [clearable]="false" placeholder="Year" clearAllText="Clear" formControlName="year"
+                                    [items]="yearList" (open)="yearList = yearList">
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-5 col-xl-5 col-sm-24 col-md-24">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <div [ngClass]="{'cross-validation-error': softwareUsedForm.controls.software.errors  &&  softwareUsedForm.controls.software.errors.required }">
+                                    <ng-select #software bindLabel="name" groupBy="group" [selectableGroup]="true" bindValue="id" appendTo="body" [closeOnSelect]="true"
+                                        [searchable]="false" class="salesprocessstatus" [clearable]="false" placeholder="Software"
+                                        clearAllText="Clear" formControlName="software" [items]="softwareList" required (open)="softwareList = softwareList">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-xl-6 col-sm-24 col-md-24">
+                        <div class="form-field-control">
+                            <md2-datepicker type="date" format="MM/dd/yy" placeholder="Date" name="Date" id="Date" openOnFocus="false" mode="landscape"
+                                formControlName="date">
+                            </md2-datepicker>
+                        </div>
+                    </div>
+                    <div class="col-5 col-xl-5 col-sm-24 col-md-24">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <div [ngClass]="{'cross-validation-error': softwareUsedForm.controls.source.errors  &&  softwareUsedForm.controls.source.errors.required }">
+                                    <ng-select #source bindLabel="name" groupBy="group" [selectableGroup]="true" bindValue="id" appendTo="body" [closeOnSelect]="true"
+                                        [searchable]="false" [clearable]="false" placeholder="Source" clearAllText="Clear" formControlName="source"
+                                        [items]="sourceList" required (open)="sourceList = sourceList">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 col-xl-4 col-sm-24 col-md-24 custom-control custom-checkbox mt-18">
+                        <input type="checkbox" class="custom-control-input" formControlName="isHeader" id="isHeader" (change)="displayMessage($event)">
+                        <label class="custom-control-label ml-4" for="isHeader">IsHeader</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-outline-primary" id="save" name="save" (click)="save()" [disabled]="!softwareUsedForm.valid">Save</button>
+    <button class="btn btn-outline-primary" id="cancel" name="cancel" (click)="modal.close('NO')">Cancel
+    </button>
+</div>

@@ -1,0 +1,41 @@
+<div class="bank_rejections_dialog">
+    <!--Dialog Header-->
+    <div class="modal-header">
+        <h5 class="modal-title">
+            Bank Rejection List
+        </h5>
+        <!-- <div class="pull-right modal-btn cus-hov">
+            <div (click)="close()">
+                <i class=" fa fa-times cursor-pointer"></i>
+            </div>
+        </div> -->
+        <div class="float-right">
+            <div (click)="close()" class="cus-hov">
+                <i class="fa fa-times"></i>
+            </div>
+        </div>
+    </div>
+    <!--Dialog Header End-->
+
+    <!--Dialog Body-->
+    <div class="modal-body">
+        <div class="clearfix col-sm-24" *ngIf="rejectionErrorList!=undefined && rejectionErrorList.length>0">
+            <div class="table-overflow">
+                <!-- <kendo-grid [data]="rejectionErrorList" [selectable]="true">
+                        <kendo-grid-column title="Message" field="errorMessage" sortable="errorMessage">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <span>{{dataItem.errorMessage}}</span>
+                            </ng-template>
+                        </kendo-grid-column>
+                    </kendo-grid> -->
+            </div>
+        </div>
+    </div>
+    <!--Dialog Body End-->
+
+    <!--Dialog Footer-->
+    <div class="modal-footer">
+        <button class="btn btn-outline-primary" (click)="close()">Cancel</button>
+    </div>
+    <!--Dialog Footer End-->
+</div>

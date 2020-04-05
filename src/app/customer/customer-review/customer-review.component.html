@@ -1,0 +1,21 @@
+<div class="row mb-2">
+    <div class="col-xl-12" *ngIf="rowData && rowData.length > 0">
+        <span class="font-weight-bold">Customer Review ({{rowData.length | number}})
+        </span>
+    </div>
+    <div class="col-xl-12" *ngIf="!rowData || rowData.length===0">
+        <span class="font-weight-bold">Customer Review </span>
+
+    </div>
+    <div class="col-xl-12 d-inline-block text-right mb-space float-right">
+        <button class="btn btn-outline-primary ml-2" (click)="addData()">Add Review</button>
+    </div>
+</div>
+<div *ngIf="!rowData || rowData.length===0">
+    <span>No Data Available</span>
+</div>
+<div *ngIf="rowData && rowData.length > 0">
+    <ag-grid-angular #agGrid style="width: 100%;max-height:180px;overflow: auto;" class="ag-theme-balham" [domLayout]="domLayout"
+        [rowData]="rowData" [defaultColDef]="defaultColDef" [enableCellTextSelection]="true" [columnDefs]="columnDefs" (rowClicked)="editReview($event)" (gridReady)="onGridReady($event)">
+    </ag-grid-angular>
+</div>

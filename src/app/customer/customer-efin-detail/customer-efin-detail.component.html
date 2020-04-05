@@ -1,0 +1,38 @@
+<!--OFFICE LIST START-->
+<div class="row">
+  <div class="col-12">
+    <p class="font-weight-bold mb-1" *ngIf="rowData && rowData.length > 0 && rowData[0] !== 'autoHeight'">Offices ({{rowData.length | number}})</p>
+    <div class="row">
+      <div class="col" *ngIf="rowData && rowData !== undefined && rowData.length !== 0 && rowData[0] !== 'autoHeight'">
+        <ag-grid-angular class="ag-theme-balham" [columnDefs]="columnDefs" [masterDetail]="true" [enableBrowserTooltips]="true" [detailCellRendererParams]="detailCellRendererParams"
+          [rowData]="rowData" (gridReady)="onGridReady($event)" [getRowHeight]="getRowHeight" [domLayout]="domLayout" enableCellChangeFlash=true
+          suppressChangeDetection=true [enableCellTextSelection]="true" [detailRowHeight]="300">
+        </ag-grid-angular>
+      </div>
+    </div>
+    <div *ngIf="!rowData || rowData==undefined || rowData.length==0">
+      <b> No Data Available </b>
+    </div>
+  </div>
+
+
+  <!--OFFICE LIST END-->
+
+  <!--EFIN LIST START-->
+  <div class="col-12">
+    <p class="font-weight-bold mb-1" *ngIf="rowData && rowData.length > 0 && rowData[0] !== 'autoHeight'">EFIN ({{rowData.length | number}})</p>
+    <div class="row">
+      <div class="col" *ngIf="rowDataForEfin !== undefined && rowDataForEfin.length !== 0 && rowDataForEfin[0] !== 'autoHeight'">
+        <ag-grid-angular class="ag-theme-balham" [columnDefs]="columnDefsForEfin" [masterDetail]="true" [enableBrowserTooltips]="true"
+          [detailCellRendererParams]="detailCellRendererParamsForEfin" [rowData]="rowDataForEfin" (gridReady)="onGridReadyForEfin($event)"
+          [getRowHeight]="getRowHeight" [enableCellTextSelection]="true" [domLayout]="domLayoutForEfin" enableCellChangeFlash=true suppressChangeDetection=true
+          [detailRowHeight]="300">
+        </ag-grid-angular>
+      </div>
+    </div>
+    <div *ngIf="!rowDataForEfin || rowDataForEfin==undefined || rowDataForEfin.length==0">
+      <b> No Data Available </b>
+    </div>
+  </div>
+</div>
+<!--EFIN LIST END-->

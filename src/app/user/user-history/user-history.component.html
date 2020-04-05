@@ -1,0 +1,28 @@
+<!--Dialog Header-->
+<div class="modal-header">
+    <h5 class="modal-title">
+        History
+    </h5>
+    <div class="float-right">
+        <div (click)="close()" class="cus-hov">
+            <i class="fa fa-times"></i>
+        </div>
+    </div>
+</div>
+<!--Dialog Header End-->
+<div class="modal-body">
+    <div class="col-xl-24" *ngIf="rowData  && rowData.length === 0">
+        <span class="font-weight-bold">
+            No Data Available
+        </span>
+    </div>
+    <div class="pb-2" *ngIf="rowData && rowData.length > 0">
+        <b>User History: ({{rowData && rowData.length | number}})</b>
+    </div>
+    <div class="" *ngIf="rowData && rowData.length > 0">
+        <ag-grid-angular #agGrid style="width: 100%;max-height:calc(100vh - 300px);overflow-y: auto;overflow-x:hidden;" class="ag-theme-balham"
+            [rowData]="rowData" [columnDefs]="columnDefs" [domLayout]="domLayout" [defaultColDef]="defaultColDef" [enableCellTextSelection]="true"
+            (gridReady)="onGridReady($event)">
+        </ag-grid-angular>
+    </div>
+</div>

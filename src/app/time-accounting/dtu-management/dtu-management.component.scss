@@ -1,0 +1,334 @@
+
+
+.p-set-div{position: absolute;top: -39px;right: 0px;background: #F2F2F2;padding-left: 10px;}
+.pset-div2{
+  position: absolute;background: #F2F2F2; right:0px; padding-left:15px;
+}
+.set-ic-p1{
+   position: absolute; 
+   top: -37px;
+}
+
+.set-ic-pos{
+  font-size:25px !important;  
+  top: -2px;
+  position: relative;
+}
+.custom-control{
+    min-height: 2.2rem;
+}
+  
+.custom-control-label { // added for alignment with the switch
+    padding-top: 0.15rem;
+    padding-left: 0.5rem;
+    padding-bottom: 0.1rem;
+}
+  
+.custom-switch .custom-control-label::before {
+    left: -2.25rem;
+    height: 1.7rem;
+    width: 3.5rem;    // it was 1.75rem before. Sliding way is longer than before.
+    pointer-events: all;
+    border-radius: 1rem;
+}
+  
+  .custom-switch .custom-control-label::after {
+    top: calc(0.25rem + 3px);
+    left: calc(-2.25rem + 3px);
+    width: calc(1.7rem - 6px);
+    height: calc(1.7rem - 6px);
+    background-color: #adb5bd;
+    border-radius: 1.7rem; //   it was 0.5rem before. Oval is bigger than before.
+    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-transform 0.15s ease-in-out;
+    transition: transform 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: transform 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-transform 0.15s ease-in-out;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .custom-switch .custom-control-label::after {
+      transition: none;
+    }
+  }
+  
+  .custom-control-input:focus:not(:checked) ~ .custom-control-label::before {
+    border-color: #FFF;
+  }
+  
+  .custom-control-input:not(:disabled):active ~ .custom-control-label::before {
+    color: #ffffff;
+    background-color: rgba(255,255,255,0.5);
+    border-color: #FFF;
+  }
+  
+  .custom-switch .custom-control-input:checked ~ .custom-control-label::after {
+    background-color: #fff;
+    -webkit-transform: translateX(1.7rem); //translateX(0.75rem);
+    transform: translateX(1.7rem); //translateX(0.75rem);
+  }
+  
+  .custom-control-input:checked ~ .custom-control-label::before {
+    color: #ffffff;
+    // border-color: #5cb85c;
+    // background-color: #5cb85c;
+  }
+ 
+  .wpx-100{
+    width: 100px;
+  }
+  button.btn.btn-outline-primary.wpx-100.btn-primary {
+    color: #fff !important;
+  }
+  .btn-group.mt-2 button.btn.btn-outline-primary.wpx-100:first-child{
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+  }
+  .btn-group.mt-2 button.btn.btn-outline-primary.wpx-100:last-child{
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+  }
+
+  .mw-100{
+    max-width: 100% !important;
+  }
+
+  .chart-right-info-wrap {
+    width: 15%;
+    float: left;
+    position: relative;
+    top: 15px;
+  }
+    
+  .chart-right-info-wrap .info-row {
+    min-height: 41px;
+    padding-bottom: 0px;
+    padding-top: 8px;
+  }
+    
+.chart-right-info-wrap .info-row>div {
+    width: 100%;
+    }
+    
+.chart-right-info-wrap .info-row>div label {
+    font-weight: normal;
+    width: 100%;
+    display: block;
+    font-size: 13px;
+    line-height: 11px;
+    margin-bottom: 1px;
+    }
+    
+    .active-label-field {
+    padding-top: 4px;
+    }
+    
+    .active-label-field>label {
+    font-weight: normal !important;
+    }
+    
+.chart-right-info-wrap .info-row.last {
+    border-top: 1px solid #cccccc;
+    }
+    
+.chart-right-info-wrap .info-row .info_spans_present {
+    width: 70px;
+    float: left;
+    text-align: left;
+    padding-right: 15px;
+    }
+    
+    .chart-right-info-wrap .info-row .info_spans_break {
+    width: 82px;
+    float: left;
+    text-align: right;
+    padding-right: 15px;
+    }
+    
+    .chart-right-info-wrap .info-row .info_spans_net {
+    width: 70px;
+    float: left;
+    text-align: left;
+    padding-right: 15px;
+    }
+    
+    .top_user {
+    color: green;
+    font-weight: bold;
+    }
+    
+    .middle_user {
+    font-weight: bold;
+    color: #fd9c02;
+    }
+    
+    .bottom_user {
+    color: blue;
+    font-weight: bold;
+    }
+    
+    .graph_contain_area {
+    width: 99%;
+    }
+    
+    .chart-right-info-wrap {
+    width: 15%;
+    margin-left: 30px;
+    }
+    
+    .summary-container {
+    position: relative;
+    width: 100%;
+    }
+    
+    .summary-block {
+    position: absolute;
+    top: 13px;
+    right: 0px;
+    background: #F2F2F2;
+    }
+    .summary-block.chart-right-info-wrap .info-row.chart_label { background: #F2F2F2; }
+    
+    .summary-block.chart-right-info-wrap .info-row {
+    min-height: 41px;
+    padding-bottom: 0px;
+    padding-top: 8px;
+    padding: 10px 7px;
+    height: 28px;
+    }
+    
+    @media(max-width: 1200px) {
+    .graph_contain_area {
+    width: 99%;
+    }
+    .chart-right-info-wrap {
+    width: 25%;
+    margin-left: 30px;
+    }
+    }
+    
+    @media(min-width: 1560px) {
+    .time_sheet_right .info-row span.info_spans:nth-child(2),
+    .time_sheet_right .info-row.chart_label span.info_spans:nth-child(2) {
+    width: 85px;
+    }
+    .time_sheet_right .info-row span.info_spans:nth-child(1),
+    .time_sheet_right .info-row span.info_spans:nth-child(3),
+    .time_sheet_right .info-row.chart_label span.info_spans:nth-child(1),
+    .time_sheet_right .info-row.chart_label span.info_spans:nth-child(3) {
+    width: 65px;
+    }
+    }
+    
+    .time_sheet_right .info-row.chart_label span.info_spans_present,
+    .time_sheet_right .info-row span.info_spans_present {
+    width: 60px;
+    }
+    
+    .time_sheet_right .info-row.chart_label span.info_spans_break,
+    .time_sheet_right .info-row span.info_spans_break {
+    width: 100px;
+    padding-right: 30px;
+    }
+    
+    .time_sheet_right .info-row.chart_label span.info_spans_net,
+    .time_sheet_right .info-row span.info_spans_net {
+    width: 60px;
+    }
+    
+    @media(min-width: 1201px) and (max-width: 1366px) {
+    .graph_contain_area {
+    width: 99%;
+    }
+    .chart-right-info-wrap {
+    width: 17%;
+    margin-left: 30px;
+    }
+    .time_sheet_right .info-row.chart_label span.info_spans_present,
+    .time_sheet_right .info-row span.info_spans_present {
+    width: 50px;
+    }
+    .time_sheet_right .info-row.chart_label span.info_spans_break,
+    .time_sheet_right .info-row span.info_spans_break {
+    width: 90px;
+    padding-right: 19px;
+    }
+    .time_sheet_right .info-row.chart_label span.info_spans_net,
+    .time_sheet_right .info-row span.info_spans_net {
+    width: 60px;
+    }
+    }
+    
+    /*For col-xlg styles*/
+    
+    @media(min-width: 1600px) {
+    .col-xlg-1,
+    .col-xlg-2,
+    .col-xlg-3,
+    .col-xlg-4,
+    .col-xlg-5,
+    .col-xlg-6,
+    .col-xlg-7,
+    .col-xlg-8,
+    .col-xlg-9,
+    .col-xlg-10,
+    .col-xlg-11,
+    .col-xlg-12 {
+    position: relative;
+    padding-left: 15px;
+    padding-right: 15px;
+    min-height: 1px;
+    float: left;
+    }
+    .col-xlg-1 {
+    width: 8.33%;
+    }
+    .col-xlg-2 {
+    width: 16.66%;
+    }
+    .col-xlg-3 {
+    width: 25%;
+    }
+    .col-xlg-4 {
+    width: 33.33%;
+    }
+    .col-xlg-5 {
+    width: 41.66%;
+    }
+    .col-xlg-6 {
+    width: 50%;
+    }
+    .col-xlg-7 {
+    width: 58.33%;
+    }
+    .col-xlg-8 {
+    width: 66.66%;
+    }
+    .col-xlg-9 {
+    width: 75;
+    }
+    .col-xlg-10 {
+    width: 83.33%;
+    }
+    .col-xlg-11 {
+    width: 91.66%;
+    }
+    .col-xlg-12 {
+    width: 100%;
+    }
+    }
+    
+    .daily_usage_compo .mat-input-placeholder {
+    overflow-x: hidden;
+    }
+    
+    .chart-right-info-wrap .info-row {
+    width: 100%;
+    padding-top: 17px;
+    height: 40.31px;
+    }
+    
+.overlaySummary {
+    top: 238px;
+    position: absolute;
+    right: 10px;
+    background: #F2F2F2;
+    padding-left: 14px;
+}

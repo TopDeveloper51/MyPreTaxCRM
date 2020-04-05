@@ -1,0 +1,102 @@
+:host ::ng-deep .ag-standard-grid-container-wrapper{
+    .ag-theme-balham {
+        .ag-row{
+            height: 100px !important;
+        }
+    }
+}
+
+.page_title {
+    position: relative;
+    color: #3e3e3e;
+    font-size: 20px;
+    text-align: left;
+    border-bottom: 1px solid #e9e9e9;
+    padding:10px;
+}
+.title_boder_t {border-top:1px solid #e2e2e2; margin-top:10px;}
+
+.dropdown-menu{
+    min-width:auto !important;
+}
+
+
+.ImmediatePriorityBackground {
+    background-color: #fcafaf;
+}
+.HighPriorityBackground {
+    background-color: #fbfcaf;
+    
+}
+
+.highlightSelectedActivity {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+  .BlueBackground {
+        background-color: #ADD8E6;
+    }
+    
+.empty {color:#000 !important; font-size:18px; margin-top:2px;}
+.custom-header {background:#eeeeee;}
+.activit_box {
+    border: 1px dashed #cccccc;
+    background: #EDEDED;
+    padding: 6px;
+    float: left;
+    width: 130px;
+    height: 110px;
+    margin: 5px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+    color: #3e3e3e;
+}
+
+.normal_text {
+    text-align: left;
+    font-size: 12px;
+    color: #000000;
+}
+.estimator_block{border:1px solid #dddedf;margin-bottom:20px;}
+.estimator_block h3{margin-top:0px;background:#ddd;color:#000;padding:5px;font-size:20px;}
+#tax_estimator_tab { margin-bottom:20px; margin-top:5px;}
+#tax_estimator_tab .nav.nav-tabs li {padding:0px 0px;float:left;display:block;margin-right:10px;width:auto;}
+/*#tax_estimator_tab .nav.nav-tabs li.active:before {background:#F0514A; border-radius:0px; content: ""; height: 8px;  margin-top: -2px; position: absolute; bottom:-20px; width:100%; z-index: -1; }*/
+#tax_estimator_tab .nav.nav-tabs li a {border-radius:0%; background:#f5f5f5; font-size:20px; margin:0 auto; border:none; color:#666;display:block;float:left;}    
+#tax_estimator_tab .nav.nav-tabs li.active a {background:#ddd; color:#444; border:none;}
+#tax_estimator_tab .tab-content {border-top:5px solid #ddd; margin-top:0px; margin-top:1px;}
+h3.estimater_title { width: 100%; margin-top:10px;} 
+.rejection-message-container {/* border: 2px solid #cacaca; */ display: block; padding: 4px 0px;}
+.rejection-message-container .rejection-message-container-inner { position: relative; padding-left: 35px !important; /* border-bottom: 2px solid #cacaca; */ padding: 0px 10px;}
+.rejection-message-container .rejection-message-container-inner:last-child {/* border-bottom:0px !important; */}
+.rejection-message-numbers { position: absolute; left: 0; margin-left: 8px; }
+
+@media (min-width:320px) and (max-width:800px) { 
+/*#tax_estimator_tab .nav.nav-tabs.nav-justified li {float:left !important; border:1px solid #1de033;}*/
+.nav-tabs.nav-justified > li,.nav-justified > li {cursor: pointer; float: left !important; margin-bottom:20px; bottom:-15px;}
+#tax_estimator_tab .nav.nav-tabs li a {font-size:22px;}
+#tax_estimator_tab .nav.nav-tabs li.active:before {bottom:-15px;}
+}
+// .info_tile_wrap { padding:10px; margin-bottom:10px; padding-bottom:8px; border:1px solid #dfdfdf; border-bottom:3px solid #dfdfdf; display: inline-block; width: 100%;}
+.info_tile_wrap { padding:10px; margin-bottom:10px; padding-bottom:8px; border:1px solid #dfdfdf; display: inline-block; width: 100%;}
+.info_tile_wrap:hover{background:#F5F5F5;}
+.info_tile_title {color:#555555; font-weight: bold; padding-bottom:7px;font-size:20px;border-bottom:1px solid #dddedf; display: block; width: 100%;}
+.info_tile_content{color:#666;word-wrap:break-word;}
+.quick_search{height:31px;border-bottom:1px solid #000;width:150px;padding:5px;margin-top:15px;margin-left:10px;margin-bottom:5px;font-size:14px; }
+/* .border_dashed_bottom { margin-bottom: 10px; padding: 10px 0; border-top: 2px dashed #ccc; }
+.border_dashed_bottom:first-of-type{border-top: 0px dashed #ccc !important;} */
+.efile_table .info_tile_title{border-bottom: 0px solid #fff !important;}
+.efile_table .table_head{display: table-row-group;}
+.efile_table .table_head tr td{background-color: #ccc; color: #fff;}
+.efile_table td{float: left;}
+.efile_table{overflow-x: auto; min-width: 1825px;}
+
+@media (min-width:320px) and (max-width:480px){
+    .margin_left_xs{margin-left:0px !important;}
+    .margin_right_xs{margin-right:0px !important;}
+    .margin-top{margin-top:10px !important;}
+    .margin-right-15{margin-right:-15px;}
+    .margin-left-15{margin-left:-15px;}
+}

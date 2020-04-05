@@ -1,0 +1,58 @@
+<div class="row">
+
+    <div class="col-auto" *ngIf="rowData && rowData.length > 0 && rowData[0]!=='autoHeight'">
+        <div class="float-left">
+            <h4 class="card-title mb-1">Activities ({{rowData.length | number }})</h4>
+        </div>
+    </div>
+    <div class="col-auto" *ngIf="(rowData && rowData.length == 0) || rowData[0] == 'autoHeight'">
+        <div class="float-left">
+            <h4 class="card-title mb-1">Activities (0)</h4>
+        </div>
+    </div>
+    <div *ngIf="showLoading">
+        <div class="loading_background"></div>
+        <div class="preloader">
+            <div class="preloader-container">
+                <span class="animated-preloader"></span>
+            </div>
+        </div>
+    </div>
+    <div class="col ml-auto">
+        <div class="float-right">
+            <span *ngIf="activityId && currentActivityIndex !== -1 && currentActivityIndex !==undefined">
+                <div class="float-left">
+                    <span class="d-inline-block">
+                        {{currentActivityIndex + 1}} of {{arrOfActivityId.length | number}}
+                    </span>
+                </div>
+                <div class="float-left">
+                    <button id="previous" name="previous" class="btn common_btn_action" (click)="checkChanges('TicActPrev')" [disabled]="currentActivityIndex  === 0">
+                        <i class="fas fa-angle-double-left  font-15" ngbTooltip="Previous" container="body" data-placement="bottom" tooltipClass="default"
+                            aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div class="float-left">
+                    <button id="next" name="next" class="btn common_btn_action" (click)="checkChanges('TicActNext')" [disabled]="currentActivityIndex === arrOfActivityId.length - 1">
+                        <i class="fas fa-angle-double-right  font-15" ngbTooltip="Next" container="body" data-placement="bottom" tooltipClass="default"
+                            aria-hidden="true"></i>
+                    </button>
+                </div>
+            </span>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-24 box-heightset" *ngIf="rowData && rowData.length > 0 && rowData[0] !== 'autoHeight'">
+        <ag-grid-angular #agGrid style="width: 100%; " class="ag-theme-balham" [rowData]="rowData" [gridOptions]="gridOptions" [domLayout]="domLayout"
+            [getRowStyle]="getRowStyle" [enableCellTextSelection]="true" [rowSelection]="rowSelection" (rowClicked)="checkChanges('TicActSelection')" [rowClassRules]="rowClassRules"
+            (gridReady)="onGridReady($event)">
+        </ag-grid-angular>
+    </div>
+</div>
+<div class="col-24" *ngIf="(rowData && rowData.length == 0) || rowData[0] == 'autoHeight'">
+    No Activity List Available for the Ticket
+</div>

@@ -1,0 +1,116 @@
+<div class="cont-us">
+    <div class="col-24">
+        <div class="crm-heading   crm-grid__item" id="crm_heading">
+            <div class="crm-container">
+                <div class="crm-heading__main">
+                    <h3 class="crm-heading__title">Ticket Usage Analysis Report</h3>
+                    <span class="crm-heading__separator crm-hidden"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-24">
+        <div class="crm-mainbox crm-portlet--height-fluid-half">
+            <div class="container-fluid p-3">
+                <form [formGroup]="ticketSearchForm">
+                    <div class="row set-mediam">
+                        <div class="col row">
+                            <div class="col-24 col-sm-12 col-md-6 col-xl-6">
+                                <div class="form-field">
+                                    <div class="form-field-control">
+                                        <ng-select #timeAxes [items]="timeAxesLookup" bindLabel="name" bindValue="id" placeholder="Time Axes" clearAllText="Clear"
+                                            appendTo="body" formControlName="timeAxes" [closeOnSelect]="true" [clearable]="false">
+                                        </ng-select>
+
+                                        <div *ngIf="ticketSearchForm.controls.timeAxes.errors" class="invalid-feedback">
+                                            <div *ngIf="ticketSearchForm.controls.timeAxes.errors.required">Time Axes is required
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-24 col-sm-12 col-md-6 col-xl-6">
+                                <div class="form-field">
+                                    <div class="form-field-control">
+                                        <!-- <input id="ticketAnalysisReportDateFrom" type="date" formControlName="dateFrom"
+                                            class=" form-field-input" placeholder=" "
+                                            (change)="dateChange($event,'startDate')"
+                                            (keyDown)="onKeyDown($event, 'dateFrom')" max={{maxDate}}>
+                                        <label for="ticketAnalysisReportDateFrom" class="form-field-label"
+                                            title="Date From"></label> -->
+                                        <md2-datepicker type="date" format="MM/dd/y" placeholder="Date From" id="ticketAnalysisReportDateFrom" openOnFocus="false"
+                                            mode="landscape" formControlName="dateFrom" (change)="dateChange($event,'startDate')"
+                                            (keyDown)="onKeyDown($event, 'dateFrom')"></md2-datepicker>
+                                        <div *ngIf="ticketSearchForm.controls.dateFrom.errors" class="invalid-feedback">
+                                            <div *ngIf="ticketSearchForm.controls.dateFrom.errors.required">Date From is required
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-24 col-sm-12 col-md-6 col-xl-6">
+                                <div class="form-field">
+                                    <div class="form-field-control">
+                                        <!-- <input id="ticketAnalysisReportDateTo" type="date" formControlName="dateTo"
+                                            class=" form-field-input" placeholder=" "
+                                            (change)="dateChange($event,'endDate')"
+                                            (keyDown)="onKeyDown($event, 'dateTo')" max={{maxDate}}>
+                                        <label for="ticketAnalysisReportDateTo" class="form-field-label"
+                                            title="Date To"></label> -->
+                                        <md2-datepicker type="date" format="MM/dd/y" placeholder="Date To" id="ticketAnalysisReportDateTo" openOnFocus="false" mode="landscape"
+                                            formControlName="dateTo" (change)="dateChange($event,'endDate')" (keyDown)="onKeyDown($event, 'dateTo')"></md2-datepicker>
+                                        <div *ngIf="ticketSearchForm.controls.dateTo.errors" class="invalid-feedback">
+                                            <div *ngIf="ticketSearchForm.controls.dateTo.errors.required">Date To is required
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-24 col-sm-12 col-md-6 col-xl-6">
+                                <div class="form-field">
+                                    <div class="form-field-control">
+                                        <ng-select [items]="typeList" bindLabel="name" bindValue="id" groupBy="group" [multiple]="true" placeholder="Customer With Us"
+                                            appendTo="body" formControlName="customerWithUs" [closeOnSelect]="false" [searchable]="false"
+                                            [clearable]="false" (open)="onClearAll()">
+                                            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                                <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                                    <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                                                    <label class="custom-control-label">{{item.name}}</label>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                                <app-select-multi-label class="w-100" [items]="items">
+                                                </app-select-multi-label>
+                                            </ng-template>
+                                            <ng-template ng-header-tmp>
+                                                <button (click)="onSelectAll('customerWithUs')" class="btn btn-sm btn-secondary">All</button>
+                                                <button (click)="onClearAll('customerWithUs')" class="btn btn-sm btn-secondary ml-2">None</button>
+                                            </ng-template>
+                                        </ng-select>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col">
+                            <div class="d-inline-block text-right mb-space mt-2 float-right">
+                                <button class="btn btn-outline-primary" (click)="downloadExcel()" [disabled]="!ticketSearchForm.valid">Download Excel
+                                </button>
+                                <button class="btn btn-outline-primary ml-2" (click)="reset()">Reset</button>
+                                <button class="btn btn-outline-primary ml-2" (click)="clear()">Clear</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="no-found mt-3" *ngIf="isNoDataFound">
+                    <p class="mb-0">No Data Available</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

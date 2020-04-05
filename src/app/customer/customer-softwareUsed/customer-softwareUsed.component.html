@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col">
+        <div class="float-left">
+            <span class="font-weight-bold mt-2">Software Used Details &nbsp;</span>
+            <span class="font-weight-bold mt-2"
+                *ngIf="softwareUsedDetailsRowData && softwareUsedDetailsRowData.length > 0">({{softwareUsedDetailsRowData.length | number}})</span>
+        </div>
+        <div class="float-right">
+            <button class="btn btn-outline-primary" (click)="addSoftwareUsedDetails()">Add Software Used Detail</button>
+        </div>
+    </div>
+
+    <div class="col-xl-24 pt-2" *ngIf="softwareUsedDetailsRowData && softwareUsedDetailsRowData.length > 0">
+        <ag-grid-angular #agGrid style="width: 100%;" class="ag-theme-balham"
+            [columnDefs]="softwareUsedDetailsColumnDefs" [domLayout]="domLayout" [rowData]="softwareUsedDetailsRowData"
+            [defaultColDef]="defaultColDef" (gridReady)="onGridReady($event)" (cellClicked)="onCellClicked($event)"
+            [getRowNodeId]="getRowNodeId" [enableCellTextSelection]="true" [rowSelection]="'multiple'">
+        </ag-grid-angular>
+        <div class=" padding_15 pull" *ngIf="softwareUsedDetailsRowData && softwareUsedDetailsRowData.length == 0">
+            No Data Available
+        </div>
+    </div>
+</div>

@@ -1,0 +1,105 @@
+<!--Dialog Header-->
+<div class="modal-header">
+    <h5 class="modal-title">
+        Please select the outcome for outgoing call you just finished
+    </h5>
+    <div class="pull-right">
+        <!-- <div (click)="close()" class="cus-hov">
+            <i class="fa fa-times color-white cursor-pointer"></i>
+        </div> -->
+    </div>
+</div>
+<!--Dialog Header End-->
+
+<!--Dialog Body-->
+<div class="modal-body">
+    <div class="main_innerpage">
+        <div class="col-xl-24 col-lg-24 col-md-18 col-sm-18 col-24 p-3 pl-5 pr-5">
+            <div class="dialer_main_wrapper">
+                <div class="sidebar first-block">
+                    <div class="custo_info_btn pt-4">
+                        <button class="btn btn-default" type="submit" id="NoAnswer" name="NoAnswer" value="NoAnswer" (click)="confirm('no answer')">
+                            <div class="arc_design">
+                                <img src="assets/images/no-answer.png" class="img-responsive" />
+                            </div>
+                            No Answer
+
+                        </button>
+                    </div>
+                    <div class="custo_info_btn pt-4">
+                        <button class="btn btn-default" type="submit" id="WrongNumber" name="WrongNumber" value="WrongNumber" (click)="confirm('wrong number')">
+                            <div class="arc_design">
+                                <img src="assets/images/wrong-number.png" class="img-responsive" />
+                            </div>
+                            Wrong Number
+                        </button>
+                    </div>
+                    <span class="sidebar-btn-title pt-4">Left Message</span>
+                    <div class="clearfix"></div>
+
+                    <div class="sidebar-btn-block">
+                        <div class="row">
+                            <div class="custo_info_btn pt-2 col-lg-12 col-md-12 col-sm-12 col-24">
+                                <button class="btn btn-default" title="Answering Machine - Left Message" type="submit" id="PDAMLeftMessageRule" name="PDAMLeftMessageRule"
+                                    value="PDAMLeftMessageRule" (click)="confirm('left message')">
+                                    <div class="arc_design">
+                                        <img src="assets/images/message-left.png" class="img-responsive img-height20" />
+                                    </div>
+                                    Answering Machine
+                                </button>
+                            </div>
+
+                            <div class="custo_info_btn pt-2 col-lg-12 col-md-12 col-sm-12 col-24">
+                                <button class="btn btn-default" title="Secretary - Left Message" type="submit" id="PDAMLeftMessageRule" name="PDAMLeftMessageRule"
+                                    value="PDAMLeftMessageRule" (click)="confirm('secretary left message')">
+                                    <div class="arc_design">
+                                        <img src="assets/images/secretary-left-msg.png" class="img-responsive img-height20" />
+                                    </div>
+                                    Secretary
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <span class="sidebar-btn-title pt-4">Didn't Leave Message</span>
+
+                    <div class="sidebar-btn-block">
+                        <div class="row">
+                            <div class="custo_info_btn pt-2 col-lg-12 col-md-12 col-sm-12 col-24">
+                                <button class="btn btn-default" title="Answering Machine - Did Not Leave Message" type="submit" id="PDAMDidNotLeftMessageRule"
+                                    name="PDAMDidNotLeftMessageRule" value="PDAMDidNotLeftMessageRule" (click)="confirm('did not leave message')">
+                                    <div class="arc_design">
+                                        <img src="assets/images/message-not-left.png" class="img-responsive img-height20" />
+                                    </div>
+                                    Answering Machine
+                                </button>
+                            </div>
+                            <div class="custo_info_btn pt-2 col-lg-12 col-md-12 col-sm-12 col-24">
+                                <button class="btn btn-default" title="Secretary - Did Not Leave Message" type="submit" id="PDAMLeftMessageRule" name="PDAMLeftMessageRule"
+                                    value="PDAMLeftMessageRule" (click)="confirm('secretary did not leave message')">
+                                    <div class="arc_design">
+                                        <img src="assets/images/secretary-didnot-left-msg.png" class="img-responsive img-height20" />
+                                    </div>
+                                    Secretary
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <div class="custo_info_btn pt-4">
+                        <button class="btn btn-default" type="submit" id="FurtherAction" name="FurtherAction" value="FurtherAction" (click)="confirm('talked to customer')">
+                            <div class="arc_design">
+                                <img src="assets/images/confirmRenewal.png" class="img-responsive" />
+                            </div>
+                            Talked to Customer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--Dialog Body End-->

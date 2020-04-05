@@ -1,0 +1,31 @@
+.activity_ddl ul.dropdown-menu {
+    right: auto;
+    left: 0px;
+    min-width: 360px;
+    max-height: 545px;
+    overflow-y: scroll;
+  }
+  .activity_ddl ul.dropdown-menu li .ddl_wrap.active_wrap {
+    // border: 1px solid #d3d3d3;
+    // background: #def5c1;
+  }
+
+  .activity_ddl {
+    .dropdown-toggle{
+      &::after{
+        right: 10px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+  }
+
+  .isdisabled {
+    cursor: not-allowed;
+  }
+
+.cross-validation-error {
+    border-bottom: 0px solid red;
+}
+  

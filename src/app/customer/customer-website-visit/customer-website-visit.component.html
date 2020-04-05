@@ -1,0 +1,29 @@
+<div class="col-24 pt-2 pl-0">
+    <div class="row">
+        <div class="col-6">
+            <div class="form-field">
+                <div class="form-field-control">
+                    <ng-select [items]="year" bindLabel="name" bindValue="id" placeholder="Year" clearAllText="Clear" appendTo="body" [(ngModel)]="yearTopass"
+                        (ngModelChange)="getWebsiteListData($event)" [closeOnSelect]="true" [searchable]="false">
+                    </ng-select>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-24 pl-0">
+    <div class="row">
+        <div class="col-12 pt-3" *ngIf="rowData && rowData.length > 0">
+            <span class="font-weight-bold">Website visit&nbsp;({{rowData.length | number}})</span>
+        </div>
+    </div>
+</div>
+<div class="col-24 px-0 pt-2" *ngIf="rowData && rowData.length ==0">
+    No Data Available
+</div>
+<div class="col-24 pt-2 px-0" *ngIf="rowData && rowData.length > 0">
+    <ag-grid-angular #agGrid style="width: 100%;overflow-x: auto;max-height: 250px;" class="ag-theme-balham" [rowData]="rowData"
+        [columnDefs]="columnDefs" [enableCellTextSelection]="true" [domLayout]="domLayout" (gridReady)="onGridReady($event)">
+    </ag-grid-angular>
+</div>

@@ -1,0 +1,42 @@
+<div class="dropdown_width" #container (click)="onKeyDown($event)">
+    <div class="col col-xl-24" *ngIf="params.colDef && params.colDef.field === 'taxSeasonInShort'">
+        <ng-select #taxSeasonyear [items]="taxYearList" bindLabel="name" bindValue="id" [multiple]="true"
+            placeholder="Tax Season" clearAllText="Clear" [selectableGroup]="true" appendTo="body"
+            [(ngModel)]="taxSeason" [closeOnSelect]="false" [searchable]="false" [clearable]="false"
+            class="salesprocessstatus">
+            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                    <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                    <label class="custom-control-label">{{item.name}}</label>
+                </div>
+            </ng-template>
+            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                <app-select-multi-label class="w-100" [items]="items">
+                </app-select-multi-label>
+            </ng-template>
+            <ng-template ng-header-tmp>
+                <input type="text" [appAutofocus] class="in-set form-field-input"
+                    placeholder="Search" (input)="taxSeasonyear.filter($event.target.value)" />
+                <button (click)="onSelectAll($event);" class="btn btn-sm btn-secondary">All</button>
+                <button (click)="onClearAll();" class="btn btn-sm btn-secondary ml-2">None</button>
+            </ng-template>
+        </ng-select>
+    </div>
+    <div class="col col-xl-24" *ngIf="params.colDef && params.colDef.field === 'offerName'">
+        <ng-select #offerSeasonYear [items]="offerListLookUp" bindLabel="name" bindValue="id"
+            [multiple]="false" placeholder="Offer List" clearAllText="Clear" appendTo="body"
+            [(ngModel)]="offer" [closeOnSelect]="true" class="salesprocessstatus" [searchable]="false" [clearable]="false">
+            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                <div class="d-inline-block mr-4 ln-normal">
+                    <label title="{{item.name}}">{{item.name}}</label>
+                </div>
+            </ng-template>
+            <ng-template ng-header-tmp>
+                <input type="text" [appAutofocus] class="in-set form-field-input"
+                    placeholder="Search" (input)="offerSeasonYear.filter($event.target.value)" />
+            </ng-template>
+        </ng-select>
+    </div>
+</div>
+<!-- $event.preventDefault(); $event.stopPropagation(); -->
+<!-- $event.preventDefault(); $event.stopPropagation(); -->

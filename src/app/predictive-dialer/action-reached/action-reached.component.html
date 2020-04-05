@@ -1,0 +1,57 @@
+<div class="row mb-2">
+    <div class="col bg-light p-3">
+        <div class="d-block mb-3" *ngIf="!disabledOutcome">
+            <button [disabled]="!showFurtherAction" class="btn btn-default btn-lg w-100 m-0 font-15 height-38" [disabled]="rule === 'Dont Call again' || disabledOutcome"
+                type="submit" id="PDDontCallAgain" name="PDDontCallAgain" value="PDDontCallAgain" (click)="ruleNameChangeEvent('Dont Call again')">
+                <div class="float-left">
+                    <img src="assets/images/dont-call.png" width="18px" />
+                </div>
+                Don't Call Again
+            </button>
+            <div class="progress" *ngIf="rule === 'Dont Call again'">
+                <div class="indeterminate"></div>
+            </div>
+        </div>
+
+        <div class="d-block mb-3" *ngIf="!disabledOutcome">
+            <button [disabled]="!showFurtherAction" class="btn btn-default btn-lg w-100 m-0 font-15 height-38" [disabled]="rule === 'pd customer already renewed'" type="submit"
+                id="PDAlreadyRenewed" name="PDAlreadyRenewed" value="PDAlreadyRenewed" (click)="ruleNameChangeEvent('pd customer already renewed')">
+                <i class="fas fa-thumbs-down text-primary float-left font-18"></i>
+                Already Renewed
+            </button>
+            <div class="progress" *ngIf="rule === 'pd customer already renewed'">
+                <div class="indeterminate"></div>
+            </div>
+        </div>
+
+        <div class="d-block mb-3">
+            <button [disabled]="!showFurtherAction" class="btn btn-default btn-lg w-100 m-0 font-15 height-38" type="submit" [disabled]="rule === 'call this year again'"
+                id="CallThisYearAgain" name="CallThisYearAgain" value="CallThisYearAgain" (click)="ruleNameChangeEvent('call this year again')">
+                <div class="float-left">
+                    <img src="assets/images/this-year.png" width="20px" />
+                </div>
+                Call this year again
+                <span>
+                    <i class="fa fa-chevron-right ml-2"></i>
+                </span>
+            </button>
+            <div class="progress" *ngIf="rule === 'call this year again'">
+                <div class="indeterminate"></div>
+            </div>
+        </div>
+
+
+        <div class="d-block" *ngIf="!disabledOutcome">
+            <button [disabled]="!showFurtherAction" class="btn btn-default btn-lg w-100 m-0 font-15 height-38" type="submit" id="CallNextYearAgain" [disabled]="rule === 'call next year again' || disabledOutcome"
+                name="CallNextYearAgain" value="CallNextYearAgain" (click)="ruleNameChangeEvent('call next year again')">
+                <div class="float-left">
+                    <img src="assets/images/after-one-year.png" width="20px" />
+                </div>
+                Call next year again
+            </button>
+            <div class="progress" *ngIf="rule === 'call next year again'">
+                <div class="indeterminate"></div>
+            </div>
+        </div>
+    </div>
+</div>

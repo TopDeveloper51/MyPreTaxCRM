@@ -1,0 +1,58 @@
+.pos-top-2{
+  top:-2px;
+}
+.after_rightborderside:after {
+    content: "";
+    background:#ccc;
+    width: 1px;
+    height: 38px;
+    position: absolute;
+    right: -1px;
+    top: 5px;
+}
+
+.slot-info {
+      position: absolute;
+      z-index: 9;
+      right: 70px;
+      padding: 10px;
+      min-width: 415px;
+      top: 8px;
+  }
+
+.slot-info:before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    background: url('/assets/images/triangle-icon.png');
+    background-size: 20px;
+    right: -40px;
+    color: #fff;
+    padding: 20px;
+    background-repeat: no-repeat;
+    pointer-events: none;
+}
+.graph_info {
+    font-size: 15px!important;  
+}
+
+
+.wpx-100{
+    width: 100px;
+  }
+  button.btn.btn-outline-primary.wpx-100.btn-primary {
+    color: #fff !important;
+  }
+  .btn-group button.btn.btn-outline-primary.wpx-100:first-child{
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+  }
+  .btn-group button.btn.btn-outline-primary.wpx-100:last-child{
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+  }
+
+  .mw-100{
+    max-width: 100% !important;
+  }
+ 

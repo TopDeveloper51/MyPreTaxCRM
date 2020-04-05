@@ -1,0 +1,641 @@
+<div *ngIf="isTicketNotLinked">
+  <span>
+    <a class="ticket-link" (click)="getActivityTicket()">
+      <u>Ticket needs to be linked yet !!</u>
+    </a>
+  </span>
+</div>
+
+<!-- style="height: 380px;overflow-y: scroll;overflow-x: hidden;" -->
+<form [formGroup]="ticketDetailsForm" class="row" *ngIf="!isTicketNotLinked">
+  <div class="col-24">
+
+    <div class="row">
+      <div *ngIf="showLoading">
+        <div class="loading_background"></div>
+        <div class="preloader">
+          <div class="preloader-container">
+            <span class="animated-preloader"></span>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="form-field required">
+          <div class="form-field-control" [ngClass]="{ 'cross-validation-error': ticketDetailsForm.controls.department.errors  &&  ticketDetailsForm.controls.department.errors.required}">
+            <ng-select #department [items]="lookupNew.activityDepartmentList" bindLabel="name" bindValue="id" [multiple]="false" placeholder="Department"
+              clearAllText="Clear" [clearable]="false" appendTo="body" formControlName="department" [closeOnSelect]="true"
+              [searchable]="false" (change)="ticketStatusChange($event)">
+              <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                <label>{{item.name}}</label>
+              </ng-template>
+              <ng-template ng-header-tmp>
+                <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="department.filter($event.target.value)"
+                />
+              </ng-template>
+            </ng-select>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="form-field required">
+          <div class="form-field-control" [ngClass]="{ 'cross-validation-error': ticketDetailsForm.controls.ticketStatus.errors  &&  ticketDetailsForm.controls.ticketStatus.errors.required}">
+            <ng-select #ticketStatus [items]="lookupNew.ticketStatusList" bindLabel="name" bindValue="id" [multiple]="false" placeholder="Ticket Status"
+              class="set-posright" clearAllText="Clear" [clearable]="false" appendTo="body" formControlName="ticketStatus"
+              [closeOnSelect]="true" [searchable]="false" (change)="setValidationsforCloseStatus()">
+              <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                <label>{{item.name}}</label>
+              </ng-template>
+              <ng-template ng-header-tmp>
+                <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="ticketStatus.filter($event.target.value)"
+                />
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-12">
+        <div class="form-field required">
+          <div class="form-field-control" [ngClass]="{ 'cross-validation-error': ticketDetailsForm.controls.typeId.errors  &&  ticketDetailsForm.controls.typeId.errors.required}">
+            <ng-select #ticketType [items]="ticketTypeListLookup" bindLabel="name" bindValue="id" [multiple]="false" placeholder="Type"
+              clearAllText="Clear" [clearable]="false" appendTo="body" formControlName="typeId" [closeOnSelect]="true" [searchable]="false"
+              (change)="onChangeTicketType($event)">
+              <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                <label>{{item.name}}</label>
+              </ng-template>
+              <ng-template ng-header-tmp>
+                <input type="text" class="in-set form-field-input" placeholder="Search" [appAutofocus] (input)="ticketType.filter($event.target.value)"
+                />
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 dropdown_wrapper">
+        <div class="form-field required">
+          <div class="form-field-control" [ngClass]="{ 'cross-validation-error': ticketDetailsForm.controls.year.errors  &&  ticketDetailsForm.controls.year.errors.required}">
+            <ng-select #year [items]="lookupNew.yearsListNew" bindLabel="name" bindValue="id" [multiple]="false" placeholder="Year" clearAllText="Clear"
+              [clearable]="false" appendTo="body" formControlName="year" [closeOnSelect]="true" [searchable]="false" class="set-posright">
+              <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                <label>{{item.name}}</label>
+              </ng-template>
+              <ng-template ng-header-tmp>
+                <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="year.filter($event.target.value)"
+                />
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-22" [ngClass]="{'col-24': !knowledgeBase || knowledgeBase.length === 0}">
+        <div class="form-field required">
+          <div class="form-field-control" [ngClass]="{ 'cross-validation-error': ticketDetailsForm.controls.errorTypeArray.errors  &&  ticketDetailsForm.controls.errorTypeArray.errors.required}">
+            <ng-select #errorTypeArray [items]="errorTypeList" bindLabel="name" bindValue="id" [multiple]="true" placeholder="Sub-Type"
+              clearAllText="Clear" [clearable]="false" [selectableGroup]="true" appendTo="body" formControlName="errorTypeArray"
+              [closeOnSelect]="false" [searchable]="false" (change)="onChangeErrorType()">
+              <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                  <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                  <label class="custom-control-label">{{item.name}}</label>
+                </div>
+              </ng-template>
+              <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                <app-select-multi-label class="w-100" [items]="items"></app-select-multi-label>
+              </ng-template>
+              <ng-template ng-header-tmp>
+                <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="errorTypeArray.filter($event.target.value)"
+                />
+                <button (click)="onSelectAll('errorTypeArray')" class="btn btn-sm btn-secondary">All</button>
+                <button (click)="onClearAll('errorTypeArray')" class="btn btn-sm btn-secondary ml-2">None</button>
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-2">
+        <a class="link_icon pt-3" (click)="openDialogKnowledgeBase();" *ngIf="knowledgeBase && knowledgeBase.length>0">
+          <span class="fa fa-link"></span>
+        </a>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="errorTypeOther">
+      <div class="col">
+        <div class="form-field">
+          <div class="form-field-control">
+            <input id="errorTypeOtherDesc" type="text" formControlName="errorTypeOtherDesc" class="form-field-input" placeholder=" ">
+            <label for="errorTypeOtherDesc" class="form-field-label">Sub-Type Other Description</label>
+            <div class="form-field-bar"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-field">
+          <div class="form-field-control">
+              <textarea id="description" type="text" formControlName="description" class="form-field-input"
+              placeholder=" " rows="1">
+                </textarea>
+            <label for="description" class="form-field-label">Description</label>
+            <div class="form-field-bar"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ********************************** Season Readiness section starts ***********************************-->
+    <div *ngIf="isSeasonReadiness">
+      <div formGroupName="seasonReadinessGroup">
+        <div class="row">
+          <div class="col-12">
+
+            <div class="form-field">
+              <div class="form-field-control">
+                <div class="custom-control custom-checkbox mt-10 mb-8 mr-3 d-inline-block">
+                  <input type="checkbox" class="custom-control-input" formControlName="doNotSendEmail" id="doNotSendEmail" title="Do not send email for Season Readiness">
+                  <label class="custom-control-label cursor-pointer" for="doNotSendEmail">No SR email</label>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-12">
+            <div class="form-field">
+              <div class="form-field-control">
+                <div class="custom-control custom-checkbox mt-10 mb-8 mr-3 d-inline-block">
+                  <input type="checkbox" class="custom-control-input" formControlName="doNotSendSMS" id="doNotSendSMS" title="Do not send SMS for Season Readiness">
+                  <label class="custom-control-label cursor-pointer" for="doNotSendSMS">No SR SMS</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col">
+            <div class="form-field">
+              <div class="form-field-control">
+                <div class="custom-control custom-checkbox mt-10 mb-8 mr-3 d-inline-block">
+                  <input type="checkbox" class="custom-control-input" formControlName="noConversionNeeded" id="noConversionNeeded" title="No Conversion Needed">
+                  <label class="custom-control-label cursor-pointer" for="noConversionNeeded">No Conv.</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-field-control">
+              <input id="loginText" type="text" formControlName="login" class="form-field-input" placeholder=" ">
+              <label for="loginText" class="form-field-label" style="cursor:text">Login</label>
+              <div class="form-field-bar"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-field">
+              <div class="form-field-control">
+                <input id="bankEnrollment" type="text" formControlName="bankEnrollment" class="form-field-input" placeholder=" " title="Bank Enrollment">
+                <label for="bankEnrollment" class="form-field-label" style="cursor:text">Bank Enrollment</label>
+                <div class="form-field-bar"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-field">
+              <div class="form-field-control">
+                <input id="conversion" type="text" formControlName="conversion" class="form-field-input" placeholder=" " title="Conversion">
+                <label for="conversion" class="form-field-label" style="cursor:text">Conversion</label>
+                <div class="form-field-bar"></div>
+              </div>
+            </div>
+
+            <div class="form-field" *ngIf="isShowConversionNotNeeded">
+              <div class="form-field-control">
+                <input id="conversionNotNeededReason" type="text" formControlName="conversionNotNeededReason" class="form-field-input" placeholder=" "
+                  title="Reason for no conversion">
+                <label for="conversionNotNeededReason" class="form-field-label" style="cursor:text">Reason for no conv.
+                </label>
+                <div class="form-field-bar"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-field">
+              <div class="form-field-control">
+                <input id="efile" type="text" formControlName="efile" class="form-field-input" placeholder=" " title="Efile Readiness">
+                <label for="efile" class="form-field-label" style="cursor:text">Efile Readiness</label>
+                <div class="form-field-bar"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-field">
+              <div class="form-field-control">
+                <input id="payment" type="text" formControlName="payment" class="form-field-input" placeholder=" " title="Payment">
+                <label for="payment" class="form-field-label" style="cursor:text">Payment</label>
+                <div class="form-field-bar"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col">
+            <div class="form-field ">
+              <div class="form-field-control">
+                <ng-select #trainingGroup [items]="lookupNew.trainingGroup" bindLabel="name" bindValue="id" [multiple]="false" placeholder="Training Group"
+                  clearAllText="Clear" [clearable]="false" [selectableGroup]="true" appendTo="body" formControlName="trainingGroup"
+                  [closeOnSelect]="false" [searchable]="false" (change)="trainingGroupChange($event);">
+                  <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                    <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                      <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                      <label class="custom-control-label">{{item.name}}</label>
+                    </div>
+                  </ng-template>
+                  <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                    <app-select-multi-label class="w-100" [items]="items"></app-select-multi-label>
+                  </ng-template>
+                  <ng-template ng-header-tmp>
+                    <input type="text" class="in-set form-field-input" placeholder="Search" (input)="trainingGroup.filter($event.target.value)"
+                    />
+                  </ng-template>
+                </ng-select>
+              </div>
+            </div>
+
+            <div class="form-field" *ngIf="isShowTrainingNotNeeded">
+              <div class="form-field-control">
+                <input id="trainingNotNeededReason" type="text" formControlName="trainingNotNeededReason" class="form-field-input" placeholder=" "
+                  title="Reason for no training">
+                <label for="trainingNotNeededReason" class="form-field-label" style="cursor:text">Reason for no training
+                </label>
+                <div class="form-field-bar">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-field required" *ngIf="isShowoneOnOneStatus">
+              <div class="form-field-control" [ngClass]="{ 'cross-validation-error': ticketDetailsForm.controls.seasonReadinessGroup.get('oneOnOneStatus').errors  &&  ticketDetailsForm.controls.seasonReadinessGroup.get('oneOnOneStatus').errors.required}">
+                <ng-select #oneOnOneStatus [items]="oneOnOneStatusLookup" bindLabel="name" bindValue="id" [multiple]="false" placeholder="10n1 Status"
+                  clearAllText="Clear" [clearable]="false" [selectableGroup]="true" appendTo="body" formControlName="oneOnOneStatus"
+                  [closeOnSelect]="false" [searchable]="false">
+                  <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index" title="10n1 Status">
+                    <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                      <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                      <label class="custom-control-label">{{item.name}}</label>
+                    </div>
+                  </ng-template>
+                  <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                    <app-select-multi-label class="w-100" [items]="items"></app-select-multi-label>
+                  </ng-template>
+                  <ng-template ng-header-tmp>
+                    <input type="text" class="in-set form-field-input" placeholder="Search" (input)="oneOnOneStatus.filter($event.target.value)"
+                    />
+                    <!-- <button (click)="onSelectAll('outcome')" class="btn btn-sm btn-secondary">All</button>
+                      <button (click)="onClearAll('outcome')" class="btn btn-sm btn-secondary ml-2">None</button> -->
+                  </ng-template>
+                </ng-select>
+              </div>
+            </div>
+
+
+            <div class="form-field required" *ngIf="isShowGroupStatus">
+              <div class="form-field-control" [ngClass]="{ 'cross-validation-error': ticketDetailsForm.controls.seasonReadinessGroup.get('groupStatus').errors  &&  ticketDetailsForm.controls.seasonReadinessGroup.get('groupStatus').errors.required}">
+                <ng-select #groupStatus [items]="groupStatusLookup" bindLabel="name" bindValue="id" [multiple]="false" placeholder="Group Status"
+                  clearAllText="Clear" [clearable]="false" [selectableGroup]="true" appendTo="body" formControlName="groupStatus"
+                  [closeOnSelect]="false" [searchable]="false">
+                  <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                    <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                      <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                      <label class="custom-control-label">{{item.name}}</label>
+                    </div>
+                  </ng-template>
+                  <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                    <app-select-multi-label class="w-100" [items]="items"></app-select-multi-label>
+                  </ng-template>
+                  <ng-template ng-header-tmp>
+                    <input type="text" class="in-set form-field-input" placeholder="Search" (input)="groupStatus.filter($event.target.value)"
+                    />
+                    <!-- <button (click)="onSelectAll('outcome')" class="btn btn-sm btn-secondary">All</button>
+                        <button (click)="onClearAll('outcome')" class="btn btn-sm btn-secondary ml-2">None</button> -->
+                  </ng-template>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <!--
+      </div> -->
+      </div>
+    </div>
+
+    <!-- ********************************** Season Readiness section ends ***********************************-->
+
+    <div class="row">
+      <div class="col">
+        <div class="form-field " [ngClass]="{'required': ticketDetailsForm.controls.outcome.errors &&  ticketDetailsForm.controls.outcome.errors.required}">
+          <div class="form-field-control" [ngClass]="{ 'cross-validation-error': ticketDetailsForm.controls.outcome.errors  &&  ticketDetailsForm.controls.outcome.errors.required}">
+            <ng-select #outcome [items]="lookupNew.outComeTypeList" bindLabel="name" bindValue="id" [multiple]="true" placeholder="Outcome"
+              clearAllText="Clear" [clearable]="false" [selectableGroup]="true" appendTo="body" formControlName="outcome" [closeOnSelect]="false"
+              [searchable]="false">
+              <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                  <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                  <label class="custom-control-label">{{item.name}}</label>
+                </div>
+              </ng-template>
+              <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                <app-select-multi-label class="w-100" [items]="items"></app-select-multi-label>
+              </ng-template>
+              <ng-template ng-header-tmp>
+                <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="outcome.filter($event.target.value)"
+                />
+                <button (click)="onSelectAll('outcome')" class="btn btn-sm btn-secondary">All</button>
+                <button (click)="onClearAll('outcome')" class="btn btn-sm btn-secondary ml-2">None</button>
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="form-field">
+          <div class="form-field-control" *ngIf="ticketDetailsForm.controls.outcome.value !== undefined && ticketDetailsForm.controls.outcome.value !== null && ticketDetailsForm.controls.outcome.value.indexOf('0') != -1">
+            <input id="outcomeOtherDesc" type="text" formControlName="outcomeOtherDesc" class="form-field-input" placeholder=" ">
+            <label for="outcomeOtherDesc" class="form-field-label" style="cursor:text">Outcome Other Description</label>
+            <div class="form-field-bar"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="form-field " [ngClass]="{'required':ticketDetailsForm.controls.resolution.errors &&  ticketDetailsForm.controls.resolution.errors.required}">
+          <div class="form-field-control" [ngClass]="{'cross-validation-error': ticketDetailsForm.controls.resolution.errors &&  ticketDetailsForm.controls.resolution.errors.required}">
+            <ng-select #resolution [items]="lookupNew.resolutionList" bindLabel="name" bindValue="id" [multiple]="true" placeholder="Resolution"
+              clearAllText="Clear" [clearable]="false" [selectableGroup]="true" appendTo="body" formControlName="resolution"
+              [closeOnSelect]="false" [searchable]="false">
+              <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                  <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                  <label class="custom-control-label">{{item.name}}</label>
+                </div>
+              </ng-template>
+              <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                <app-select-multi-label class="w-100" [items]="items"></app-select-multi-label>
+              </ng-template>
+              <ng-template ng-header-tmp>
+                <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="resolution.filter($event.target.value)"
+                />
+                <button (click)="onSelectAll('resolution')" class="btn btn-sm btn-secondary">All</button>
+                <button (click)="onClearAll('resolution')" class="btn btn-sm btn-secondary ml-2">None</button>
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="form-field">
+          <div class="form-field-control" *ngIf="ticketDetailsForm.controls.resolution.value !== undefined && ticketDetailsForm.controls.resolution.value !== null && ticketDetailsForm.controls.resolution.value.indexOf('0') != -1">
+            <input id="resolutionOtherDesc" type="text" formControlName="resolutionOtherDesc" class="form-field-input" placeholder=" ">
+            <label for="resolutionOtherDesc" class="form-field-label" style="cursor:text">Resolution Other Description
+            </label>
+            <div class="form-field-bar"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row" *ngIf="(ticketDetailsForm.controls.followupMonth.value && ticketDetailsForm.controls.followupYear.value) || ticketDetailsForm.controls.ticketStatus.value == 4">
+      <div class="col-12">
+        <div class="form-field">
+          <div class="form-field-control">
+            <ng-select #followupMonth [items]="followUpMonthPeriod" bindLabel="name" bindValue="id" [multiple]="false" placeholder="FollowupMonth"
+              clearAllText="Clear" [clearable]="false" appendTo="body" formControlName="followupMonth" [closeOnSelect]="true"
+              [searchable]="false">
+              <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                <label>{{item.name}}</label>
+              </ng-template>
+              <ng-template ng-header-tmp>
+                <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="followupMonth.filter($event.target.value)"
+                />
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="form-field">
+          <div class="form-field-control">
+            <ng-select #followupYear [items]="followUpYearPeriod" bindLabel="name" bindValue="id" [multiple]="false" placeholder="FollowupYear"
+              clearAllText="Clear" [clearable]="false" appendTo="body" formControlName="followupYear" [closeOnSelect]="true"
+              [searchable]="false">
+              <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                <label>{{item.name}}</label>
+              </ng-template>
+              <ng-template ng-header-tmp>
+                <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="followupYear.filter($event.target.value)"
+                />
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ********************************** Extra fields controls starts ***********************************-->
+    <div class="row">
+      <div class="col col-lg-24 col-md-24 col-sm-24 col-xs-24">
+
+        <div class="row" formGroupName="typeFieldDetails" *ngIf="(ticketDetailsForm.controls.typeId.value && ticketDetailsForm.controls.errorTypeArray.value)">
+
+          <div *ngFor="let control of ticketTypeControls" class="col {{control.isLongControl ? 'col-lg-24 col-md-24 col-sm-24 col-xs-24 ' : 'col-lg-12 col-md-12 col-sm-12 col-xs-12'}}">
+
+            <div class="row" *ngIf="control.type === 'textbox'" [title]="control.displayText">
+              <div class="col">
+                <div class="form-field" [ngClass]="{ 'required': ticketDetailsForm.controls.typeFieldDetails && ticketDetailsForm.controls.typeFieldDetails.get(control.name) && ticketDetailsForm.controls.typeFieldDetails.get(control.name).errors && ticketDetailsForm.controls.typeFieldDetails.get(control.name).errors.required}">
+                  <div class="form-field-control" style="cursor:text" [ngClass]="{ 'cross-validation-error': ticketDetailsForm.controls.typeFieldDetails && ticketDetailsForm.controls.typeFieldDetails.get(control.name) && ticketDetailsForm.controls.typeFieldDetails.get(control.name).errors && ticketDetailsForm.controls.typeFieldDetails.get(control.name).errors.required}">
+                    <input [id]="control.displayText" [type]="control.subtype" [formControlName]="control.name" class="form-field-input" placeholder=" ">
+                    <label [for]="control.displayText" class="form-field-label">{{control.displayText}}</label>
+                    <div class="form-field-bar"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="control.type === 'checkbox'" [title]="control.displayText">
+              <div class="col">
+                <div class="form-field">
+
+                  <div class="custom-control custom-checkbox mt-10 mb-8 mr-3 d-inline-block">
+                    <input type="checkbox" class="custom-control-input" [formControlName]="control.name" [id]="control.displayText">
+                    <label class="custom-control-label" [for]="control.displayText">{{control.displayText}}</label>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="control.type === 'datepicker'" [title]="control.displayText">
+              <div class="col">
+                <div class="form-field">
+                  <div class="form-field-control" [ngClass]="{ 'cross-validation-error':control.isRequired}">
+                    <md2-datepicker type="date" format="MM/dd/y" [placeholder]="control.displayText" [id]="control.displayText" openOnFocus="false"
+                      mode="landscape" [formControlName]="control.name">
+                    </md2-datepicker>
+                    <div class="form-field-bar"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="control.type === 'md-select'" [title]="control.displayText">
+              <div class="col">
+                <div class="form-field" [ngClass]="{ 'required': ticketDetailsForm.controls.typeFieldDetails && ticketDetailsForm.controls.typeFieldDetails.get(control.name) && ticketDetailsForm.controls.typeFieldDetails.get(control.name).errors && ticketDetailsForm.controls.typeFieldDetails.get(control.name).errors.required}">
+                  <div class="form-field-control" [ngClass]="{ 'cross-validation-error': ticketDetailsForm.controls.typeFieldDetails && ticketDetailsForm.controls.typeFieldDetails.get(control.name) && ticketDetailsForm.controls.typeFieldDetails.get(control.name).errors && ticketDetailsForm.controls.typeFieldDetails.get(control.name).errors.required}">
+                    <ng-select #name [items]="control.valueList" bindLabel="name" bindValue="id" [placeholder]="control.displayText" clearAllText="Clear"
+                      appendTo="body" [formControlName]="control.name" [closeOnSelect]="true" [clearable]="false">
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="control.id !== 'a3e22eca-769d-4441-b142-81acb9345ad1' && control.type === 'dropdown'">
+              <div class="col">
+                <div class="form-field " [ngClass]="{'required': ticketDetailsForm.controls.typeFieldDetails && ticketDetailsForm.controls.typeFieldDetails.get(control.name) && ticketDetailsForm.controls.typeFieldDetails.get(control.name).errors && ticketDetailsForm.controls.typeFieldDetails.get(control.name).errors.required}">
+                  <div class="form-field-control" [ngClass]="{ 'cross-validation-error': ticketDetailsForm.controls.typeFieldDetails && ticketDetailsForm.controls.typeFieldDetails.get(control.name) && ticketDetailsForm.controls.typeFieldDetails.get(control.name).errors && ticketDetailsForm.controls.typeFieldDetails.get(control.name).errors.required}">
+                    <ng-select #controlName [items]="control.valueList" bindLabel="name" bindValue="id" [multiple]="false" class="set-posright"
+                      [placeholder]="control.label" clearAllText="Clear" [clearable]="false" [selectableGroup]="true" appendTo="body"
+                      [formControlName]="control.name" [closeOnSelect]="false" [searchable]="false">
+                      <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                        <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                          <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                          <label class="custom-control-label" [title]="control.displayText">{{item.name}}</label>
+                        </div>
+                      </ng-template>
+                      <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                        <app-select-multi-label class="w-100" [items]="items"></app-select-multi-label>
+                      </ng-template>
+                      <ng-template ng-header-tmp>
+                        <input type="text" class="in-set form-field-input" placeholder="Search" (input)="controlName.filter($event.target.value)"
+                        />
+                      </ng-template>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="control.id == 'a3e22eca-769d-4441-b142-81acb9345ad1' && control.type === 'dropdown'">
+              <div class="col">
+                <div class="form-field " [ngClass]="{'required': ticketDetailsForm.controls.typeFieldDetails && ticketDetailsForm.controls.typeFieldDetails.get(control.name) && ticketDetailsForm.controls.typeFieldDetails.get(control.name).errors && ticketDetailsForm.controls.typeFieldDetails.get(control.name).errors.required}">
+                  <div class="form-field-control" [ngClass]="{ 'cross-validation-error': ticketDetailsForm.controls.typeFieldDetails && ticketDetailsForm.controls.typeFieldDetails.get(control.name) && ticketDetailsForm.controls.typeFieldDetails.get(control.name).errors && ticketDetailsForm.controls.typeFieldDetails.get(control.name).errors.required}">
+                    <ng-select #controlName [items]="control.valueList" bindLabel="name" bindValue="id" [multiple]="false" class="set-posright"
+                      [placeholder]="control.label" clearAllText="Clear" [clearable]="false" [selectableGroup]="true" appendTo="body"
+                      [formControlName]="control.name" [closeOnSelect]="false" [searchable]="false">
+                      <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                        <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                          <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                          <label class="custom-control-label" [title]="control.displayText">{{item.name}}</label>
+                        </div>
+                      </ng-template>
+                      <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                        <app-select-multi-label class="w-100" [items]="items"></app-select-multi-label>
+                      </ng-template>
+                      <ng-template ng-header-tmp>
+                        <input type="text" class="in-set form-field-input" placeholder="Search" (input)="filterSearch($event.target.value,control)"
+                        />
+                      </ng-template>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row" *ngIf="control.type === 'multiselect'">
+              <div class="col">
+                <div class="form-field" [ngClass]="{'required': ticketDetailsForm.controls.typeFieldDetails && ticketDetailsForm.controls.typeFieldDetails.get(control.name) && ticketDetailsForm.controls.typeFieldDetails.get(control.name).errors && ticketDetailsForm.controls.typeFieldDetails.get(control.name).errors.required}">
+                  <div class="form-field-control" [ngClass]="{ 'cross-validation-error': ticketDetailsForm.controls.typeFieldDetails && ticketDetailsForm.controls.typeFieldDetails.get(control.name) && ticketDetailsForm.controls.typeFieldDetails.get(control.name).errors && ticketDetailsForm.controls.typeFieldDetails.get(control.name).errors.required}">
+                    <ng-select #controlName1 [items]="control.valueList" bindLabel="name" bindValue="id" [multiple]="true" class="set-posright"
+                      [placeholder]="control.label" clearAllText="Clear" [clearable]="false" [selectableGroup]="true" appendTo="body"
+                      [formControlName]="control.name" [closeOnSelect]="false" [searchable]="false">
+                      <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                        <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                          <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                          <label class="custom-control-label">{{item.name}}</label>
+                        </div>
+                      </ng-template>
+                      <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                        <app-select-multi-label class="w-100" [items]="items"></app-select-multi-label>
+                      </ng-template>
+
+                      <ng-template ng-header-tmp>
+                        <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="controlName1.filter($event.target.value)"
+                        />
+                        <button (click)="onSelectAll(control.name,control)" class="btn btn-sm btn-secondary">All</button>
+                        <button (click)="onClearAll(control.name, control)" class="btn btn-sm btn-secondary ml-2">None</button>
+                      </ng-template>
+
+                      <!-- <ng-template ng-header-tmp>
+                        <input type="text" class="in-set form-field-input" [appAutofocus]
+                          placeholder="Search" (input)="controlName.filter($event.target.value)" />
+                      </ng-template> -->
+                    </ng-select>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ********************************** Extra fields controls ends ***********************************-->
+  </div>
+</form>

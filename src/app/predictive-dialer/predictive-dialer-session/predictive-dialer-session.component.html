@@ -1,0 +1,38 @@
+<form name="PredictiveDialerView" #PredictiveDialerView="ngForm">
+    <div class="clearfix">
+
+        <div class=" page_title font_size_25">Manage Predictive Dialer Session</div>
+
+        <div class="clearfix col-lg-24 col-md-24 col-sm-24 col-xs-24 padding_top_10 padding_l_r_0">
+            <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24">
+                
+                <div class="pull-left padding_top_10" *ngIf="loadSessionList!=undefined &&  loadSessionList.length>0">
+                    <b>Session ({{loadSessionList.length}})</b>
+                </div>
+                <div class="pull-left padding_top_10" *ngIf="loadSessionList==undefined ||loadSessionList.length==0">
+                    No Data Available
+                </div>
+            </div>
+
+            <!-- <div class="clearfix col-sm-24 table-overflow table-responsive padding_top_10 pds_session_table">
+                <kendo-grid [data]="sessionList" [pageSize]="state.take" [skip]="state.skip" [sort]="state.sort" [filter]="state.filter"
+                    [sortable]="{ mode: 'single' }" [pageable]="{ pageSizes: pageSizes }" (dataStateChange)="dataStateChange($event)"
+                    [filterable]="true">
+                    <kendo-grid-column title="Name" field="name" width="300"></kendo-grid-column>
+                    <kendo-grid-column title="Marketing List Name" field="marketingListName" width="500"></kendo-grid-column>
+                    <kendo-grid-column title="Created By" field="createdByName" width="300"></kendo-grid-column>
+                    <kendo-grid-column title="Created Date" field="createdDate" [filterable]="false" width="250">
+                        <ng-template kendoGridCellTemplate let-session>
+                            {{session.createdDate | date: 'MM/dd/yyyy'}}
+                        </ng-template>
+                    </kendo-grid-column>
+                </kendo-grid>
+            </div> -->
+        </div>
+    </div>
+
+</form>
+
+<!-- <div class="clearfix margin_top_15" *ngIf="isDataLoading">
+    <ilink-loader></ilink-loader>
+</div> -->

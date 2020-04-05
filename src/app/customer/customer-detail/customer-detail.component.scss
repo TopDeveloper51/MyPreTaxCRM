@@ -1,0 +1,12 @@
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+}
+
+.nav-tabs .nav-link.active {
+  z-index: 1;
+}  
+
+.font_20 {
+  font-size: 20px !important
+}

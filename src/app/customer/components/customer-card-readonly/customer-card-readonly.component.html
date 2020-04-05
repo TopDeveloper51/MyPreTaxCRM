@@ -1,0 +1,424 @@
+<div *ngIf="showData" class="form-group row">
+    <div class="col-24 col-sm-24 col-md-12 col-xl-4">
+
+        <div *ngIf="customerSearchForm.isTestCustomer">
+            <div class="form-group row">
+                <div class="font-weight-bold col-12">Test Customer:</div>
+                <span class="col-12 p-0">
+                    <img src="assets/images/OK.png" />
+                </span>
+            </div>
+        </div>
+        <div *ngIf="screen == 'customerSearch' && customerSearchForm.customerId">
+            <div>
+                <div class="form-group row">
+                    <div class="font-weight-bold col-12">Customer ID:</div>
+                    <span class="col-12 p-0" [title]="customerSearchForm.customerId">{{customerSearchForm.customerId}}</span>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="customerSearchForm.customerNumber">
+            <div>
+                <div class="form-group row">
+                    <div class="font-weight-bold col-12">Customer Number:</div>
+                    <span class="col-12 p-0" [title]="customerSearchForm.customerNumber">{{customerSearchForm.customerNumber}}</span>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="customerSearchForm.customerName">
+            <div>
+                <div class="form-group row">
+                    <div class="font-weight-bold col-12">Company Name:</div>
+                    <span class="col-12 p-0" [title]="customerSearchForm.customerName">{{customerSearchForm.customerName}}</span>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="screen == 'customerCard' && customerSearchForm.DBA">
+            <div>
+                <div class="form-group row">
+                    <span title="Doing Business As" class="font-weight-bold col-12">DBA:</span>
+                    <span [title]="customerSearchForm.DBA" class="col-12 p-0"> {{customerSearchForm.DBA}}</span>
+                </div>
+            </div>
+        </div>
+        <span *ngIf="screen=='customerSearch'">
+            <div *ngIf="customerSearchForm.address1 && screen!=='customerSearch'">
+                <div>
+                    <div>
+                        <span [title]="customerSearchForm.address1"> {{customerSearchForm.address1}}</span>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="customerSearchForm.address2 && screen!=='customerSearch'">
+                <div>
+                    <div>
+                        <span [title]="customerSearchForm.address2"> {{customerSearchForm.address2}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div *ngIf="customerSearchForm.country" class="col-24">
+                    <div>
+                        <div>
+                            <div class="form-group row" *ngIf="screen==='customerSearch' && customerSearchForm.country.length > 0">
+                                <div class="font-weight-bold col-12">Country:</div>
+                                <span class="col-12 p-0 text-truncate" [title]="customerSearchForm.country">{{country}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="customerSearchForm.state" class="col-24">
+                    <div>
+                        <div>
+                            <div class="form-group row" *ngIf="screen==='customerSearch' && customerSearchForm.state.length > 0">
+                                <div class="font-weight-bold col-12">State:</div>
+                                <span class="col-12 p-0 text-truncate" [title]="customerSearchForm.state">{{state}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="customerSearchForm.zipCode" class="col-24">
+                    <div class="form-group row">
+                        <span *ngIf="screen=='customerSearch'" class="font-weight-bold col-12">ZIP:</span>
+                        <span class="col-12 p-0" [title]="customerSearchForm.zipCode">{{customerSearchForm.zipCode}}</span>
+                    </div>
+                </div>
+            </div>
+        </span>
+        <div *ngIf="screen=='customerCard'" class="form-group row">
+            <div class="col-24 col-sm-8 col-md-8 col-xl-12" *ngIf="customerSearchForm.address1 || customerSearchForm.address2 || customerSearchForm.country || customerSearchForm.state || customerSearchForm.zipCode || customerSearchForm.city">
+                <span class="font-weight-bold" *ngIf="customerSearchForm.address1 || customerSearchForm.address2">Address:</span>
+            </div>
+            <div class="col-24 col-sm-8 col-md-8 col-xl-12">
+                <div class="form-group row">
+                    <div class="col-xl-24 p-0">
+                        <span class="mb-0" *ngIf="customerSearchForm.address1">
+                            <span [title]="customerSearchForm.address1"> {{customerSearchForm.address1}}&nbsp;{{customerSearchForm.address2 ? ',': ''}}&nbsp;</span>
+                        </span>
+                        <span class="mb-0" *ngIf="customerSearchForm.address2">
+                            <span [title]="customerSearchForm.address2">{{customerSearchForm.address2}}</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-auto p-0 ">
+                        <span class="mb-0" *ngIf="customerSearchForm.city">
+                            <span [title]="customerSearchForm.city">{{customerSearchForm.city}}</span>
+                        </span>
+                        <span class="mb-0" *ngIf="customerSearchForm.state">
+                            <span [title]="customerSearchForm.state">{{customerSearchForm.state}}</span>
+                            <span class="mb-0">&nbsp;</span>
+                        </span>
+                        <span class="mb-0" *ngIf="customerSearchForm.zipCode">
+                            <span [title]="customerSearchForm.zipCode"> {{customerSearchForm.zipCode}}</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-auto p-0">
+                        <span class="mb-0" *ngIf="customerSearchForm.country">
+                            <span [title]="customerSearchForm.country">{{customerSearchForm.country}}</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-24 col-sm-24 col-md-12 col-xl-5">
+
+        <div *ngIf="customerSearchForm.resellerName">
+            <div class="form-group row">
+                <span *ngIf="customerSearchForm.resellerName && customerSearchForm.resellerName.length >0" class="font-weight-bold col-12">Reseller:</span>
+                <span *ngIf="screen =='customerSearch'" class="col-12 p-0" [title]="customerSearchForm.resellerName">{{resellerName}}</span>
+                <span *ngIf="screen =='customerCard'" class="col-12 p-0" [title]="customerSearchForm.resellerName">{{customerSearchForm.resellerName}}</span>
+            </div>
+        </div>
+
+        <div *ngIf="customerSearchForm.preferredLanguage">
+            <div class="form-group row">
+                <span *ngIf="customerSearchForm.preferredLanguage && customerSearchForm.preferredLanguage.length >0" class="font-weight-bold col-12"
+                    title="Preferred Language">Pref. Language:</span>
+                <span class="col-12 p-0" *ngIf="screen =='customerSearch'" [title]="customerSearchForm.preferredLanguage">{{preferredLanguage}}</span>
+                <span *ngIf="screen =='customerCard'" class="col-12 p-0" [title]="customerSearchForm.preferredLanguage">{{customerSearchForm.preferredLanguage}}</span>
+            </div>
+        </div>
+
+        <div *ngIf="customerSearchForm.doNotCall">
+            <div class="form-group row">
+                <div class="font-weight-bold col-12">Don't Call Again:</div>
+                <span class="col-12 p-0 p-0">
+                    <img class="pl-0" src="assets/images/OK.png" />
+                </span>
+            </div>
+        </div>
+
+        <div *ngIf="customerSearchForm.dontSendSMS">
+            <div class="form-group row">
+                <div class="font-weight-bold col-12">Don't Send SMS:</div>
+                <span class="col-12 p-0 p-0">
+                    <img class="pl-0" src="assets/images/OK.png" />
+                </span>
+            </div>
+        </div>
+
+        <div *ngIf="customerSearchForm.phoneNotFound">
+            <div class="form-group row">
+                <div class="font-weight-bold col-12">Phone No. Not Found:</div>
+                <span class="col-12 p-0 p-0">
+                    <img class="pl-0" src="assets/images/OK.png" />
+                </span>
+            </div>
+        </div>
+
+        <div *ngIf="customerSearchForm.contactList && customerSearchForm.contactList.length > 0">
+            <div class="form-group row">
+                <span class="font-weight-bold col-24">Contacts ({{customerSearchForm.contactList.length}}):</span>
+            </div>
+            <div class="form-group row">
+                <span *ngFor="let contact of customerSearchForm.contactList;let i = index" class="col-24">
+                    <div class="form-group row" *ngIf="i < 5">
+                        <div class="col-auto ">
+                            <div class="mb-0">
+                                <span>{{contact.firstName}} {{contact.lastName}}</span>
+                                <span class="pl-1">{{(contact.phone || contact.mobile) | phone}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="col-24 col-sm-24 col-md-12 col-xl-6">
+
+        <div *ngIf="customerSearchForm.isCurrentRefundRequest">
+            <div class="form-group row">
+                <div class="font-weight-bold col-12">Current Refund Request:</div>
+                <span class="col-12 p-0 p-0">
+                    <img class="pl-0" src="assets/images/OK.png" />
+                </span>
+            </div>
+        </div>
+
+        <div *ngIf="customerSearchForm.isRefundRequestDenied">
+            <div class="form-group row">
+                <div class="font-weight-bold col-12">Refund Request Denied:</div>
+                <span class="col-12 p-0 p-0">
+                    <img class="pl-0" src="assets/images/OK.png" />
+                </span>
+            </div>
+        </div>
+
+        <div *ngIf="customerSearchForm.isRefundRequestHandled">
+            <div class="form-group row">
+                <div class="font-weight-bold col-12">Refund Request Handled:</div>
+                <span class="col-12 p-0 p-0">
+                    <img class="pl-0" src="assets/images/OK.png" />
+                </span>
+            </div>
+        </div>
+
+        <div *ngIf="customerSearchForm.refundRequestFeeling">
+            <div class="form-group row">
+                <div class="font-weight-bold col-12">Refund Request Feeling:</div>
+                <span class="col-12 p-0" [title]="customerSearchForm.refundRequestFeeling">{{customerSearchForm.refundRequestFeeling}}</span>
+            </div>
+        </div>
+
+        <div *ngIf="screen=='customerCard' && customerSearchForm.package">
+            <div class="form-group row">
+                <div class="font-weight-bold col-12" title="License">License:</div>
+                <span class="col-12 p-0" [title]="customerSearchForm.package">{{customerSearchForm.package}}</span>
+            </div>
+        </div>
+
+        <div *ngIf="screen=='customerCard' && (customerSearchForm.BPVolume || customerSearchForm.BPSource) && !(customerSearchForm.BPVolume == 'unKnown' && customerSearchForm.BPSource == 'unKnown')">
+            <div class="form-group row">
+                <div class="font-weight-bold col-12" title="Bank Product Volume/Source">BP Volume/Source:</div>
+                <span class="col-12 p-0">{{customerSearchForm.BPVolume}} / {{customerSearchForm.BPSource}} </span>
+            </div>
+        </div>
+
+        <div *ngIf="screen=='customerCard' && customerSearchForm.bank && customerSearchForm.bank.length > 0">
+            <div class="form-group row">
+                <div class="font-weight-bold col-12" title="Bank">Bank:</div>
+                <div class="col-12 p-0">
+                    <span *ngFor="let bank of customerSearchForm.bank;let i = index;">
+                        <span [title]="bank">{{bank}}{{i !== customerSearchForm.bank.length - 1 ? ',':''}}</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="customerSearchForm.bankSpecialPricing">
+            <div class="form-group row">
+                <div class="font-weight-bold col-12">BP Special Pricing:</div>
+                <span class="col-12 p-0 p-0">
+                    <img class="pl-0" src="assets/images/OK.png" />
+                </span>
+            </div>
+        </div>
+
+
+        <div class="col-xl-24">
+            <div class="form-group row">
+                <div *ngIf="customerSearchForm.BPVolumeFrom">
+                    <b>BP Volume:</b>
+                    <span> >=&nbsp;{{customerSearchForm.BPVolumeFrom}} and
+                        <=&nbsp;{{customerSearchForm.BPVolumeTo}}</span>
+                </div>
+                <div class="padding_left" *ngIf="screen=='customerSearch' && customerSearchForm.unknownVolume">
+                    <b>Include Unknown:</b>
+                    <span>
+                        <img class="pl-2" src="assets/images/OK.png" />
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="screen=='customerSearch' && customerSearchForm.bank">
+            <div class="form-group row">
+                <div class="font-weight-bold col-12" title="Bank">Bank:</div>
+                <span class="col-12 pl-0" style="word-break: break-all;" [title]="customerSearchForm.bank">{{customerSearchForm.bank}}</span>
+            </div>
+        </div>
+
+
+        <div *ngIf="screen=='customerSearch'" class="form-group row">
+            <div *ngIf="customerSearchForm.transmitterFeeFrom" class="col-24 col-sm-24 col-md-24 col-xl-24">
+                <div class="form-group row">
+                    <div class="font-weight-bold col-12">Trans. Fee </div>
+                    <span class="col-12 p-0">
+                        <span [title]="customerSearchForm.transmitterFeeFrom">
+                            >=&nbsp;{{customerSearchForm.transmitterFeeFrom}}</span>
+                        <span>&nbsp;and </span>
+                        <span [title]="customerSearchForm.transmitterFeeTo">
+                            <={{customerSearchForm.transmitterFeeTo}}</span>
+                        </span>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="screen=='customerSearch'" class="form-group row">
+            <div *ngIf="customerSearchForm.addOnTransmitterSharePerFrom" class="col-24 col-sm-24 col-md-24 col-xl-24">
+                <div class="form-group row">
+                    <div class="font-weight-bold col-12">Add On Trans. Fee Share %</div>
+                    <span class="col-12 p-0">
+                        <span [title]="customerSearchForm.addOnTransmitterSharePerFrom">
+                            >=&nbsp;{{customerSearchForm.addOnTransmitterSharePerFrom}}</span>
+                        <span>&nbsp;and </span>
+                        <span [title]="customerSearchForm.addOnTransmitterSharePerTo">
+                            <=&nbsp;{{customerSearchForm.addOnTransmitterSharePerTo}} </span>
+                        </span>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="screen=='customerSearch'" class="form-group row">
+            <div *ngIf="customerSearchForm.addOnPPSharePerFrom" class="col-24 col-sm-24 col-md-24 col-xl-24">
+                <div class="form-group row">
+                    <div class="font-weight-bold col-12">Add On PP Fee Share %</div>
+                    <span class="col-12 p-0">
+                        <span [title]="customerSearchForm.addOnPPSharePerFrom"> >=&nbsp;{{customerSearchForm.addOnPPSharePerFrom}}</span>
+                        <span>&nbsp;and</span>
+                        <span [title]="customerSearchForm.addOnPPSharePerTo">
+                            <=&nbsp;{{customerSearchForm.addOnPPSharePerTo}} </span>
+                        </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-24 col-sm-24 col-md-12 col-xl-5">
+
+        <div *ngIf="customerSearchForm.ElectronicReturnOriginator">
+            <div class="form-group row">
+                <div class="font-weight-bold col-12">EFIN Holder:</div>
+                <span class="col-12 p-0">
+                    <img class="pl-0" src="assets/images/OK.png" />
+                </span>
+            </div>
+        </div>
+
+        <div *ngIf="customerSearchForm.CPAGroup">
+            <div class="form-group row">
+                <div class="font-weight-bold col-12">CPA Group:</div>
+                <span class="col-12 p-0">
+                    <img class="pl-0" src="assets/images/OK.png" />
+                </span>
+            </div>
+        </div>
+
+        <div *ngIf="customerSearchForm.betaTester">
+            <div class="form-group row">
+                <div class="font-weight-bold col-12">Beta Tester:</div>
+                <span class="col-12 p-0">
+                    <img class="pl-0" src="assets/images/OK.png" />
+                </span>
+            </div>
+        </div>
+
+        <div *ngIf="customerSearchForm.testimonial">
+            <div class="form-group row">
+                <div class="font-weight-bold col-12">Testimonial:</div>
+                <span class="col-12 p-0">
+                    <img class="pl-0" src="assets/images/OK.png" />
+                </span>
+            </div>
+        </div>
+
+        <div *ngIf="customerSearchForm.customerType">
+            <div class="form-group row">
+                <span *ngIf="customerSearchForm.customerType && customerSearchForm.customerType.length > 0" class="font-weight-bold col-12">Customer Type:</span>
+                <span class="col-12 p-0" *ngIf="screen == 'customerSearch'" [title]="customerSearchForm.customerType">{{customerType}}</span>
+                <span class="col-12 p-0" *ngIf="screen == 'customerCard'" [title]="customerSearchForm.customerType">{{customerSearchForm.customerType}}</span>
+            </div>
+        </div>
+
+        <div *ngIf="customerSearchForm.homepage">
+            <div class="form-group row">
+                <span *ngIf="customerSearchForm.homepage && customerSearchForm.homepage.length > 0" class="font-weight-bold col-12">Home Page:</span>
+                <span class="col-12 p-0" *ngIf="screen == 'customerCard'" [title]="customerSearchForm.homepage">{{customerSearchForm.homepage}}</span>
+            </div>
+        </div>
+        <div class="form-group row" *ngIf="customerSearchForm.software && customerSearchForm.software.length > 0">
+            <div class="col-12">
+                <span class="font-weight-bold">Software Used:</span>
+            </div>
+            <div class="col-12 p-0">
+                <span *ngFor="let software of customerSearchForm.software;let i = index;">
+                    <span [title]="software">{{software}}{{i !== customerSearchForm.software.length - 1 ? ',':''}}</span>
+                </span>
+            </div>
+        </div>
+
+        <div *ngIf="customerSearchForm.websiteVisitedOn">
+            <div class="form-group row">
+                <div class="font-weight-bold col-12">Website Visited on :</div>
+                <span class="col-12 p-0" [title]="customerSearchForm.websiteVisitedOn">{{customerSearchForm.websiteVisitedOn}}</span>
+            </div>
+        </div>
+
+        <div *ngIf="customerSearchForm.reviewProvidedOn">
+            <div class="form-group row">
+                <div class="font-weight-bold col-12">Review Provided on :</div>
+                <span class="col-12 p-0" [title]="customerSearchForm.reviewProvidedOn">{{customerSearchForm.reviewProvidedOn}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-24 col-sm-24 col-md-12 col-xl-4">
+
+        <div *ngIf="customerSearchForm.salesProcessStatus">
+            <div class="form-group row">
+                <div *ngIf="customerSearchForm.salesProcessStatus && customerSearchForm.salesProcessStatus.length > 0" class="font-weight-bold col-14"
+                    title="Sales Process Status">Sales Process Status:</div>
+                <span *ngIf="screen =='customerSearch'" class="col-10 p-0" [title]="customerSearchForm.salesProcessStatus">{{salesProcessStatus}}</span>
+                <span *ngIf="screen =='customerCard'" class="col-10 p-0" [title]="customerSearchForm.salesProcessStatus">{{customerSearchForm.salesProcessStatus}}</span>
+            </div>
+            <div class="form-group row" *ngIf="customerSearchForm.latestLoginDate">
+                <div *ngIf="customerSearchForm.salesProcessStatus && customerSearchForm.salesProcessStatus.length > 0" class="font-weight-bold col-14"
+                    title="Last Login On">Last Login On:</div>
+                <span *ngIf="screen =='customerCard'" class="col-10 p-0" [title]="customerSearchForm.latestLoginDate">{{customerSearchForm.latestLoginDate}}</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="no-found" *ngIf="!showData">
+    <p class="mb-0">No Data Available</p>
+</div>

@@ -1,0 +1,33 @@
+<!--Dialog header-->
+<div class="modal-header">
+    <h5 class="modal-title">
+        Enable License Error
+    </h5>
+    <!-- <div class="pull-right modal-btn padding_top_2">
+        <div class="cursor-pointer">
+            <div (click)="modal.close(true)" class="cus-hov cursor-pointer">
+                <i class="fa fa-times color-white"></i>
+            </div>
+        </div>
+    </div> -->
+    <div class="float-right">
+        <div (click)="modal.close(true)" class="cus-hov">
+            <i class="fa fa-times"></i>
+        </div>
+    </div>
+</div>
+<!--Dialog header End -->
+
+<div class="modal-body cal-box">
+    <div class="col-24 pl-2 pr-2 set-ft">
+        Duplicate Customer was found using phone/email. Location & License was associated to that Duplicate Customer Account. Here
+        is the duplicate customer Link.
+        <span class="pl-1">
+            <img src="assets/images/Angebot.png" title="Go to Customer Card" (click)="goToCustomerCard()" class="cursor-pointer" style="width:25px;">
+            <i class="fa fa-clipboard fa-lg cursor-pointer pl-1 text-black " title="Copy Customer ID to clipboard" (click)="copyToClipboard()"></i>
+        </span>
+        <br>
+        <br>
+        <span class="text-red"> Warning: Please contact development team before enabling license again.</span>
+    </div>
+</div>

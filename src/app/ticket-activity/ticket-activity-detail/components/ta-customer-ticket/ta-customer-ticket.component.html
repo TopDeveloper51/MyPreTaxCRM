@@ -1,0 +1,95 @@
+<div class="card bg-gray">
+    <form [formGroup]="customerTicketForm">
+        <div class="card-body pb-1">
+            <div class="clearfix">
+                <div class="float-left" *ngIf="rowData && rowData.length > 0 && rowData[0]!=='autoHeight'">
+                    <h4 class="card-title">Tickets ({{rowData.length}}) - Customer</h4>
+                </div>
+                <div class="float-left" *ngIf="(rowData && rowData.length == 0) || rowData[0] == 'autoHeight'">
+                    <h4 class="card-title">Tickets (0) - Customer</h4>
+                </div>
+                <div class="float-right">
+                    <div class="float-left ml-2" style="width: 130px;">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <ng-select #taxSeason [items]="lookup.yearsList" bindLabel="name" bindValue="id" [multiple]="true" placeholder="TaxSeason"
+                                    clearAllText="Clear" [selectableGroup]="true" appendTo="body" formControlName="taxSeason"
+                                    [closeOnSelect]="true" [searchable]="false">
+                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                        <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                            <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                                            <label class="custom-control-label">{{item.name}}</label>
+                                        </div>
+                                    </ng-template>
+
+                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                        <app-select-multi-label class="w-100" [items]="items">
+                                        </app-select-multi-label>
+                                    </ng-template>
+
+                                    <ng-template ng-header-tmp>
+                                        <input type="text" class="in-set form-field-input" placeholder="Search" [appAutofocus] (input)="taxSeason.filter($event.target.value)"
+                                        />
+                                        <button (click)="onSelectAll()" class="btn btn-sm btn-secondary">All</button>
+                                        <button (click)="onClearAll('taxSeason')" class="btn btn-sm btn-secondary ml-2">None</button>
+                                    </ng-template>
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="float-left ml-2" style="width: 130px;">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <ng-select #ticketStatus [items]="lookup.statusList" bindLabel="name" bindValue="id" [multiple]="false" placeholder="Status"
+                                    clearAllText="Clear" [selectableGroup]="true" appendTo="body" formControlName="ticketStatus"
+                                    [closeOnSelect]="true" [searchable]="false">
+
+                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                        <div class="d-inline-block mr-4 ln-normal">
+                                            <label>{{item.name}}</label>
+                                        </div>
+                                    </ng-template>
+
+                                    <ng-template ng-header-tmp>
+                                        <input style="width: 100%; line-height: 24px" type="text" [appAutofocus] class=" form-field-input" placeholder="Search" (input)="ticketStatus.filter($event.target.value)"
+                                        />
+                                    </ng-template>
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="row my-2">
+                <div *ngIf="showLoading">
+                    <div class="loading_background"></div>
+                    <div class="preloader">
+                        <div class="preloader-container">
+                            <span class="animated-preloader"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto" *ngFor="let item of this.lookup.activityDepartmentList">
+                    <div class="custom-control custom-checkbox d-inline-block">
+                        <input type="checkbox" name="sales" [formControlName]="item.id | lowercase" [id]="item.id" class="custom-control-input">
+                        <label class="custom-control-label cursor-pointer" [for]="item.id">{{item.name}}</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row box-height">
+                <div class="col-24 deta-aggri" *ngIf="rowData && rowData.length > 0 && rowData[0] !== 'autoHeight'">
+                    <ag-grid-angular #agGrid style="width: 100%;" class="ag-theme-balham" [rowData]="rowData" [gridOptions]="gridOptions" [rowSelection]="rowSelection"
+                        (rowClicked)="onRowClicked($event)" [enableCellTextSelection]="true"[domLayout]="domLayout" (gridReady)="onGridReady($event)">
+                    </ag-grid-angular>
+                </div>
+                <div class="col-lg-24 mt-2" *ngIf="rowData.length==0 || rowData[0] == 'autoHeight'">
+                    No Existing Customer Ticket Found
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

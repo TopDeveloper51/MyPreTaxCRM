@@ -1,0 +1,23 @@
+<!-- <div class="cont-us">
+    <div class="row">
+        <div class="col-24">
+            <div class="crm-mainbox border-top-0 crm-portlet--height-fluid-half mb-0" style="border-top-left-radius: 0;">
+                <div class="container-fluid p-3"> -->
+<div class="clearfix">
+    <div class="row">
+        <div class="clearfix col-sm-24" *ngIf="rowData && rowData.length > 0 && rowData[0] !== 'autoHeight'">
+            <ag-grid-angular #agGrid id="myGrid" class="ag-theme-balham" [rowData]="rowData" [rowSelection]="'single'" (gridReady)="onGridReady($event)"
+                [columnDefs]="columnDefs" [masterDetail]="true" [detailCellRendererParams]="detailCellRendererParams" style="width: 50%;overflow: auto;"
+                (gridSizeChanged)="onGridReady($event)" [enableCellTextSelection]="true" [domLayout]="domLayout" [getRowHeight]="getRowHeight" (firstDataRendered)="onFirstDataRendered($event)">
+            </ag-grid-angular>
+        </div>
+        <div class="col-sm-24" *ngIf="rowData && rowData.length===0">
+            No Data Available
+        </div>
+    </div>
+</div>
+<!--            </div>
+            </div>
+        </div>
+    </div>
+</div> -->

@@ -1,0 +1,11 @@
+<ngb-toast *ngFor="let toast of currentToasts" [class]="toast.type" [autohide]="true" [delay]="toast.duration || 5000"
+  (hide)="removeToast(toast.id)">
+  <i class="fa fa-check" *ngIf="toast.type=='bg-success text-light'"></i>
+  <i class="fa fa-info-circle" *ngIf="toast.type=='bg-info text-light'"></i>
+  <i class="fa fa-exclamation-triangle" *ngIf="toast.type=='bg-danger text-light'"></i>
+  <button type="button" class="ml-2 mb-1 close" (click)="removeToast(toast.id)" aria-label="Close">
+    <span aria-hidden="true" class="cus-hov">&times;</span>
+  </button>
+
+ <span [innerHTML]="toast.message"></span>
+</ngb-toast>

@@ -1,0 +1,31 @@
+<div class="modal-header">
+    <span class="">
+        <!-- <i class="fa fa-check-square"></i> -->
+    </span>
+    <h5 class="modal-title" id="modal-title">Email Address Change</h5>
+    <button type="button" class="close" aria-describedby="modal-title" (click)="close()">
+        <span aria-hidden="true" class="cus-hov">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="emailChangeForm">
+        <div class="form-field">
+            <div class="form-field-control">
+                <input id="number1" type="text" formControlName="oldEmail" class="form-field-input" placeholder=" ">
+                <label for="number1" class="form-field-label">Old Email</label>
+                <div class="form-field-bar"></div>
+            </div>
+        </div>
+        <div class="form-field">
+            <div class="form-field-control">
+                <input id="number2" type="text" formControlName="newEmail" class="form-field-input" placeholder=" ">
+                <label for="number2" class="form-field-label">New Email</label>
+                <div class="form-field-bar"></div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-primary" (click)="close()">Cancel</button>
+    <button type="button" class="btn btn-outline-primary" (click)="changeEmail()" [disabled]="!emailChangeForm.valid">Confirm Email Address Change</button>
+</div>

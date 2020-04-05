@@ -1,0 +1,382 @@
+<!--Dialog header-->
+<div class="modal-header">
+  <h5 class="modal-title d-flex justify-content-center align-items-center">
+    EFIN Verification
+    <!-- <img id="History" title="History" src="assets/images/history_32.png" alt="History" (click)="openHistory()" class="pop-head-img"> -->
+    <div class="cus-hov d-inline-block d-flex align-items-center mx-2">
+      <i class="fa fa-history fa-md" (click)="openHistory()" container="body" data-placement="top" ngbtooltip="History" tooltipclass="default"></i>
+    </div>
+  </h5>
+
+  <!-- <div class="pull-right modal-btn padding_top_2">
+    <div (click)="modal.close(false)" class="cus-hov">
+      <i class="fa fa-times color-white cursor-pointer"></i>
+    </div>
+  </div> -->
+
+  <div class="float-right">
+    <div (click)="modal.close(false)" class="cus-hov">
+      <i class="fa fa-times"></i>
+    </div>
+  </div>
+
+</div>
+<!--Dialog header End -->
+
+<div>
+  <form [formGroup]="EFINverificationForm">
+    <div class="modal-body ">
+      <div class="popup-scroll-wrap col">
+        <div class="row">
+          <div class="col-lg-10 col-md-24 col-sm-24 col-xs-24 efin-Verification-left">
+
+            <div class="row">
+              <div class="col-12">
+                <span translate="QUICKSETUP_FIRMNAME_LBL" translate-default="Firm Name">Firm Name</span>
+              </div>
+              <div class="col-12">
+                <span>{{office.name}}</span>
+              </div>
+            </div>
+
+
+            <div class="row">
+
+              <div class="col-12">
+                <span translate="QUICKSETUP_EFIN_LBL" translate-default="EIN">EIN</span>
+              </div>
+              <div class="col-12">
+                <span>{{office.ein}}</span>
+              </div>
+
+            </div>
+
+            <div class="row">
+
+              <div class="col-12">
+                <span translate="QUICKSETUP_EFIN_LBL" translate-default="EFIN">EFIN</span>
+              </div>
+              <div class="col-12">
+                <span>{{office.efin}}</span>
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-24">
+                <span translate="EFINVERIFICATION_CONTACTPERSON" translate-default="Contact Person" class="font-weight-bold">Contact Person</span>
+              </div>
+            </div>
+
+            <div class="row">
+
+              <div class="col-12">
+                <span translate="QUICKSETUP_FN_LBL" translate-default="First Name">First Name</span>
+              </div>
+              <div class="col-12">
+                <span>{{office.firstName}}</span>
+              </div>
+
+            </div>
+
+            <div class="row">
+
+              <div class="col-12">
+                <span translate="QUICKSETUP_LN_LBL" translate-default="Last Name">Last Name</span>
+              </div>
+              <div class="col-12">
+                <span>{{office.lastName}}</span>
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-24">
+                <span translate="QUICKSETUP_USADD_LBL" translate-default="US Address" class="font-weight-bold">US Address
+                </span>
+              </div>
+            </div>
+
+            <div class="row">
+
+              <div class="col-12">
+                <span translate="QUICKSETUP_STREET_LBL" translate-default="Street">Street</span>
+              </div>
+              <div class="col-12">
+                <span>{{office.usAddress.street}}</span>
+              </div>
+
+            </div>
+
+            <div class="row">
+
+              <div class="col-12">
+                <span translate="QUICKSETUP_STREET_LBL" translate-default="Street">Street</span>
+              </div>
+              <div class="col-12">
+                <span>{{office.usAddress.street}}</span>
+              </div>
+
+            </div>
+
+            <div class="row">
+
+              <div class="col-12">
+                <span translate="QUICKSETUP_ZIPCODE_LBL" translate-default="Zip-Code">Zip-Code</span>
+              </div>
+              <div class="col-12">
+                <span>{{office.usAddress.zipCode}}</span>
+              </div>
+
+            </div>
+
+            <div class="row">
+
+              <div class="col-12">
+                <span translate="QUICKSETUP_CITY_LBL" translate-default="City">City</span>
+              </div>
+              <div class="col-12">
+                <span>{{office.usAddress.city}}</span>
+              </div>
+
+            </div>
+
+            <div class="row">
+
+              <div class="col-12">
+                <span translate="QUICKSETUP_STATE_LBL" translate-default="State">State</span>
+              </div>
+              <div class="col-12">
+                <span>{{office.usAddress.state}}</span>
+              </div>
+
+            </div>
+
+
+
+            <div class="row">
+
+              <div class="col-12">
+                <span translate="QUICKSETUP_TELEPHONE_LBL" translate-default="Telephone">Telephone</span>
+              </div>
+              <div class="col-12">
+                <span>{{office.usAddress.telephone}}</span>
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-24">
+                <span translate="QUICKSETUP_FRADD_LBL" translate-default="Foreign Address" class="font-weight-bold">Foreign Address
+                </span>
+              </div>
+            </div>
+
+            <div class="row">
+
+              <div class="col-12">
+                <span translate="QUICKSETUP_STREET_LBL" translate-default="Street">Street</span>
+              </div>
+
+              <div class="col-12">
+                <span>{{office.foreignAddress.street}}</span>
+              </div>
+
+            </div>
+
+            <div class="row">
+
+              <div class="col-12">
+                <span translate="QUICKSETUP_ZIPCODE_LBL" translate-default="Zip-Code">Zip-Code</span>
+              </div>
+
+              <div class="col-12">
+                <span>{{office.foreignAddress.zipCode}}</span>
+              </div>
+
+            </div>
+
+            <div class="row">
+
+              <div class="col-12">
+                <span translate="QUICKSETUP_CITY_LBL" translate-default="City">City</span>
+              </div>
+
+              <div class="col-12">
+                <span>{{office.foreignAddress.city}}</span>
+              </div>
+
+            </div>
+
+            <div class="row">
+
+              <div class="col-12">
+                <span translate="QUICKSETUP_STATE_LBL" translate-default="State">State</span>
+              </div>
+
+              <div class="col-12">
+                <span>{{office.foreignAddress.state}}</span>
+              </div>
+
+            </div>
+
+            <div class="row">
+
+              <div class="col-12">
+                <span translate="QUICKSETUP_COUNTRY_LBL" translate-default="Country">Country</span>
+              </div>
+
+              <div class="col-12">
+                <span>{{office.foreignAddress.country}}</span>
+              </div>
+
+            </div>
+
+            <div class="row">
+
+              <div class="col-12">
+                <span translate="QUICKSETUP_TELEPHONE_LBL" translate-default="Telephone">Telephone</span>
+              </div>
+
+              <div class="col-12">
+                <span>{{office.foreignAddress.telephone}}</span>
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-24">
+                <div class="form-seprator"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="row">
+                <div class="col-24 col-xl-24 col-sm-24 col-md-24">
+                  <div class="form-field">
+                    <div class="form-field-control">
+                      <div [ngClass]="{'cross-validation-error': EFINverificationForm.controls.verification.errors  &&  EFINverificationForm.controls.verification.errors.required }">
+
+                        <ng-select bindLabel="name" [selectableGroup]="true" bindValue="id" appendTo="body" [closeOnSelect]="true" [searchable]="false"
+                          [clearable]="false" placeholder="Set verification to" clearAllText="Clear" formControlName="verification"
+                          [items]="lookupData.verificationList">
+                        </ng-select>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-24 col-xl-24 col-sm-24 col-md-24">
+                  <div class="form-field">
+                    <div class="form-field-control">
+                      <div [ngClass]="{'cross-validation-error': EFINverificationForm.controls.efinLetterStatus.errors  &&  EFINverificationForm.controls.efinLetterStatus.errors.required }">
+                        <ng-select bindLabel="name" [selectableGroup]="true" bindValue="id" appendTo="body" [closeOnSelect]="true" [searchable]="false"
+                          [clearable]="false" placeholder="Status" clearAllText="Clear" formControlName="efinLetterStatus"
+                          [items]="lookupData.statusList">
+                        </ng-select>
+                      </div>
+
+                    </div>
+                    <div class="form-field-control">
+                      <div [ngClass]="{'cross-validation-error': EFINverificationForm.controls.efinLetterStatusOther.errors  &&  EFINverificationForm.controls.efinLetterStatusOther.errors.required }">
+                        <input id="efinLetterStatusOther" type="text" formControlName="efinLetterStatusOther" class=" form-field-input" title="Other Status">
+                        <label for="efinLetterStatusOther" class="form-field-label">Other Status</label>
+                        <div class="form-field-bar"></div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-24 col-sm-24 col-md-12 col-xl-12">
+                  <div class="form-field">
+                    <div class="form-field-control datepicker-wrapper">
+                      <div [ngClass]="{'cross-validation-error':  EFINverificationForm.controls.statusAsOfDate.errors  &&  EFINverificationForm.controls.statusAsOfDate.errors.required }">
+                        <md2-datepicker type="date" format="MM/dd/y" placeholder="Status As Of Date" name="statusAsOfDate" id="statusAsOfDate" openOnFocus="false"
+                          mode="landscape" formControlName="statusAsOfDate">
+                        </md2-datepicker>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-24 col-sm-24 col-md-12 col-xl-12">
+                  <div class="form-field">
+                    <div class="form-field-control datepicker-wrapper">
+                      <div class="">
+                        <md2-datepicker type="date" format="MM/dd/y" placeholder="Generated Date" name="generatedDate" id="generatedDate" openOnFocus="false"
+                          mode="landscape" formControlName="generatedDate">
+                        </md2-datepicker>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="col-24 col-xl-24 col-sm-24 col-md-24">
+                  <div class="form-field">
+                    <div class="form-field-control">
+                      <div [ngClass]="{'cross-validation-error':  EFINverificationForm.controls.rejectReason.errors  &&  EFINverificationForm.controls.rejectReason.errors.required }">
+                        <input id="RejectReason" type="text" formControlName="rejectReason" class=" form-field-input" title="Rejection Reason For Customer">
+                        <label for="rejectReason" class="form-field-label">Rejection Reason For Customer</label>
+                        <div class="form-field-bar"></div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-24 col-xl-24 col-sm-24 col-md-24">
+                  <div class="form-field">
+                    <div class="form-field-control">
+                      <input id="approvalNote" type="text" formControlName="approvalNote" class=" form-field-input" title="Note">
+                      <label for="approvalNote" class="form-field-label">Note</label>
+                      <div class="form-field-bar"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+
+
+          </div>
+
+          <div class="col-lg-14 col-md-24 col-sm-24 col-xs-24">
+            <div *ngIf="isDocExist">
+              <div class="pdf_display_wrap" *ngIf="isPDFtype">
+                <iframe [src]="content" style="width:100%; height:100vh; max-height:768px; min-height:600px;" frameborder="0" scrolling="no">
+                  <p>It appears your web browser doesn't support iframes.</p>
+                </iframe>
+              </div>
+              <div class="pdf_display_wrap" *ngIf="!isPDFtype">
+                <img [src]="'data:'+ office.contentType +';base64,'+ base64String" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Dialog Footer-->
+    <div class="modal-footer">
+      <div class="mr-auto">
+        <span class=" margin_right_5" *ngIf="office.responsiblePersonName !== undefined && office.updatedDate !== undefined">
+          <b>Approved By:</b> {{office.responsiblePersonName}}, {{disUpdatedDate}}</span>
+      </div>
+      <button class="btn btn-outline-primary" id="save" name="save" (click)="verification(office)" [disabled]="!EFINverificationForm.valid">Save</button>
+      <button class="btn btn-outline-primary" id="cancel" name="cancel" (click)="modal.close('false')">Cancel
+      </button>
+    </div>
+    <!--Dialog Footer End-->
+  </form>
+</div>

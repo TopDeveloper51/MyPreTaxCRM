@@ -1,0 +1,34 @@
+@import "./ag-grid-variable";
+@import "~ag-grid-community/src/styles/ag-theme-balham/sass/ag-theme-balham.scss";
+@import "~ag-grid-community/src/styles/ag-grid.scss";
+
+
+
+// Action Button dropdown opens inside 
+// .ag-cell { overflow:visible; }
+.ag-row { z-index: 0; }
+.ag-row.ag-row-focus { z-index: 1; }
+.ag-root.ag-layout-auto-height, .ag-body-viewport.ag-layout-auto-height, .ag-body-viewport-wrapper.ag-layout-auto-height { overflow: visible; }
+
+
+// Focus Removed
+ag-grid-angular.ag-theme-balham .ag-root-wrapper-body.ag-layout-auto-height .ag-center-cols-clipper .ag-center-cols-viewport {
+    overflow-x: hidden;
+}
+    
+.ag-floating-top,
+.ag-floating-top .ag-body-viewport.ag-layout-auto-height.ag-row-animation, 
+.ag-pinned-left-cols-container.ag-hidden, 
+.ag-root-wrapper-body.ag-layout-auto-height .ag-root.ag-unselectable.ag-layout-auto-height, 
+.ag-root-wrapper-body.ag-layout-auto-height .ag-root.ag-unselectable.ag-layout-auto-height .ag-center-cols-clipper, .ag-center-cols-container{
+    min-height: 27px !important;
+}
+
+.ag-cell-focus,.ag-cell-no-focus{
+    border:none !important;
+    outline: none;
+}
+
+.ag-theme-balham .ag-row{
+    border-color: $border-color !important;
+}

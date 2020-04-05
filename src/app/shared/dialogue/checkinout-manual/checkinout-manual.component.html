@@ -1,0 +1,66 @@
+<div class="modal-header">
+    <h5 *ngIf="mode == 'edit'" class="modal-title">
+        Edit Check In/Out Time
+    </h5>
+    <h5 *ngIf="mode == 'new'" class="modal-title">
+        Add Check In/Out Time
+    </h5>
+    <div class="float-right">
+        <div (click)="close()" class="cus-hov">
+            <i class="fa fa-times"></i>
+        </div>
+    </div>
+</div>
+
+<div class="modal-body">
+    <form #manualEntryDialog="ngForm">
+        <label *ngIf="manualEntry.name !=undefined" class="font-weight-bold">Name:
+            <span class="font-weight-normal">{{manualEntry.name}} </span>
+        </label>
+        <label class="font-weight-bold ml-2" id="lblEmailActivity" *ngIf="selectedDate !=undefined">Date:
+            <span class="font-weight-normal"> {{selectedDate | date: 'MM/dd/yyyy'}}</span>
+        </label>
+        <div class="row">
+            <div class="col-lg-6 col-md-8 col-sm-8 col-xs-8">
+                <label id="lblEmailActivity" class="pt-5">Check In Time :</label>
+            </div>
+            <div class="col-lg-9 col-md-8 col-sm-8 col-xs-8">
+                <timepicker name="checkInTime" [minuteStep]="1" [(ngModel)]="manualEntry.checkInTime" (ngModelChange)="onCheckInTimeChange()">
+                </timepicker>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 pt-5">
+                <span class="pl-2"> ET :</span>
+                <span *ngIf="checkInTimeInEt != undefined">{{checkInTimeInEt | date:"hh:mm a"}}
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-8 col-sm-8 col-xs-8 pr-0">
+                <label id="lblEmailActivity" class="pt-5">Check Out Time :</label>
+            </div>
+
+            <div class="col-lg-9 col-md-8 col-sm-8 col-xs-8">
+                <timepicker name="checkOutTime" [minuteStep]="1" [(ngModel)]="manualEntry.checkOutTime" (ngModelChange)="onCheckOutTimeChange()"></timepicker>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 pt-5">
+                <span class="pl-2"> ET :</span>
+                <span *ngIf="checkOutTimeInEt != undefined">{{checkOutTimeInEt | date:"hh:mm a"}}
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24">
+                <div class="form-field-control">
+                    <input id="comment" type="text" class=" form-field-input" name="comment" [(ngModel)]="manualEntry.comment" placeholder=" ">
+                    <label for="comment" class="form-field-label">Comment
+                    </label>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-outline-primary" id="save" name="save" (click)="save()">Save</button>
+    <button class="btn btn-outline-primary" id="cancel" name="cancel" (click)="close()">Cancel
+    </button>
+</div>

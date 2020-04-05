@@ -1,0 +1,23 @@
+table {
+    width: 100%;
+}
+
+td {
+    padding: 5px;
+}
+
+tbody {
+    font-family: arial, sans-serif;
+    
+}
+.border{
+border-bottom: 1px dashed #cccccc;
+}
+
+.scroll
+{
+max-height:350px;overflow-y:scroll;
+}
+.phone_number_style{white-space: nowrap;overflow: hidden;font-size:14px;vertical-align: sub; width: 140px;text-overflow:ellipsis;display: inline-block;margin: 0;}
+
+.call_detail_dialog { width: 54vw; margin: 0 auto }

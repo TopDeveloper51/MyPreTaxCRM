@@ -1,0 +1,103 @@
+<form [formGroup]="mailDetailForm" *ngIf="activityAvailable">
+    <div class="">
+        <div class="col mt-3" *ngIf="activityData && activityData.screen=='email' && dialerData.makeCall==true">
+            <div class="form-field "
+                [ngClass]="{'required': mailDetailForm.controls.from.errors && mailDetailForm.controls.from.errors.required}">
+                <div class="form-field-control"
+                    [ngClass]="{'cross-validation-error' : mailDetailForm.controls.from.errors && mailDetailForm.controls.from.errors.required }"
+                    *ngIf="activityData &&  activityData.screen === 'email' && activityData.type === 'e-mail' && activityData.direction === 'out'">
+                    <ng-select #from [items]="emailList" bindLabel="name" bindValue="id" [multiple]="false"
+                        placeholder="From" clearAllText="Clear" [clearable]="false" groupBy="group"
+                        [selectableGroup]="true" appendTo="body" formControlName="from" [closeOnSelect]="true"
+                        [searchable]="false" (open)="emailList = emailList">
+                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                            <div class="d-inline-block ln-normal">
+                                <label>{{item.name}}</label>
+                            </div>
+                        </ng-template>
+
+                        <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                            <app-select-multi-label class="w-100" [items]="items">
+                            </app-select-multi-label>
+                        </ng-template>
+
+                        <ng-template ng-header-tmp>
+                            <input type="text" class="in-set form-field-input"
+                                [appAutofocus] placeholder="Search" (input)="from.filter($event.target.value)" />
+                        </ng-template>
+                    </ng-select>
+                </div>
+            </div>
+            <div
+                *ngIf="(activityData &&  activityData.screen === 'email' && activityData.type === 'e-mail' && activityData.direction === 'in')">
+                <div class="form-field"
+                    [ngClass]="{'required': mailDetailForm.controls.from.errors && mailDetailForm.controls.from.errors.required}">
+                    <div class="form-field-control"
+                        [ngClass]="{'cross-validation-error' : mailDetailForm.controls.from.errors && mailDetailForm.controls.from.errors.required }">
+                        <input id="from" type="text" class="form-field-input" placeholder=" " formControlName="from">
+                        <label for="from" class="form-field-label">From</label>
+                        <div class="form-field-bar"></div>
+                    </div>
+                    <span *ngIf="mailDetailForm.controls['from'].errors  && !mailDetailForm.controls['from'].pristine && 
+                mailDetailForm.controls['from'].errors.pattern && !mailDetailForm.controls['from'].errors.required"
+                        class="text-danger">
+                        Invalid email address.</span>
+                </div>
+            </div>
+
+            <!-- <div class="form-field" *ngIf="activityData && activityData.screen=='email' && dialerData.makeCall==true">
+                <div class="form-field-control">
+                    <input id="to" type="text" class="form-field-input" *ngIf="activityData && activityData.to"
+                        placeholder=" " formControlName="to" [value]="activityData.to" [required]="true">
+                    <label for="to" class="form-field-label">To</label>
+                    <div class="form-field-bar"></div>
+                </div>
+                <span *ngIf="mailDetailForm.controls['to'].errors  && !mailDetailForm.controls['to'].pristine && 
+                mailDetailForm.controls['to'].errors.pattern && !mailDetailForm.controls['to'].errors.required"
+                    class="text-danger">
+                    Invalid email address.</span>
+            </div> -->
+            <div *ngIf="activityData && activityData.screen=='email' && dialerData.makeCall==true">
+                <div class="form-field"
+                    [ngClass]="{'required': mailDetailForm.controls['to'].errors && mailDetailForm.controls['to'].errors.required}">
+                    <div class="form-field-control"
+                        [ngClass]="{'cross-validation-error' : mailDetailForm.controls['to'].errors && mailDetailForm.controls['to'].errors.required }">
+                        <input id="to" type="text" class="form-field-input" placeholder=" " formControlName="to"
+                            [disabled]="isEmailIn" [ngClass]="{'text-muted': isEmailIn}">
+                        <label for="to" class="form-field-label">To</label>
+                        <div class="form-field-bar"></div>
+                    </div>
+                    <span *ngIf="mailDetailForm.controls['to'].errors  && !mailDetailForm.controls['to'].pristine && 
+                mailDetailForm.controls['to'].errors.pattern" class="text-danger">
+                        Invalid email address.</span>
+                </div>
+            </div>
+            <div *ngIf="activityData && activityData.screen=='email' && dialerData.makeCall==true">
+                <div class="form-field">
+                    <div class="form-field-control">
+                        <input id="cc" type="text" class="form-field-input" placeholder=" " formControlName="cc"
+                            [disabled]="isEmailIn" [ngClass]="{'text-muted': isEmailIn}">
+                        <label for="cc" class="form-field-label">CC</label>
+                        <div class="form-field-bar"></div>
+                    </div>
+                    <span *ngIf="mailDetailForm.controls['cc'].errors  && !mailDetailForm.controls['cc'].pristine && 
+                    mailDetailForm.controls['cc'].errors.pattern" class="text-danger">
+                        Invalid email address.</span>
+                </div>
+                <div class="form-field">
+                    <div class="form-field-control">
+                        <input id="bcc" type="text" class="form-field-input" placeholder=" " formControlName="bcc"
+                            [disabled]="isEmailIn" [ngClass]="{'text-muted': isEmailIn}">
+                        <label for="bcc" class="form-field-label">BCC</label>
+                        <div class="form-field-bar"></div>
+                    </div>
+                    <span *ngIf="mailDetailForm.controls['bcc'].errors  && !mailDetailForm.controls['bcc'].pristine && 
+                    mailDetailForm.controls['bcc'].errors.pattern" class="text-danger">
+                        Invalid email address.</span>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</form>

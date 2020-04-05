@@ -1,0 +1,37 @@
+<div class="save_new_filter_dialog">
+  <!--Dialer Header-->
+
+
+  <div class="modal-header">
+    <h5 class="modal-title">Add filter</h5>
+    <div (click)="close()" class="cus-hov">
+      <i class="fa fa-times "></i>
+    </div>
+  </div>
+
+
+  <!--Dialer Header End-->
+
+  <!--Dialer Body-->
+  <div class="modal-body">
+    <div class="col col-sm-24 pl-0 pr-0">
+        <div class="form-field">
+          <div class="form-field-control">
+            <input id="NewFilterName" type="text" class="form-field-input" maxlength="250" placeholder=" " [(ngModel)]="filterObj.nameOfFilter"
+              [required]="!filterObj.nameOfFilter">
+            <label for="NewFilterName" class="form-field-label">Name
+              <span class="text-red">*</span>
+            </label>
+            <div class="form-field-bar"></div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <!--Dialer Body End-->
+
+  <!--Dialer Footer-->
+  <div class="modal-footer">
+    <button class="btn btn-outline-primary" id="save" name="save" [disabled]="!filterObj.nameOfFilter || isApiCall===true" (click)="save()">Save</button>
+  </div>
+  <!--Dialer Footer End-->
+</div>

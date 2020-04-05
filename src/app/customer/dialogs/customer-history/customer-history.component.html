@@ -1,0 +1,30 @@
+<!--Dialog Header-->
+<div class="modal-header">
+    <h5 class="modal-title">
+        History
+    </h5>
+    <div class="float-right">
+        <div (click)="closeCustomerHistoryDialog()" class="cursor-pointer cus-hov">
+            <i class="fa fa-times"></i>
+        </div>
+    </div>
+
+</div>
+<!--Dialog Header End-->
+<div class="modal-body">
+    <div class="col-xl-24" *ngIf="rowData  && rowData.length === 0">
+        <span class="font-weight-bold">
+            No Data Available
+        </span>
+    </div>
+
+
+    <div class="col-24 pb-2" *ngIf="rowData && rowData.length > 0">
+        <b>Customer History: ({{rowData && rowData.length | number}})</b>
+    </div>
+    <div class="col-xl-24 clearfix" *ngIf="rowData && rowData.length > 0">
+        <ag-grid-angular #agGrid style="width: 100%; height: calc(100vh - 412px);" class="ag-theme-balham" [rowData]="rowData" [columnDefs]="gridOptions.columnDefs"
+            [domLayout]="domLayout" [enableCellTextSelection]="true" (gridReady)="onGridReady($event)">
+        </ag-grid-angular>
+    </div>
+</div>

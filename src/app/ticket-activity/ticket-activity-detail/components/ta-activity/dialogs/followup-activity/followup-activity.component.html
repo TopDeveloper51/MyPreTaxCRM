@@ -1,0 +1,53 @@
+<!--Dialog Header-->
+<div class="modal-header">
+    <h5 class="modal-title">
+        Follow Up
+    </h5>
+    <div class="float-right">
+        <div (click)="close()" class="cus-hov">
+            <i class="fa fa-times"></i>
+        </div>
+    </div>
+</div>
+<!--Dialog Header End-->
+
+<!--Dialog Body-->
+<div class="modal-body">
+    <div class="main_innerpage">
+        <div class="clearfix col-sm-24">
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-24">
+                    <a class="activit_box cursor-pointer" id="divEmailActivity" (click)="createNewFollowUpActivity('Email')" style="text-align: center">
+                        <div class="icon_wrap cursor-pointer">
+                            <img src="assets/images/email.png" />
+                        </div>
+                        <div class="clearfix">
+                            <label id="lblEmailActivity" class="normal_text">Email</label>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-24">
+                    <a class="activit_box cursor-pointer" id="divPhoneCallActivity" (click)="createNewFollowUpActivity('Phone Call')" style="text-align: center">
+                        <div class="icon_wrap cursor-pointer">
+                            <img src="assets/images/phone_call.png" />
+                        </div>
+                        <div class="clearfix">
+                            <label id="lblPhoneCallActivity" class="normal_text">Phone Call</label>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-24">
+                    <a class="activit_box cursor-pointer" id="divVisitActivity" (click)="createNewFollowUpActivity('Visit')" style="text-align: center">
+                        <div class="icon_wrap cursor-pointer">
+                            <img src="assets/images/visit.png" />
+                        </div>
+                        <div class="clearfix">
+                            <label id="lblVisitActivity" class="normal_text">Visit</label>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Dialog Body End-->

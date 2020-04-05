@@ -1,0 +1,29 @@
+<div class="planner_template_dialog">
+    <div class="modal-header ">
+        <h5 class="modal-title">
+            Training Planner Template Details
+        </h5>
+        <div class="float-right">
+            <div (click)="close()" class="cus-hov">
+                <i class="fa fa-times"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="p-2" *ngIf="data">
+    <div class="set-hgt-box">
+        <table>
+            <tbody *ngFor="let key of data | keys">
+                <tr>
+                    <td class="pl-2">
+                        <h4 class="phone_number_style">{{key}}</h4>
+                    </td>
+                    <td *ngFor="let time of data[key]" class="px-4">
+                        <h5 class="phone_number_style">{{time.time}} ({{time.slots}} slots)</h5>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,113 @@
+<!--Dialog header-->
+<div class="modal-header">
+    <h5 class="modal-title">
+        Add Bank Product History
+    </h5>
+    <!-- <div (click)="modal.close(true)" class="float-right cursor-pointer cus-hov">
+        <i class="fa fa-times color-white"></i>
+    </div> -->
+    <div class="float-right">
+        <div (click)="close()" class="cus-hov">
+            <i class="fa fa-times"></i>
+        </div>
+    </div>
+</div>
+<!--Dialog header End -->
+
+<div class="modal-body ">
+
+    <form [formGroup]="bpHistoryForm">
+        <div class="col-24 col-xl-24 col-sm-24 col-md-24">
+            <div class="row">
+
+                <div class="col-6 col-xl-6 col-sm-24 col-md-24">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <div class="" [ngClass]="{'cross-validation-error': bpHistoryForm.controls.year.errors  &&  bpHistoryForm.controls.year.errors.required }">
+                                <ng-select #year bindLabel="name" bindValue="id" appendTo="body" [closeOnSelect]="true" [searchable]="false" [clearable]="false"
+                                    placeholder="Year" clearAllText="Clear" formControlName="year" [items]="lookup.year">
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-xl-6 col-sm-24 col-md-24">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <ng-select #bank [items]="lookup.bankData" bindLabel="name" bindValue="id" [multiple]="true" placeholder="Bank" clearAllText="Clear"
+                                [selectableGroup]="true" appendTo="body" formControlName="bank" [closeOnSelect]="false" [searchable]="false"
+                                [clearable]="false">
+                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <div class="custom-control custom-checkbox d-inline-block ln-normal"
+                                        <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                                        <label class="custom-control-label">{{item.name}}</label>
+                                    </div>
+                                </ng-template>
+                                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                    <app-select-multi-label class="w-100" [items]="items">
+                                    </app-select-multi-label>
+                                </ng-template>
+                                <ng-template ng-header-tmp>
+                                    <button (click)="onSelectAll('bank')" class="btn btn-sm btn-secondary">All</button>
+                                    <button (click)="onClearAll('bank')" class="btn btn-sm btn-secondary ml-2">None</button>
+                                </ng-template>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-xl-6 col-sm-24 col-md-24">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <input id="volume" type="number" formControlName="volume" class=" form-field-input" placeholder=" " [min]="0">
+                            <label for="volume" class="form-field-label">Volume</label>
+                            <div class="form-field-bar"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="custom-control custom-checkbox mt-18 mb-8 mb-6 d-inline-block mr-3">
+                    <input type="checkbox" class="custom-control-input" formControlName="isUnknownVolume" id="isUnknownVolume" (change)="blankVolume()">
+                    <label class="custom-control-label" for="isUnknownVolume">Unknown</label>
+                </div>
+
+
+            </div>
+            <!--  -->
+            <div class="row">
+                <div class="col-6 col-xl-6 col-sm-24 col-md-24">
+                    <div class="form-field-control">
+                        <div class="" [ngClass]="{'cross-validation-error': bpHistoryForm.controls.date.errors  &&  bpHistoryForm.controls.date.errors.required }">
+                            <md2-datepicker type="date" format="MM/dd/yy" placeholder="Date" name="Date" id="Date" openOnFocus="false" mode="landscape"
+                                formControlName="date" [max]="maxDate" (change)="onDateChange()" required>
+                            </md2-datepicker>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-xl-6 col-sm-24 col-md-24">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <div class="" [ngClass]="{'cross-validation-error': bpHistoryForm.controls.source.errors  &&  bpHistoryForm.controls.source.errors.required }">
+                                <ng-select #source bindLabel="name" groupBy="group" [selectableGroup]="true" bindValue="id" appendTo="body" [closeOnSelect]="true"
+                                    [searchable]="false" [clearable]="false" placeholder="Source" clearAllText="Clear" formControlName="source"
+                                    [items]="lookup.sources" (open)="lookup.sources = lookup.sources">
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="custom-control custom-checkbox mt-18 mb-8 mb-6 d-inline-block mr-3">
+                    <input type="checkbox" class="custom-control-input" formControlName="isHeader" id="isHeader" (change)="displayMessage()">
+                    <label class="custom-control-label" for="isHeader">isHeader</label>
+                </div>
+
+            </div>
+
+
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-outline-primary" id="save" name="save" (click)="saveNewBPHistoryDetails()" [disabled]="!bpHistoryForm.valid">Save</button>
+    <button class="btn btn-outline-primary" id="cancel" name="cancel" (click)="modal.close('NO')">Cancel
+    </button>
+</div>

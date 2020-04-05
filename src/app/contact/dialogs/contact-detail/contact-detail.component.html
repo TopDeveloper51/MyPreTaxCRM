@@ -1,0 +1,403 @@
+<!--Dialog header-->
+<div class="modal-header">
+    <h5 *ngIf="mode === false" class="modal-title d-flex justify-content-center align-items-center">
+        Create Contact
+    </h5>
+    <h5 *ngIf="mode === true" class="modal-title d-flex justify-content-center align-items-center">
+        Edit Contact
+        <div class="cus-hov d-inline-block d-flex align-items-center mx-2">
+            <i class="fa fa-history fa-md" data-placement="top" ngbTooltip="History" container="body" tooltipClass="default" (click)="openHistory()"></i>
+        </div>
+        <span *ngIf="contactPersonInfo">
+            [{{contactPersonInfo.firstName}} {{contactPersonInfo.lastName}}]
+        </span>
+    </h5>
+    <!-- <div class="modal-title font_size_18 color-white " *ngIf="mode=='edit'">
+                Edit Review
+            </div> -->
+    <div class="float-right modal-btn">
+        <div class="cursor-pointer">
+            <button *ngIf="mode === true" class="btn_next_pre_color cus-hov float-left" (click)="prevNext('Prev')" [ngClass]="{'disableEvent':currentCustomerIndex === 0}"
+                [disabled]="currentCustomerIndex === 0">
+                <!-- &lt;&lt;  -->
+                <i class="fa fa-angle-double-left" ngbTooltip="Previous" triggers="hover" container="body" tooltipClass="default" aria-hidden="true"
+                    (click)="prevNext('Prev')"></i>
+            </button>
+            <button *ngIf="mode === true" class="btn_next_pre_color cus-hov float-left" (click)="prevNext('Next')" [ngClass]="{'disableEvent':currentCustomerIndex == idNextPrev.length-1}"
+                [disabled]="currentCustomerIndex == idNextPrev.length-1">
+                <!-- &gt;&gt;  -->
+                <i class="fa fa-angle-double-right" ngbTooltip="Next" triggers="hover" container="body" tooltipClass="default" aria-hidden="true"
+                    (click)="prevNext('Next')"></i>
+            </button>
+            <div (click)="checkChanges('')" class="cursor-pointer cus-hov float-left">
+                <i class="fa fa-times"></i>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Dialog header End -->
+
+<div class="modal-body">
+    <!-- row 1-->
+    <form [formGroup]="contactDetailsFormData">
+        <div class="row">
+            <div class="col-xl-24">
+                <div class="row">
+                    <div class="col-xl-3">
+                        <div class="form-field required">
+                            <div class="form-field-control ">
+                                <input id="firstName" type="text" class="form-field-input" formControlName="firstName" placeholder=" " title="{{contactDetailsFormData.controls['firstName'].value}}"
+                                    maxlength="30">
+                                <label for="firstName" class="form-field-label">First Name</label>
+                                <div class="form-field-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3">
+                        <div class="form-field required">
+                            <div class="form-field-control">
+                                <input id="lastName" type="text" class="form-field-input" formControlName="lastName" placeholder=" " title="{{contactDetailsFormData.controls['lastName'].value}}"
+                                    maxlength="30">
+                                <label for="lastName" class="form-field-label">Last Name</label>
+                                <div class="form-field-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <ng-select #roleListName [items]="roleList" bindLabel="name" bindValue="id" [multiple]="true" placeholder="Role" clearAllText="Clear"
+                                    appendTo="body" formControlName="role" [closeOnSelect]="true" [searchable]="true" [clearable]="false">
+                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                        <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                            <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                                            <label class="custom-control-label" title="{{item.name}}">{{item.name}}</label>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                        <app-select-multi-label class="w-100" [items]="items"></app-select-multi-label>
+                                    </ng-template>
+                                    <ng-template ng-header-tmp>
+                                        <input type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="roleListName.filter($event.target.value)"
+                                        />
+                                        <button (click)="onSelectAll('roleList')" class="btn btn-sm btn-secondary">All</button>
+                                        <button (click)="onClearAll('roleList')" class="btn btn-sm btn-secondary ml-2">None</button>
+                                    </ng-template>
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <ng-select #contactTypeListFilter [items]="contactTypeList" bindLabel="name" bindValue="id" placeholder="Contact Type" clearAllText="Clear"
+                                    appendTo="body" formControlName="contactType" [closeOnSelect]="true" [searchable]="true"
+                                    [clearable]="false" title="{{contactDetailsFormData.controls['contactType'].value}}">
+                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                        <div class="d-inline-block mr-4 ln-normal">
+                                            <label>{{item.name}}</label>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template ng-header-tmp>
+                                        <input type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="contactTypeListFilter.filter($event.target.value)"
+                                        />
+                                    </ng-template>
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 d-flex align-items-center">
+                        <div class="pr-2" title="You can't change this field from CRM">App User :
+                            <span class="col-12 p-0" *ngIf="isAppUser">Yes</span>
+                            <span class="col-12 p-0" *ngIf="!isAppUser">No</span>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <input id="registrationDate" type="text" class="form-field-input" formControlName="registrationDate" placeholder=" ">
+                                <label for="registrationDate" class="form-field-label">Registration Date</label>
+                                <div class="form-field-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-1" *ngIf="contactPersonInfo && contactPersonInfo.isAppUser">
+                        <div>
+                            <img class="col_img pt-3" ngbTooltip="View/Update User Phone Number" container="body" tooltipClass="default" src="assets/images/call_detail_icon.png"
+                                (click)="getAppUserNo($event)" />
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3" *ngIf="contactPersonInfo && contactPersonInfo.isAppUser && isShowAppUserUpdateContactNo">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <input id="updatedContactNo" type="text" class="form-field-input" formControlName="updatedContactNo" [appTextMask]="{mask:mask}" placeholder=" " title="{{contactDetailsFormData.controls['updatedContactNo'].value}}">
+                                <label for="updatedContactNo" class="form-field-label">Number</label>
+                                <div class="form-field-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-2 pt-2" *ngIf="contactPersonInfo && contactPersonInfo.isAppUser && isShowAppUserUpdateContactNo">
+                        <button class="btn btn-outline-primary" id="save" name="save" (click)="updateAppUserNumber()">Save</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-24">
+                <hr class="w-100 float-left" />
+            </div>
+            <div class="col-xl-24">
+                <div class="row">
+                    <div class="col">
+                        <p class="font-weight-bold m-0">Email </p>
+                    </div>
+                    <div class="col-2 ml-auto">
+                        <i class="fa fa-plus text-primary font-weight-bold cursor-pointer" data-placement="left" ngbTooltip="Add New Email" container="body"
+                            tooltipClass="default" (click)="emailTemplateArray()"></i>
+                    </div>
+                </div>
+                <div formArrayName="email" *ngFor="let itemEmail of emailData.controls; let i = index;">
+                    <div class="row d-flex align-items-center" *ngIf="!itemEmail.value.isDeleted" [formGroupName]="i">
+                        <div class="col-xl-3">
+                            <div class="form-field">
+                                <div class="form-field-control">
+                                    <ng-select #classificationListFilter [items]="classificationList" bindLabel="name" bindValue="id" [multiple]="false" placeholder="Classification"
+                                        clearAllText="Clear" appendTo="body" formControlName="classification" [closeOnSelect]="true"
+                                        [searchable]="false" [clearable]="false" title="{{itemEmail.controls['classification'].value}}">
+                                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                            <div class="d-inline-block mr-4 ln-normal">
+                                                <label title="{{item.name}}">{{item.name}}</label>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template ng-header-tmp>
+                                            <input type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="classificationListFilter.filter($event.target.value)"
+                                            />
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3">
+                            <div class="form-field">
+                                <div class="form-field-control">
+                                    <input id="Email{{i}}" type="text" class="form-field-input" formControlName="email" placeholder=" " title="{{itemEmail.controls['email'].value}}">
+                                    <label for="Email{{i}}" class="form-field-label">Email</label>
+                                    <div class="form-field-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- [disabled]="!contactDetailsFormData.controls.email.value" -->
+                        <div class="col-xl-3">
+                            <div class="form-field">
+                                <div class="form-field-control">
+                                    <ng-select #emailStatusListFilter [items]="emailStatusList" bindLabel="name" bindValue="id" [multiple]="false" placeholder="Email Status"
+                                        clearAllText="Clear" appendTo="body" formControlName="status" [closeOnSelect]="true"
+                                        [searchable]="true" [clearable]="false">
+                                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                            <div class="d-inline-block mr-4 ln-normal">
+                                                <label title="{{item.name}}">{{item.name}}</label>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template ng-header-tmp>
+                                            <input type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="emailStatusListFilter.filter($event.target.value)"
+                                            />
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 mt-3">
+                            <div class="d-inline-block custom-checkbox custom-control w-100">
+                                <input type="checkbox" class="custom-control-input" formControlName="isUnSubscribed" id="isUnSubscribed{{i}}">
+                                <label class="custom-control-label" for="isUnSubscribed{{i}}">Unsubscribe Email</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 pl-0">
+                            <div class="form-field">
+                                <div class="form-field-control">
+                                    <md2-datepicker type="date" format="MM/dd/yy" placeholder="Unsubscribe Date" name="unSubscribeDate" id="unSubscribeDate"
+                                        openOnFocus="false" mode="landscape" formControlName="unSubscribeDate">
+                                    </md2-datepicker>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3">
+                            <div class="form-field">
+                                <div class="form-field-control">
+                                    <input id="unsubscribeReason{{i}}" type="text" class="form-field-input" formControlName="unsubscribeReason" placeholder=" "
+                                        title="{{itemEmail.controls['unsubscribeReason'].value}}">
+                                    <label for="unsubscribeReason{{i}}" class="form-field-label">Unsubscribe Reason
+                                    </label>
+                                    <div class="form-field-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-2 pl-0 pr-0 pt-2">
+                            <span *ngIf="itemEmail.value.isVerifiedEmail">
+                                <img class="col_img" src="assets/images/Approved.png" />
+                                <i class="pl-2" style="color:rgb(27, 185, 27)">Email Verified</i>
+                            </span>
+                        </div>
+                        <div class="col-xl-2 pt-2">
+                            <button class="btn btn-outline-primary" (click)="sendCodeViaEmailToCustomer(itemEmail,i)" [disabled]="!contactDetailsFormData.valid || itemEmail.value.isVerifiedEmail || !itemEmail.value.email">Verify</button>
+                        </div>
+                        <div class="col-xl-2" *ngIf="!itemEmail.value.isVerifiedEmail">
+                            <i class="fa fa-times font-weight-bold cursor-pointer" data-placement="left" ngbTooltip="Remove Email" container="body" tooltipClass="default"
+                                style="color:red;" (click)="removeEmailForm(i)">
+                            </i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-24">
+                <hr class="w-100 float-left" />
+            </div>
+            <div class="col-xl-24">
+                <div class="row">
+                    <div class="col">
+                        <p class="font-weight-bold m-0">Phone </p>
+                    </div>
+                    <div class="col-2 ml-auto">
+                        <i class="fa fa-plus text-primary font-weight-bold cursor-pointer" data-placement="left" ngbTooltip="Add New Number" container="body"
+                            tooltipClass="default" (click)="phoneTemplateArray()"></i>
+                    </div>
+                </div>
+                <div formArrayName="phone" *ngFor="let itemPhone of phoneData.controls; let i = index;">
+                    <div class="row d-flex align-items-center" *ngIf="!itemPhone.value.isDeleted" [formGroupName]="i">
+                        <div class="col-xl-3">
+                            <div class="form-field">
+                                <div class="form-field-control">
+                                    <ng-select #classificationListPhoneFilter [items]="classificationList" bindLabel="name" bindValue="id" [multiple]="false"
+                                        placeholder="Classification" clearAllText="Clear" appendTo="body" formControlName="classification"
+                                        [closeOnSelect]="true" [searchable]="false" [clearable]="false" title="{{itemPhone.controls['classification'].value}}">
+                                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                            <div class="d-inline-block mr-4 ln-normal">
+                                                <label title="{{item.name}}">{{item.name}}</label>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template ng-header-tmp>
+                                            <input type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="classificationListPhoneFilter.filter($event.target.value)"
+                                            />
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3">
+                            <div class="form-field">
+                                <div class="form-field-control">
+                                    <ng-select #countryCodeListFilter [items]="countryDetails" bindLabel="label" bindValue="value" [multiple]="false" placeholder="Country Code"
+                                        clearAllText="Clear" appendTo="body" formControlName="countryCode" [closeOnSelect]="true"
+                                        [searchable]="true" [clearable]="false">
+                                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                            <div class="d-inline-block mr-4 ln-normal">
+                                                <label title="{{item.label}}">{{item.label}}</label>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template ng-header-tmp>
+                                            <input type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="countryCodeListFilter.filter($event.target.value)"
+                                            />
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3">
+                            <div class="form-field">
+                                <div class="form-field-control">
+                                    <input id="number{{i}}" type="text" class="form-field-input" formControlName="number"  [appTextMask]="{mask:mask}" placeholder=" " title="{{itemPhone.controls['number'].value}}">
+                                    <label for="number{{i}}" class="form-field-label">Number</label>
+                                    <div class="form-field-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3">
+                            <div class="form-field required">
+                                <div class="form-field-control">
+                                    <div [ngClass]="{'cross-validation-error': itemPhone.controls.phonetype.errors  &&  itemPhone.controls.phonetype.errors.required }">
+                                        <ng-select #phoneTypeFilter [items]="phoneTypeList" bindLabel="name" bindValue="id" [multiple]="false" placeholder="Type"
+                                            clearAllText="Clear" appendTo="body" formControlName="phonetype" [closeOnSelect]="true"
+                                            [searchable]="true" [clearable]="false" title="{{itemPhone.controls['phonetype'].value}}">
+                                            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                                <div class="d-inline-block mr-4 ln-normal">
+                                                    <label title="{{item.name}}">{{item.name}}</label>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template ng-header-tmp>
+                                                <input type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="phoneTypeFilter.filter($event.target.value)"
+                                                />
+                                            </ng-template>
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 mt-3 pl-1">
+                            <div class="d-inline-block custom-checkbox custom-control w-100">
+                                <input type="checkbox" class="custom-control-input" formControlName="isWrongNumber" id="isWrongNumber{{i}}">
+                                <label class="custom-control-label" for="isWrongNumber{{i}}">Wrong Number</label>
+                                <!-- <input type="checkbox" id="isWrongNumber" formControlName="isWrongNumber"
+                                    [ngClass]="{'custom-control-input':checkBox.isWrongNumber}"
+                                    (click)="checkBoxSelection()">
+                                <label class="d-inline" for="isWrongNumber"><span>isWrongNumber</span></label>     -->
+                                <!-- <input type="checkbox" [name]="name" (change)="onChange($event)"> {{'Checkbox ' + name}} -->
+                            </div>
+                        </div>
+                        <div class="col-xl-3 mt-3">
+                            <div class="d-inline-block custom-checkbox custom-control w-100">
+                                <input type="checkbox" class="custom-control-input" formControlName="isInvalidNumber" id="isInvalidNumber{{i}}">
+                                <label class="custom-control-label" for="isInvalidNumber{{i}}">Invalid Number</label>
+                                <!-- <div class="mtpo-custom-checkbox d-inline">
+                                    <button class="mtpo-checkbox" id="isInvalidNumber" name="isInvalidNumber"
+                                        [ngClass]="{'active':checkBox.isInvalidNumber}"
+                                        (click)="checkBoxSelection()"></button>
+                                    <label class="d-inline" for="isInvalidNumber"><span>isInvalidNumber</span></label>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="col-xl-2 pl-0 pr-0 pt-2">
+                            <span *ngIf="itemPhone.value.isVerifiedNumber">
+                                <img class="col_img" src="assets/images/Approved.png" />
+                                <i class="pl-2" style="color:rgb(27, 185, 27)">Number Verified</i>
+                            </span>
+                        </div>
+                        <div class="col-xl-2 pt-2">
+                            <!-- !itemPhone.value.isValidNumber || -->
+                            <button class="btn btn-outline-primary" (click)="sendCodeToCustomer(itemPhone,i)" [disabled]="!contactDetailsFormData.valid || itemPhone.value.isVerifiedNumber ||
+                            !itemPhone.value.phonetype  || itemPhone.value.isWrongNumber || itemPhone.value.isInvalidNumber || itemPhone.value.phonetype !== 'MOBILE'">
+                                Verify
+                            </button>
+                        </div>
+                        <div class="col-xl-2" *ngIf="!itemPhone.value.isVerifiedNumber">
+                            <i class="fa fa-times font-weight-bold text-red cursor-pointer" data-placement="left" ngbTooltip="Remove Number" container="body"
+                                tooltipClass="default" (click)="removePhoneForm(i)">
+                            </i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <div class="m-0 mr-auto" *ngIf="contactPersonInfo">
+        <div class="font-weight-bold">Created By :
+            <span class="font-weight-normal">{{contactPersonInfo.createdByName }}, {{createdDate | date:'M/d/yy, h:mm a'}}</span>
+        </div>
+        <div class="font-weight-bold">Updated By :
+            <span class="font-weight-normal">{{contactPersonInfo.updatedByName}}, {{updatedDate | date:'M/d/yy, h:mm a'}}</span>
+        </div>
+    </div>
+    <button class="btn btn-outline-primary" id="save" name="save" (click)="save()" [disabled]="!contactDetailsFormData.valid">Save</button>
+    <span *ngIf="mode === true">
+        <button *ngIf="contactPersonInfo && !contactPersonInfo.isAppUser && !contactPersonInfo.isVerifiedNumber" class="btn btn-outline-primary"
+            id="save" name="save" (click)="delete()">Delete</button>
+    </span>
+    <button class="btn btn-outline-primary" id="cancel" name="cancel" (click)="checkChanges('')">Cancel
+    </button>
+</div>

@@ -1,0 +1,19 @@
+<!--Dialog Header-->
+<div class="modal-header">
+    <h5 class="modal-title">
+        Order Overview Data
+    </h5>
+    <div class="float-right">
+        <span *ngIf="orderOverviewJson" class="cus-hov d-inline-flex">
+            <i class="fas fa-copy fa-lg" title="Copy JSON to clipboard" (click)="copyToClipboard()"></i>
+        </span>
+        <span (click)="closeCustomerJsonProfileDialog()" class="cursor-pointer cus-hov d-inline-flex">
+            <i class="fa fa-times"></i>
+        </span>
+    </div>
+
+</div>
+<!--Dialog Header End-->
+<div class="modal-body">
+    <pre> {{orderOverviewJson | json}} </pre>
+</div>

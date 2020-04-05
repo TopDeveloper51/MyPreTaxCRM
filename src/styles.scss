@@ -1,0 +1,80 @@
+/* You can add global styles to this file, and also import other style files */
+.ag_grid_row_selection_success {
+    background-color: sandybrown !important;
+}
+/* You can add global styles to this file, and also import other style files */
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.color-white {
+    color: #fff;
+}
+.dialog-popup-header {
+    border-bottom: none!important;
+    padding: 10px!important;
+    background: #005074;
+}
+.modal-header {
+    padding: 15px;
+    border-bottom: 1px solid #e5e5e5;
+}
+.modal-title {
+    margin: 0;
+    line-height: 1.42857143;
+}
+.padding_left_5 {
+    padding-left: 5px;
+}
+.padding_left_10 {
+    padding-left: 10px;
+}
+.color-white {
+    color: #fff;
+}
+.font_size_18 {
+    font-size: 18px;
+}
+.modal-body {
+    position: relative;
+    padding: 15px;
+}
+
+.dialog-content {
+    padding: 10px 0!important;
+}
+  .md2-datepicker-value {
+    font-size: 15px !important;
+  }
+  .md2-datepicker-placeholder.md2-floating-placeholder {
+    font-size: 18px !important;
+  }
+
+.ng-dropdown-panel
+{
+    z-index: 99999 !important;
+}
+.cdk-overlay-container
+{
+    z-index:90900 !important;
+}
+// .activity_summary{
+//     height: 690px;
+//     .ag-root-wrapper{
+//         height: 100%;
+//         overflow: visible;
+//         .ag-root-wrapper-body{
+//             height: 100%;
+//             .ag-root{
+//                 .ag-body-viewport{
+//                     .ag-full-width-container{
+//                         height: 604px !important;
+//                         .ag-row-no-focus{
+//                             height: 100% !important;
+//                         }
+//                     }
+//                 }
+//             }
+//         }    
+//     }
+// }

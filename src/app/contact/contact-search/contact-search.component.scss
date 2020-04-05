@@ -1,0 +1,26 @@
+@import "./src/sass/abstracts/globle_variables";
+@media #{$extralarge-desktop}{
+    .set-mediam{
+        display: block;
+    }
+}
+@media #{$portrait-phone}{
+    .set-mediam {
+        .col .custom-checkbox {
+            display: block !important;
+        }
+        .float-right{
+            float: none !important;
+        }
+    }
+}
+@media #{$phone}{
+        .set-mediam {
+            .float-right{
+                float: none !important;
+            }
+        }
+        .mb-space{
+            margin: 18px 0 10px !important;
+        }
+}

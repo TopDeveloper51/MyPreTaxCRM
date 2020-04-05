@@ -1,0 +1,188 @@
+<div class="bg-gray" *ngIf="isShowOrderDetails && activityAvailable">
+    <form [formGroup]="orderRefundForm">
+        <div class="row">
+            <div class="col-24 mt-2">
+                <div>
+                    <h4 class="text-black">
+                        <b>Order/Refund Details</b>
+                    </h4>
+                </div>
+            </div>
+            <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24 padding_l_r_0 padding_top_15">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-field required">
+                            <div class="form-field-control" *ngIf="lookup && lookup.monthList" [ngClass]="{ 'cross-validation-error': orderRefundForm.controls.commissionMonth.errors  &&  orderRefundForm.controls.commissionMonth.errors.required}">
+                                <ng-select #month [items]="lookup.monthList" bindLabel="name" bindValue="id" [multiple]="false" placeholder="Month" clearAllText="Clear"
+                                    [clearable]="false" [selectableGroup]="true" appendTo="body" formControlName="commissionMonth"
+                                    [closeOnSelect]="true" [searchable]="false" (change)="onChangeOfModel()">
+                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                        <div class="d-inline-block ln-normal">
+                                            <label>{{item.name}}</label>
+                                        </div>
+                                    </ng-template>
+
+                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                        <app-select-multi-label class="w-100" [items]="items">
+                                        </app-select-multi-label>
+                                    </ng-template>
+
+                                    <ng-template ng-header-tmp>
+                                        <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="month.filter($event.target.value)"
+                                        />
+                                    </ng-template>
+
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-field required">
+                            <div class="form-field-control" *ngIf="lookup && lookup.yearsList" [ngClass]="{ 'cross-validation-error': orderRefundForm.controls.commissionYear.errors  &&  orderRefundForm.controls.commissionYear.errors.required}">
+                                <ng-select #year [items]="lookup.yearsList" bindLabel="name" class="set-posright" bindValue="id" [multiple]="false" placeholder="Year"
+                                    clearAllText="Clear" [clearable]="false" [selectableGroup]="true" appendTo="body" formControlName="commissionYear"
+                                    [closeOnSelect]="true" [searchable]="false" (change)="onChangeOfModel()">
+                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                        <div class="d-inline-block ln-normal">
+                                            <label>{{item.name}}</label>
+                                        </div>
+                                    </ng-template>
+
+                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                        <app-select-multi-label class="w-100" [items]="items">
+                                        </app-select-multi-label>
+                                    </ng-template>
+
+                                    <ng-template ng-header-tmp>
+                                        <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="year.filter($event.target.value)"
+                                        />
+                                    </ng-template>
+
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-24">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <input id="transaction" type="text" class="form-field-input" placeholder=" " formControlName="transactionId" (change)="onChangeOfModel()">
+                                <label for="transaction" class="form-field-label cursor-text">Transaction ID
+                                </label>
+                                <div class="form-field-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-field required">
+                            <div class="form-field-control" *ngIf="lookup && lookup.planList" [ngClass]="{ 'cross-validation-error': orderRefundForm.controls.package.errors  &&  orderRefundForm.controls.package.errors.required}">
+                                <ng-select #package [items]="lookup.planList" bindLabel="name" bindValue="id" [multiple]="false" placeholder="Package" clearAllText="Clear"
+                                    [clearable]="false" [selectableGroup]="true" appendTo="body" formControlName="package" [closeOnSelect]="true"
+                                    [searchable]="false" (change)="onChangeOfModel()">
+                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                        <div class="d-inline-block ln-normal">
+                                            <label>{{item.name}}</label>
+                                        </div>
+                                    </ng-template>
+
+                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                        <app-select-multi-label class="w-100" [items]="items">
+                                        </app-select-multi-label>
+                                    </ng-template>
+
+                                    <ng-template ng-header-tmp>
+                                        <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="package.filter($event.target.value)"
+                                        />
+                                    </ng-template>
+
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-field required">
+                            <div class="form-field-control" *ngIf="lookup && lookup.salesTypeList" [ngClass]="{ 'cross-validation-error': orderRefundForm.controls.saleType.errors  &&  orderRefundForm.controls.saleType.errors.required}">
+                                <ng-select #saletype [items]="lookup.salesTypeList" bindLabel="name" bindValue="id" class="set-posright" [multiple]="false"
+                                    placeholder="SaleType" clearAllText="Clear" [clearable]="false" [selectableGroup]="true"
+                                    appendTo="body" formControlName="saleType" [closeOnSelect]="true" [searchable]="false" (change)="onChangeOfModel()">
+                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                        <div class="d-inline-block ln-normal">
+                                            <label>{{item.name}}</label>
+                                        </div>
+                                    </ng-template>
+
+                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                        <app-select-multi-label class="w-100" [items]="items">
+                                        </app-select-multi-label>
+                                    </ng-template>
+
+                                    <ng-template ng-header-tmp>
+                                        <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="saletype.filter($event.target.value)"
+                                        />
+                                    </ng-template>
+
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-field required">
+                            <div class="form-field-control" *ngIf="lookup && lookup.responsiblePersonList" [ngClass]="{ 'cross-validation-error': orderRefundForm.controls.commissionReceiver.errors  &&  orderRefundForm.controls.commissionReceiver.errors.required}">
+                                <ng-select #commissionreceiver [items]="lookup.responsiblePersonList" bindLabel="name" bindValue="id" [multiple]="false"
+                                    groupBy="group" placeholder="Commission Receiver" clearAllText="Clear" [clearable]="false"
+                                    [selectableGroup]="true" appendTo="body" formControlName="commissionReceiver" [closeOnSelect]="true"
+                                    [searchable]="false" (change)="onChangeOfModel()" (open)="lookup.responsiblePersonList = lookup.responsiblePersonList">
+                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                        <div class="d-inline-block ln-normal">
+                                            <label>{{item.name}}</label>
+                                        </div>
+                                    </ng-template>
+
+                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                        <app-select-multi-label class="w-100" [groupItems]="items" [lookup]="lookup.responsiblePersonList">
+                                        </app-select-multi-label>
+                                    </ng-template>
+
+                                    <ng-template ng-header-tmp>
+                                        <input type="text" class="in-set form-field-input" [appAutofocus] placeholder="Search" (input)="commissionreceiver.filter($event.target.value)"
+                                        />
+                                    </ng-template>
+
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+
+                        <div class="form-field required">
+                            <div class="form-field-control">
+                                <input id="orderprice" type="number" class="form-field-input" placeholder=" " min="0" formControlName="orderPrice" (keydown)="isPositiveNumber($event)"
+                                    (change)="onChangeOfModel()">
+                                <label for="orderprice" class="form-field-label">Order price</label>
+                                <div class="form-field-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-24">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <textarea id="comment" type="text" formControlName="comment" class="form-field-input" placeholder=" " rows="3">
+                                            </textarea>
+                                <label for="comment" class="form-field-label">Comment</label>
+                                <div class="form-field-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

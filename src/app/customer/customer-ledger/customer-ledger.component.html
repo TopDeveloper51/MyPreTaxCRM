@@ -1,0 +1,146 @@
+<div class="row">
+    <div class="col-xl-12">
+        <span class="font-weight-bold">Ledger</span>
+    </div>
+    <div class="col-auto ml-auto mr-2">
+        <div class="row d-flex align-items-center">
+            <div class="col-auto cursor-pointer" [ngClass]="{'pt-3': !LedgerInfo?.onlyDisplay}" *ngIf="rowData && rowData.length>0">
+                <div class="form-field mb-0">
+                    <div class="custom-control custom-checkbox mb-8 mr-3 d-inline-block cursor-pointer">
+                        <input type="checkbox" class="custom-control-input" [(ngModel)]="isFullView" id="isFullView" (change)="isFullViewAgGridFlag()">
+                        <label class="custom-control-label" for="isFullView">Full View</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto" *ngIf="customerDisplayFlagOnLedger">
+                <span class="cursor-pointer" *ngIf="LedgerInfo?.customerNumber && LedgerInfo?.masterLocationId && LedgerInfo?.onlyDisplay">
+                    <img ngbTooltip="Open Subscription APP" data-placement="bottom" container="body" tooltipClass="default" src="assets/images/appredirect.png"
+                        alt="Open Subscription APP" (click)="$event.preventDefault();$event.stopPropagation();goToSubscriptionApp()"
+                        style="width: 25px">
+                </span>
+            </div>
+            <div class="col-auto" *ngIf="LedgerInfo?.onlyDisplay">
+                <button class="btn btn-outline-primary" (click)="createSubscriptionOffer()">Create offer for APP
+                </button>
+            </div>
+
+            <div class="col-auto pl-1 pr-1" *ngIf="customerDetail?.agreedPaymentCollectionDate">
+                <div class="form-field">
+                    <div class="form-field-control datepicker-wrapper">
+                        <md2-datepicker class="full-width-datepicker" type="date" format="MM/dd/y" placeholder="Agreed Date" name="date" id="date"
+                            (ngModelChange)="onDateChange()" openOnFocus="false" mode="landscape" [(ngModel)]="customerDetail.agreedPaymentCollectionDate">
+                        </md2-datepicker>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-auto pl-1 pr-1" *ngIf="customerDetail?.paymentDue">
+                <div class="form-field">
+                    <div class="form-field-control">
+                        <input id="paymentDue" type="number" [(ngModel)]="customerDetail.paymentDue" class=" form-field-input cursor-pointer"
+                            placeholder=" " title="Amount Due" min=0>
+                        <label for="paymentDue" class="form-field-label cursor-pointer">Amt. Due</label>
+                        <div class="form-field-bar"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto pl-1 pr-1" *ngIf="customerDetail?.totalPayment">
+                <div class="form-field">
+                    <div class="form-field-control">
+                        <input id="totalPayment" type="number" [(ngModel)]="customerDetail.totalPayment" class="cursor-pointer form-field-input"
+                            placeholder=" " title="Total Amount" min=0>
+                        <label for="totalPayment" class="form-field-label cursor-pointer">Total Amt.</label>
+                        <div class="form-field-bar"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto pl-1 pr-1" *ngIf="!LedgerInfo?.onlyDisplay">
+                <button class="btn btn-outline-primary" (click)="savePaymentCollectionInfo()">Save</button>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-outline-primary ml-3 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        New Transaction
+                    </button>
+                    <div class="dropdown-menu cursor-pointer">
+                        <a class="dropdown-item" (click)="newTransaction('Check-In')">Check-In</a>
+                        <a class="dropdown-item" (click)="newTransaction('Check-Out')">Check-Out</a>
+                        <a class="dropdown-item" (click)="newTransaction('Credit Note')">Credit Note</a>
+                        <a class="dropdown-item" (click)="newTransaction('Invoice')"> Invoice</a>
+                        <a class="dropdown-item" (click)="newTransaction('PaymentIn Internal')">PaymentIn Internal</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-24 pt-2" *ngIf="rowData && rowData.length > 0">
+        <ag-grid-angular #agGrid style="width: 100%; height: 220px;" class="ag-theme-balham" [rowData]="rowData" [columnDefs]="fullViewColumnDefs"
+            [defaultColDef]="defaultColDef" [getRowStyle]="getRowStyle" [frameworkComponents]="frameworkComponents" (rowClicked)="onRowClicked($event)"
+            (gridReady)="onGridReady($event)" [enableCellTextSelection]="true">
+        </ag-grid-angular>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-24 padding_15" *ngIf="(!rowData || rowData.length===0)">
+        No Data Available
+    </div>
+</div>
+
+<hr>
+<div class="row">
+    <!--  -->
+    <div class="col-xl-10 border-right">
+        <div class="row">
+            <div class="col-auto mx-0 cursor-pointer" *ngIf="!isPayPerReturn">
+                <div class="form-field">
+                    <div class="custom-control custom-checkbox mt-16 mb-8 mr-3 d-inline-block cursor-pointer">
+                        <input type="checkbox" class="custom-control-input cursor-pointer" [(ngModel)]="showPayPerReturn" id="showPayPerReturn">
+                        <label class="custom-control-label cursor-pointer" for="showPayPerReturn">Pay Per Return
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-24 col-sm-24 col-md-8 col-xl-8">
+                <div class="form-field">
+                    <div class="form-field-control">
+                        <textarea id="comment" type="text" [(ngModel)]="priceGuaranteeDetails.comment" class=" form-field-input text-resize cursor-pointer"
+                            placeholder=" "></textarea>
+                        <label for="comment" class="form-field-label cursor-pointer">Comment for Price Guarantee
+                        </label>
+                        <div class="form-field-bar"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto ml-auto mt-3" *ngIf="!unidentifiedCustomer">
+                <div class="float-right">
+                    <button class="btn btn-outline-primary" (click)="save()">save</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <app-customer-price-guarantee [priceGuaranteeDetailsPerYear]="priceGuaranteeDetailsPerYear" [plans]="lookup.plans" [stateList]="lookup.stateList"
+                [customerID]="customerID" [isTestCustomer]="isTestCustomer" [isPayPerReturn]="isPayPerReturn ? isPayPerReturn : showPayPerReturn"
+                [payPerReturn]="payPerReturn"></app-customer-price-guarantee>
+        </div>
+
+
+    </div>
+    <!--  -->
+
+    <div class="col-xl-14">
+        <div class="row">
+            <div class="col-24">
+                <app-customer-software-commitment-bp [customerID]="customerID" [responsiblePersonList]="lookup.responsiblePersonList"></app-customer-software-commitment-bp>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-24">
+                <app-customer-certificates [certificateDetails]="certificateDetails"></app-customer-certificates>
+            </div>
+        </div>
+    </div>
+</div>

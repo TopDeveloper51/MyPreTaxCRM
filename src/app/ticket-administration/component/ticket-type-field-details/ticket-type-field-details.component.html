@@ -1,0 +1,108 @@
+<div class="py-2">
+    <b>Field Details
+    </b>
+</div>
+
+<div class="bg-white text-dark" style="border-radius: 7px;">
+    <div class="col-lg-24 col-md-24 col-xl-24 col-sm-24 py-2 px-0 pl-2" *ngIf="!ticketTypeFieldData">
+        <p>No Type Field Selected</p>
+    </div>
+    <div class="row" *ngIf="ticketTypeFieldData">
+        <form class="form-inline" [formGroup]="ticketTypeDetailsForm">
+            <div class="col-lg-10 col-md-12 col-xl-10 col-sm-24 pt-2" *ngIf="ticketTypeDetailsForm.value.inputType === 'dropdown' || ticketTypeDetailsForm.value.inputType === 'multiselect'">
+                <span class="float-left font-weight-bold">Input Type</span>
+                <div class="form-field">
+                    <div class="form-field-control">
+                        <ng-select #type [items]="typeList" bindLabel="name" bindValue="id" [multiple]="false" placeholder=" " appendTo="body" formControlName="inputType"
+                            [closeOnSelect]="true" [searchable]="false" [clearable]="false" [ngClass]="{ 'is-invalid': submitted && ticketTypeDetailsFormValue.inputType.errors }"
+                            (change)="change()">
+                            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                <div class="d-inline-block mr-4 ln-normal">
+                                    <label>{{item.name}}</label>
+                                </div>
+                            </ng-template>
+                            <ng-template ng-header-tmp>
+                                <input type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="type.filter($event.target.value)"
+                                />
+                            </ng-template>
+                        </ng-select>
+                        <div *ngIf="submitted && ticketTypeDetailsFormValue.inputType.errors" class="invalid-feedback text-left pl-1">
+                            <div *ngIf="ticketTypeDetailsFormValue.inputType.errors.required">Type is required
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 col-xl-6 col-sm-24">
+                <div class="d-inline-block custom-checkbox custom-control mt-16">
+                    <input type="checkbox" formControlName="isRequired" id="isRequired" class="custom-control-input ng-pristine ng-untouched ng-valid"
+                        ng-reflect-name="isRequired">
+                    <label for="isRequired" class="custom-control-label">Mandatory</label>
+                </div>
+            </div>
+            <div class="pt-3" [ngClass]="{'float-right ml-auto col-auto' : ticketTypeDetailsForm.value.inputType === 'dropdown' || ticketTypeDetailsForm.value.inputType === 'multiselect', 'col-lg-17 col-md-17 col-xl-17 col-sm-17 pb-3': ticketTypeDetailsForm.value.inputType !== 'dropdown' && ticketTypeDetailsForm.value.inputType !== 'multiselect'}">
+                <button type="button" class="btn btn-outline-primary float-right" (click)="save()">Save</button>
+            </div>
+            <div *ngIf="ticketTypeDetailsForm.value.inputType === 'dropdown' || ticketTypeDetailsForm.value.inputType === 'multiselect'"
+                class="col-lg-24 col-md-12 col-xl-24 col-sm-24 pt-3">
+                Total Available Options ({{this.ticketTypeDetailsForm.value.completeOptionsList.length}})
+                <div class="col-lg-14 col-md-12 col-xl-14 col-sm-24 float-right">
+                    <div class="d-inline-block custom-checkbox custom-control mt-14 pl-4">
+                        <input type="checkbox" id="selectAll" formControlName="isSelectAll" class="custom-control-input ng-pristine ng-untouched ng-valid"
+                            ng-reflect-name="selectAll" (change)="onSelectAllChange($event.target.checked)">
+                        <label for="selectAll" class="custom-control-label">Include All</label>
+                    </div>
+                </div>
+
+
+                <div *ngIf="submitted && ticketTypeDetailsFormValue.completeOptionsList.errors" class="invalid-array text-left pl-1">
+                    <div *ngIf="ticketTypeDetailsFormValue.completeOptionsList.errors.required">Any one of the option needs to be included
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="ticketTypeDetailsForm.value.inputType === 'dropdown' || ticketTypeDetailsForm.value.inputType === 'multiselect'"
+                class="col-lg-24 col-md-12 col-xl-24 col-sm-24">
+                <div class="card my-3">
+                    <table class="table">
+                        <thead class="bg-dark-gray text-dark">
+                            <tr>
+                                <th>Options</th>
+                                <th class="text-center">Include?</th>
+                                <th class="text-center">Default?</th>
+                            </tr>
+                        </thead>
+                        <tbody formArrayName="completeOptionsList">
+                            <tr *ngFor="let item of ticketTypeDetailsForm['controls'].completeOptionsList['controls']; let i=index;" [formGroupName]="i.toString()"
+                                [ngClass]="{'isDefault': item.value.default}">
+                                <td>
+                                    <div class="form-check-inline">
+                                        <label class="font-weight-normal form-check-label">{{item.value.value}}
+                                        </label>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div class="custom-control custom-checkbox mt-15 d-inline-block mr-3">
+                                        <span for="optionRequired">
+                                            <input type="checkbox" class="custom-control-input" formControlName="required" value="optionRequired" [id]="i.toString()"
+                                                (change)="onRequiredChange($event.target.checked, item)" />
+                                            <label class="custom-control-label" [for]="i.toString()"></label>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div class="d-inline-block custom-checkbox custom-control mt-14 pl-4" *ngIf="item.value.required">
+                                        <span for="optionDefault">
+                                            <input type="checkbox" id="{{'default' + i.toString()}}" class="custom-control-input ng-pristine ng-untouched ng-valid" formControlName="default"
+                                                value="optionDefault" (change)="onDefaultChange($event.target.checked, item)">
+                                            <label for="{{'default' + i.toString()}}" class="custom-control-label"></label>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,106 @@
+<div id="exTab2">
+    <div class="nav nav-tabs pt-3">
+        <a class="nav-item nav-link active" data-toggle="tab" href="#conversionreport" role="tab" aria-controls="nav-customer" aria-selected="true"
+            (click)="tabChanged('report')">Conversion Report</a>
+        <a class="nav-item nav-link " data-toggle="tab" href="#conversionmismatchreport" aria-controls="nav-activity" aria-selected="true"
+            (click)="tabChanged('mismatchReport')">Conversion Sync Mismatch Report</a>
+    </div>
+    <div class="tab-content">
+        <div class="tab-pane active" id="conversionreport">
+            <div class="col-lg-24 col-sm-24 col-md-24 col-xl-24 pt-2">
+                <form [formGroup]="formConversionReport">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xl-3">
+                            <md2-datepicker type="date" format="MM/dd/y" placeholder="Start Date" name="startdate" id="startdate" openOnFocus="false"
+                                mode="landscape" formControlName="startDate" (change)="onDateChange()">
+                            </md2-datepicker>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xl-4">
+                            <md2-datepicker type="date" format="MM/dd/y" placeholder="End Date" name="enddate" id="enddate" openOnFocus="false" mode="landscape"
+                                formControlName="endDate" (change)="onDateChange()">
+                            </md2-datepicker>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xl-3">
+                            <ng-select #taxYear bindLabel="name" [items]="yearList" bindValue="id" [multiple]="false" placeholder="Year" formControlName="taxYear"
+                                clearAllText="Clear" class="salesprocessstatus" appendTo="body" [closeOnSelect]="true" [searchable]="true"
+                                [clearable]="false">
+                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <div class="custom-control custom-checkbox d-inline-block">
+                                        <label>{{item.name}}</label>
+                                    </div>
+                                </ng-template>
+                                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                    <app-select-multi-label class="w-100" [groupItems]="items" [lookup]="yearList">
+                                    </app-select-multi-label>
+                                </ng-template>
+                                <ng-template ng-header-tmp>
+                                    <input  type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="taxYear.filter($event.target.value)"
+                                    />
+                                </ng-template>
+                            </ng-select>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xl-3">
+                            <ng-select #softwareName bindLabel="name" [items]="softwareList" bindValue="id" [multiple]="false" placeholder="software" formControlName="softwareName"
+                                clearAllText="Clear" class="salesprocessstatus" appendTo="body" [closeOnSelect]="true" [searchable]="true"
+                                [clearable]="false">
+                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <div class="custom-control custom-checkbox d-inline-block">
+                                        <label>{{item.name}}</label>
+                                    </div>
+                                </ng-template>
+                                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                    <app-select-multi-label class="w-100" [groupItems]="items" [lookup]="softwareList">
+                                    </app-select-multi-label>
+                                </ng-template>
+                                <ng-template ng-header-tmp>
+                                    <input  type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="softwareName.filter($event.target.value)"
+                                    />
+                                </ng-template>
+                            </ng-select>
+
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xl-6">
+                            <div class="form-field ">
+                                <div class="form-field-control">
+                                    <input id="email" type="text" formControlName="email" class=" form-field-input" placeholder=" ">
+                                    <label for="email" class="form-field-label">Email
+                                    </label>
+                                    <div class="form-field-bar">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xl-5 pt-2">
+                            <span class="float-right">
+                                <button type="submit" class="btn btn-outline-primary mr-2" id="search" name="search" (click)="search()">Search</button>
+                                <button class="btn btn-outline-primary mr-2" id="clear" name="clear" (click)="clear()">Clear</button>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="title_boder_t table-overflow table-responsive">
+                <div class="col-lg-24 col-sm-24 col-md-24 col-xl-24" style="margin-top:15px">
+                    <div class="col-lg-24 col-sm-24 col-md-24 col-xl-24">
+                        <div class="pb-2" *ngIf="rowData && rowData !== undefined && rowData.length !== 0 && rowData[0] !== 'autoHeight'">
+                            <b>Total Available Data ({{rowData.length | number}}) </b>
+
+                            <ag-grid-angular style="width: 100%;" class="ag-theme-balham" [columnDefs]="columnDefs" [masterDetail]="true" [pagination]="true"
+                                [detailCellRendererParams]="detailCellRendererParams" [rowData]="rowData" (gridReady)="onGridReady($event)"
+                                [getRowHeight]="getRowHeight" (cellClicked)="onCellClicked($event)" [domLayout]="domLayout" enableCellChangeFlash=true
+                                suppressChangeDetection=true [detailRowHeight]="400" [enableRangeSelection]="true" enableRowGroup=true
+                                [suppressAggFuncInHeader]="true" [enableCellTextSelection]="true">
+                            </ag-grid-angular>
+                        </div>
+                        <div class="pb-2" *ngIf="!rowData || rowData==undefined || rowData.length==0">
+                            <b> No Data Available </b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="conversionmismatchreport" *ngIf="selectedTabName == 'mismatchReport'">
+            <app-conversion-mismatch-report></app-conversion-mismatch-report>
+        </div>
+    </div>
+</div>

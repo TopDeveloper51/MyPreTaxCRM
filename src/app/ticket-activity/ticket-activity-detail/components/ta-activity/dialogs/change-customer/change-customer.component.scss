@@ -1,0 +1,11 @@
+:host ::ng-deep .ag-root{
+    max-height: 50vh;
+
+    .ag-body-viewport{
+        height: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+}
+
+ 

@@ -1,0 +1,151 @@
+<div *ngIf="isPlivoUser" class="align-items-center d-flex">
+    <div class="dropdown" *ngIf="dialerData.makeCall === false">
+        <div class="clearfix crm-topbar-icon-wrap" data-toggle="dropdown">
+            <!-- [ngClass]="{'disabled-phone':!currentUserStatusAllowedCalling}"       -->
+            <span class="crm-topbar-icon" title="Call mobiles and landlines from the dial pad.">
+                <i class="fas fa-keyboard text-white font-21" aria-hidden="true"></i>
+            </span>
+            <!-- (click)="showDialPad = !showDialPad" -->
+
+            <div id="dialer" class="view_dialer dropdown-menu dropdown-menu-right">
+                <!--*ngIf="dialerData.makeCall===false && showDialPad"-->
+                <!--Dialer -2-->
+                <div class="key">
+                    <div class="key-row">
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('1')">1</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('2')">2</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('3')">3</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('4')">4</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('5')">5</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('6')">6</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('7')">7</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('8')">8</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('9')">9</button>
+                    </div>
+                    <div class="key-row">
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('*')">*</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('0')">0</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('#')">#</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('A')">A</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('B')">B</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('C')">C</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('D')">D</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('E')">E</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('F')">F</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('G')">G</button>
+                    </div>
+                    <div class="key-row">
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('H')">H</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('I')">I</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('J')">J</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('K')">K</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('L')">L</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('M')">M</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('N')">N</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('O')">O</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('P')">P</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('Q')">Q</button>
+                    </div>
+                    <div class="key-row">
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('R')">R</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('S')">S</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('T')"> T</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('U')"> U</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('V')"> V</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('W')"> W</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('X')"> X</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('Y')"> Y</button>
+                        <button type="button" class="btn btn-circle btn-default" (click)="clickDigit('Z')"> Z</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-inline-block crm-topbar-icon-wrap position-relative">
+        <span class="crm-topbar-icon" (click)="_openNotificationDialog('',true)"  ngbTooltip="You can see current calls at the moment  - Waiting in Queue/Active Calls" 
+        triggers="hover" container="body" tooltipClass="default" data-placement="bottom">
+            <i class="fas fa-phone-square-alt font-21"></i>
+        </span>
+        <span class="notification" *ngIf="totalNotificationCount >0">{{totalNotificationCount}}</span>
+    </div>
+
+    <div class="d-inline-block header-toggle-wrap mx-2 px-2">
+        <!--title="You can toggle your status between &#147Available&#148  and &#147Do not disturb&#148 from here"-->
+        <div class="custom-control custom-switch" ngbTooltip="{{phoneTitle}}" 
+        triggers="hover" container="body" tooltipClass="default" data-placement="bottom">
+            <input type="checkbox" name="userStatus" class="custom-control-input" id="customSwitch1"
+                [(ngModel)]="plivoUser.userStatus" (change)="updateUserStatus()">
+            <label class="custom-control-label" for="customSwitch1"></label>
+        </div>
+
+        <!-- <label class="switch mb-0">
+            <input type="checkbox" name="userStatus" [(ngModel)]="plivoUser.userStatus" (change)="updateUserStatus()"
+                class="ng-untouched ng-valid ng-dirty ng-valid-parse ng-empty">
+            <div class="slider round"></div>
+        </label> -->
+    </div>
+
+    <div class="crm-topbar-icon-wrap" *ngIf="dialerData.makeCall==false">
+        <span class="crm-topbar-icon">
+            <i class="fa fa-microphone" aria-hidden="true" (click)="muteUnMuteTheMic(true)"
+                *ngIf="dialerData.isMute===false"></i>
+            <i class="fa fa-microphone-slash" aria-hidden="true" *ngIf="dialerData.isMute===true"
+                (click)="muteUnMuteTheMic(false)"></i>
+        </span>
+    </div>
+
+    <div class="d-inline-block" *ngIf="dialerData.makeCall==false">
+        <div class="d-flex align-items-center">
+
+            <div class="crm-topbar-icon-wrap" (click)="endCall()">
+                <span class="crm-topbar-icon" title="Call End">
+                    <!-- <i class="fas fa-phone-square-alt text-danger" aria-hidden="true"></i> -->
+                    <!-- <svg width="20px" height="20px" viewBox="0 0 512 512">                        
+                        <g id="iPhone_X_XS_11_Pro_1" data-name="iPhone X/XS/11 Pro – 1"
+                            clip-path="url(#clip-iPhone_X_XS_11_Pro_1)">
+                            <rect id="Rectangle_15" data-name="Rectangle 15" width="100%" height="100%" rx="48"
+                                fill="red" />
+                            <path id="phone"
+                                d="M12.208,16.156,80.524.39A15.867,15.867,0,0,1,98.588,9.521l31.53,73.571a15.725,15.725,0,0,1-4.533,18.393L85.779,134.066a243.45,243.45,0,0,0,116.4,116.4l32.581-39.807a15.748,15.748,0,0,1,18.393-4.533l73.571,31.53a15.954,15.954,0,0,1,9.2,18.13L320.155,324.1a15.76,15.76,0,0,1-15.371,12.218C136.556,336.321-.01,200.018-.01,31.527A15.746,15.746,0,0,1,12.208,16.156Z"
+                                transform="translate(87.654 87.763)" fill="#fff" />
+                        </g>
+                    </svg> -->
+
+                    <svg width="22px" height="22px" viewBox="0 0 512 512">
+                        <g id="iPhone_X_XS_11_Pro_1" data-name="iPhone X/XS/11 Pro – 1"
+                            clip-path="url(#clip-iPhone_X_XS_11_Pro_1)">
+                            <rect id="Rectangle_15" data-name="Rectangle 15" width="100%" height="100%" rx="48"
+                                fill="red" />
+                            <path id="phone"
+                                d="M10.674,14.126,70.415.34a13.876,13.876,0,0,1,15.8,7.985l27.573,64.336a13.751,13.751,0,0,1-3.964,16.084L75.01,117.236A212.891,212.891,0,0,0,176.8,219.025l28.492-34.81a13.772,13.772,0,0,1,16.084-3.964l64.336,27.573a13.951,13.951,0,0,1,8.042,15.854l-13.786,59.741A13.782,13.782,0,0,1,266.525,294.1C119.413,294.1-.01,174.909-.01,27.568A13.77,13.77,0,0,1,10.674,14.126Z"
+                                transform="translate(463.777 255.822) rotate(135)" fill="#fff" />
+                        </g>
+                    </svg>
+                </span>
+            </div>
+
+            <div class="d-inline-block mx-2"
+                *ngIf="dialerData.statusText !== undefined && dialerData.statusText !== ''">
+                <div class="answer_btn_border">
+                    <span class="call_text_enble">{{dialerData.statusText}}</span>
+                </div>
+            </div>
+
+            <div class="d-inline-block" *ngIf="dialerData.isHoldShow==true && dialerData.isResumeShow==false">
+                <button [disabled]="isHolding" type="button" (click)="holdCall()" class="btn btn-light"
+                    style="height: 32px;">Hold
+                    <i *ngIf="isHolding" class="fa fa-circle-notch fa-spin ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-inline-block float-left cursor-pointer"
+        *ngIf="dialerData.isResumeShow==true && dialerData.isHoldShow==false">
+        <button [disabled]="isResuming || !currentUserStatusAllowedCalling" (click)="resumeCall()" type="button"
+            class="btn btn-light mr-2" style="height: 32px;">Resume
+            <i *ngIf="isResuming" class="fa fa-circle-notch fa-spin ml-2"></i>
+        </button>
+    </div>
+</div>

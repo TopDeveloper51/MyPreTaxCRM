@@ -1,0 +1,153 @@
+<div class="clearfix">
+  <div class="row">
+    <div class="col-xl-24 pt-3">
+      <span class="font-weight-bold">Free Software commitment due to BP</span>
+      <span *ngIf="isBPCustomer !== undefined && isBPCustomer == false">
+        <i>({{BpCommitmentDetails.displayText}})</i>
+      </span>
+      <span *ngIf="isBPCustomer">
+        <i> BP Customer </i>
+        <img class="col_img pl-2 pr-4" src="assets/images/OK.png" /> ({{isBPCustomerDisplayText}})
+      </span>
+    </div>
+  </div>
+
+  <form [formGroup]="bpCommitmentForm">
+    <div class="row">
+
+      <div class="col-24 col-sm-24 col-md-8 col-xl-6">
+        <div class="row">
+          <div class="col-24 col-sm-24 col-md-24 col-xl-24 pt-2">
+            <div class="form-field">
+              <div class="custom-control custom-checkbox mt-16 mb-8 mr-3 d-inline-block cursor-pointer">
+                <input type="checkbox" class="custom-control-input cursor-pointer" formControlName="noBPCommitment" id="noBPCommitment">
+                <label class="cursor-pointer custom-control-label" for="noBPCommitment">No BP Commitment</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-24 col-sm-24 col-md-24 col-xl-24 pt-1">
+            <div class="form-field" [ngClass]="{'required': bpCommitmentForm.controls.commitmentBy.errors  &&  bpCommitmentForm.controls.commitmentBy.errors.required }">
+              <div class="form-field-control cursor-pointer">
+                <div [ngClass]="{'cross-validation-error': bpCommitmentForm.controls.commitmentBy.errors  &&  bpCommitmentForm.controls.commitmentBy.errors.required }">
+                  <ng-select #commitmentBy groupBy="group" [items]="responsiblePersonList" bindValue="id" bindLabel="name" placeholder="Commitment By"
+                    formControlName="commitmentBy" clearAllText="Clear" class="salesprocessstatus" [selectableGroup]="false"
+                    appendTo="body" [closeOnSelect]="true" [searchable]="false" [clearable]="false" required (open)="responsiblePersonList = responsiblePersonList">
+                    <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                      <label class="font-weight-bold">{{item.group}}</label>
+                    </ng-template>
+                    <ng-template ng-header-tmp>
+                      <input type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="filterData($event.target.value)"
+                      />
+                    </ng-template>
+                  </ng-select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-24 col-sm-24 col-md-6 col-xl-6">
+        <div class="row">
+          <div class="col-24 col-sm-24 col-md-24 col-xl-24 pl-0 mb-1">
+            <div class="form-field" [ngClass]="{'required': bpCommitmentForm.controls.date.errors  &&  bpCommitmentForm.controls.date.errors.required }">
+              <div class="form-field-control">
+                <div [ngClass]="{'cross-validation-error': bpCommitmentForm.controls.date.errors  &&  bpCommitmentForm.controls.date.errors.required }">
+                  <md2-datepicker type="date" format="MM/dd/y" placeholder="Date" name="date" id="date" openOnFocus="false" mode="landscape"
+                    formControlName="date" (change)="onDateChange()">
+                  </md2-datepicker>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-24 col-sm-24 col-md-24 col-xl-24">
+            <div class="form-field" [ngClass]="{'required': bpCommitmentForm.controls.BPCountCommited.errors  &&  bpCommitmentForm.controls.BPCountCommited.errors.required }">
+              <div class="form-field-control cursor-pointer">
+                <div [ngClass]="{'cross-validation-error': bpCommitmentForm.controls.BPCountCommited.errors  &&  bpCommitmentForm.controls.BPCountCommited.errors.required }">
+                  <ng-select #BPCountCommited [items]="BPCountLookup" bindLabel="name" bindValue="id" placeholder="BP Count Committed" clearAllText="Clear"
+                    appendTo="body" formControlName="BPCountCommited" [closeOnSelect]="true" [clearable]="false">
+                  </ng-select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-24 col-sm-24 col-md-6 col-xl-4">
+        <div class="row">
+          <div class="col-24 col-sm-24 col-md-24 col-xl-24">
+            <div class="form-field set-desc">
+              <div class="form-field-control cursor-pointer">
+                <textarea id="comment" type="text" formControlName="comment" class=" form-field-input" placeholder=" " rows="4"></textarea>
+                <label for="comment" class="form-field-label">Comment</label>
+                <div class="form-field-bar"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-24 col-sm-24 col-md-6 col-xl-8">
+        <span formArrayName="actRef">
+          <div *ngFor="let activity of bpCommitmentForm['controls'].actRef['controls']; let i=index;let t=index" [formGroupName]="i.toString()">
+            <div class="row">
+              <div class="col-24 col-sm-24 col-md-21 col-xl-21">
+                <div class="form-field set-desc">
+                  <div class="form-field-control cursor-pointer">
+                    <input id="link-{{i}}" type="text" formControlName="link" class="cursor-pointer form-field-input" placeholder=" "
+                      title="{{activity.value.link}}" />
+                    <label for="link-{{i}}" class="form-field-label cursor-pointer">Activity Link</label>
+                    <div class="form-field-bar"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-24 col-sm-24 col-md-3 col-xl-3 pt-3" *ngIf="i == 0">
+                <a>
+                  <i data-placement="left" ngbTooltip="Add Link" container="body" tooltipClass="default" class="fa fa-plus font_size_20 cursor-pointer ml-2 text-primary"
+                    (click)="addActivityReference()"></i>
+                </a>
+              </div>
+
+              <div class="col-24 col-sm-24 col-md-1 col-xl-1 pt-3" *ngIf="bpCommitmentForm.get('actRef')['controls'][i].controls.link.errors">
+                <a>
+                  <i data-placement="left" ngbTooltip="Enter a proper Activity URL path" container="body" tooltipClass="default" class="fas fa-exclamation font_size_20 cursor-pointer ml-2"></i>
+                </a>
+
+              </div>
+
+              <div class="col-24 col-sm-24 col-md-1 col-xl-1 pt-3" *ngIf="i !== 0">
+                <a>
+                  <i data-placement="left" ngbTooltip="Remove" container="body" tooltipClass="default" class="text-primary fa fa-times font_size_20 cursor-pointer ml-2"
+                    (click)="removeActivityReference(i)"></i>
+                </a>
+              </div>
+
+
+
+
+            </div>
+          </div>
+        </span>
+
+        <div class="row pt-4">
+          <div class="col-auto ml-auto">
+            <div class="float-right">
+              <button class="btn btn-outline-primary" (click)="saveBPcommitmentDetails()" [disabled]="!bpCommitmentForm.valid">Save</button>
+            </div>
+          </div>
+        </div>
+
+
+
+
+      </div>
+    </div>
+  </form>
+</div>

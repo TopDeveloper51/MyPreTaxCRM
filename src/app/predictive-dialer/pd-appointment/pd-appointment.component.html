@@ -1,0 +1,35 @@
+<div class="clearfix dialer_main_wrapper">
+    <div class="row align-items-center">
+        <div class="col-lg-10 col-md-10 col-sm-24 col-sm-24">
+            <caption style="width: 300px">Calendar
+                <i class="fa fa-calendar margin_left_10 cursor-pointer" style="font-size : 20px" aria-hidden="true" title="Open Calendar"
+                    (click)="openCalendar()"></i>
+            </caption>
+            <div class="table table-bordered appointment_table" *ngIf=" appointmentDetails!==undefined && appointmentDetails.length > 0">
+                <div class="dialer_header">
+                    <div class="float-left" style="width:10%;">Time</div>
+                    <div class="float-left" style="width:40%;">Customer Name</div>
+                    <div class="float-left" style="width:50%;">Subject</div>
+                </div>
+                <div class="table_dialer_height">
+                    <div class="table_dialer_line" *ngFor="let appointment of appointmentDetails">
+                        <div class="float-left" style="width:10%;">{{appointment.datetimeET}}</div>
+                        <div class="float-left" style="width:40%;">{{appointment.customerName}}</div>
+                        <div class="float-left" style="width:50%;">{{appointment.subject}}</div>
+                    </div>
+                </div>
+                <div class="padding_bottom_5" *ngIf="appointmentDetails == undefined || appointmentDetails.length==0"> No Data Available</div>
+            </div>
+        </div>
+        <div class="col-lg-5 col-md-5 col-sm-24 col-sm-24"></div>
+        <div class="col-lg-5 col-md-5 col-sm-24 col-sm-24"></div>
+        <div class="col-lg-4 col-md-4 col-sm-24 col-sm-24 padding_r_0">
+            <div class="row float-right mr-3">
+                <span class="mr-3">
+                    <img src="assets/images/currentaction.png "> Current Action</span>
+                <span>
+                    <img src="assets/images/nextaction.png "> Next Action</span>
+            </div>
+        </div>
+    </div>
+</div>

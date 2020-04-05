@@ -1,0 +1,35 @@
+<!--Dialog header-->
+<div class="modal-header">
+    <h5 class="modal-title">
+        History
+    </h5>
+
+    <div class="float-right">
+        <div (click)="close()" class="cus-hov">
+            <i class="fa fa-times"></i>
+        </div>
+    </div>
+</div>
+<!--Dialog header End -->
+
+<div class="modal-body">
+    <div class="col-xl-24" *ngIf="!rowData || rowData.length === 0">
+        <span class="font-weight-bold">
+            No Data Available
+        </span>
+    </div>
+    <div class="col-xl-24" *ngIf="rowData && rowData.length > 0 && rowData[0] !== 'autoHeight'">
+        <div class="pb-2">
+            <span class="font-weight-bold">Contact History ({{rowData.length}})</span>
+        </div>
+        <ag-grid-angular #agGrid style="width: 100%;max-height:calc(100vh - 300px);overflow: auto;" class="ag-theme-balham" [rowData]="rowData"
+            [columnDefs]="columnDefs" [domLayout]="domLayout" [enableCellTextSelection]="true" [defaultColDef]="defaultColDef"
+            (gridReady)="onGridReady($event)">
+        </ag-grid-angular>
+    </div>
+</div>
+
+<div class="modal-footer">
+            <button class="btn btn-outline-primary" id="cancel" name="cancel" (click)="close()">Cancel
+            </button>
+</div>

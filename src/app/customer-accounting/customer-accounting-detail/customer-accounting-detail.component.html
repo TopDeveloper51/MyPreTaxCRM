@@ -1,0 +1,481 @@
+<!--Dialog Header start-->
+<div class="modal-header">
+    <h5 class="modal-title">
+        Transaction Details
+        <span>
+            <img src="assets/images/Angebot.png" ngbTooltip="Go to customer" data-placement="bottom" container="body" tooltipClass="default"
+                *ngIf="paymentDetails?.customerId" (click)="goToCustomerCard()" class="cursor-pointer pl-2">
+        </span>
+        <span *ngIf="paymentDetails?.history && paymentDetails?.history?.length > 0">
+            <i class="fa fa-history fa-md pl-2" data-placement="top" ngbTooltip="History" container="body" tooltipClass="default" (click)="getCustomerAccHistory()"></i>
+        </span>
+        <span *ngIf="paymentDetails?.refTransactionId" id="copyCustomerId" ngbTooltip="Copy Reference Transaction ID to clipboard"
+            data-placement="bottom" container="body" tooltipClass="default" class="fas fa-copy cursor-pointer" alt="Copy CustomerId"
+            (click)="toClipboard()"></span>
+        <span class="pl-2" *ngIf="mode !== 'view'">Processor:{{paymentDetails?.processor}}</span>
+    </h5>
+    <div class="float-right row">
+        <div class="btn-group cursor-pointer" *ngIf="checkProcessorType() && paymentDetails?.id">
+            <button type="button" *ngFor="let dataMode of modeList" class="btn btn-outline-primary wpx-100" (click)="setMode(dataMode.id)"
+                [ngClass]="{'btn-primary':mode==dataMode.id}">{{dataMode.name}}</button>
+        </div>
+        <!-- <div>
+            <span><b>{{currentCustomerIndex+1}} of {{data.availablePayment.length}}</b></span>
+        </div> -->
+        <div *ngIf="mode !== 'new'">
+            <button class="btn_next_pre_color cus-hov float-left" type="button" [ngClass]="{'disableEvent':currentCustomerIndex === 0}"
+                [disabled]="currentCustomerIndex === 0">
+                <i class="fa fa-angle-double-left color-white" ngbTooltip="Previous" triggers="hover" container="body" tooltipClass="default"
+                    aria-hidden="true" (click)="prevNext('Prev')"></i>
+            </button>
+            <button class="btn_next_pre_color cus-hov float-left" type="button" [ngClass]="{'disabledEvent':currentCustomerIndex ===  idNextPrev.length-1}"
+                [disabled]="currentCustomerIndex ===  idNextPrev.length-1">
+                <i class="fa fa-angle-double-right color-white" ngbTooltip="Next" triggers="hover" container="body" tooltipClass="default"
+                    aria-hidden="true" (click)="prevNext('Next')"></i>
+            </button>
+        </div>
+        <div (click)="close()" class="cursor-pointer cus-hov">
+            <i class="fa fa-times"></i>
+        </div>
+    </div>
+</div>
+<!--Dialog Header End-->
+
+<!--Dialog body start-->
+<div class="modal-body">
+    <div *ngIf="mode == 'view'">
+        <form [formGroup]="paymentInvoiceAccountingDetailForm">
+            <div class="row mb-3">
+                <div class="col col-xl-4">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <ng-select #taxSeasonPayment [items]="data.lookup.taxYearList" bindLabel="name" bindValue="id" [multiple]="true" placeholder="Tax Season"
+                                clearAllText="Clear" appendTo="body" formControlName="taxSeason" class="salesprocessstatus" [closeOnSelect]="true"
+                                [searchable]="true" [clearable]="false">
+                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                        <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                                        <label class="custom-control-label" title="{{item.name}}">{{item.name}}</label>
+                                    </div>
+                                </ng-template>
+                                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                    <app-select-multi-label class="w-100" [items]="items"></app-select-multi-label>
+                                </ng-template>
+                                <ng-template ng-header-tmp>
+                                    <input type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="taxSeasonPayment.filter($event.target.value)"
+                                    />
+                                    <button (click)="onSelectAll('taxSeasonPayment')" class="btn btn-sm btn-secondary">All</button>
+                                    <button (click)="onClear('taxSeasonPayment')" class="btn btn-sm btn-secondary ml-2">None</button>
+                                </ng-template>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-xl-4">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <ng-select #offerPayment [items]="data.lookup.licenseOfferType" bindLabel="name" bindValue="id" [multiple]="false" placeholder="Offer"
+                                clearAllText="Clear" appendTo="body" formControlName="offer" class="salesprocessstatus" [closeOnSelect]="true"
+                                [searchable]="true" [clearable]="false">
+                                <ng-template ng-header-tmp>
+                                    <input style="width: 100%;line-height: 24px" type="text" [appAutofocus] class="form-field-input" placeholder="Search" (input)="offerPayment.filter($event.target.value)"
+                                    />
+                                </ng-template>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-xl-4">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <!-- <textarea id="comment" type="text" formControlName="commentPayment"
+                                            class="form-field-input text-resize" placeholder=" " ></textarea> -->
+                            <input id="commentPayment" type="text" formControlName="comment" class="form-field-input" placeholder=" ">
+                            <label for="commentPayment" class="form-field-label">Comment</label>
+                            <div class="form-field-bar"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ml-auto d-flex align-items-center">
+                    <div *ngIf="!customerDataFromLedger" class="mt-2">
+                        <span *ngIf="paymentDetails.customerNumber">
+                            <label>
+                                <b>Customer Number: </b>
+                            </label>{{paymentDetails.customerNumber}}</span>
+                    </div>
+                    <div class="pl-2">
+                        <!-- *ngIf="mode !== 'new'" -->
+                        <button class="btn btn-outline-primary mr-2" id="save" name="save" (click)="addChangeCustomerRef()">{{paymentDetails?.customerNumber ? 'Change Customer Reference' : 'Add Customer Reference'}}</button>
+                    </div>
+                </div>
+            </div>
+            <div class="border rounded p-2 mb-3">
+                <div class="row p-2">
+                    <div class="col col-xl-6">
+                        <span>
+                            <b>DateTime:</b> {{datetime}} </span>
+                    </div>
+                    <div class="col col-xl-6">
+                        <span>
+                            <b>Source:</b> {{paymentDetails?.source}} </span>
+                    </div>
+                    <div class="col col-xl-6">
+                        <span>
+                            <b>Processor:</b> {{paymentDetails?.processor}} </span>
+                    </div>
+                </div>
+                <div class="row p-2">
+                    <div class="col col-xl-6">
+                        <span>
+                            <b>Customer Identification Source:</b>
+                            {{paymentDetails?.customerIdentificationSource}} </span>
+                    </div>
+                    <div class="col col-xl-6">
+                        <span>
+                            <b>Applicable To:</b> {{paymentDetails?.applicableTo}} </span>
+                    </div>
+                </div>
+            </div>
+            <div class="border rounded p-2">
+                <div class="row p-2">
+                    <div class="col col-xl-6">
+                        <span>
+                            <b>Date:</b> {{paymentDetails?.date}} </span>
+                    </div>
+                    <div class="col col-xl-6">
+                        <span>
+                            <b>Gross:</b> {{paymentDetails?.grossAmount | number:'1.2-2'}} </span>
+                    </div>
+                    <div class="col col-xl-6">
+                        <span>
+                            <b>Name:</b> {{paymentDetails?.name}} </span>
+                    </div>
+                    <div class="col col-xl-6">
+                        <span>
+                            <b>Type:</b> {{paymentDetails?.type}} </span>
+                    </div>
+                </div>
+                <div class="row p-2">
+                    <div class="col col-xl-6">
+                        <span>
+                            <b>Time:</b> {{paymentDetails?.time}} </span>
+                    </div>
+                    <div class="col col-xl-6">
+                        <span>
+                            <b>Fee:</b> {{paymentDetails?.fees | number:'1.2-2'}} </span>
+                    </div>
+                    <div class="col col-xl-6">
+                        <span>
+                            <b>From Email:</b> {{paymentDetails?.fromEmail}} </span>
+                    </div>
+                    <div class="col col-xl-6">
+                        <span>
+                            <b>Status:</b> {{paymentDetails?.status}} </span>
+                    </div>
+                </div>
+                <div class="row p-2">
+                    <div class="col col-xl-6">
+                        <span>
+                            <b>TimeZone:</b> {{paymentDetails?.timeZone}} </span>
+                    </div>
+                    <div class="col col-xl-6">
+                        <span>
+                            <b>Net:</b> {{paymentDetails?.netAmount | number:'1.2-2'}} </span>
+                    </div>
+                    <div class="col col-xl-6">
+                        <span>
+                            <b>To Email:</b> {{paymentDetails?.toEmail}} </span>
+                    </div>
+                    <div class="col col-xl-6">
+                        <span>
+                            <b>Currency:</b> {{paymentDetails?.currency}} </span>
+                    </div>
+                </div>
+                <div class="row p-2">
+                    <div class="col col-xl-6">
+                        <span>
+                            <b>Transaction ID:</b> {{paymentDetails?.transactionId}} </span>
+                    </div>
+                    <div class="col col-xl-6">
+                        <span>
+                            <b>Balance Impact:</b> {{paymentDetails?.balanceImpact}} </span>
+                    </div>
+                    <div class="col col-xl-6">
+                        <span>
+                            <b>Item Title:</b> {{paymentDetails?.itemTitle}} </span>
+                    </div>
+                    <div class="col col-xl-6">
+                        <span>
+                            <b>Custom Number:</b> {{paymentDetails?.customNumber}} </span>
+                    </div>
+                </div>
+                <div class="row p-2">
+                    <div class="col">
+                        <span>
+                            <b>Reference Trans. ID:</b> {{paymentDetails?.refTransactionId}} </span>
+                    </div>
+                    <div class="col">
+                        <span>
+                            <b>Invoice Number:</b> {{paymentDetails?.invoiceNumber}} </span>
+                    </div>
+                </div>
+                <div class="row p-2">
+                    <div class="col"></div>
+                    <div class="col">
+                        <span>
+                            <b>Phone:</b> {{paymentDetails?.phone | phone}} </span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div *ngIf="mode !== 'view' && paymentDetails.processor == 'Check'">
+        <form [formGroup]="customerAccountingDetailForm">
+            <div class="row">
+                <div class="col col-xl-6">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <ng-select #taxSeason [items]="data.lookup.taxYearList" bindLabel="name" bindValue="id" [multiple]="true" placeholder="Tax Season"
+                                clearAllText="Clear" appendTo="body" formControlName="taxSeason" class="salesprocessstatus" [closeOnSelect]="true"
+                                [searchable]="true" [clearable]="false">
+                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                        <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                                        <label class="custom-control-label" title="{{item.name}}">{{item.name}}</label>
+                                    </div>
+                                </ng-template>
+                                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                    <app-select-multi-label class="w-100" [items]="items"></app-select-multi-label>
+                                </ng-template>
+                                <ng-template ng-header-tmp>
+                                    <input type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="taxSeason.filter($event.target.value)"
+                                    />
+                                    <button (click)="onSelectAll('taxSeason')" class="btn btn-sm btn-secondary">All</button>
+                                    <button (click)="onClearAll('taxSeason')" class="btn btn-sm btn-secondary ml-2">None</button>
+                                </ng-template>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-xl-6">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <ng-select #offer [items]="data.lookup.licenseOfferType" bindLabel="name" bindValue="id" [multiple]="false" placeholder="Offer"
+                                clearAllText="Clear" appendTo="body" formControlName="offer" class="salesprocessstatus" [closeOnSelect]="true"
+                                [searchable]="true" [clearable]="false">
+                                <ng-template ng-header-tmp>
+                                    <input style="width: 100%;line-height: 24px" type="text" [appAutofocus] class="form-field-input" placeholder="Search" (input)="offer.filter($event.target.value)"
+                                    />
+                                </ng-template>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border rounded p-2">
+                <div class="row">
+                    <div class="col col-xl-7">
+                        <div class="form-field" [ngClass]="{'required': customerAccountingDetailForm.controls.transactionId.errors  &&  customerAccountingDetailForm.controls.transactionId.errors.required }">
+                            <div class="form-field-control">
+                                <input id="transactionId" type="text" class="form-field-input" formControlName="transactionId" placeholder=" ">
+                                <label for="transactionId" class="form-field-label">Check Number</label>
+                                <div class="form-field-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-xl-10">
+                        <div class="form-field" [ngClass]="{'required': customerAccountingDetailForm.controls.name.errors  &&  customerAccountingDetailForm.controls.name.errors.required }">
+                            <div class="form-field-control">
+                                <input id="name" type="text" class="form-field-input" formControlName="name" placeholder=" ">
+                                <label for="name" class="form-field-label">Name</label>
+                                <div class="form-field-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-xl-7">
+                        <div class="form-field" [ngClass]="{'required': customerAccountingDetailForm.controls.datetime.errors  &&  customerAccountingDetailForm.controls.datetime.errors.required }">
+                            <div class="form-field-control">
+                                <div [ngClass]="{'cross-validation-error': customerAccountingDetailForm.controls.datetime.errors  &&  customerAccountingDetailForm.controls.datetime.errors.required }">
+                                    <md2-datepicker type="date" format="MM/dd/y" placeholder="Date" name="date" id="date" openOnFocus="false" mode="landscape"
+                                        formControlName="datetime">
+                                    </md2-datepicker>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-xl-7">
+                        <div class="col col-xl-24 pl-0 pr-0">
+                            <div class="form-field" [ngClass]="{'required': customerAccountingDetailForm.controls.grossAmount.errors  &&  customerAccountingDetailForm.controls.grossAmount.errors.required }">
+                                <div class="form-field-control">
+                                    <input id="grossAmount" type="number" class="form-field-input" formControlName="grossAmount" placeholder=" ">
+                                    <label for="grossAmount" class="form-field-label">Gross Amount</label>
+                                    <div class="form-field-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-xl-24 pl-0 pr-0">
+                            <div class="form-field">
+                                <div class="form-field-control">
+                                    <md2-datepicker type="date" format="MM/dd/y" placeholder="Check Issue Date" name="checkIssueDate" id="checkIssueDate" openOnFocus="false"
+                                        mode="landscape" formControlName="checkIssueDate">
+                                    </md2-datepicker>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-xl-10">
+                        <div class="row">
+                            <div class="col col-xl-12">
+                                <div class="form-field" [ngClass]="{'required': customerAccountingDetailForm.controls.type.errors  &&  customerAccountingDetailForm.controls.type.errors.required }">
+                                    <div class="form-field-control">
+                                        <div [ngClass]="{'cross-validation-error': customerAccountingDetailForm.controls.type.errors  &&  customerAccountingDetailForm.controls.type.errors.required }">
+                                            <ng-select #type [items]="checkTypeList" bindLabel="name" bindValue="id" [multiple]="false" placeholder="Type" clearAllText="Clear"
+                                                appendTo="body" formControlName="type" [closeOnSelect]="true" [searchable]="true"
+                                                [clearable]="false">
+                                                <ng-template ng-header-tmp>
+                                                    <input style="width: 100%;line-height: 24px" type="text" [appAutofocus] class="form-field-input" placeholder="Search" (input)="type.filter($event.target.value)"
+                                                    />
+                                                </ng-template>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-xl-12">
+                                <ng-select #status [items]="checkStatusList" bindLabel="name" bindValue="id" [multiple]="false" placeholder="Status" clearAllText="Clear"
+                                    appendTo="body" formControlName="status" [closeOnSelect]="true" [searchable]="true" [clearable]="false">
+                                    <ng-template ng-header-tmp>
+                                        <input style="width: 100%;line-height: 24px" type="text" [appAutofocus] class="form-field-input" placeholder="Search" (input)="status.filter($event.target.value)"
+                                        />
+                                    </ng-template>
+                                </ng-select>
+                            </div>
+                            <div class="col col-xl-16">
+                                <div class="form-field">
+                                    <div class="form-field-control">
+                                        <md2-datepicker type="date" format="MM/dd/y" placeholder="Check Clearing Date" name="checkClearingDate" id="checkClearingDate"
+                                            openOnFocus="false" mode="landscape" formControlName="checkClearingDate">
+                                        </md2-datepicker>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-xl-7">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <textarea id="commentAccount" type="text" formControlName="comment" class="form-field-input text-resize" placeholder=" " rows="3" ></textarea>
+                                <label for="commentAccount" class="form-field-label">Comment</label>
+                                <div class="form-field-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div *ngIf="mode !== 'view' && ( paymentDetails.processor == 'Credit Note' || paymentDetails.processor == 'Invoice' || paymentDetails.processor == 'PaymentIn Internal' ) ">
+        <form [formGroup]="paymentInvoiceAccountingDetailForm">
+            <div class="row">
+                <div class="col col-xl-6">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <ng-select #taxSeasonPayment [items]="data.lookup.taxYearList" bindLabel="name" bindValue="id" [multiple]="true" placeholder="Tax Season"
+                                clearAllText="Clear" appendTo="body" formControlName="taxSeason" class="salesprocessstatus" [closeOnSelect]="true"
+                                [searchable]="true" [clearable]="false">
+                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <div class="custom-control custom-checkbox d-inline-block ln-normal">
+                                        <input type="checkbox" [checked]="item$.selected" class="custom-control-input" id="item-{{index}}">
+                                        <label class="custom-control-label" title="{{item.name}}">{{item.name}}</label>
+                                    </div>
+                                </ng-template>
+                                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                    <app-select-multi-label class="w-100" [items]="items"></app-select-multi-label>
+                                </ng-template>
+                                <ng-template ng-header-tmp>
+                                    <input type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="taxSeasonPayment.filter($event.target.value)"
+                                    />
+                                    <button (click)="onSelectAll('taxSeasonPayment')" class="btn btn-sm btn-secondary">All</button>
+                                    <button (click)="onClear('taxSeasonPayment')" class="btn btn-sm btn-secondary ml-2">None</button>
+                                </ng-template>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-xl-6">
+                    <div class="form-field">
+                        <div class="form-field-control">
+                            <ng-select #offerPayment [items]="data.lookup.licenseOfferType" bindLabel="name" bindValue="id" [multiple]="false" placeholder="Offer"
+                                clearAllText="Clear" appendTo="body" formControlName="offer" class="salesprocessstatus" [closeOnSelect]="true"
+                                [searchable]="true" [clearable]="false">
+                                <ng-template ng-header-tmp>
+                                    <input style="width: 100%;line-height: 24px" type="text" [appAutofocus] class="form-field-input" placeholder="Search" (input)="offerPayment.filter($event.target.value)"
+                                    />
+                                </ng-template>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border rounded p-2">
+                <div class="row">
+                    <div class="col col-xl-7">
+                        <div class="form-field" [ngClass]="{'required': paymentInvoiceAccountingDetailForm.controls.datetime.errors  &&  paymentInvoiceAccountingDetailForm.controls.datetime.errors.required }">
+                            <div class="form-field-control">
+                                <div [ngClass]="{'cross-validation-error': paymentInvoiceAccountingDetailForm.controls.datetime.errors  &&  paymentInvoiceAccountingDetailForm.controls.datetime.errors.required }">
+                                    <md2-datepicker type="date" format="MM/dd/y" placeholder="Date" name="datePayment" id="datePayment" openOnFocus="false" mode="landscape"
+                                        formControlName="datetime">
+                                    </md2-datepicker>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-xl-7">
+                        <div class="form-field" [ngClass]="{'required': paymentInvoiceAccountingDetailForm.controls.grossAmount.errors  &&  paymentInvoiceAccountingDetailForm.controls.grossAmount.errors.required }">
+                            <div class="form-field-control">
+                                <input id="grossAmountPayment" type="number" class="form-field-input" formControlName="grossAmount" placeholder=" ">
+                                <label for="grossAmountPayment" class="form-field-label">Gross Amount</label>
+                                <div class="form-field-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-xl-10">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <input id="commentPayment" type="text" formControlName="comment" class="form-field-input" placeholder=" ">
+                                <label for="commentPayment" class="form-field-label">Comment</label>
+                                <div class="form-field-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--Dialog body end-->
+
+<!--Dialog footer start-->
+<div class="modal-footer dialog-footer clearfix">
+    <div class="m-0 mr-auto" *ngIf="paymentDetails?.createdDate">
+        <div class="font-weight-bold" *ngIf="paymentDetails?.createdByName">Created By :
+            <span class="font-weight-normal"> {{paymentDetails?.createdByName}}, {{createdDate}}</span>
+        </div>
+        <div class="font-weight-bold" *ngIf="paymentDetails?.updatedDate">Updated By :
+            <span class="font-weight-normal"> {{paymentDetails?.updatedByName}}, {{updatedDate}}</span>
+        </div>
+    </div>
+    <div *ngIf="mode !== 'view'">
+        <button *ngIf="paymentDetails.processor == 'Check'" class="btn btn-outline-primary mr-2" id="save" name="save" (click)="save()"
+            [disabled]="!customerAccountingDetailForm?.valid">Save</button>
+        <button *ngIf="paymentDetails.processor == 'Credit Note' || paymentDetails.processor == 'Invoice' || paymentDetails.processor == 'PaymentIn Internal'"
+            class="btn btn-outline-primary mr-2" id="save" name="save" (click)="save()" [disabled]="!paymentInvoiceAccountingDetailForm?.valid">Save</button>
+    </div>
+    <div *ngIf="mode === 'view'">
+        <button class="btn btn-outline-primary mr-2" id="save" name="save" (click)="save()">Save</button>
+    </div>
+    <button class="btn btn-outline-primary" id="cancel" name="cancel" (click)="close()">Cancel</button>
+</div>
+<!--Dialog footer end-->

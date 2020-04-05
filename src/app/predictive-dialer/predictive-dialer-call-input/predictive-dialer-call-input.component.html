@@ -1,0 +1,124 @@
+<div class="dialer_main_wrapper py-3 px-1">
+  <form>
+    <div class="row mb-3">
+      <div class="col">
+        <h3 class="d-flex align-items-center mb-3">
+          <img class="mr-2" src="assets/images/notes.png" width="22px" /> Notes
+        </h3>
+
+        <div class="d-block">
+          <!-- <input type="text" id="notes" name="notes"
+            [ngClass]="{'padding_top_5':(!predictiveDialer.notes ||predictiveDialer.notes === '')}"
+            [(ngModel)]="predictiveDialer.notes" color="primary"
+            [placeholder]="(!predictiveDialer.notes ||predictiveDialer.notes === '')? 'Write your notes here': ''"
+            class="height_68" (ngModelChange)="notesFormat()"> -->
+          <div class="form-field">
+            <div class="form-field-control">
+              <textarea id="notes" type="text" class="text-resize form-field-input" placeholder=" "
+                [ngClass]="{'padding_top_5':(!predictiveDialer.notes ||predictiveDialer.notes === '')}" rows="3"
+                 [(ngModel)]="predictiveDialer.notes" (ngModelChange)="notesFormat()"
+                [ngModelOptions]="{standalone: true}">
+                  </textarea>
+              <label for="notes" class="form-field-label">Write your notes here</label>
+              <div class="form-field-bar"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col col-4" *ngIf="showFurtherAction && postCallTime>allowedWaitingTimeAfterPDCall">
+        <h1 class="text-red call-timer">{{postCallTime}}</h1>
+        <!-- <label style="color:red; font-size: 80px; font-weight: 900; float: right;">{{postCallTime}}</label> -->
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col col-sm-9">
+        <h3 class="d-flex align-items-center mb-3">
+          <img class="mr-2" src="assets/images/comments.png" width="22px" /> Preferred Language
+        </h3>
+        <div class="d-block">
+          <button class="m-0 mr-2 mb-3 btn"
+            [ngClass]="{'btn-success' : (language.id === predictiveDialer.preferredLanguage), 'btn-default' : !(language.id === predictiveDialer.preferredLanguage)}"
+            *ngFor="let language of preferredLanguage"
+            (click)="selectPrefferedLanguage(language.id)">{{language.name}}</button>
+        </div>
+      </div>
+      <div class="col col-auto">
+        <h3 class="d-flex align-items-center mb-3">
+          <img class="mr-2" src="assets/images/coupon.png" width="22px" /> Postcard Campaign Coupon
+        </h3>
+        <div class="d-block">
+          <button class="m-0 mr-2 mb-3 btn"
+            [ngClass]="{'btn-success' : (coupon.id === predictiveDialer.PostCardCampaignCoupon), 'btn-default' : !(coupon.id === predictiveDialer.PostCardCampaignCoupon)}"
+            *ngFor="let coupon of couponList" (click)="selectCoupon(coupon.id)">{{coupon.name}}</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-24">
+        <h3 class="d-flex align-items-center mb-3">
+          <img class="mr-2" src="assets/images/software.png" width="22px" /> Current Software
+        </h3>
+      </div>
+
+      <div class="col-24">
+        <button class="m-0 mr-2 mb-3 btn"
+          [ngClass]="{'btn-success' : (software.id === predictiveDialer.currentSoftware), 'btn-default' : !(software.id === predictiveDialer.currentSoftware)}"
+          *ngFor="let software of renewalType"
+          (click)="selectCurrentSoftware(software.id, true)">{{software.name}}</button>
+      </div>
+
+      <div class="col-24">
+        <button class="m-0 mr-2 mb-3 btn"
+          [ngClass]="{'btn-success' : (software.id === predictiveDialer.currentSoftwareQuestionReply), 'btn-default' : !(software.id === selectedCurrentSoftware)}"
+          *ngFor="let software of currentSoftware"
+          (click)="selectCurrentSoftware(software.id)">{{software.name}}</button>
+      </div>
+    </div>
+
+    <div class="row bank-products-block">
+      <div class="col-24">
+        <h3 class="d-flex align-items-center mb-3">
+          <img class="mr-2" src="assets/images/bank-products.png" /> Financial Partners
+        </h3>
+      </div>
+      <div class="col-24">
+        <div class="row clearfix padding_top_8">
+          <div class="col col-sm-4 input-wrapper">
+            <!-- <input type="text" [(ngModel)]="predictiveDialer.noOfBankProducts" name="bankproduct" placeholder="No. of Bank Products"
+          [disabled]="predictiveDialer.isUnknownVolume == true" (ngModelChange)="selectBPDetails()" [required]="mandatoryBPDetails"> -->
+            <div class="form-field pl-1">
+              <div class="form-field-control">
+                <input id="noOfBankProduct" type="text" name="bankproduct" class=" form-field-input" placeholder=" "
+                  [(ngModel)]="predictiveDialer.noOfBankProducts" [disabled]="predictiveDialer.isUnknownVolume == true"
+                  (ngModelChange)="selectBPDetails()" [required]="mandatoryBPDetails">
+                <label for="noOfBankProduct" class="form-field-label">No. of Bank Products</label>
+                <div class="form-field-bar"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col col-auto checkbox_wrap pt-3">
+            <div class="custom-control custom-checkbox d-inline-block mr-4">
+              <input type="checkbox" class="custom-control-input" id="unknown" name="unknown"
+                [(ngModel)]="predictiveDialer.isUnknownVolume" (change)="selectBPDetails()">
+              <label class="custom-control-label" for="unknown">Unknown</label>
+            </div>
+          </div>
+
+          <div class="col">
+            <button class="m-0 mr-2 mb-3 btn"
+              [ngClass]="{'btn-success' : (predictiveDialer.bankName.indexOf(bank.id) !== -1), 'btn-default' : !(predictiveDialer.bankName.indexOf(bank.id) !== -1)}"
+              *ngFor="let bank of bankLookup" (click)="selectBPDetails(bank.id)">{{bank.name}}</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-24">
+        <button class="m-0 mr-2 mb-3 btn"
+          [ngClass]="{'btn-success' : (bank.id === predictiveDialer.bankProductQuestionReply), 'btn-default' : !(bank.id === selectedBankProduct)}"
+          *ngFor="let bank of bankProduct" (click)="selectBankProduct(bank.id)">{{bank.name}}</button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,342 @@
+<div class="col-24 mt-3">
+
+    <div class="card" style="width: 100%;" *ngIf="isPayPerReturn">
+        <form [formGroup]="payPerReturnForm">
+            <div formArrayName="payPerReturn">
+                <div class="card-header cursor-pointer">
+                    <div class="row">
+                        <div class="col-24 col-sm-12 col-md-6 col-xl-6 pt-2 cursor-pointer">
+                            <b>Pay Per Return
+                            </b>
+                        </div>
+                        <div class="col-auto ml-auto mt-2">
+                            <div class="float-right cursor-pointer">
+                                <a [ngClass]="{'disabled': !(payPerReturnForm.valid)}">
+                                    <i class="far fa-save font_size_20 text-primary" (click)="savePayPerReturn()" ngbTooltip="Save Pay Per Return" container="body"
+                                        data-placement="top" tooltipClass="default"></i>
+                                </a>
+                                <a [ngClass]="{'disabled': !(payPerReturnForm.valid)}">
+                                    <i class="fa fa-plus font_size_20 ml-2 text-primary" (click)="addPayPerReturnBlock()" ngbTooltip="Add Pay Per Return" container="body"
+                                        data-placement="top" tooltipClass="default"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngFor="let payPerReturnData of payPerReturnForm['controls'].payPerReturn['controls']; let i=index;let t=index" [formGroupName]="i.toString()">
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-24 col-sm-24 col-md-12 col-xl-6">
+                                <div class="form-field">
+                                    <div class="form-field-control">
+                                        <div class="">
+
+                                            <!-- [ngClass]="{'cross-validation-error': payPerReturnForm.controls['payPerReturn'].controls[i].controls['buyDate'].errors  &&  payPerReturnForm.controls['payPerReturn'].controls[i].controls['buyDate'].errors.required }" -->
+                                            <md2-datepicker type="date" format="MM/dd/y" placeholder="Buy Date *" name="buyDate" id="buyDate" openOnFocus="false" mode="landscape"
+                                                formControlName="buyDate" (change)="onDateChange()">
+                                            </md2-datepicker>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-24 col-sm-24 col-md-12 col-xl-4">
+                                <div class="form-field">
+                                    <div class="form-field-control">
+                                        <div>
+                                            <!-- [ngClass]="{'cross-validation-error': payPerReturnForm.controls['payPerReturn'].controls[i].controls['quantity'].errors  &&  payPerReturnForm.controls['payPerReturn'].controls[i].controls['quantity'].errors.required }" -->
+
+                                            <input id="Quantity-{{i}}" type="number" formControlName="quantity" class="cursor-pointer form-field-input" placeholder=" "
+                                                title="Quantity *" min=0>
+                                            <label for="Quantity-{{i}}" class="form-field-label cursor-pointer">Quantity *</label>
+                                            <div class="form-field-bar"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto ml-auto mt-4 mr-2" *ngIf="i!==0 && !(payPerReturnData.value.isAlreadyExisting)">
+                                <div class="float-right">
+                                    <a>
+                                        <i class="fa fa-times font_size_20 text-primary" (click)="deletePayPerReturnRow(i)" title="Remove"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <div class="card" style="width: 100%;">
+
+        <form [formGroup]="priceGuaranteeForm">
+            <div formArrayName="priceGuaranteeDetail">
+                <div *ngFor="let pgData of priceGuaranteeForm['controls'].priceGuaranteeDetail['controls']; let i=index;let t=index" [formGroupName]="i.toString()">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-24 col-sm-12 col-md-6 col-xl-6 pt-3">
+                                <b>Price Guarantee</b>
+                            </div>
+                            <div class="col-24 col-sm-12 col-md-3 col-xl-4">
+                                <div class="form-field">
+                                    <div class="form-field-control cursor-pointer">
+                                        <ng-select #package [items]="taxYearList" bindLabel="name" bindValue="id" placeholder="Year" clearAllText="Clear" appendTo="body"
+                                            formControlName="year" [closeOnSelect]="true" [clearable]="false" [readonly]="true">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-24 col-sm-12 col-md-3 col-xl-3">
+                                <div class="form-field">
+                                    <div class="custom-control custom-checkbox mt-16 mb-8 mr-3 d-inline-block cursor-pointer">
+                                        <input type="checkbox" class="custom-control-input" formControlName="isEnabled" id="Enabled -{{i}}">
+                                        <label class="custom-control-label cursor-pointer" for="Enabled -{{i}}">Enabled?</label>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-auto ml-auto mt-3">
+                                <div class="float-right">
+                                    <a [ngClass]="{'disabled': !(priceGuaranteeForm.valid)}">
+                                        <i class="far fa-save font_size_20 text-primary cursor-pointer" data-placement="bottom" ngbTooltip="Save Price Guarantee Per Year"
+                                            container="body" tooltipClass="default" (click)="savePGPerYear(pgData,i)"></i>
+                                    </a>
+                                    <!-- <i class="far fa-trash-alt font_size_20 ml-2" (click)="deletePGPerYearBlock(i)"
+                                        *ngIf="!pgData.value.isAlreadyExisting" title="Remove Price Guarantee Per Year"
+                                        style="color: #005074;"></i> -->
+                                    <i class="fas fa-history font_size_20 text-primary ml-2 cursor-pointer" ngbTooltip="Price Guarantee History" data-placement="bottom"
+                                        container="body" tooltipClass="default" (click)="getPGPerYearHistory(pgData)" *ngIf="(pgData.value.isAlreadyExisting)"></i>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-24 col-sm-24 col-md-12 col-xl-6">
+                                <div class="form-field" [ngClass]="{'required':!pgData['controls'].date.value }">
+                                    <div class="form-field-control datepicker-wrapper" [ngClass]="{ 'cross-validation-error':!pgData['controls'].date.value}">
+                                        <div class="">
+                                            <md2-datepicker type="date" format="MM/dd/y" placeholder="Date" name="date" id="date" openOnFocus="false" mode="landscape"
+                                                formControlName="date" (change)="onDateChange()">
+                                            </md2-datepicker>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-24 col-sm-24 col-md-12 col-xl-5">
+                                <div class="form-field" [ngClass]="{'required': !pgData['controls'].package.value }">
+                                    <div class="form-field-control cursor-pointer">
+                                        <ng-select #package [items]="plans" bindLabel="name" bindValue="id" placeholder="Package" clearAllText="Clear" appendTo="body"
+                                            formControlName="package" [closeOnSelect]="true" class="customertabsalesprocessstatus"
+                                            [clearable]="false">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-24 col-sm-24 col-md-12 col-xl-4">
+                                <div class="form-field" [ngClass]="{'required':!pgData['controls'].amount.value }">
+                                    <div class="form-field-control">
+                                        <input id="amount" type="number" formControlName="amount" class="cursor-pointer form-field-input" placeholder=" " title="Price"
+                                            min=0>
+                                        <label for="amount" class="form-field-label cursor-pointer">Price
+                                        </label>
+                                        <div class="form-field-bar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-24 col-sm-24 col-md-12 col-xl-4">
+                                <div class="form-field" [ngClass]="{'required':!pgData['controls'].users.value }">
+                                    <div class="form-field-control">
+                                        <input id="users" type="number" formControlName="users" class="cursor-pointer  form-field-input" placeholder=" " title="Users"
+                                            min=0>
+                                        <label for="users" class="form-field-label cursor-pointer">Users
+                                        </label>
+                                        <div class="form-field-bar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-24 col-sm-24 col-md-12 col-xl-5">
+                                <div class="form-field" [ngClass]="{'required':!pgData['controls'].storage.value }">
+                                    <div class="form-field-control">
+                                        <input id="storage" type="number" formControlName="storage" class="cursor-pointer  form-field-input" placeholder=" " title="Storage (GB)"
+                                            min=0>
+                                        <label for="storage" class="form-field-label cursor-pointer">Storage (GB)</label>
+                                        <div class="form-field-bar"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-24 col-sm-24 col-md-12 col-xl-6">
+                                <div class="form-field">
+                                    <div class="form-field-control datepicker-wrapper">
+                                        <div class="">
+                                            <md2-datepicker type="date" format="MM/dd/y" placeholder="First Threat Date " name="firstThreatDate" id="firstThreatDate"
+                                                openOnFocus="false" mode="landscape" formControlName="firstThreatDate" (change)="onDateChange()">
+                                            </md2-datepicker>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-24 col-sm-24 col-md-12 col-xl-6">
+                                <div class="form-field">
+                                    <div class="form-field-control datepicker-wrapper">
+                                        <div class="">
+                                            <md2-datepicker type="date" format="MM/dd/y" placeholder="PG Lost Date" name="PGlostDate" id="PGlostDate" openOnFocus="false"
+                                                mode="landscape" formControlName="PGlostDate" (change)="onDateChange()">
+                                            </md2-datepicker>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-auto ml-auto" *ngIf="!priceGuaranteeForm['controls'].priceGuaranteeDetail.value[i].isAddOnfeeAccounting">
+                                <div class="float-right">
+                                    <div class="form-field">
+                                        <div class="custom-control custom-checkbox mt-16 mb-8 mr-3 d-inline-block cursor-pointer">
+                                            <input type="checkbox" class="custom-control-input" formControlName="showAddOnfeeAccounting" id="showAddOnfeeAccounting">
+                                            <label class="custom-control-label cursor-pointer" for="showAddOnfeeAccounting">Add On Fee Accounting
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <hr *ngIf="priceGuaranteeForm['controls'].priceGuaranteeDetail.value[i].isAddOnfeeAccounting || priceGuaranteeForm['controls'].priceGuaranteeDetail.value[i].showAddOnfeeAccounting">
+
+                        <div class="row" *ngIf="priceGuaranteeForm['controls'].priceGuaranteeDetail.value[i].isAddOnfeeAccounting || priceGuaranteeForm['controls'].priceGuaranteeDetail.value[i].showAddOnfeeAccounting">
+                            <div class="col-xl-12 border-right">
+                                <div class="row">
+                                    <div class="col-xl-12 pt-3">
+                                        <span class="font-weight-bold cursor-pointer">Add On Fee Accounting
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="row">
+                                    <div class="col-24 col-sm-24 col-md-12 col-xl-12">
+                                        <div class="form-field">
+                                            <div class="form-field-control">
+                                                <input id="agreedShare" type="number" formControlName="agreedShare"
+                                                    class="cursor-pointer  form-field-input" placeholder=" "
+                                                    title="Agreed Share %" min=0>
+                                                <label for="agreedShare" class="form-field-label"
+                                                    style="cursor: pointer">Agreed Share %</label>
+                                                <div class="form-field-bar"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto ml-auto">
+                                        <div class="float-right">
+                                            <div class="form-field">
+                                                <button class="btn btn-outline-primary" (click)="setContact()">Contact
+                                                    List
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="row pt-2">
+                                    <span class="col-lg-9">Name:</span>
+                                    <span class="col-lg-15">
+                                        {{contactList.name}}
+                                    </span>
+                                </div>
+                                <div class="row pt-2">
+                                    <span class="col-lg-9">Email:</span>
+                                    <span class="col-lg-15">
+                                        {{contactList.email}}
+                                    </span>
+                                </div>
+                                <div class="row pt-2">
+                                    <span class="col-lg-9">Number:</span>
+                                    <span class="col-lg-15">
+                                        {{contactList.phoneNumber}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-12">
+
+                                <div class="row">
+                                    <div class="col-xl-24 pt-3">
+                                        <span> For sending the Add On Fee Accounting Check </span>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-24 col-sm-24 col-md-24 col-xl-24">
+                                        <div class="form-field">
+                                            <div class="form-field-control">
+                                                <input id="Name" type="text" formControlName="name" class=" form-field-input" placeholder=" " title="Name">
+                                                <label for="Name" class="form-field-label">Name</label>
+                                                <div class="form-field-bar"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-24 col-sm-24 col-md-24 col-xl-24">
+                                        <div class="form-field">
+                                            <div class="form-field-control">
+                                                <input id="address" type="text" formControlName="address1" class="form-field-input" placeholder=" " title="Address">
+                                                <label for="address" class="form-field-label">Address</label>
+                                                <div class="form-field-bar"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-24 col-sm-24 col-md-12 col-xl-12">
+                                        <div class="form-field">
+                                            <div class="form-field-control">
+                                                <input id="city-{{i}}" type="text" formControlName="city" class="form-field-input" placeholder=" " title="City">
+                                                <label for="city-{{i}}" class="form-field-label">City</label>
+                                                <div class="form-field-bar"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-24 col-sm-12 col-md-3 col-xl-6">
+                                        <div class="form-field">
+                                            <div class="form-field-control">
+                                                <ng-select #state [items]="stateList" bindLabel="name" bindValue="id" placeholder="State" clearAllText="Clear" appendTo="body"
+                                                    formControlName="state" [closeOnSelect]="true" [clearable]="false">
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-24 col-sm-24 col-md-12 col-xl-6">
+                                        <div class="form-field">
+                                            <div class="form-field-control">
+                                                <input id="zipCode-{{i}}" type="text" formControlName="zipCode" class=" form-field-input" placeholder=" " title="ZIP">
+                                                <label for="zipCode-{{i}}" class="form-field-label">ZIP</label>
+                                                <div class="form-field-bar"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

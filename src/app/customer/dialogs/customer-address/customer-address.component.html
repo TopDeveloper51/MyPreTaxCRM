@@ -1,0 +1,39 @@
+<div>
+    <!--Dialog Header-->
+    <div class="modal-header">
+        <h5 class="modal-title ">
+            Customer Address Information
+        </h5>
+        <div class="float-right">
+            <div (click)="close()" class="cus-hov">
+                <i class="fa fa-times"></i>
+            </div>
+        </div>
+    </div>
+    <!--Dialog Header End-->
+
+    <!--Dialog Body-->
+    <div class="modal-body">
+        <div class="main_innerpage clearfix">
+            <div class="clearfix col-sm-24 table-space-wrapper" *ngIf="availableCustomer!=undefined && availableCustomer.length>0">
+                <div class="table-responsive">
+                    <table class="table table-bordered merge_customer_tbl">
+                        <tr *ngFor="let customer of availableCustomer ; let i=index" class="tbl_row">
+                            <td header-class='custom-header' class="w-25" *ngFor="let cust of availableCustomerCol" [ngClass]="getClass(customer.fieldCRM,customer[cust.field],i,cust)">{{customer[cust.field]}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-sm-24 padding_top_10 padding_bottom_10" *ngIf="availableCustomer==undefined ||  availableCustomer.length==0">
+                No Data Available
+            </div>
+
+        </div>
+    </div>
+    <!--Dialog Body End-->
+
+    <!--Dialog Footer-->
+    <!--<div class="modal-footer dialog-footer"></div>-->
+    <!--Dialog Footer End-->
+</div>

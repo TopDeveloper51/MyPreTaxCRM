@@ -1,0 +1,31 @@
+<kendo-dialog title="Insert Image" *ngIf="opened" (close)="close()" [minWidth]="250" [width]="450">
+    <div class="row example-wrapper">
+        <div class="col-xs-8 col-sm-12 example-col">
+            <div class="card">
+                <div class="card-block">
+                    <form class="k-form-inline">
+                        <div class="k-form-field">
+                            <label>Image</label>
+                            <app-image-upload-dialog (valueChange)="setImageInfo($event)">
+                            </app-image-upload-dialog>
+                        </div>
+                        <div class="k-form-field">
+                            <label [for]="heightInput">Height (px)</label>
+                            <kendo-numerictextbox #heightInput [format]="'n0'" [(value)]="height" [min]="0">
+                            </kendo-numerictextbox>
+                        </div>
+                        <div class="k-form-field">
+                            <label [for]="widthInput">Width (px)</label>
+                            <kendo-numerictextbox #widthInput [format]="'n0'" [(value)]="width" [min]="0">
+                            </kendo-numerictextbox>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <kendo-dialog-actions>
+        <button kendoButton (click)="close()">Cancel</button>
+        <button kendoButton [disabled]="canInsert" (click)="uploadImage()" primary="true">Insert</button>
+    </kendo-dialog-actions>
+</kendo-dialog>

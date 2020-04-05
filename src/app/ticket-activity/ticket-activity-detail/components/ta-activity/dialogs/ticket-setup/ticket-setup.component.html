@@ -1,0 +1,43 @@
+<!--Dialog header-->
+
+<div class="modal-header">
+    <h5 class="modal-title">
+        Setup Ticket And Activity
+    </h5>
+    <!-- <button type="button" class="close float-right cus-hov" data-dismiss="modal" (click)="close($event)"><i
+                class="fa fa-times fa fa-times mr-2" style="opacity: 0.7; font-size: 16px;"></i></button> -->
+    <div class="cus-hov" data-dismiss="modal" (click)="close($event)">
+        <i class="fa fa-times"></i>
+    </div>
+</div>
+<!--Dialog header End-->
+
+<!--Dialog Body-->
+<div class="modal-body">
+    <div class="col-24 pb-2">{{message}}</div>
+    <div class="col-24" *ngIf="content !== undefined && content.length > 0 && isNotify != true">
+        <!-- show when links are available -->
+        <p class="mb-0">
+            Click here to open Ticket
+        </p>
+        <!-- show when links are available -->
+        <div class="d-inline-block mr-2" *ngFor="let ticket of content; index as i">
+            <a class="ticket-no" (click)="redirectToUrl(ticket)">{{ticket.ticketNumber}}</a>
+            <span *ngIf="i < content.length - 1">,</span>
+        </div>
+    </div>
+    <div *ngIf="isNotify == true">
+        <div class="col-24">
+            <span> Ticket </span>
+            <a class="ticket-no" (click)="redirectToUrl(content)">#{{content.ticketNumber}}</a>
+        </div>
+    </div>
+</div>
+<!--Dialog Body End-->
+
+<!--Dialog Footer-->
+<div class="modal-footer">
+    <button class="btn btn-outline-primary" *ngIf="!ticketExists" (click)="close(true)">{{buttonTextYes}}</button>
+    <button class="btn btn-outline-primary" *ngIf="isNotify !== true" (click)="close(false)">{{buttonTextNo}}</button>
+</div>
+<!--Dialog Footer End-->

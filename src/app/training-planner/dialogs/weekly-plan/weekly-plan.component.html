@@ -1,0 +1,62 @@
+<form [formGroup]="weeklyPlanSlotForm">
+    <!-- <div> -->
+    <!--Dialog Header-->
+    <div class="modal-header">
+        <h5 class="modal-title">
+            Create Weekly Planner from Template
+        </h5>
+        <div class="float-right">
+            <div (click)="close()" class="cus-hov">
+                <i class="fa fa-times"></i>
+            </div>
+        </div>
+    </div>
+    <!--Dialog Header End-->
+
+    <!--Dialog Body-->
+    <div class="modal-body">
+        <div class="main_innerpage">
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-field">
+                            <div class="form-field-control">
+                                <ng-select #weekNo [items]="lookup_week" bindLabel="name" bindValue="id" [multiple]="false" placeholder="Week No." clearAllText="Clear"
+                                    [(ngModel)]="weeklyPlanner.slots" [selectableGroup]="false" appendTo="body" formControlName="weekNo"
+                                    [closeOnSelect]="true" [searchable]="false" [clearable]="false" (change)="getDateRange()">
+                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                        <div class="d-inline-block ln-normal">
+                                            <label>{{item.name}}</label>
+                                        </div>
+                                    </ng-template>
+
+                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                        <app-select-multi-label class="w-100" [items]="items">
+                                        </app-select-multi-label>
+                                    </ng-template>
+
+                                    <ng-template ng-header-tmp>
+                                        <input type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="weekNo.filter($event.target.value)"
+                                        />
+                                    </ng-template>
+
+                                </ng-select>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col d-flex align-items-center">
+                        <span *ngIf="weeklyPlanner.slots">{{_startDate}} - {{_endDate}}</span>
+                    </div>
+                    <div class="col-auto d-flex align-items-center">
+                        <button class="btn btn-outline-primary" (click)="save()">Create</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--Dialog Body End-->
+    <!-- </div> -->
+</form>

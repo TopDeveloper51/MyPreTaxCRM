@@ -1,0 +1,5 @@
+$card-border-radius:0;
+.card{margin-bottom: 10px; @include border-radius($card-border-radius);}
+$card-bg:darken($body-bg, 2%);  
+$card-border-color:darken($body-bg, 20%); 
+@import "node_modules/bootstrap/scss/card";

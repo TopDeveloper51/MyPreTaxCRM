@@ -1,0 +1,57 @@
+<div class="edit_create_dialog" style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;font-size: 14px;line-height: 1.42857143;color: #000000;">
+
+    <!-- header title start-->
+    <div class="modal-header">
+        <h5 class="modal-title">
+            Resend
+        </h5>
+        <!-- <div class="pull-right modal-btn padding_top_5">
+            <div (click)="close()" class="cus-hov">
+                <i class="fa fa-times"></i>
+            </div>
+        </div> -->
+        <div class="float-right">
+            <div (click)="close()" class="cus-hov">
+                <i class="fa fa-times"></i>
+            </div>
+        </div>
+
+    </div>
+    <!-- header title end-->
+
+    <div class="modal-body ">
+        <form [formGroup]="resendEmailDialog">
+            <div class="clearfix padding_top_10 col-sm-24">
+                <div>
+                    We will resend the invitation e-mail to the client on the following e-mail address, please change it in case you want to
+                    send the invitation to a different e-mail:
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-22 col-xs-22 input-wrapper padding_r_0 pl-65">
+
+
+                    <div class="form-field">
+                        <div class="form-field-control ml-auto">
+                            <input id="newEmail" type="text" class="form-field-input" placeholder=" " formControlName="newEmail" [value]="resendEmailData.newEmail">
+                            <label for="newEmail" class="form-field-label"></label>
+                            <div class="form-field-bar"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- button start -->
+                <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24 margin_top_30 padding_l_r_0">
+                    <div class="modal-footer dialog-footer clearfix">
+                        <div class="pull-right margin_right_5 margin_bottom_5">
+                            <button class="btn btn-outline-primary" id="cancel" name="cancel" (click)="close()">Cancel</button>
+                        </div>
+                        <div class="pull-right margin_right_5">
+                            <button class="btn btn-outline-primary" id="send" name="send" (click)="resendEmail()" [disabled]="!resendEmailDialog.valid">Send</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- button end -->
+
+            </div>
+        </form>
+    </div>
+</div>

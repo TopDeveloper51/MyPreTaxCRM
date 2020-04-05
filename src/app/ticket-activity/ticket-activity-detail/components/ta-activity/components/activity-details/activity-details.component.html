@@ -1,0 +1,61 @@
+<div class="row" *ngIf="activityAvailable">
+    <div class="col-24">
+        <form [formGroup]="activityDetailEditorForm">
+            <div class="row">
+                <div class="col-20">
+                    <div class="form-field required">
+                        <div class="form-field-control ml-auto" *ngIf="activityData" [ngClass]="{ 'cross-validation-error': activityDetailEditorForm.controls.subject.errors  &&  activityDetailEditorForm.controls.subject.errors.required}">
+                            <input id="subject" type="text" class="form-field-input" placeholder=" " formControlName="subject" [ngClass]="{'text-muted': isEmailIn}">
+                            <label for="subject" class="form-field-label cursor-text">Subject </label>
+                            <div class="form-field-bar"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-field required">
+                        <div class="form-field-control" *ngIf="lookup && lookup.responsiblePersonList" [ngClass]="{ 'cross-validation-error': activityDetailEditorForm.controls.responsiblePerson_value.errors  &&  activityDetailEditorForm.controls.responsiblePerson_value.errors.required}">
+                            <ng-select #responsiblePerson_value groupBy="group" [items]="lookup.responsiblePersonList" bindValue="id" bindLabel="name"
+                                placeholder="Responsible Person " [multiple]="false" formControlName="responsiblePerson_value"
+                                clearAllText="Clear" [selectableGroup]="false" appendTo="body" [closeOnSelect]="true" [searchable]="false"
+                                [clearable]="false" (change)="changeDropDownValue($event)" (open)="lookup.responsiblePersonList = lookup.responsiblePersonList"
+                                required>
+                                <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <label class="font-weight-bold">{{item.group}}</label>
+                                </ng-template>
+                                <ng-template ng-header-tmp>
+                                    <!-- responsiblePerson_value.filter($event.target.value) -->
+                                    <input type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="filterData($event.target.value)"
+                                    />
+                                </ng-template>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm" *ngIf="activityData?.type == 'chat' && ((activityData.chatDetails | json) != '{}')">
+                    <div class="card mb-2 mt-3 pt-0">
+                        <app-chat [activityData]="activityData"></app-chat>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="card mb-2 mt-3 pt-0 border-0">
+                        <div class="card-body p-0">
+                            <div class="form-field">
+                                <div class="form-field-control">
+                                    <kendo-editor #editor *ngIf="isMaximize" [iframe]="false" [style.height.px]="count" style="font-family: 'arial'" formControlName="information">
+                                        <!-- <kendo-toolbar-button text="Upload Image" (click)="open()"></kendo-toolbar-button>
+                                         <kendo-toolbar>
+                                                <kendo-toolbar-button text="Upload Image" (click)="open()"></kendo-toolbar-button>
+                                        </kendo-toolbar>   -->
+                                    </kendo-editor>
+                                    <app-image-dialog #upload [editor]="editor"></app-image-dialog>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

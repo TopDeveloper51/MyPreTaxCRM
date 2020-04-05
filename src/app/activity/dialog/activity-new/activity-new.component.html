@@ -1,0 +1,158 @@
+<!--Dialog header-->
+<div class="modal-header">
+    <div class="pull-left">
+
+    </div>
+    <div (click)="modal.close('NO')" class="cursor-pointer cus-hov">
+        <i class="fa fa-times"></i>
+    </div>
+</div>
+<!--Dialog header End -->
+
+<div class="modal-body dialog-content cal-box">
+    <div class="main_innerpage">
+        <div class=" col-sm-24">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-24">
+                    <a class="activit_box cursor-pointer" id="divChatActivity" (click)="createNewActivity('chat','in','standard')" style="text-align: center">
+                        <div class="icon_wrap cursor-pointer">
+                            <img src="assets/images/chat.png" />
+                        </div>
+                        <div class="">
+                            <label id="divChatActivity" class="normal_text">Chat</label>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-24">
+                    <a class="activit_box cursor-pointer" id="divEmailActivity" (click)="createNewActivity('e-mail','out','email')" style="text-align: center">
+                        <div class="icon_wrap cursor-pointer">
+                            <img src="assets/images/email.png" />
+                        </div>
+                        <div class="">
+                            <label id="lblEmailActivity" class="normal_text">Email</label>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-24">
+                    <a class="activit_box cursor-pointer" id="divEmailResendActivity" (click)="createNewActivity('e-mail resending','out','email')"
+                        style="text-align: center">
+                        <div class="icon_wrap cursor-pointer">
+                            <img src="assets/images/email_resend.png" />
+                        </div>
+                        <div class="">
+                            <label id="lblEmailResendActivity" class="normal_text">Email Resending</label>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-24">
+                    <a class="activit_box cursor-pointer" id="divFairsActivity" (click)="createNewActivity('fairs','in','standard')" style="text-align: center">
+                        <div class="icon_wrap cursor-pointer">
+                            <img src="assets/images/fairs.png" />
+                        </div>
+                        <div class="">
+                            <label id="lblFairsActivity" class="normal_text">Fairs</label>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-24">
+                    <a class="activit_box cursor-pointer" id="divInappsuportActivity" (click)="createNewActivity('inAppSupport','in','standard')"
+                        style="text-align: center">
+                        <div class="icon_wrap cursor-pointer">
+                            <img src="assets/images/inappsuport.png" />
+                        </div>
+                        <div class="">
+                            <label id="divInappsuportActivity" class="normal_text">InAppSupport</label>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-24">
+                    <a class="activit_box cursor-pointer" id="divNoteActivity" (click)="createNewActivity('note','internal','standard')" style="text-align: center">
+                        <div class="icon_wrap cursor-pointer">
+                            <img src="assets/images/note.png" />
+                        </div>
+                        <div class="">
+                            <label id="lblNoteActivity" class="normal_text">Note</label>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-24">
+                    <a class="activit_box cursor-pointer" id="divPhoneActivity" (click)="createNewActivity('phonecall','out','standard')" style="text-align: center">
+                        <div class="icon_wrap cursor-pointer">
+                            <img src="assets/images/phone_call.png" />
+                        </div>
+                        <div class="">
+                            <label id="lblPhoneActivity" class="normal_text">Phone Call</label>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-24">
+                    <a class="activit_box cursor-pointer" id="divVisitActivity" (click)="createNewActivity('visit','out','standard')" style="text-align: center">
+                        <div class="icon_wrap cursor-pointer">
+                            <img src="assets/images/visit.png" />
+                        </div>
+                        <div class="">
+                            <label id="lblVisitActivity" class="normal_text">Visit</label>
+                        </div>   
+                    </a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-24">
+                    <a class="activit_box cursor-pointer" id="divPaymentAccountActivity" (click)="createNewActivity('paymentAccount','in','standard')"
+                        style="text-align: center">
+                        <div class="icon_wrap cursor-pointer">
+                            <img src="assets/images/payment-account.png" />
+                        </div>
+                        <div class="">
+                            <label id="divPaymentAccountActivity" class="normal_text">Payment Account</label>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-24">
+                    <a class="activit_box cursor-pointer" id="divPaymentPhoneActivity" (click)="createNewActivity('paymentPhone','out','standard')"
+                        style="text-align: center">
+                        <div class="icon_wrap cursor-pointer">
+                            <img src="assets/images/PaymentPhone.png" />
+                        </div>
+                        <div class="">
+                            <label id="lblPaymentPhoneActivity" class="normal_text">Payment Phone</label>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-24">
+                    <a class="activit_box cursor-pointer" id="divRefundPaypalActivity" (click)="createNewActivity('refundPaypal','out','standard')"
+                        style="text-align: center">
+                        <div class="icon_wrap cursor-pointer">
+                            <img src="assets/images/RefundPaypal.png" />
+                        </div>
+                        <div class="">
+                            <label id="lblRefundPaypalActivity" class="normal_text">Refund PayPal</label>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-24">
+                    <a class="activit_box cursor-pointer" id="divRefundAccountActivity" (click)="createNewActivity('refundAccount','out','standard')"
+                        style="text-align: center">
+                        <div class="icon_wrap cursor-pointer">
+                            <img src="assets/images/RefundAccount.png" />
+                        </div>
+                        <div class="">
+                            <label id="lblRefundAccountActivity" class="normal_text">Refund Account</label>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-outline-primary" id="cancel" name="cancel" (click)="modal.close('NO')">Cancel
+    </button>
+</div>

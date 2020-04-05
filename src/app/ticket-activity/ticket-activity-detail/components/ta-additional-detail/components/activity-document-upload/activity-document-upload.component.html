@@ -1,0 +1,93 @@
+<div class="w-100 float-left bg-white border mt-2 p-2" *ngIf="activityAvailable">
+    <div class="row">
+        <!--Document List Header start-->
+        <div class="col-24">
+            <div class="float-left">
+                <label class="font-weight-bold mb-0">Document list ({{activityData.documentList.length}})</label>
+            </div>
+            <div class="float-right" [ngClass]="{'no-click':isViewMode}">
+                <!-- DragDrop file -->
+                <div ngFileDrop [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput">
+                </div>
+                <!-- Upload file -->
+                <label class="mb-0 pt-0">
+                    <input #uploader type="file" name="uploadDocument" [disabled]="disableUpload" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)"
+                        [uploadInput]="uploadInput" class="d-none">
+                    <span class="text-primary font-weight-bold cursor-pointer" [ngClass]="{'text-muted':isViewMode}">Click</span> to upload
+                </label>
+            </div>
+        </div>
+        <!--Document List Header Ends-->
+        <!--progressBar-->
+        <div class="col-24" *ngIf="progressPercentage > 0 && progressPercentage!==100">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="50" aria-valuemin="0"
+                aria-valuemax="100">
+                <b>{{progressPercentage}}%</b>
+            </div>
+        </div>
+        <!-- Error Message -->
+        <span class="text-danger" *ngIf="fileSizeMessage">Your selected file is more than 15MB in size.</span>
+
+
+        <!--Document List Table Start-->
+        <div class="w-100 float-left p-1" *ngIf="activityData.documentList && activityData.documentList.length>0">
+            <table class="table table-bordered table-hover table-striped word_break mb-0">
+                <tbody *ngFor="let doc of activityData.documentList; let i=index">
+                    <tr *ngIf="doc !== undefined && doc !== null" id="{{i}}">
+                        <td [title]="doc.fileName ? doc.fileName : doc.generatedFileName" style="width: 65%;">
+                            <!-- [ngClass]="{ highLight: currentSelRecordingFileIndex == i }" -->
+                            <span class="text-truncate d-block" style="max-width: 140px;" *ngIf="doc.fileName !== undefined && doc.fileName !==''">{{doc.fileName}}</span>
+                            <span class="text-truncate d-block" style="max-width: 140px;" *ngIf="doc.fileName == undefined">{{doc.generatedFileName}}</span>
+                        </td>
+                        <td class="px-1">
+                            <a class="mx-1" [href]="getDocument(doc.ID,doc.contentType,doc.fileName)">
+                                <i class="fa fa-download" ngbTooltip="Download" container="body" data-placement="left" tooltipClass="default"></i>
+                            </a>
+                            <i class="fa fa-trash cursor-pointer mx-1 font-14" *ngIf="doc.fileType == undefined" [ngClass]="{'no-click text-muted':isViewMode || isEmailIn}"
+                                (click)="deleteDocument(doc.ID)"></i>
+
+                            <i class="fa fa-play-circle cursor-pointer mx-1" *ngIf="doc.fileType === 'CallRecording'" ngbTooltip="play" container="body"
+                                data-placement="left" tooltipClass="default" (click)="play(doc.url,i);"></i>
+
+                            <img class=" cursor-pointer mx-1" *ngIf="doc.fileType === 'CallRecording' " ngbTooltip="Transcript the recording" container="body"
+                                data-placement="left" tooltipClass="default" (click)="requestTranscript(doc)" src="../../../../../../../assets/images/transcript.png"
+                                height="16px" width="auto">
+
+                            <i class="fa fa-comments cursor-pointermx-1" *ngIf="doc.contentType === 'text/plain' && doc.fileType === 'CallRecording'"
+                                ngbTooltip="view transcript" container="body" data-placement="left" tooltipClass="default" (click)="openTranscriptionChat(doc)"
+                                height="16px" width="auto"></i>
+                        </td>
+                    </tr>
+                    <tr *ngIf="doc !== undefined && doc !== null">
+                        <td colspan=2 *ngIf="url != undefined  && isPlay[i] == true && isShowAudio[i] == true" style=" padding: 12px 0;">
+                            <div class="audio-wrap" style="width: 250px;">
+                                <audio style="width: 250px;" class="p-1" audioplayer controls="false" (play)="onPlay();" autoplay="true" src="{{url}}" controlsList="nodownload"
+                                    class="fl" id="myaudio"></audio>
+                                <div class="audio-controls">
+                                    <i (click)="onStop()" *ngIf="showStop" ngbTooltip="Stop" container="body" data-placement="left" tooltipClass="default"
+                                        style="float: left; margin-top: 10px; margin-left: 15px;vertical-align: middle;font-size: 18px;"
+                                        class="fa fa-stop-circle"></i>
+                                    <i (click)="closePlay(i)" class="fa fa-times" ngbTooltip="Close" container="body" data-placement="left" tooltipClass="default"
+                                        style="float: left; margin-top: 10px; margin-left: 15px;vertical-align: middle;cursor: pointer;font-size: 18px;"></i>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="col-24 mt-3" *ngIf="activityData.documentList && activityData.documentList.length==0">
+            <div class="alert mb-0 p-0">No data found</div>
+        </div>
+        <!--Document List Table End-->
+    </div>
+</div>
+
+<!-- <div *ngIf="isDataLoading">
+    <div class="preloader">
+        <div class="preloader-container">
+            <span class="animated-preloader"></span>
+        </div>
+    </div>
+</div> -->

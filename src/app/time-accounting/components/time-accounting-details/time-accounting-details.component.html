@@ -1,0 +1,266 @@
+<div class="accordion show" id="accordion" *ngFor="let history of availableHistory;let i = index" aria-expanded="true">
+    <div class="card mb-2" style="border-radius: 5px; border-bottom: 1px solid rgba(0, 0, 0, 0.08)">
+        <div class="card-header cursor-pointer" data-toggle="collapse" [attr.data-target]="'#accordion'+ i">
+            <a role="button" data-toggle="collapse" href="#collapse-1" aria-expanded="true" aria-controls="collapse-1">
+                <b class="font-14 margin_top_5">{{history.department}}</b>
+            </a>
+        </div>
+        <div id="collapse-1" class="collapse show" data-parent="#accordion" aria-labelledby="heading-1">
+            <div class="card-body">
+                <div id="accordion-1" *ngFor="let data of history.departmentData;let i = index">
+                    <div class="card">
+                        <div class="card-header" id="heading-1-1">
+                            <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-1-1"
+                                aria-expanded="true" aria-controls="collapse-1-1">
+
+                                <b class="font-14 pull-left margin_top_5">{{data.name}}</b>
+                            </a>
+                        </div>
+                        <div id="collapse-1-1" class="collapse show" data-parent="#accordion-1"
+                            aria-labelledby="heading-1-1">
+                            <div class="card-body">
+                                <div id="accordion-1-1" *ngFor="let accDetails of data.accountingDetails;let i = index">
+                                    <div class="card">
+                                        <div class="card-header" id="heading-1-1-1">
+                                            <a class="collapsed" role="button" data-toggle="collapse"
+                                                href="#collapse-1-1-1" aria-expanded="true"
+                                                aria-controls="collapse-1-1-1">
+                                                <b class="font-14 pull-left margin_top_5">
+                                                    {{accDetails.date}}</b>
+                                            </a>
+                                            <span
+                                                *ngIf="accDetails !== undefined && accDetails.totalWorkingHours !== undefined && accDetails.totalWorkingHours !== null && accDetails.totalWorkingHours !== ''">
+                                                <i class="font-14"> | Total Working Time -
+                                                    {{ accDetails.totalWorkingHours | hhmmss :true}}</i>
+                                            </span>
+                                            <i style="padding-left:10px;"
+                                                *ngIf="accDetails !== undefined && accDetails.checkInCheckOutDetails !== undefined && accDetails.checkInCheckOutDetails !== null && accDetails.checkInCheckOutDetails.length > 0">
+                                                ({{accDetails.checkInCheckOutDetails.length}})
+                                            </i>
+                                            <span class="padding_right_20" style="float: right;">
+                                                <i *ngIf="accDetails.status !== undefined && accDetails.status == 'approved'"
+                                                    class="margin_right_20 font-14" style="color:rgb(27, 185, 27)">
+
+                                                    <i *ngIf="accDetails.status !== undefined && accDetails.status == 'approved'"
+                                                        class="fa fa-check-circle " aria-hidden="true"></i>
+                                                    Approved By {{accDetails.verifiedByName}} On
+                                                    {{accDetails.verifiedDate}}</i>
+
+
+                                                <!--- **********************************************  TIME ACCOUNTING USER DATA STARTS  ******************************************-->
+                                                <div *ngIf="!isManagerMode">
+                                                    
+
+                                                    <i *ngIf="accDetails.checkInCheckOutDetails !== undefined && accDetails.checkInCheckOutDetails.length > 0 && (accDetails.status == undefined || accDetails.status == 'pending')"
+                                                        style="color: #cf5454;padding-right :20px"
+                                                        class="margin_top_5 pull-right">Not
+                                                        Requested for Approval yet</i>
+                                                    <i *ngIf="accDetails.status !== undefined && accDetails.status == 'sentForApproval'"
+                                                        class="margin_right_20 font-14" style="color:#9b963a">
+                                                        <i *ngIf="accDetails.status !== undefined && accDetails.status == 'sentForApproval'"
+                                                            class="fa fa-check-circle margin_right_5"
+                                                            aria-hidden="true"></i>Request sent
+                                                        for Approval On {{accDetails.sentForApprovalDate}}</i>
+                                                    <i *ngIf="accDetails.checkInCheckOutDetails !== undefined && accDetails.checkInCheckOutDetails.length > 0 && (accDetails.status !== undefined && accDetails.status == 'reopened')"
+                                                        style="color: rgb(4, 40, 156);padding-right :20px"
+                                                        class="margin_top_5 pull-right">Reopened by
+                                                        {{accDetails.reopenedByName}} On
+                                                        {{accDetails.reopenedDate}}</i>
+                                                    <span
+                                                        *ngIf="accDetails.status !== undefined && accDetails.status =='sentForApproval' && (data.isAbleToApprove == true || isTopManagementUser == true)"
+                                                        class=" margin_right_25 pull-right"
+                                                        (click)="$event.stopPropagation(); approval(accDetails,'reopened', data.userName)">
+                                                        <button style="background-color: #005074; color: white"
+                                                            type="button"
+                                                            *ngIf="accDetails.checkInCheckOutDetails !== undefined && accDetails.checkInCheckOutDetails.length > 0"
+                                                            aria-hidden="true" class='btn btn-default'>Reopen</button>
+                                                    </span>
+                                                    <span
+                                                        *ngIf="accDetails.status !== undefined && accDetails.status =='sentForApproval' && (data.isAbleToApprove == true || isTopManagementUser == true)"
+                                                        class=" margin_right_25 pull-right"
+                                                        (click)="$event.stopPropagation(); approval(accDetails,'approved', data.userName)">
+                                                        <button style="background-color: rgb(27, 185, 27); color: white"
+                                                            type="button"
+                                                            *ngIf="accDetails.checkInCheckOutDetails !== undefined && accDetails.checkInCheckOutDetails.length > 0"
+                                                            aria-hidden="true" class='btn btn-default'>Approve</button>
+                                                    </span>
+                                                    <span *ngIf="accDetails.hasButtonEnable == true"
+                                                        class=" margin_right_25 pull-right"
+                                                        (click)="$event.stopPropagation();">
+                                                        <span>
+                                                            <button style="background-color: #005074; color: white"
+                                                                type="button"
+                                                                *ngIf="accDetails.checkInCheckOutDetails !== undefined && accDetails.checkInCheckOutDetails.length > 0"
+                                                                aria-hidden="true" class='btn btn-default'
+                                                                (click)="approval(accDetails,'sentForApproval', data.userName)">Request
+                                                                For
+                                                                Approval</button>
+                                                        </span>
+                                                    </span>
+                                                    <a class="margin_right_25 margin_top_5 cursor-pointer"
+                                                        title="Break Details History"
+                                                        *ngIf="(accDetails.breakDetails !== undefined && accDetails.breakDetails.length > 0) && (accDetails.status !== undefined && accDetails.status !== 'pending' && accDetails.status !== 'reopened')">
+                                                        <img src="assets/images/break.png" height="22px;" width="22px;"
+                                                            (click)='$event.stopPropagation(); getBreakDetailsHistory(accDetails, data.userName)' />
+                                                    </a>
+                                                    <a class=" margin_right_25 margin_top_5 cursor-pointer"
+                                                        title="Break Explanation"
+                                                        *ngIf="(accDetails.breakDetailsLeft !== undefined && accDetails.breakDetailsLeft.length > 0) && (accDetails.status !== undefined && accDetails.status !== 'sentForApproval' && accDetails.status !== 'approved')">
+                                                        <img src="assets/images/break.png" height="22px;" width="22px;"
+                                                            (click)='$event.stopPropagation(); setBreakDetails(accDetails, data.userName)' />
+                                                    </a>
+                                                    <a class=" margin_right_25 margin_top_5 cursor-pointer"
+                                                        title="Reopened History"
+                                                        *ngIf="accDetails.reopenedHistory && accDetails.reopenedHistory.length > 0">
+                                                        <img src="assets/images/reopen.png" height="22px;" width="22px;"
+                                                            (click)='$event.stopPropagation(); showReopenedHistory(accDetails)' />
+                                                    </a>
+                                                   
+                                                    <a *ngIf="accDetails.isPlusIconEnable == true"
+                                                        class=" margin_right_25 margin_top_5 pull-right"
+                                                        (click)="manualEntry(accDetails.date,$event)">
+                                                        <i class="fa fa-plus font-14 cursor-pointer"
+                                                            aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                                <!--- **********************************************  TIME ACCOUNTING USER DATA ENDS  ******************************************-->
+
+                                                <!--- **********************************************  TIME ACCOUNTING MANAGER DATA STARTS  ******************************************-->
+                                                <div *ngIf="isManagerMode">
+
+                                                    <span
+                                                        *ngIf="accDetails.status =='sentForApproval' && (data.isAbleToApprove == true || isTopManagementUser === true)"
+                                                        class=" margin_right_25 pull-right"
+                                                        (click)="$event.stopPropagation(); approval(accDetails, 'reopened', data.userName)">
+                                                        <button style="background-color: #005074; color: white"
+                                                            type="button"
+                                                            *ngIf="accDetails.checkInCheckOutDetails !== undefined && accDetails.checkInCheckOutDetails.length > 0"
+                                                            aria-hidden="true" class='btn btn-default'>Reopen</button>
+                                                    </span>
+                                                    <span
+                                                        *ngIf="accDetails.status =='sentForApproval' && (data.isAbleToApprove == true || isTopManagementUser == true)"
+                                                        class=" margin_right_25 pull-right"
+                                                        (click)="$event.stopPropagation(); approval(accDetails, 'approved', data.userName)">
+                                                        <button style="background-color: rgb(27, 185, 27); color: white"
+                                                            type="button"
+                                                            *ngIf="accDetails.checkInCheckOutDetails !== undefined && accDetails.checkInCheckOutDetails.length > 0"
+                                                            aria-hidden="true" class='btn btn-default'>Approve</button>
+                                                    </span>
+                                                    <span *ngIf="accDetails.isRqstAprvShow == true"
+                                                        class="margin_right_25 pull-right"
+                                                        (click)="$event.stopPropagation();">
+                                                        <span>
+                                                            <button style="background-color: #005074; color: white"
+                                                                type="button"
+                                                                *ngIf="accDetails.checkInCheckOutDetails !== undefined && accDetails.checkInCheckOutDetails.length > 0"
+                                                                aria-hidden="true" class='btn btn-default'
+                                                                (click)="approval(accDetails,'sentForApproval', data.userName)">Request
+                                                                For Approval</button>
+                                                        </span>
+                                                    </span>
+                                                    <span
+                                                        *ngIf="accDetails.checkInCheckOutDetails !== undefined && accDetails.checkInCheckOutDetails.length > 0 && accDetails.status =='sentForApproval'"
+                                                        class=" margin_right_25 pull-right margin_top_5"
+                                                        style="color: #cf5454">
+                                                        <i>Not Approved yet</i>
+                                                    </span>
+                                                    <span
+                                                        *ngIf=" accDetails.checkInCheckOutDetails !== undefined && accDetails.checkInCheckOutDetails.length > 0 && accDetails.status == undefined ||  accDetails.status =='pending'"
+                                                        class=" margin_right_25 pull-right margin_top_5"
+                                                        style="color: #cf5454">
+                                                        <i>Not Requested for Approval yet</i>
+                                                    </span>
+                                                    <span
+                                                        *ngIf=" accDetails.checkInCheckOutDetails !== undefined && accDetails.checkInCheckOutDetails.length > 0 && accDetails.status !== undefined &&  accDetails.status =='reopened'"
+                                                        class=" margin_right_25 pull-right margin_top_5"
+                                                        style="color: rgb(4, 40, 156)">
+                                                        <i>Reopened by {{accDetails.reopenedByName}} On
+                                                            {{accDetails.reopenedDate}}</i>
+                                                    </span>
+                                                    <a class=" margin_right_25 margin_top_5 pull-right"
+                                                        title="Break Details History"
+                                                        *ngIf="(accDetails.breakDetails !== undefined && accDetails.breakDetails.length > 0) && (accDetails.status !== undefined && accDetails.status == 'approved')">
+                                                        <img src="assets/images/break.png" height="22px;" width="22px;"
+                                                            (click)='$event.stopPropagation(); getBreakDetailsHistory(accDetails, data.userName)' />
+                                                    </a>
+
+                                                    <a class=" margin_right_25 margin_top_5 pull-right"
+                                                        title="Break Explanation"
+                                                        *ngIf="(accDetails.breakDetailsLeft !== undefined && accDetails.breakDetailsLeft.length > 0) && (accDetails.status !== undefined && accDetails.status !== 'approved')">
+                                                        <img src="assets/images/break.png" height="22px;" width="22px;"
+                                                            (click)='$event.stopPropagation(); setBreakDetails(accDetails, data.userName)' />
+                                                    </a>
+
+                                                    <a *ngIf="accDetails.isPlusIconEnable == true"
+                                                    class=" margin_right_25 margin_top_5 pull-right"
+                                                    (click)="manualEntry(accDetails.date,$event)">
+                                                    <i class="fa fa-plus font-14 cursor-pointer"
+                                                        aria-hidden="true"></i>
+                                                </a>
+
+                                                    <a class=" margin_right_25 margin_top_5 pull-right"
+                                                        title="Reopened History"
+                                                        *ngIf="accDetails.reopenedHistory  && accDetails.reopenedHistory.length > 0">
+                                                        <img src="assets/images/reopen.png" height="22px;" width="22px;"
+                                                            (click)='$event.stopPropagation(); showReopenedHistory(accDetails)' />
+                                                    </a>
+
+                                                </div>
+                                                <!--- **********************************************  TIME ACCOUNTING MANAGER DATA ENDS  ******************************************-->
+                                            </span>
+                                        </div>
+                                        <div
+                                            *ngIf="accDetails !== undefined && accDetails.checkInCheckOutDetails !== undefined && accDetails.checkInCheckOutDetails !== null && accDetails.checkInCheckOutDetails.length > 0">
+                                            <div class="row">
+                                                <div class="col-24 deta-aggrid">
+
+                                                    <ag-grid-angular #agGrid id="myGrid" style="width: 100%;"
+                                                        class="ag-theme-balham" [columnDefs]="columnDefs"
+                                                        [defaultColDef]="defaultColDef" [domLayout]="domLayout"
+                                                        [rowData]="accDetails.checkInCheckOutDetails"
+                                                        (gridReady)="onGridReady($event)" [sideBar]="sideBar"
+                                                        [getRowHeight]="getRowHeight" [multiSortKey]="multiSortKey"
+                                                        [animateRows]="animateRows" (rowClicked)="onRowClicked($event)"
+                                                        [getRowStyle]="getRowStyle" [rowClassRules]="rowClassRules"
+                                                        [floatingFilter]="floatingFilter"
+                                                        [enableCellTextSelection]="true">
+                                                    </ag-grid-angular>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="pull-left col-xs-24 col-sm-24 padding_l_0"
+                                            *ngIf="accDetails.checkInCheckOutDetails === undefined || accDetails.checkInCheckOutDetails === null || accDetails.checkInCheckOutDetails.length === 0">
+                                            No Data Available
+                                        </div>
+                                        <div style="margin-top: 30px; float: left; width: 100%;"
+                                            *ngIf="accDetails.showGraph == true">
+                                            <div class="pull-left graph_contain_area">
+                                                    <dtu-graph *ngIf="accDetails.showGraph == true && isShowDraw == true" [options]="accDetails.options" (breakData)="confirmAsBreak($event)"></dtu-graph>
+                                                <!-- <app-data-graph [options]="history.options" *ngIf="history.showGraph == true && isShowDraw == true"
+                                (breakData)="confirmAsBreak($event)"></app-data-graph> -->
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div style="margin-top: 30px; float: left; width: 100%;" *ngIf="history.showGraph == true">
+                    <div class="pull-left graph_contain_area">
+                            <!-- <dtu-graph *ngIf="history.showGraph == true && isShowDraw == true" [options]="history.options" (breakData)="confirmAsBreak($event)"></dtu-graph> -->
+                        <!-- <app-data-graph [options]="history.options" *ngIf="history.showGraph == true && isShowDraw == true"
+(breakData)="confirmAsBreak($event)"></app-data-graph> -->
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

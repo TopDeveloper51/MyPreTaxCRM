@@ -1,0 +1,24 @@
+<!--Dialog header-->
+<div class="modal-header">
+    <h5 class="modal-title">Contact List</h5>
+
+    <div class="float-right">
+        <div (click)="modal.close(false)" class="cus-hov">
+            <i class="fa fa-times"></i>
+        </div>
+    </div>
+</div>
+<!--Dialog header End -->
+
+<div class="modal-body">
+    <div class="col-24 col-xl-24 col-sm-24 col-md-24">
+        <app-customer-contact [customerID]="customerID" [isTestCustomer]="isTestCustomer"></app-customer-contact>
+    </div>
+</div>
+
+
+<!-- Dialog Footer starts -->
+<div class="modal-footer">
+    <button class="btn btn-outline-primary" id="cancel" name="cancel" (click)="modal.close(false)">Cancel
+    </button>
+</div>

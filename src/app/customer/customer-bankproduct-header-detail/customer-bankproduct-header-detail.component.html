@@ -1,0 +1,121 @@
+<div class="row">
+    <div class="col-5">
+        <div class="row">
+            <div class="col-22">
+                <span class="font-weight-bold">Bank Product Header</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-19">
+        <div class="row">
+            <div class="col-8">
+                <span class="font-weight-bold">Bank Product Details History </span>
+                <span
+                    *ngIf="!unidentifiedCustomer && customerBPHistoryDetailsRowData && customerBPHistoryDetailsRowData.length > 0"
+                    class="font-weight-bold">({{customerBPHistoryDetailsRowData.length | number}})</span>
+            </div>
+            <div class="col-xl-16 text-right mb-space ">
+                <button class="btn btn-outline-primary " (click)="nonBankProductCustomer()"
+                    [disabled]="bpHeader!==undefined && bpHeader.NoBP!==undefined">Non Bank Product Customer</button>
+                <button class="btn btn-outline-primary ml-2" (click)="newRecord()">Add Bank Product Detail</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-5 pt-2">
+        <div *ngIf="bpHeader!=undefined && bpHeader.BPDetailsHistoryId!=undefined">
+            <div class="d-inline-block custom-checkbox w-100">
+                <label class="">
+                    <span>BP Volume:&nbsp;</span>
+                    <span *ngIf="bpHeader.BPVolume && !unidentifiedCustomer" title="{{bpHeader.BPVolume | number}}">
+                        <i>{{bpHeader.BPVolume | number}}</i>
+                    </span>
+                    <span *ngIf="!bpHeader.BPVolume && bpHeader.NoBP==undefined" title="Unknown">Unknown</span>
+                </label>
+            </div>
+
+            <div class="d-inline-block custom-checkbox w-100">
+                <label class="">
+                    <span class="">Source:&nbsp;</span>
+                    <span title="{{bpHeader.source}}" *ngIf="!unidentifiedCustomer">
+                        <i>{{bpHeader.source}}</i>
+                    </span>
+                </label>
+            </div>
+
+
+            <div class="d-inline-block custom-checkbox w-100">
+                <label class="">
+                    <span class="">Bank:&nbsp;</span>
+                    <span title="{{bpHeader.bank}}" *ngIf="!unidentifiedCustomer">
+                        <i>{{bpHeader.bank}}</i>
+                    </span>
+                </label>
+            </div>
+
+            <div class="d-inline-block custom-checkbox w-100"
+                *ngIf="bpHeader.NoBP !==undefined && bpHeader.NoBP == true">
+                <div class="custom-control custom-checkbox mb-8 mb-6 d-inline-block mr-3">
+                    <input type="checkbox" class="custom-control-input" [(ngModel)]="bpHeader.NoBP" id="NoBP"
+                        title="Non Bank Product Customer" [disabled]="true">
+                    <label class="custom-control-label" for="NoBP">Non BP Customer</label>
+                </div>
+            </div>
+            <div class="d-inline-block custom-checkbox w-100"
+                *ngIf="bpHeader.createdByName !==undefined && bpHeader.createdByName !==''">
+                <label class="">
+                    <span title="Created By">Created By:&nbsp;</span>
+                    <span title="{{bpHeader.createdByName}} {{bpHeader.createdDate}}" *ngIf="!unidentifiedCustomer">
+                        <i>{{bpHeader.createdByName}} {{bpHeader.createdDate}}</i>
+                    </span>
+                </label>
+            </div>
+            <div class="d-inline-block custom-checkbox w-100"
+                *ngIf="bpHeader.updatedByName !==undefined && bpHeader.updatedByName !==''">
+                <label class="">
+                    <span title="Updated By">Updated By:&nbsp;</span>
+                    <span title="{{bpHeader.updatedByName}} {{bpHeader.updatedDate}}" *ngIf="!unidentifiedCustomer">
+                        <i>{{bpHeader.updatedByName}} {{bpHeader.updatedDate}}</i>
+                    </span>
+                </label>
+            </div>
+            <div class="d-inline-block custom-checkbox w-100"
+                *ngIf="bpHeader==undefined || bpHeader.BPDetailsHistoryId == undefined">
+                <label class="">
+                    No Data Available
+                </label>
+            </div>
+
+
+        </div>
+
+
+
+    </div>
+
+
+    <!-- ************************************* Grid ************************************************** -->
+
+    <div class="col-19 pt-2">
+        <div *ngIf="customerBPHistoryDetailsRowData && customerBPHistoryDetailsRowData.length > 0">
+            <ag-grid-angular #agGrid style="width: 100%;" class="ag-theme-balham"
+                [columnDefs]="customerBPHistoryDetailsColumnDefs" [domLayout]="domLayout" [rowData]="customerBPHistoryDetailsRowData"
+                [defaultColDef]="defaultColDef" (gridReady)="onGridReady($event)" [enableCellTextSelection]="true"
+                (rowClicked)="onRowClicked($event)">
+            </ag-grid-angular>
+        </div>
+        <div class="padding_15" *ngIf="customerBPHistoryDetailsRowData && customerBPHistoryDetailsRowData.length == 0">
+            No Data Available
+        </div>
+    </div>
+
+
+
+
+
+</div>
+

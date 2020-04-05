@@ -1,0 +1,49 @@
+<div class="row">
+    <div class="col-xl-20">
+        <p class="font-weight-bold d-inline-block">License</p>
+        <p class="font-weight-bold d-inline-block" *ngIf="rowData && rowData.length > 0">&nbsp;({{rowData.length | number}})</p>
+    </div>
+
+    <div class="col-xl-4 ml-auto pl-0">
+        <div class="row">
+            <div class="col-18">
+                <div class="form-field">
+                    <div class="form-field-control">
+                        <input id="totalOffice" type="number" name="totalOffice" class="cursor-pointer form-field-input" placeholder=" "
+                            [(ngModel)]="licenseSave.totalOffice">
+                        <label for="totalOffice" class="form-field-label cursor-pointer">Total Office
+                        </label>
+                        <div class="form-field-bar">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto d-inline-block mb-space mt-2 float-right">
+                <button class="btn btn-outline-primary" (click)="saveNumberOfOffices()" [disabled]="!licenseSave.totalOffice">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-24 pt-2" *ngIf="rowData && rowData.length > 0 ">
+        <ag-grid-angular #agGrid style="width: 55%;" class="ag-theme-balham" [rowData]="rowData" [columnDefs]="columnDefs" [defaultColDef]="defaultColDef"
+            [domLayout]="domLayout" [enableCellTextSelection]="true" (rowClicked)="onRowClicked($event)" (gridReady)="onGridReady($event)">
+        </ag-grid-angular>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-24" *ngIf="!rowData || rowData.length===0">
+        No Data Available
+    </div>
+</div>
+
+<hr>
+<app-customer-ledger [customerID]="customerID" [customerDetail]="customerDetails" [unidentifiedCustomer]='unidentifiedCustomer'
+    [isTestCustomer]='isTestCustomer'>
+</app-customer-ledger>
+
+<hr>
+<app-customer-coupon [customerID]="customerID" [unidentifiedCustomer]='unidentifiedCustomer'>
+</app-customer-coupon>

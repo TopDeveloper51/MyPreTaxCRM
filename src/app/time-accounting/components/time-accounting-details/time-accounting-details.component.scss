@@ -1,0 +1,54 @@
+
+.slot-info {
+    position: absolute;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+    background-color: #fff;
+    z-index: 9;
+    right: 90px;
+    padding: 10px;
+    min-width: 655px;
+    top: 10px;
+}
+
+.slot-info:before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    background: url('/assets/images/triangle-icon.png');
+    background-size: 20px;
+    right: -40px;
+    color: #fff;
+    padding: 20px;
+    background-repeat: no-repeat;
+    pointer-events: none;
+}
+.margin_right_20 {
+    margin-right: 20px;
+}
+.margin_right_25 {
+    margin-right: 25px;
+}
+.margin_right_5 {
+    margin-right: 5px;
+}
+.margin_top_5 {
+    margin-top: 5px;
+}
+.mb-0 > a {
+    display: block;
+    position: relative;
+  }
+  .mb-0 > a:after {
+    content: "\f078"; /* fa-chevron-down */
+    font-family: 'FontAwesome';
+    position: absolute;
+    right: 0;
+  }
+  .mb-0 > a[aria-expanded="true"]:after {
+    content: "\f077"; /* fa-chevron-up */
+  }
+  .a{
+      color: black
+  }
+
+ 

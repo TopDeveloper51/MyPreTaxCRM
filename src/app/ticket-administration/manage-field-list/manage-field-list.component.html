@@ -1,0 +1,41 @@
+<div class="col cont-us">
+    <div class="row">
+        <div class="col">
+            <div class="crm-heading   crm-grid__item" id="crm_heading">
+                <div class="crm-container">
+                    <div class="crm-heading__main">
+                        <h3 class="crm-heading__title">Manage Field List</h3>
+                        <span class="crm-heading__separator crm-hidden"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-auto ml-auto float-right">
+            <button class="btn btn-outline-primary mt-2" (click)="addField()">
+                Add New
+            </button>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-24">
+            <div class="crm-mainbox crm-portlet--height-fluid-half">
+                <div class="container-fluid p-3">
+                    <div class="no-found" *ngIf="!availableData || availableData.length==0">
+                        <p class="mb-0">No Data Available</p>
+                    </div>
+                    <div class="deta-aggrid" *ngIf="availableData.length > 0">
+                        <p class="font-weight-bold mb-2">Field List
+                            <span>({{rowData.length | number}})</span>
+                        </p>
+                        <ag-grid-angular #grid style="width: 40%; height: calc(100vh - 179px);" class="ag-theme-balham" [rowData]="rowData" [columnDefs]="columnDefs"
+                            (rowClicked)="onRowClicked($event)" [domLayout]="domLayout" [rowSelection]="rowSelection" [defaultColDef]="defaultColDef"
+                            [animateRows]="animateRows" [enableCellTextSelection]="true" (gridReady)="onGridReady($event)" [editType]="editType">
+                        </ag-grid-angular>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,8 @@
+.popup-scroll-wrap{overflow: auto; max-height: 75vh;}
+.efine-letter-img-wrap img{width: 100%;} 
+.file-upload-wrap .drop-box{background: #f8f8f8; border: 4px dashed #ddd; margin-top: 15px; position: relative; margin-bottom: 15px;}
+.file-upload-wrap .drop-box.file-over-blue{ border: 4px dashed rgb(73, 158, 197);}
+.file-over{ padding: 15px;  min-height: 80px;}
+.upload-button{position: absolute; top: 0px; right: 0px; bottom: 0px; left: 0px; margin: auto; width: 169px; height: 30px; text-align: center;
+    line-height: 30px; font-weight: bold; color: #666666;cursor: pointer; }
+.upload-button input{display: none;}

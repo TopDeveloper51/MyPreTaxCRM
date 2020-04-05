@@ -1,0 +1,57 @@
+<div class="crm-login-box">
+  <div class="crm-login-title">
+    <h3 class="text-uppercase text-primary font-weight-bold">PLEASE LOG IN</h3>
+  </div>
+  <form class="crm-login-form" [formGroup]="loginForm" (ngSubmit)="doLogin()">
+    <div class="row mb-4" *ngIf="errorHandler.IsValidUser == false">
+      <div class="col text-center text-danger">
+        Please enter a valid username and a password.
+      </div>
+    </div>
+
+    <div class="row mb-4" *ngIf="errorHandler.IsUserLocked == true">
+      <div class="col text-center text-danger">
+        User is locked due to too many wrong password attempts.
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="form-field">
+          <div class="form-field-control">
+            <input id="Username" name="login-username" formControlName="username" #username type="username"
+              class="form-field-input" autocomplete="false" placeholder=" " autoFocus />
+            <label for="Username" class="form-field-label">Username</label>
+            <div class="form-field-bar"></div>
+          </div>
+          <div class="text-danger mt-2"
+            *ngIf="isSubmit && (loginForm.controls['username'].errors && loginForm.controls['username'].errors.required)">
+            Please enter user name.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-field">
+          <div class="form-field-control">
+            <input id="password" name="login-password" formControlName="password" #password type="password"
+              class="form-field-input" autocomplete="false" placeholder=" " />
+
+            <label for="password" class="form-field-label">Password</label>
+            <div class="form-field-bar"></div>
+          </div>
+          <div class="text-danger mt-2"
+            *ngIf="isSubmit && (loginForm.controls['password'].errors && loginForm.controls['password'].errors.required)">
+            Please enter password.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col text-center">
+        <button type="submit" class="btn btn-outline-primary btn-lg mt-3 px-5">Login</button>
+      </div>
+    </div>
+  </form>
+</div>

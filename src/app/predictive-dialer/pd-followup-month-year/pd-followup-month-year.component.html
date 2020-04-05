@@ -1,0 +1,25 @@
+<div class="clearfix year-block padding_10 padding_l_0" style="padding-top: 0px !important" *ngIf="showMonthYear">
+  <div class="clearfix header_dialer">Select Followup Month/Year</div>
+  <div class="row col-xl-24 mb-3">
+      <!-- [ngForOf]="timePeriod | keys" -->
+    <ng-template ngFor let-time [ngForOf]="timePeriod | keys">
+      <div class="col-xl-10 padding_l_r_0 years-list-blocks" *ngIf="timePeriod && timePeriod[time].length > 0">
+        <div class="years-inner">
+          <div class="year-label">
+            <label>{{time}}</label>
+          </div>
+          <div class="years">
+            <ul>
+              <li *ngFor="let month of timePeriod[time]">
+                <button class="margin_right_5 margin_bottom_5 btn" style="width:100px"
+                  [ngClass]="{'btn-success' : (month.month == followupMonth), 'btn-default' : !(month.month == followupMonth)}"
+                  (click)="selectTime(month)" *ngIf="month && month.month">{{month.month}}</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>
+

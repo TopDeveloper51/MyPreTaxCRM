@@ -1,0 +1,56 @@
+<!--Dialog Header-->
+<div class="modal-header">
+    <h5 class="modal-title">
+        Knowledgebase
+    </h5>
+    <div class="float-right">
+        <div (click)="modal.close('NO')" class="cus-hov">
+            <i class="fa fa-times"></i>
+        </div>
+    </div>
+</div>
+<!--Dialog Header End-->
+
+<!--Dialog Body-->
+<div class="modal-body">
+    <div class="col-24 col-xl-24 col-sm-24 col-md-24 ml-1 pr-4" *ngIf="screen === undefined || screen !== 'errorType'">
+        <div class="table_scroll">
+            <table class="table">
+                <tbody>
+                    <tr *ngFor="let error of data let i=index" id="{{i}}" draggable="false">
+                        <td style="width:95%">
+                            <div class="row">
+
+                                <div class="col-xs-20 col-sm-20 col-md-20 col-lg-20">
+                                    <div class="form-field">
+                                        <div class="form-field-control">
+                                            <input id="errorType_{{i}}" type="text" class="form-field-input" [(ngModel)]="error.displayText">
+                                            <label for="errorType_{{i}}" class="form-field-label">Sub-Type</label>
+                                            <div class="form-field-bar"></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 float-right">
+
+                                    <div class="float-right cursor-pointer pl-3" *ngIf="error.displayText !== undefined && error.displayText !== null && error.displayText !== ''">
+                                        <a (click)="error.isOpen = error.isOpen !== undefined ? !error.isOpen : false">
+                                            <span class="fa fa-chevron-down" *ngIf="error.isOpen !== undefined && error.isOpen === true" title="Collapse Sub-Type"></span>
+                                            <span class="fa fa-chevron-up" *ngIf="error.isOpen === undefined || error.isOpen === false" title="Expand Sub-Type"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="error.displayText !== undefined && error.displayText !== null && error.displayText !== '' && error.isOpen">
+                                <label class="pt-2">Knowledgebase</label>
+                                <kendo-editor [(ngModel)]="error.knowledgeBase" style="height: 300px;width:100%">
+                                </kendo-editor>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!--Dialog Body End-->

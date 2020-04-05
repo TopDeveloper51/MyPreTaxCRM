@@ -1,0 +1,109 @@
+<!-- Marketing headers -->
+
+<!-- <div class="cont-us">
+    <div class="row">
+        <div class="col-24">
+            <div class="crm-mainbox border-top-0 crm-portlet--height-fluid-half mb-0" style="border-top-left-radius: 0;">
+                <div class="container-fluid p-3"> -->
+
+<div class="row">
+    <div class="col-10" *ngIf="!isTaxVisionReseller">
+        <span class="font-weight-bold">FOIA Information</span>
+    </div>
+    <div class="col-10" *ngIf="!isTaxVisionReseller">
+        <span class="font-weight-bold">Information Collected by Sales Agent</span>
+    </div>
+
+    <div class="col-4">
+        <span class="font-weight-bold">Postcard Campaign Coupon</span>
+    </div>
+
+</div>
+<!-- Grid -->
+<div class="row" *ngIf="!isTaxVisionReseller">
+    <!--  -->
+    <div class="col-10 pt-2">
+        <div *ngIf="marketingdataDetailRowData && marketingdataDetailRowData.length > 0">
+            <ag-grid-angular #agGrid style="width: 100%;" class="ag-theme-balham" [columnDefs]="marketingdataDetailColumnDefs" [domLayout]="domLayout"
+                [rowData]="marketingdataDetailRowData" [enableCellTextSelection]="true" [defaultColDef]="defaultColDef" (gridReady)="onMarketingDataDetailGridReady($event)">
+            </ag-grid-angular>
+        </div>
+        <div class=" padding_15 pull" *ngIf="marketingdataDetailRowData && marketingdataDetailRowData.length == 0">
+            No Data Available
+        </div>
+    </div>
+    <!--  -->
+    <div class="col-10 pt-2">
+        <div *ngIf="softwareDetailRowData && softwareDetailRowData.length > 0">
+            <ag-grid-angular #agGrid style="width: 100%;" class="ag-theme-balham" [columnDefs]="softwareDetailColumnDefs" [domLayout]="domLayout"
+                [rowData]="softwareDetailRowData" [enableCellTextSelection]="true" [defaultColDef]="defaultColDef" (gridReady)="onSoftwareDetailGridReady($event)">
+            </ag-grid-angular>
+        </div>
+        <div class="padding_15" *ngIf="softwareDetailRowData && softwareDetailRowData.length == 0">
+            No Data Available
+        </div>
+    </div>
+
+    <div class="col-4 pt-2">
+        <div class="">
+            <div class="d-inline-block w-75">
+                <div class="form-field">
+                    <div class="form-field-control">
+                        <ng-select [items]="couponList" bindLabel="name" bindValue="id" placeholder="Coupon" clearAllText="Clear" appendTo="body"
+                            name="postCardCampaignCoupon" [(ngModel)]="postCardCampaignCoupon" [closeOnSelect]="true" [clearable]="false">
+                        </ng-select>
+                    </div>
+                </div>
+            </div>
+            <div class="d-inline-block text-right mb-space mt-2 float-right">
+                <button class="btn btn-outline-primary" (click)="saveCoupon()" [disabled]="!postCardCampaignCoupon">Save</button>
+            </div>
+        </div>
+        <div class="pt-3" *ngIf="isTaxVisionReseller">
+
+            <div class="d-inline-block w-100">
+                <span class="font-weight-bold">QMS Bank Code</span>
+            </div>
+
+            <div class="d-inline-block w-75">
+                <div class="form-field">
+                    <div class="form-field-control">
+                        <input id="contactname" type="text" name="QMSBankCode" [(ngModel)]="QMSBankCode" class=" form-field-input" placeholder=" ">
+                        <label for="contactname" class="form-field-label">Code</label>
+                        <!-- pattern="\s*(\S\s*){3,}" -->
+                        <div class="form-field-bar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-inline-block text-right mb-space mt-2 float-right">
+                <button class="btn btn-outline-primary" (click)="saveCode()" [disabled]="!QMSBankCode">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<div class="row">
+    <div class="col-12 border-right">
+        <p class="font-weight-bold">Website Visit</p>
+        <app-customer-website-visit [customerID]='customerID'></app-customer-website-visit>
+    </div>
+    <div class="col-12">
+        <app-customer-review [customerID]='customerID'></app-customer-review>
+    </div>
+</div>
+
+<hr>
+
+<div class="row">
+    <div class="col-24">
+        <app-customer-softwareUsed [customerID]='customerID'></app-customer-softwareUsed>
+    </div>
+</div>
+<!-- </div>
+            </div>
+        </div>
+    </div>
+</div> -->

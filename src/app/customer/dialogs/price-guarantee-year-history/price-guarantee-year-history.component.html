@@ -1,0 +1,45 @@
+<!--Dialog header-->
+<div class="modal-header">
+    <h5 class="modal-title">
+        History
+    </h5>
+    <!-- <div class="pull-right modal-btn padding_top_2">
+        <div class="cursor-pointer">
+            <div (click)="modal.close(false)" class="cus-hov">
+                <i class="fa fa-times color-white"></i>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="float-right">
+        <div (click)="modal.close(false)" class="cus-hov">
+            <i class="fa fa-times"></i>
+        </div>
+    </div>
+
+</div>
+<!--Dialog header End -->
+
+<div class="modal-body cal-box">
+
+    <div class="col-24 col-xl-24 col-sm-24 col-md-24">
+
+        <b *ngIf="PGperYearHistoryListRowData && PGperYearHistoryListRowData.length > 0">Price Guarantee Per Year History ({{PGperYearHistoryListRowData.length}})
+        </b>
+        <div class="row">
+            <div class="col-24 pt-2 " *ngIf="PGperYearHistoryListRowData && PGperYearHistoryListRowData.length > 0">
+                <!-- height: calc(100vh - 285px); -->
+                <ag-grid-angular #agGrid style="width: 100%;" class="ag-theme-balham" [rowData]="PGperYearHistoryListRowData" [columnDefs]="columnDefs"
+                    [enableCellTextSelection]="true" [defaultColDef]="defaultColDef" [domLayout]="domLayout" (gridReady)="onGridReady($event)">
+                </ag-grid-angular>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-24 padding_15" *ngIf="(!PGperYearHistoryListRowData || PGperYearHistoryListRowData.length===0)">
+                No Data Available
+            </div>
+        </div>
+    </div>
+
+</div>

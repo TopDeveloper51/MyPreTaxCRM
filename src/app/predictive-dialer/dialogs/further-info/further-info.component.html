@@ -1,0 +1,110 @@
+<div class="further_info_dialog">
+  <!--Dialog Header-->
+  <div class="modal-header">
+    <h5 class="modal-title">
+      Please fill required Inputs
+    </h5>
+    <div class="float-right">
+      <div (click)="close()" class="cus-hov">
+        <i class="fa fa-times"></i>
+      </div>
+    </div>
+  </div>
+  <!--Dialog Header End-->
+
+  <!--Dialog Body-->
+  <div class="modal-body">
+    <div class="col-sm-24 border_left_right padding_l_r_0 dialer_main_wrapper" style="max-height:725px; overflow: auto">
+      <div class="padding_10">
+        <div class="padding_10 padding_l_r_0 current-software-block pt-0" style="border-bottom: 1px solid grey">
+          <div class="col-lg-12 header_dialer pt-0">
+            Quick Links
+          </div>
+          <div class="col-lg-12  padding_r_0">
+            <span class="float-right">
+              <!-- <input type="button" color="primary" buttonText="{{software.name}} - Save and Resume" class="margin_right_5" *ngFor="let software of quickLinks"
+                (click)="selectCommonButton(software.id)"> -->
+            </span>
+          </div>
+        </div>
+
+        <app-predictive-dialer-call-input [(predictiveDialer)]="predictiveDialer" [mandatoryBPDetails]="mandatoryBPDetails"></app-predictive-dialer-call-input>
+        <!-- month and year block start -->
+        <app-pd-followup-month-year [showMonthYear]="showMonthYear" [timePeriod]="timePeriod" [followupMonth]="predictiveDialer.followupMonth"
+          (selectMonthYear)="selectTime($event)"></app-pd-followup-month-year>
+        <!-- month and year block end -->
+
+
+
+        <!-- <div class="padding_10 padding_l_r_0 current-software-block">
+          <div class="col-xs-24 header_dialer" style="padding-top: 0px !important">
+            <img class="curso-pointer" src="assets/images/software.png" /> Current Software
+          </div>
+
+          <div class="padding_top_15">
+            <span>
+              <button class="margin_right_5 btn" [ngClass]="{'btn-success' : (software.id === predictiveDialer.currentSoftware), 'btn-default' : !(software.id === predictiveDialer.currentSoftware)}"
+                *ngFor="let software of renewalType" (click)="selectCurrentSoftware(software.id, true)">{{software.name}}</button>
+            </span>
+            <span class="ididnotask">
+              <button class="margin_right_5 btn" [ngClass]="{'btn-success' : (software.id === predictiveDialer.currentSoftwareQuestionReply), 'btn-default' : !(software.id === selectedCurrentSoftware)}"
+                *ngFor="let software of currentSoftware" (click)="selectCurrentSoftware(software.id)">{{software.name}}</button>
+            </span>
+          </div>
+        </div>
+
+        <div class="padding_10 padding_l_r_0 bank-products-block">
+          <div class="col-xs-24 header_dialer">
+            <img class="curso-pointer" style="width: 24px" src="assets/images/bank-products.png" /> Financial Partners
+          </div>
+
+          <div class="padding_top_10 padding_l_r_0">
+            <div class="col-lg-3 col-md-3 col-sm-4 input-wrapper padding_top_20 padding_r_0" style="padding-left: 5px">
+
+              <ilink-textbox  type="text" [(ngModel)]="predictiveDialer.noOfBankProducts" name="bankproduct" placeholder="No. of Bank Products"
+                [disabled]="predictiveDialer.isUnknownVolume == true" (ngModelChange)="selectBPDetails()" [required]="mandatoryBPDetails"></ilink-textbox>
+
+            </div>
+
+            <div class="col-lg-2 col-md-3 col-sm-4 checkbox_wrap padding_top_20 padding_r_0">
+              <ilink-checkbox color="primary" type="checkbox" id="Unknown" name="Unknown" [(ngModel)]="predictiveDialer.isUnknownVolume" title="unknown"
+                (change)="selectBPDetails()" placeholder="Unknown"></ilink-checkbox>
+            </div>
+
+            <div class="col-lg-11 col-md-9 col-sm-16 padding_top_10 padding_l_r_0">
+              <button class="margin_right_5 btn" [ngClass]="{'btn-success' : (predictiveDialer.bankName.indexOf(bank.id) !== -1), 'btn-default' : !(predictiveDialer.bankName.indexOf(bank.id) !== -1)}"
+                *ngFor="let bank of bankLookup" (click)="selectBPDetails(bank.id)">{{bank.name}}</button>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-24 padding_top_10 padding_r_0 ididnotaskfinance">
+              <button class="margin_right_5 btn" [ngClass]="{'btn-success' : (bank.id === predictiveDialer.bankProductQuestionReply), 'btn-default' : !(bank.id === selectedBankProduct)}"
+                *ngFor="let bank of bankProduct" (click)="selectBankProduct(bank.id)">{{bank.name}}</button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="col-xs-24 header_dialer">
+            <img class="curso-pointer" style="width: 25px" src="assets/images/notes.png" /> Notes
+          </div>
+          <div class=" note_input_wrap">
+            <ilink-textarea id="notes" cols="" rows="4" name="notes" [ngClass]="{'padding_top_5':(!predictiveDialer.notes ||predictiveDialer.notes === '')}"
+              [(ngModel)]="predictiveDialer.notes" color="primary" [placeholder]="(!predictiveDialer.notes ||predictiveDialer.notes === '')? 'Write your notes here': ''"
+              class="height_68" (ngModelChange)="notesFormat()"></ilink-textarea>
+
+          </div>
+        </div>-->
+
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <!-- <ilink-button color="primary" class="margin_right_5" buttonText="Save and Resume" [disabled]="(predictiveDialer.currentSoftwareQuestionReply == undefined && this.predictiveDialer.currentSoftware == undefined) || (this.predictiveDialer.bankProductQuestionReply == undefined || (this.predictiveDialer.bankProductQuestionReply === 'BPCustomer' && ((this.predictiveDialer.noOfBankProducts == undefined && (this.predictiveDialer.isUnknownVolume == undefined || this.predictiveDialer.isUnknownVolume == false)) || (this.predictiveDialer.bankName == undefined || this.predictiveDialer.bankName.length == 0))))"
+      (click)="saveAndResume()"></ilink-button>
+
+    <ilink-button color="primary" buttonText="Cancel" (click)="close()">
+
+    </ilink-button> -->
+  </div>
+  <!--Dialog Body End-->
+
+</div>

@@ -1,0 +1,194 @@
+<!--Dialog Header-->
+<!-- <div [ngClass]="{'modal-lg': onlyReasonBreakExists && modeType=='compact'}"> -->
+<div class="modal-header">
+    <div class=" modal-title">
+        <h5>
+            <span *ngIf="!showHistory || showIndividualEntry">Break Details</span>
+            <span *ngIf="showHistory && !showIndividualEntry">Break Details History</span>
+            <i class="pl-3" style="opacity: 1;"> ( {{userName}}
+                <span *ngIf="date"> | {{date}} </span>
+                )</i>
+        </h5>
+    </div>
+
+    <div class="float-right">
+        <div class="row" style="margin-right: 0px !important">
+            <div class="col-auto" *ngIf="!showIndividualEntry && reasonBreakExists">
+                <div class="btn-group" role="group" aria-label="...">
+                    <button type="button" *ngFor="let mode of modeList" class="btn btn-outline-primary wpx-100" (click)="setMode(mode.id);" [ngClass]="{'btn-primary':modeType==mode.id}">{{mode.name}}</button>
+                </div>
+            </div>
+            <div (click)="close()" class="cus-hov">
+                <i class="fa fa-times"></i>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Dialog Header End-->
+<div *ngIf="onlyReasonBreakExists && modeType=='compact'" class="modal-body">
+    <label id="lblOnlyBreakData" class="normal_text">No data available in 'Compact' view.
+    </label>
+</div>
+<form [formGroup]="breakDetailsForm" *ngIf="!onlyReasonBreakExists || (onlyReasonBreakExists && modeType !== 'compact')">
+    <div class="modal-body">
+        <div class="clearfix padding_top_10 padding_bottom_15">
+            <div class="no_header_border" style="max-height: 700px; overflow: auto;">
+                <table class="table" style="border: 1px solid #ddd; margin-bottom: 0px">
+                    <thead>
+                        <tr>
+                            <th style="background: #b1b1b1; color: white; width: 8%">
+                                Start Time
+                            </th>
+                            <th style="background: #b1b1b1; color: white;width: 8%">
+                                End Time
+                            </th>
+                            <th style="background: #b1b1b1; color: white;width: 10%">
+                                Duration (min.)
+                            </th>
+                            <th style="background: #b1b1b1; color: white;width: 19%">
+                                Taken For
+                            </th>
+                            <th style="background: #b1b1b1; color: white; width:55%">
+                                Reason Details
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody formArrayName="breakData">
+                        <ng-template ngFor let-data [ngForOf]="breakDetailsForm['controls'].breakData['controls']" let-i="index">
+                            <tr *ngIf="modeType!=='compact' || (modeType=='compact' && !data.value.isBreak)" [formGroupName]="i.toString()">
+                                <td>
+                                    {{data.value.startTime | date:"hh:mm a"}}
+                                </td>
+                                <td>
+                                    {{data.value.endTime | date:"hh:mm a"}}
+                                </td>
+                                <td>
+                                    {{data.value.duration}}
+                                </td>
+                                <td>
+                                    <div *ngIf="!showHistory" class="dropdown_wrapper padding_top_10" [ngClass]="{no_pointer : showHistory}">
+                                        <div class="form-field required">
+                                            <div class="form-field-control">
+                                                <ng-select #reason [items]="lookup.breakExplanationList" bindValue="id" bindLabel="name" placeholder="Reason" [multiple]="false"
+                                                    formControlName="reason" clearAllText="Clear" [selectableGroup]="false" appendTo="body"
+                                                    [closeOnSelect]="true" [searchable]="false" [clearable]="false" (change)="setIndependentFlags(breakDetailsForm.get('breakData').value, $event.id, i, 'modelChange')"
+                                                    [readonly]="data.value.isBreak">
+                                                    <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                                        <label class="font-weight-bold">{{item.group}}</label>
+                                                    </ng-template>
+                                                    <ng-template ng-header-tmp>
+                                                    </ng-template>
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="padding_top_10" *ngIf="showHistory">
+                                        {{data.value.reason}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="col-lg-9 padding_l_0 padding_top_10" *ngIf="data.value.askForConductor">
+                                        <div class="form-field required" style="margin-bottom: 4px !important">
+                                            <div class="form-field-control" [ngClass]="{ 'cross-validation-error': data.controls.conductorId.errors  &&  data.controls.conductorId.errors.required}">
+                                                <ng-select #responsiblePerson_value groupBy="group" [items]="lookup.responsiblePersonList" bindValue="id" bindLabel="name"
+                                                    placeholder="Conductor Name" [multiple]="false" formControlName="conductorId"
+                                                    clearAllText="Clear" [selectableGroup]="false" appendTo="body" [closeOnSelect]="true"
+                                                    [searchable]="false" [clearable]="false" (open)="lookup.responsiblePersonList = rpLookupDataForFilter"
+                                                    [readonly]="showHistory" required>
+                                                    <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                                        <label class="font-weight-bold">{{item.group}}</label>
+                                                    </ng-template>
+                                                    <ng-template ng-header-tmp>
+                                                        <input type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="filterData($event.target.value)"
+                                                        />
+                                                    </ng-template>
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-9 padding_l_0 padding_top_10" *ngIf="data.value.askForColleague">
+                                        <div class="form-field required" style="margin-bottom: 4px !important">
+                                            <div class="form-field-control" [ngClass]="{ 'cross-validation-error': data.controls.colleagueId.errors  &&  data.controls.colleagueId.errors.required}">
+                                                <ng-select #responsiblePerson_value groupBy="group" [items]="lookup.responsiblePersonList" bindValue="id" bindLabel="name"
+                                                    placeholder="Colleague Name" [multiple]="false" formControlName="colleagueId"
+                                                    clearAllText="Clear" [selectableGroup]="false" appendTo="body" [closeOnSelect]="true"
+                                                    [searchable]="false" [clearable]="false" (open)="lookup.responsiblePersonList = rpLookupDataForFilter"
+                                                    [readonly]="showHistory" required>
+                                                    <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                                        <label class="font-weight-bold">{{item.group}}</label>
+                                                    </ng-template>
+                                                    <ng-template ng-header-tmp>
+                                                        <input type="text" [appAutofocus] class="in-set form-field-input" placeholder="Search" (input)="filterData($event.target.value)"
+                                                        />
+                                                    </ng-template>
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" formArrayName="activityLink">
+                                        <ng-template ngFor let-linkData [ngForOf]="data['controls'].activityLink['controls']" let-linkIndex="index">
+                                            <div *ngIf="findTypeOfActivityLink(linkData.value.link) == true" [formGroupName]="linkIndex" class="col-lg-21">
+                                                <div class="form-field required">
+                                                    <div class="form-field-control">
+                                                        <input id="activityLink_{{linkIndex}}" type="text" class=" form-field-input" formControlName="link" placeholder=" " [readonly]="showHistory">
+                                                        <label for="activityLink_{{linkIndex}}" class="form-field-label">Activity Link</label>
+                                                        <div class="form-field-bar"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="findTypeOfActivityLink(linkData.value.link) == true" class="col-lg-1 pt-4">
+                                                <i *ngIf="linkData.controls['link'].errors && 
+                                                    linkData.controls['link'].errors.pattern" class="fa fa-exclamation cursor-pointer"
+                                                    aria-hidden="true" title="Enter a proper Activity/Ticket URL path"></i>
+                                            </div>
+                                            <div *ngIf="findTypeOfActivityLink(linkData.value.link) == true" class="col-lg-1 pt-3">
+                                                <button class="btn" type="button" *ngIf="linkIndex==0 && !showHistory" (click)="addLink(i)" title="Add Link">
+                                                    <i class="fa fa-plus font_size_20 text-primary pull-right"></i>
+                                                </button>
+                                                <button class="btn" type="button" *ngIf="linkIndex!==0 && !showHistory" (click)="removeLink(i,linkIndex)" title="Remove Link">
+                                                    <i class="fa fa-times font_size_20 text-primary"></i>
+                                                </button>
+                                            </div>
+                                        </ng-template>
+                                    </div>
+                                    <div class="col-lg-24 input-wrapper" *ngIf="data.value.isFreeTextAllowed" [ngClass]="{'padding_top_15': !data.value.askForActivityLink && (data.value.askForConductor || data.value.askForColleague), 'padding_top_4': !data.value.askForActivityLink && !data.value.askForConductor && !data.value.askForColleague}">
+                                        <div class="form-field required">
+                                            <div class="form-field-control">
+                                                <textarea id="explanation_{{i}}" type="text" formControlName="explanation" class="text-resize form-field-input" placeholder=" " rows="1"
+                                                     [readonly]="showHistory">
+                                                                            </textarea>
+                                                <label for="explanation_{{i}}" class="form-field-label">Explanation</label>
+                                                <div class="form-field-bar"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <label *ngIf="data.value.reason && !data.value.isFreeTextAllowed" class="col-lg-24 font-weight-normal" [ngClass]="{'pt-3': !showHistory}">
+                                        <i> Explanation Not Needed</i>
+                                    </label>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer" *ngIf="!showHistory">
+        <div class="col-lg-20 input-wrapper" *ngIf="data.status == 'reopened'">
+            <div class="form-field required">
+                <div class="form-field-control">
+                    <textarea id="reopenedReason" type="text" formControlName="reopenedReason" class="text-resize form-field-input" placeholder=" " rows="1"
+                        >
+                                                        </textarea>
+                    <label for="reopenedReason" class="form-field-label">Reason for Reopening Request</label>
+                    <div class="form-field-bar"></div>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-outline-primary" id="save" name="save" (click)="save()">Save</button>
+        <button class="btn btn-outline-primary" id="cancel" name="cancel" (click)="close()">Cancel
+        </button>
+    </div>
+</form>
+<!-- </div> -->

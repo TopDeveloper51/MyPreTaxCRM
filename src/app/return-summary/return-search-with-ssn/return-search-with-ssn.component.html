@@ -1,0 +1,734 @@
+
+<div class="row">
+    <div class="col-24 customersearch">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-customerSearchSSN-tab" data-toggle="tab" href="#customerSearchSSN" role="tab"
+                    aria-controls="nav-customerSearchSSN" aria-selected="true">Customer
+                </a>
+                <a class="nav-item nav-link" id="nav-returnSearchSSN-tab" data-toggle="tab" href="#returnSearchSSN" role="tab" aria-controls="nav-returnSearchSSN"
+                    aria-selected="false">Return
+                </a>
+                <a class="nav-item nav-link" id="nav-statisticsSearchSSN-tab" data-toggle="tab" href="#statisticsSearchSSN" role="tab" aria-controls="nav-statisticsSearchSSN"
+                    aria-selected="false">Statistics
+                </a>
+                <a class="nav-item nav-link" id="nav-efileSearchSSN-tab" data-toggle="tab" href="#efileSearchSSN" role="tab" aria-controls="nav-efileSearchSSN"
+                    aria-selected="false">Efile
+                </a>
+                <a class="nav-item nav-link" id="nav-efileHistorySearchSSN-tab" data-toggle="tab" href="#efileHistorySearchSSN" role="tab"
+                    aria-controls="nav-efileHistorySearchSSN" aria-selected="false" (click)="Search()">Efile History
+                </a>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+
+            <!-- Customer tab starts-->
+            <div class="tab-pane fade pt-3 show active" id="customerSearchSSN" role="tabpanel" aria-labelledby="nav-customerSearchSSN-tab">
+                <div class="col-lg-6 col-md-24 col-sm-24 margin_top_10 padding_l_0 quick_width_full">
+                    <div class="info_tile_wrap">
+                        <div class="info_tile_title">
+                            Customer Information
+                            <img src="assets/images/Angebot.png" title="Go to customer (Reseller: {{customerInfo.customerName}})" (click)="goToCustomerCart()"
+                                class="cursor-pointer ">
+                        </div>
+                        <div class="info_tile_content">
+                            <div class="clearfix">
+                                <label class="float-left font-weight-bold">Customer Id</label>
+                                <span class="float-right">{{customerInfo.customerId}}</span>
+                            </div>
+                            <div class="clearfix">
+                                <label class="float-left font-weight-bold">Customer Name
+                                </label>
+                                <span class="float-right ">{{customerInfo.customerName}}</span>
+                            </div>
+                            <div class="clearfix">
+                                <label class="float-left font-weight-bold">Sales Process Status
+                                </label>
+                                <span class=" float-right ">{{customerInfo.salesProcessStatus}}</span>
+                            </div>
+                            <div class="clearfix">
+                                <label class="float-left font-weight-bold">Department</label>
+                                <span class="float-right ">{{customerInfo.department }}</span>
+                            </div>
+                            <div class="clearfix">
+                                <label class="float-left font-weight-bold">Customer Number
+                                </label>
+                                <span class="float-right ">{{customerInfo.customerNumber }}</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Customer tab ends-->
+
+
+
+
+            <!-- Return tab starts-->
+            <div class="tab-pane fade pt-3" id="returnSearchSSN" role="tabpanel" aria-labelledby="nav-returnSearchSSN-tab">
+                <div class="row">
+                    <div class="col-lg-6 col-md-24 col-sm-24 ">
+                        <div class="info_tile_wrap">
+                            <div class="info_tile_title">
+                                Return
+                            </div>
+                            <div class="info_tile_content">
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Return Type</label>
+                                    <span class="float-right ">Individual</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Filling Status
+                                    </label>
+                                    <span class="float-right font-weight-bold">{{quickSummaryWithSearch.returnInfoDetail.fillStatus}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Created By</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.returnInfoDetail.createdBy}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="font-weight-bold">Created Date & Time</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.returnInfoDetail.createdDateTime | date:'MM/dd/yyyy h:mm a'}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Updated By</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.returnInfoDetail.updatedBy}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="font-weight-bold">Updated Date & Time</label>
+                                    <span class=" float-right ">{{quickSummaryWithSearch.returnInfoDetail.lastEdited | date:'MM/dd/yyyy h:mm a'}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Return Status
+                                    </label>
+                                    <span class=" float-right ">{{quickSummaryWithSearch.returnInfoDetail.status | json}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-24 col-sm-24">
+                        <div class="info_tile_wrap">
+                            <div class="info_tile_title">
+                                Taxpayer
+                            </div>
+                            <div class="info_tile_content">
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">SSN</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.taxPayerDetail.ssn}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Name</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.taxPayerDetail.firstName}} {{quickSummaryWithSearch.taxPayerDetail.lastName}}
+                                    </span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Address</label>
+                                    <div class="float-right " *ngIf="quickSummaryWithSearch.taxPayerDetail.usStreet!=''">
+                                        <div>{{quickSummaryWithSearch.taxPayerDetail.usAptNo}}
+                                            <span *ngIf="quickSummaryWithSearch.taxPayerDetail.usAptNo && quickSummaryWithSearch.taxPayerDetail.usStreet">,
+                                            </span>{{quickSummaryWithSearch.taxPayerDetail.usStreet}}
+                                        </div>
+                                        <div>{{quickSummaryWithSearch.taxPayerDetail.usZipCode}}
+                                            <span *ngIf="quickSummaryWithSearch.taxPayerDetail.usZipCode && quickSummaryWithSearch.taxPayerDetail.usCity">,
+                                            </span>{{quickSummaryWithSearch.taxPayerDetail.usCity}}
+                                            <span *ngIf="quickSummaryWithSearch.taxPayerDetail.usState && quickSummaryWithSearch.taxPayerDetail.usCity">,
+                                            </span>{{quickSummaryWithSearch.taxPayerDetail.usState}}
+                                        </div>
+                                    </div>
+                                    <div class="float-right " *ngIf="quickSummaryWithSearch.taxPayerDetail.usAptNo == '' ">
+                                        <div>{{quickSummaryWithSearch.taxPayerDetail.fgStreet}}
+                                            <span *ngIf="quickSummaryWithSearch.taxPayerDetail.fgCity && quickSummaryWithSearch.taxPayerDetail.fgStreet">,
+                                            </span>{{quickSummaryWithSearch.taxPayerDetail.fgCity}}
+                                        </div>
+                                        <div>
+                                            {{quickSummaryWithSearch.taxPayerDetail.fgPostalCode}}
+                                            <span *ngIf="quickSummaryWithSearch.taxPayerDetail.fgPostalCode && quickSummaryWithSearch.taxPayerDetail.fgState">,
+                                            </span>{{quickSummaryWithSearch.taxPayerDetail.fgState}}
+                                            <span *ngIf="quickSummaryWithSearch.taxPayerDetail.fgCountry && quickSummaryWithSearch.taxPayerDetail.fgState">,
+                                            </span>{{quickSummaryWithSearch.taxPayerDetail.fgCountry}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Home No</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.taxPayerDetail.phoneNo}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Email</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.taxPayerDetail.email}}</span>
+                                </div>
+
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Date of Birth
+                                    </label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.taxPayerDetail.dateOfBirth}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Date of Death
+                                    </label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.taxPayerDetail.dateOfDeath}}</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--second info card start-->
+                    <div class="col-lg-6 col-md-24 col-sm-24 ">
+                        <div class="info_tile_wrap">
+                            <div class="info_tile_title">
+                                Spouse
+                            </div>
+                            <div class="info_tile_content">
+
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">SSN</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.spouseDetail.ssn}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Name</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.spouseDetail.firstName}} {{quickSummaryWithSearch.spouseDetail.lastName}}
+                                    </span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Home No</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.spouseDetail.phoneNo}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Email</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.spouseDetail.email}}</span>
+                                </div>
+
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Date of Birth
+                                    </label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.spouseDetail.dateOfBirth}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Date of Death
+                                    </label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.spouseDetail.dateOfDeath}}</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--second info card end-->
+                    <!--third info card start-->
+                    <div class="col-lg-6 col-md-24 col-sm-24 ">
+                        <div class="info_tile_wrap">
+                            <div class="info_tile_title">
+                                Preparer
+                            </div>
+                            <div class="info_tile_content">
+
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Id</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.preparerDetail.preparerId}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Name</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.preparerDetail.name}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">SSN</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.preparerDetail.ssn}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">PTIN</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.preparerDetail.ptin}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">EIN</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.preparerDetail.ein}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Phone No</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.preparerDetail.telephoneNo}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Email</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.preparerDetail.email}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!--other start-->
+                    <!--other end-->
+
+                    <!--third info card start-->
+                    <!--additional information start-->
+
+                    <div class="col-lg-6 col-md-24 col-sm-24 ">
+                        <div class="info_tile_wrap">
+                            <div class="info_tile_title">
+                                Bank
+                            </div>
+                            <div class="info_tile_content">
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">RTN</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.bankDetail.rtn}}</span>
+                                </div>
+
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Account No</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.bankDetail.accountNo}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Account Type
+                                    </label>
+                                    <span class=" float-right " *ngIf="quickSummaryWithSearch.bankDetail.accountType == '2'">Saving</span>
+                                    <span class=" float-right " *ngIf="quickSummaryWithSearch.bankDetail.accountType == '1'">Current</span>
+                                </div>
+
+
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Name</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.bankDetail.name}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--additional information end-->
+                </div>
+            </div>
+            <!-- Return tab ends-->
+
+            <!-- statistics tab starts -->
+            <div class="tab-pane fade pt-3" id="statisticsSearchSSN" role="tabpanel" aria-labelledby="nav-statisticsSearchSSN-tab">
+                <div class="row">
+                    <div class="col-lg-6 col-md-24 col-sm-24 ">
+                        <div class="info_tile_wrap">
+                            <div class="info_tile_title">
+                                Income
+                            </div>
+                            <div class="info_tile_content">
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Wages & Salary
+                                    </label>
+
+                                    <span class="float-right ">{{quickSummaryWithSearch.incomeDetail.wagesAndSalary | currency:'USD':'symbol':'1.2-2'}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Interest & Dividend
+                                    </label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.incomeDetail.interestAndDividend | currency:'USD':'symbol':'1.2-2'}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Business Income
+                                    </label>
+                                    <span class=" float-right ">{{quickSummaryWithSearch.incomeDetail.businessIncome | currency:'USD':'symbol':'1.2-2'}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Capital Gain
+                                    </label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.incomeDetail.capitalGain | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Farm Income</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.incomeDetail.farmIncome | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Other Income
+                                    </label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.incomeDetail.otherIncome | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Total Income
+                                    </label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.incomeDetail.totalIncome | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Total Adjustment
+                                    </label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.incomeDetail.totalAdjustment | currency:'USD':'symbol':'1.2-2'
+                                        }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">AGI</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.incomeDetail.adjustedGrossIncome | currency:'USD':'symbol':'1.2-2'
+                                        }}
+                                    </span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Itemized / Std. Deduction
+                                    </label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.incomeDetail.itemizedOrStandardDed | currency:'USD':'symbol':'1.2-2'
+                                        }}
+                                    </span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Taxable income
+                                    </label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.incomeDetail.taxableIncome | currency:'USD':'symbol':'1.2-2'
+                                        }}</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--CREDIT SUMMARY start-->
+                    <div class="col-lg-6 col-md-24 col-sm-24 ">
+                        <div class="info_tile_wrap">
+                            <div class="info_tile_title">
+                                Credit
+                            </div>
+                            <div class="info_tile_content">
+
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Foreign tax</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.creditDetail.foreignTaxCredit | currency:'USD':'symbol':'1.2-2'
+                                        }}
+                                    </span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Child & dependent care
+                                    </label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.creditDetail.childAndDepCare | currency:'USD':'symbol':'1.2-2'
+                                        }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Elderly or disabled
+                                    </label>
+                                    <span class=" float-right ">{{quickSummaryWithSearch.creditDetail.elderlyAndDisableCr | currency:'USD':'symbol':'1.2-2'
+                                        }}
+                                    </span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Education</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.creditDetail.educationCredit | currency:'USD':'symbol':'1.2-2'
+                                        }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Retirement savings contri.
+                                    </label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.creditDetail.rtrSavingsCredit | currency:'USD':'symbol':'1.2-2'
+                                        }}
+                                    </span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">EIC</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.creditDetail.eic | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">CTC</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.creditDetail.ctc | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Adoption</label>
+                                    <span class="float-right "></span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Additional child care
+                                    </label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.creditDetail.additionCTC | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Other Credit
+                                    </label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.creditDetail.otherCredit | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Total Credit
+                                    </label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.creditDetail.totalCredit | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--second info card end-->
+                    <!--third info card start-->
+                    <div class="col-lg-6 col-md-24 col-sm-24 ">
+                        <div class="info_tile_wrap">
+                            <div class="info_tile_title">
+                                Tax
+                            </div>
+                            <div class="info_tile_content">
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Tax on Income
+                                    </label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.taxDetail.taxOnIncome | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">AMT</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.taxDetail.amt | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Other taxes</label>
+                                    <span class=" float-right ">{{quickSummaryWithSearch.taxDetail.otherTaxes | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Total Tax</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.taxDetail.totalTax | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-24 col-sm-24 ">
+                        <div class="info_tile_wrap">
+                            <div class="info_tile_title">
+                                Payment
+                            </div>
+                            <div class="info_tile_content">
+
+
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Income tax withheld
+                                    </label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.paymentDetail.incomeTaxWithheld | currency:'USD':'symbol':'1.2-2'
+                                        }}
+                                    </span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Estimated tax payment
+                                    </label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.paymentDetail.estimateTaxPayAmt | currency:'USD':'symbol':'1.2-2'
+                                        }}
+                                    </span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Other payments
+                                    </label>
+                                    <span class=" float-right ">{{quickSummaryWithSearch.paymentDetail.otherPayments | currency:'USD':'symbol':'1.2-2'
+                                        }}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Estimated tax penalty
+                                    </label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.paymentDetail.estimateTaxPenalyt | currency:'USD':'symbol':'1.2-2'
+                                        }}
+                                    </span>
+                                </div>
+                                <div class="clearfix" *ngIf="quickSummaryWithSearch.paymentDetail.balanceDue>0">
+                                    <label class="float-left font-weight-bold">Balance Due</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.paymentDetail.balanceDue | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                                <div class="clearfix" *ngIf="!quickSummaryWithSearch.paymentDetail.balanceDue && quickSummaryWithSearch.paymentDetail.balanceDue>=0">
+                                    <label class="float-left font-weight-bold">Refund</label>
+                                    <span class="float-right ">{{quickSummaryWithSearch.paymentDetail.refund | currency:'USD':'symbol':'1.2-2' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <!--additional information start-->
+                    <div class="" *ngIf="quickSummaryWithSearch.stateDetails.length!==0">
+                        <h3 class="page_title_wrap title_height_40 margin_bottom_20 clearfix" translate="ESTIMATOR_PERSONALINFO_LBL" translate-default="State Information">
+                        </h3>
+                        <div class="col-lg-24 col-md-24 col-sm-24 " *ngFor="let state of quickSummaryWithSearch.stateDetails">
+                            <div class="info_tile_wrap">
+                                <div class="info_tile_title">
+                                    {{state.stateName}}
+                                </div>
+                                <div class="info_tile_content">
+                                    <div class="clearfix">
+                                        <label class="float-left font-weight-bold">Taxable income
+                                        </label>
+                                        <span class="float-right ">{{state.taxableIncome | currency:'USD':'symbol':'1.2-2' }}</span>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label class="float-left font-weight-bold">Tax</label>
+                                        <span class="float-right ">{{state.tax | currency:'USD':'symbol':'1.2-2' }}</span>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label class="float-left font-weight-bold">Credits</label>
+                                        <span class=" float-right ">{{state.credits | currency:'USD':'symbol':'1.2-2' }}</span>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label class="float-left font-weight-bold">Payments</label>
+                                        <span class="float-right ">{{state.payments | currency:'USD':'symbol':'1.2-2'}}</span>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label class="float-left font-weight-bold">Interest & Penalties
+                                        </label>
+                                        <span class="float-right ">{{state.interstAndPenalties }}</span>
+                                    </div>
+                                    <div class="clearfix" *ngIf="state.balanceDue>0">
+                                        <label class="float-left font-weight-bold">Balance due
+                                        </label>
+                                        <span class="float-right ">{{state.balanceDue | currency:'USD':'symbol':'1.2-2' }}</span>
+                                    </div>
+                                    <div *ngIf="!state.balanceDue || state.balanceDue<=0">
+                                        <label class="float-left font-weight-bold">Refund</label>
+                                        <span class="float-right ">{{state.refund }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--additional information end-->
+                </div>
+            </div>
+            <!--  statistics tab ends -->
+
+            <!-- efile tab starts -->
+            <div class="tab-pane fade pt-3" id="efileSearchSSN" role="tabpanel" aria-labelledby="nav-efileSearchSSN-tab">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="info_tile_wrap" *ngFor="let key of quickSummaryWithSearch.eFileDetail | keys">
+                            <div class="info_tile_title">
+                                {{quickSummaryWithSearch.eFileDetail[key].returnTypeDisplayText}}
+                            </div>
+                            <div class="info_tile_content">
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Status</label>
+                                    <span class="float-right " *ngIf="quickSummaryWithSearch.eFileDetail[key]">{{quickSummaryWithSearch.eFileDetail[key] | statusFromNumber}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Submission Id
+                                    </label>
+                                    <span class="float-right  cursor-pointer" *ngIf="quickSummaryWithSearch.eFileDetail[key]">{{quickSummaryWithSearch.eFileDetail[key].submissionId}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Date filed</label>
+                                    <span class="float-right " *ngIf="quickSummaryWithSearch.eFileDetail[key]">{{quickSummaryWithSearch.eFileDetail[key].createdDate| date:'MM/dd/yyyy h:mm a'}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Transmission date
+                                    </label>
+                                    <span class="float-right " *ngIf="quickSummaryWithSearch.eFileDetail[key]">{{quickSummaryWithSearch.eFileDetail[key].transmittedDate| date:'MM/dd/yyyy h:mm a'}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Acknowledgement date
+                                    </label>
+                                    <span class="float-right " *ngIf="quickSummaryWithSearch.eFileDetail[key]">{{quickSummaryWithSearch.eFileDetail[key].acknowledgementDate| date:'MM/dd/yyyy h:mm
+                                        a'}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left  font-weight-bold">Filed By
+                                    </label>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Name</label>
+                                    <span class="float-right " *ngIf="quickSummaryWithSearch.eFileDetail[key]">{{quickSummaryWithSearch.eFileDetail[key].createdByName}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <label class="float-left font-weight-bold">Email</label>
+                                    <span class="float-right " *ngIf="quickSummaryWithSearch.eFileDetail[key]">{{quickSummaryWithSearch.eFileDetail[key].createdBy}}</span>
+                                </div>
+                                <div class="clearfix" *ngIf="quickSummaryWithSearch.eFileDetail[key] && quickSummaryWithSearch.eFileDetail[key].balanceDue>0">
+                                    <label class="float-left font-weight-bold">Balance due</label>
+                                    <span class="float-right " *ngIf="quickSummaryWithSearch.eFileDetail[key]">{{quickSummaryWithSearch.eFileDetail[key].balanceDue | currency:'USD':'symbol':'1.2-2'
+                                        }}</span>
+                                </div>
+                                <div class="clearfix" *ngIf="quickSummaryWithSearch.eFileDetail[key] && (!quickSummaryWithSearch.eFileDetail[key].balanceDue || quickSummaryWithSearch.eFileDetail[key].balanceDue<=0)">
+                                    <label class="float-left font-weight-bold">Refund</label>
+                                    <span class="float-right " *ngIf="quickSummaryWithSearch.eFileDetail[key]">{{quickSummaryWithSearch.eFileDetail[key].expectedRefund | currency:'USD':'symbol':'1.2-2'
+                                        }}
+                                    </span>
+                                </div>
+                                <div class="clearfix" *ngIf="quickSummaryWithSearch.eFileDetail[key]">
+                                    <a>
+                                        <label class="cursor-pointer text-primary" (click)="openEFile(quickSummaryWithSearch.eFileDetail[key].key)">View efile
+                                        </label>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <!--additional information start-->
+                    <div class="col p-0" *ngIf="quickSummaryWithSearch.eFileStateDetails.length!==0">
+                        <h3 class="page_title_wrap title_height_40 margin_bottom_20 clearfix" translate="ESTIMATOR_PERSONALINFO_LBL">State Information</h3>
+                        <div class="col-lg-8 col-md-24 col-sm-24" *ngFor="let state of quickSummaryWithSearch.eFileStateDetails">
+                            <div class="info_tile_wrap" *ngFor="let key of state | keys">
+                                <div class="info_tile_title">
+                                    {{state[key].returnTypeDisplayText | uppercase}}
+                                </div>
+                                <div class="info_tile_content">
+
+                                    <div class="clearfix">
+                                        <label class="float-left font-weight-bold">Status</label>
+                                        <span class="float-right " *ngIf="state[key]">{{state[key] | statusFromNumber}}</span>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label class="float-left font-weight-bold">Submission Id
+                                        </label>
+                                        <span class="float-right  cursor-pointer">{{state[key].submissionId}}</span>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label class="float-left font-weight-bold">Date filed
+                                        </label>
+                                        <span class="float-right ">{{state[key].createdDate| date:'MM/dd/yyyy h:mm a'}}</span>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label class="float-left font-weight-bold">Transmission date
+                                        </label>
+                                        <span class="float-right ">{{state[key].transmittedDate| date:'MM/dd/yyyy h:mm a'}}</span>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label class="float-left font-weight-bold">Acknowledgement date
+                                        </label>
+                                        <span class="float-right ">{{state[key].acknowledgementDate| date:'MM/dd/yyyy h:mm a'}}</span>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label class="float-left  font-weight-bold">Filed By
+                                        </label>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label class="float-left font-weight-bold">Name</label>
+                                        <span class="float-right ">{{state[key].createdByName}}</span>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label class="float-left font-weight-bold">Email</label>
+                                        <span class="float-right ">{{state[key].createdBy}}</span>
+                                    </div>
+                                    <div class="clearfix" *ngIf="state[key].balanceDue>0">
+                                        <label class="float-left font-weight-bold">Balance due
+                                        </label>
+                                        <span class="float-right ">{{state[key].balanceDue | currency:'USD':'symbol':'1.2-2' }}</span>
+                                    </div>
+                                    <div class="clearfix" *ngIf="!state[key].balanceDue||state[key].balanceDue<=0">
+                                        <label class="float-left font-weight-bold">Refund</label>
+                                        <span class="float-right ">{{state[key].expectedRefund | currency:'USD':'symbol':'1.2-2' }}</span>
+                                    </div>
+                                    <div class="clearfix" *ngIf="state[key].key != undefined && state[key].status!= undefined && state[key].status>2">
+                                        <a class="float-left ">
+                                            <label (click)="openEFile(state[key].key)" class="cursor-pointer text-primary">View efile</label>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--additional information end-->
+                </div>
+            </div>
+            <!--  efile tab ends -->
+
+
+            <!-- efile-history tab starts -->
+            <div class="tab-pane fade pt-3" id="efileHistorySearchSSN" role="tabpanel" aria-labelledby="nav-efileHistorySearchSSN-tab">
+                <div class="row mb-3" *ngFor="let ssnData of data | keyvalue ;let i = index">
+                    <div class="col">
+                        <h5 class="font-weight-bold">
+                            {{keyForDisplayHeader[i] | uppercase}}
+                        </h5>
+                        <!-- <ag-grid-angular #agGrid id="myGrid" style="width: 100%;" class="ag-theme-balham" [columnDefs]="columnDefs"
+                            [defaultColDef]="defaultColDef" [rowData]="ssnData.value" 
+                            (gridReady)="onGridReady($event)" [animateRows]='true' [enableCellTextSelection]="true"  [domLayout]="domLayout"
+                            [getRowStyle]="getRowStyle">
+                        </ag-grid-angular> -->
+                        <!-- (gridReady)="onGridReady($event)" -->
+                        <app-return-search-with-ssn-grid  style="width:100%" [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" [rowData]="data[keyForDisplayHeader[i]]"
+                            [animateRows]='true' [enableCellTextSelection]="true" [domLayout]="domLayout" [getRowStyle]="getRowStyle">
+                        </app-return-search-with-ssn-grid>
+                    </div>
+                </div>
+            </div>
+
+            <!--  efile-history tab ends -->
+        </div>
+    </div>
+</div>

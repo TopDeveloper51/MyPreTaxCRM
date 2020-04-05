@@ -1,0 +1,26 @@
+<!--Dialog Header-->
+<div class="modal-header">
+    <h5 class="modal-title">
+        Change History
+    </h5>
+    <div class="cus-hov" data-dismiss="modal" (click)="close()">
+        <i class="fa fa-times"></i>
+    </div>
+
+</div>
+<!--Dialog Header End-->
+
+<!--Dialog Body-->
+<div class="modal-body">
+    <div class="main_innerpage row">
+        <div class="col-24" *ngIf="rowData && rowData.length > 0 && rowData[0] !== 'autoHeight'">
+            <ag-grid-angular #agGrid style="width: 100%;" class="ag-theme-balham" [rowData]="rowData" [columnDefs]="columnDefs" (gridReady)="onGridReady($event)"
+                [domLayout]="domLayout" [enableCellTextSelection]="true">
+            </ag-grid-angular>
+        </div>
+        <div class="col-24" *ngIf="rowData && rowData.length===0">
+            No Data Available
+        </div>
+    </div>
+</div>
+<!--Dialog Body End-->

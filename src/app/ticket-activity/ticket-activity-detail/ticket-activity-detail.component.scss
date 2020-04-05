@@ -1,0 +1,28 @@
+.btn_next_pre_color
+{
+    background-color: #005074;
+    border: none;
+    // color: white;
+    font-weight: bold;
+}
+.set-leftgray >.set-bg-before{
+    position: relative;
+}
+.set-leftgray >.set-bg-before::before {
+    content: "";
+    position: absolute;
+    left: -11px;
+    background: #f5f5f5;
+    width: 11px;
+    height: 100%;
+    z-index: 10;
+    display: -webkit-box;
+    display: flex;
+    top:0;
+    bottom: 0;
+}
+
+.cust_table_small {
+    max-width: 16px;
+    padding-bottom: 3px;
+}

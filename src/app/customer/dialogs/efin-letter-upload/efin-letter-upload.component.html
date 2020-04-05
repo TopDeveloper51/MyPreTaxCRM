@@ -1,0 +1,160 @@
+<!--Dialog header-->
+<div class="modal-header">
+    <h5 class="modal-title">
+        Upload EFIN Letter
+    </h5>
+
+    <!-- <div class="pull-right modal-btn padding_top_2">
+        <div (click)="modal.close(false)" class="cus-hov">
+            <i class="fa fa-times color-white cursor-pointer"></i>
+        </div>
+    </div> -->
+
+    <div class="float-right">
+        <div (click)="modal.close(false)" class="cus-hov">
+            <i class="fa fa-times"></i>
+        </div>
+    </div>
+
+</div>
+<!--Dialog header End -->
+
+<form name="EFINverificationForm">
+    <div class="modal-body">
+        <div class="popup-scroll-wrap">
+            <div class="row">
+                <div class="col-sm-24 col-md-24 col-lg-12 col-xl-12">
+                    <div class="row">
+                        <div class="col-sm-24 col-md-6 col-lg-6 col-xl-6">
+                            <label class="font-weight-bold">Firm Name
+                            </label>
+                        </div>
+                        <div class="col-sm-24 col-md-18 col-lg-18 col-xl-18">
+                            <span>{{this.data.officeName}}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-24 col-md-6 col-lg-6 col-xl-6">
+                            <label class="font-weight-bold">EFIN</label>
+                        </div>
+                        <div class="col-sm-24 col-md-18 col-lg-18 col-xl-18">
+                            <span>{{this.data.efin}}</span>
+                            <span>(Example Of Application Summary)</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm-24 col-md-24 col-lg-12 col-xl-12"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-24 col-md-24 col-lg-12 col-xl-12">
+                    <div class="clearfix">
+                        <div class="clearfix efine-letter-img-wrap">
+                            <img src="assets/images/efin_verification.png" class="img-responsive" />
+                        </div>
+                        <div class="file-upload-wrap">
+                            <div class="drop-box" [ngClass]="{'file-over-blue': dragOver}">
+                                <div ngFileDrop [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" [ngClass]="{'file-over': true}">
+                                </div>
+                                <label class="upload-button">
+                                    <input type="file" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput"> Drop or click to upload
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix">
+                        <div class="pull-left width_full_43 margin_top_5">
+                            <div *ngIf="fileSizeMessage">
+                                <span class="text-danger_normal">Your selected file is more than 5MB in size.</span>
+                            </div>
+                            <div *ngIf="uploadErrMessage">
+                                <span class="text-danger_normal">Error occurred. Please try again later.
+                                </span>
+                            </div>
+                            <div *ngIf="invalidType">
+                                <span class="text-danger_normal">Please upload one of valid scanned document.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-24 col-md-24 col-lg-12 col-xl-12">
+                    <div class="font-weight-bold">
+                        <span>Why do I need to verify my EFIN?</span>
+                    </div>
+
+                    <div class="mt-3 mb-3">Protecting your EFIN account and your taxpayer data is as important to us as it is to you. As such, we
+                        require that all ERO &apos;s (Electronic Return Originators) provide verification of their EFIN (E-File
+                        Identification Number) before e-filing. It&apos;s an important first step in preventing tax-related
+                        identify theft and fraud.</div>
+
+                    <div class="font-weight-bold">Requirements for EFIN Verification with the IRS:</div>
+                    <div class="mt-3 mb-3">
+                        <div>1. One EFIN Per Firm Physical Location (as defined in IRS Pub. 3112).</div>
+                        <div>2. If more than one Firm shares a single Physical Location, Each Firm must have a separate Software
+                            License and a separate EFIN.</div>
+                        <div>3. Firm Name (DBA Name), Firm Physical Address, EFIN, and ERO Contact on the EFIN Application must
+                            match Software Licensed Firm Name and Physical Address, EFIN, and Contact Name.</div>
+                    </div>
+                    <div class="font-weight-bold">What to Submit for EFIN Verification:</div>
+                    <div class="mt-3 mb-3">
+                        <div>
+                            <i class="fa fa-check color_green font_size_20" aria-hidden="true"></i>
+                            <span class="font-weight-bold padding_left_5">Submit the 'Application Summary' from the IRS e-Services website.</span>
+                        </div>
+                        <span>On the left you can see an example of the Application Summary.
+                            <a href='https://static.secureservice.cloud/2016/download/Application_Summary_IRS.pdf' id='applicationSummary' target='applicationSummary'>Click here </a>for instructions on how to access and print the Application Summary on the IRS
+                            e-Services site.</span>
+                    </div>
+
+                    <div class="font-weight-bold">Caution: EFIN letters older than 12 months from the date they were generated will be rejected.</div>
+                    <div class="mt-3 mb-3">
+                        <span class="font-weight-bold">What NOT to Submit.</span>
+                        <span>We</span>
+                        <span class="font-weight-bold">do not</span>
+                        <span>accept any of the following forms as EFIN verification:</span>
+                    </div>
+
+                    <div class="mt-3 mb-3">
+                        <div>
+                            <i class="fa fa-times text-danger mr-2" aria-hidden="true"></i>
+                            <span>Your PTIN Registration
+                            </span>
+                        </div>
+                        <div>
+                            <i class="fa fa-times text-danger mr-2" aria-hidden="true"></i>
+                            <span>Your original Form 8633 Application
+                            </span>
+                        </div>
+                        <div>
+                            <i class="fa fa-times text-danger mr-2" aria-hidden="true"></i>
+                            <span>Your EFIN Activity Report
+                            </span>
+                        </div>
+                        <div>
+                            <i class="fa fa-times text-danger mr-2" aria-hidden="true"></i>
+                            <span>Your EIN Tax ID number
+                            </span>
+                        </div>
+                        <div>
+                            <i class="fa fa-times text-danger mr-2" aria-hidden="true"></i>
+                            <span>Your e-Services Account Registration Information</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" (click)="close(false)">
+            <span>Close</span>
+        </button>
+    </div>
+
+    <div class="clearfix margin_top_15" *ngIf="isDataLoading">
+        <div class="loader2"></div>
+    </div>
+</form>

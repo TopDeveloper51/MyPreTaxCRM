@@ -1,0 +1,47 @@
+<div *ngIf="!isInNewTab" class="modal-header">
+    <h5 class="modal-title">
+        Reminders
+    </h5>
+
+    <div class="float-right">
+        <span class="mr-5" *ngIf="reminderAttempts!== undefined && reminderAttempts!== null && (filterForBreakDetails !== undefined && filterForBreakDetails.length > 0)">
+            {{reminderAttempts}} of 10 attempts used
+        </span>
+        <span role="group" aria-label="..." *ngIf="reminderAttempts!== undefined && reminderAttempts!== null && reminderAttempts < 10 && (filterForBreakDetails !== undefined && filterForBreakDetails.length > 0)">
+            <button type="button" class="btn btn-outline-primary" (click)="attemptLater()">Later</button>
+        </span>
+        <span *ngIf="reminderAttempts == undefined || reminderAttempts == null || filterForBreakDetails == undefined || filterForBreakDetails.length == 0"
+            (click)="close()">
+            <i class="fa fa-times color-white cursor-pointer"></i>
+        </span>
+    </div>
+</div>
+<div id="reminderDialog" class="modal-body clearfix" [ngClass]="{'overflow':!isInNewTab}" *ngIf="( filterForBreakDetails && filterForBreakDetails.length > 0 ) || ( filterForPendingRequests && filterForPendingRequests.length > 0 ) || (filterForPendingApprovals && filterForPendingApprovals.length > 0 )">
+    <div class="padd-05">
+        <div class="border-black-color" *ngIf="filterForBreakDetails && filterForBreakDetails.length > 0">
+            <label class="pt-1 pl-3 font-18 font-italic">Break Details without Explanation ({{filterForBreakDetails.length}})</label>
+            <app-time-accounting-details *ngIf="dataForBreakDetails" [dataForPendingRequests]="dataForBreakDetails" [isFromReminder]="true"
+                (isGraphLoaded)="isBreakDetailsLoaded($event)" [mode]="false" [searchData]="searchObject" (updateReminderData)="getTimeJobDetails()"
+                [filterForGraph]="filterForBreakDetails">
+            </app-time-accounting-details>
+        </div>
+        <div class="border-black-color" *ngIf="!reminderEnforce && filterForPendingRequests && filterForPendingRequests.length > 0">
+            <label class="pt-1 pl-3 font-18 font-italic"> Not Requested for Approval ({{filterForPendingRequests.length}})</label>
+            <app-time-accounting-details *ngIf="dataForPendingRequests" [dataForPendingRequests]="dataForPendingRequests" [isFromReminder]="true"
+                (isGraphLoaded)="isPendingReqestsLoaded($event)" (updateReminderData)="getTimeJobDetails()" [searchData]="searchObject"
+                [mode]="false" [filterForGraph]="filterForPendingRequests">
+            </app-time-accounting-details>
+        </div>
+        <div class="border-black-color" *ngIf="!reminderEnforce && filterForPendingApprovals && filterForPendingApprovals.length > 0">
+            <label class="pt-1 pl-3 font-18 font-italic">Pending Approvals ({{filterForPendingApprovals.length}})
+            </label>
+            <app-time-accounting-details *ngIf="dataForPendingApprovals" [dataForPendingApprovals]="dataForPendingApprovals" [isFromReminder]="true"
+                [searchData]="searchObject" (isGraphLoaded)="isPendingApprovalsLoaded($event)" (updateReminderData)="getTimeJobDetails()"
+                [mode]="true" [filterForGraph]="filterForPendingApprovals">
+            </app-time-accounting-details>
+        </div>
+    </div>
+</div>
+<div class="" *ngIf="( filterForBreakDetails == undefined || filterForBreakDetails.length == 0 ) && ( filterForPendingRequests == undefined || filterForPendingRequests.length == 0 ) && (filterForPendingApprovals == undefined || filterForPendingApprovals.length == 0 )">
+    No Data Available
+</div>
